@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>2D Block World Simulation</title>
+	<style>
+		#container {
+		    width: 400px;
+		    height: 400px;
+		    background: white;
+		    border:#000 solid 8px;
+		}
+
+		#block1 {
+		    width: 50px;
+		    height: 50px;
+		    background: red;
+		    border:#000 solid 4px;
+			cursor: move;
+			position: relative;
+			z-index: 1;
+		}
+		#block2 {
+		    width: 50px;
+		    height: 50px;
+		    background: blue;
+		    border:#000 solid 4px;
+		    position: relative;
+			z-index: 1;
+		}
+		#block3 {
+		    width: 50px;
+		    height: 50px;
+		    background: green;
+		    border:#000 solid 4px;
+		    position: relative;
+			z-index: 1;
+		}
+		#block4 {
+		    width: 50px;
+		    height: 50px;
+		    background: orange;
+		    border:#000 solid 4px;
+		    position: relative;
+			z-index: 1;
+		}
+	</style>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+	var z = 1;
+		$( init );
+
+		function init() {
+			$('#block1').draggable({containment: '#container', start: function(event, ui) {
+				$(this).css('z-index', ++z);
+			}});
+			$('#block2').draggable({containment: '#container', start: function(event, ui) {
+				$(this).css('z-index', ++z);
+			}});
+			$('#block3').draggable({containment: '#container', start: function(event, ui) {
+				$(this).css('z-index', ++z);
+			}});
+			$('#block4').draggable({containment: '#container', start: function(event, ui) {
+				$(this).css('z-index', ++z);
+			}});
+		}
+
+	</script>
+	
+</head>
+<body>
+
+	<div id ="container">
+		<div id ="block1"></div>
+		<div id = "block2"></div>
+		<div id = "block3"></div>
+		<div id = "block4"></div>
+	</div>
+
+	<!-- <script>
+		var drag = false;
+		function startDrag(e) {
+	        // determine event object
+	        if (!e) {
+	            var e = window.event;
+	        }
+
+	        // IE uses srcElement, others use target
+	        var targ = e.target ? e.target : e.srcElement;
+
+	        if (targ.className != 'dragme') {
+	        	return;
+	        }
+	        // calculate event X, Y coordinates
+	        offsetX = e.clientX;
+	        offsetY = e.clientY;
+
+	        // assign default values for top and left properties
+	        if(!targ.style.left) { 
+	        	targ.style.left='0px';
+	        }
+	        if (!targ.style.top) { 
+	        	targ.style.top='0px';
+	        }
+
+	        // calculate integer values for top and left 
+	        // properties
+	        coordX = parseInt(targ.style.left);
+	        coordY = parseInt(targ.style.top);
+	        drag = true;
+
+	        // move div element
+	        document.onmousemove=dragDiv;
+
+	        e.preventDefault();
+
+	    }
+	    function dragDiv(e) {
+	        if (!drag) {
+	        	return;
+	        }
+	        if (!e) { 
+	        	var e= window.event;
+	        }
+	        var targ=e.target?e.target:e.srcElement;
+	        // move div element
+	        targ.style.left=coordX+e.clientX-offsetX+'px';
+	        targ.style.top=coordY+e.clientY-offsetY+'px';
+	        return false;
+	    }
+
+	    function stopDrag() {
+	        drag=false;
+	    }
+
+		window.onload = function() {
+	        document.onmousedown = startDrag;
+	        document.onmouseup = stopDrag;
+	    }
+	</script> -->
+
+</body>
+
+</html>
