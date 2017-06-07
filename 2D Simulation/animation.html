@@ -50,23 +50,13 @@
 </head>
 <body>
 	<script type="text/javascript">
-		$(document).ready(function() {
-    		$(".draggable").draggable();
-		$('.draggable').each(function(i,el){
-		    var tLeft = Math.floor(Math.random()*500),
-		    tTop  = Math.floor(Math.random()*500);
-		    console.log(tleft);console.log(tTop);
-		    $(el).css({position:'absolute', left: tLeft, top: tTop});
-		});
-	});
-	</script>
-
-	<script type="text/javascript">
 		var st = "<div id =\"container\">";
 		for (var i = 0; i < variableName; i++) {
 			var letter = Math.floor(Math.random() * 7);
 			var l = ["A", "B", "C", "D", "E", "F", "G"];
-			st+="<div id =\"block"+i+"\">"+l[letter]+"</div>";
+			var tLeft = Math.floor(Math.random()*500)+1,
+				tTop  = Math.floor(Math.random()*500)+1;
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px;top:"+tTop+"px\""+">"+l[letter]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
