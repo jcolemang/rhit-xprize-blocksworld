@@ -5,6 +5,8 @@
 
 	<script>
     	var variableName = Math.floor(Math.random() * 10) + 4;
+    	var counter = 0;
+    	var n1 = 1; var n2 = 1;
 	</script>
 
 	<div style="font-size:40px">
@@ -121,13 +123,136 @@
 		for (var i = 0; i < variableName; i++) {
 			var l = Math.floor(Math.random() * 7);
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
-			var tLeft = Math.floor(Math.random()*1140) + 1,
-				tTop  = Math.floor(Math.random()*540) + 1;
+			var tLeft = (Math.floor(Math.random()*22.8) + 0.02) * 50,
+				tTop  = (Math.floor(Math.random()*10.8) + 0.02) * 50;
 			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\">"+letters[l]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
 	</script>
+
+    <small><small><small>
+	<style>
+		p.taskQ {
+		    position: fixed;
+		    top: 0px;
+		    left: 0px;
+		    text-align: justify;
+		}
+	</style>
+	<p class="taskQ" id = "taskQ">Please choose a task </p>
+
+	<style>
+		select.menu {
+		    position: fixed;
+		    top: 30px;
+		    left: 200px;
+		}
+	</style>
+
+	<select class = "menu" id = "selection">
+		<option value="Sorting">Sorting</option>
+		<option value="Searching">Searching</option>
+		<option value="Matching">Matching</option>
+		<option value="Rainbow">Rainbow</option>
+	</select>
+
+	<script type="text/javascript">
+		var menu = document.getElementById ("selection");
+		menu.addEventListener ("click", function () {
+		   	switch (menu.selectedIndex) {
+		      	case 0:
+			    	gate=0;break;
+			  	case 1:
+			    	gate=1;break;
+			   	case 2:
+			    	gate=2;break;
+			    case 3:
+			    	gate=3;break;
+			}
+		})
+		menu.selectedIndex = 0;
+		console.log(213);
+	</script>
+
+	<style>
+		p.fixed {
+		    position: relative;
+		    top: 10px;
+		    left: 300px;
+		    text-align: justify;
+		    font-size: 80%;
+		}
+	</style>
+	<p class="fixed" id = "demo">
+
+	<script type="text/javascript">
+		var br; var bm; var pn; var pp;
+		document.getElementById("selection").addEventListener("click", function(){
+			if (gate == 0) {
+				bm = variableName; br = variableName; pn = 1; pp = 10;
+				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+			} else if (gate == 1) {
+				bm = n1 + n2; br = (n1 + n2) * (variableName + 1) / 2; pn = 1; pp = 10;
+				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+			} else if (gate == 2) {
+				bm = variableName; br = 1.5 * 2 * variableName; pn = 2; pp = 20;
+				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+			} else if (gate == 3) {
+				bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
+				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+			}
+			function factorial(x) {
+				var c = 1; for (var i = 1; i <= x; i++) {c *= i;}
+				return c;
+			}
+		});
+	</script>
+
+
+	<style>
+		div.instruction {
+		    position: relative;
+		    top: 10px;
+		    left: 500px;
+		}
+	</style>
+
+	<style>
+		button.buttonenter {
+		    position: relative;
+		    top: 10px;
+		    left: 530px;
+		}
+	</style>
+
+	<style>
+		p.numofwords {
+		    position: relative;
+		    top: 10px;
+		    left: 600px;
+		}
+	</style>
+	<p class = "numofwords" id="numofwords"></p>
+
+	<div class = "instruction" id="instruction">
+	    <label>
+	        Instruction
+	        <input id="txt_instruction" type="text" />
+	    </label>
+	</div>
+
+	<button class = "buttonenter" onclick="inputlength()">Enter</button>
+
+	<script>
+		function inputlength() {
+		    var x = document.getElementById("txt_instruction").value;
+		    document.getElementById("numofwords").innerHTML = (x.split(" ").length - 1) + 1;
+		}
+	</script>
+
+	</small></small></small>
+
 
 </body>
 
