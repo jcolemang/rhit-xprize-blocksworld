@@ -59,13 +59,24 @@
 
 	<script type="text/javascript">
 		var colorMap = new Map();
+		var letterMap = new Map();
+		
 		$( initFlipColors )
+		$( initFlipLetters )
 		var x;
+		var y;
 
 		function initFlipColors() {
 			for (var i = 0; i < variableName; i++) {
 				x = Math.floor(Math.random() * 5);
 				colorMap.set('block' + i, color[x]);
+			}
+		}
+
+		function initFlipLetters() {
+			for (var i = 0; i < variableName; i++) {
+				y = Math.floor(Math.random() * 7);
+				letterMap.set('block' + i, letters[y]);
 			}
 		}
 
@@ -77,6 +88,16 @@
 			property.style.backgroundColor = colorMap.get(box);
 
 			colorMap.set(box, currentColor);
+		}
+
+		function setLetter(box) {
+			var property = document.getElementById(box);
+
+			var currentLetter = property.textContent || property.innerText;
+
+			property.textContent = letterMap.get(box);
+
+			letterMap.set(box, currentLetter);
 		}
 		
 	</script>
@@ -98,11 +119,11 @@
 	<script type="text/javascript">
 		var st = "<div id =\"container\">";
 		for (var i = 0; i < variableName; i++) {
-			var letter = Math.floor(Math.random() * 7);
-			var l = ["A", "B", "C", "D", "E", "F", "G"];
+			var l = Math.floor(Math.random() * 7);
+			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = Math.floor(Math.random()*1140) + 1,
 				tTop  = Math.floor(Math.random()*540) + 1;
-			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\')\">"+l[letter]+"</div>";
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\">"+letters[l]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
