@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
 	<title>2D Block World Simulation</title>
+
+	<script>
+    	var variableName = Math.floor(Math.random() * 10) + 4;
+	</script>
+
 	<style>
 		#container {
 		    width: 1200px;
 		    height: 600px;
 		    position: absolute;
 		    background: white;
-		    position: absolute;
 		    top:0;
 		    bottom: 0;
 		    left: 0;
@@ -17,52 +21,22 @@
 		    border:#000 solid 8px;
 		}
 
-		#block1 {
-		    width: 50px;
-		    height: 50px;
-		    background: red;
-		    border:#000 solid 4px;
-			cursor: move;
-			position: relative;
-			z-index: 1;
-		}
-		#block2 {
-		    width: 50px;
-		    height: 50px;
-		    background: blue;
-		    border:#000 solid 4px;
-			cursor: move;
-		    position: relative;
-			z-index: 1;
-		}
-		#block3 {
-		    width: 50px;
-		    height: 50px;
-		    background: green;
-		    border:#000 solid 4px;
-			cursor: move;
-		    position: relative;
-			z-index: 1;
-		}
-		#block4 {
-		    width: 50px;
-		    height: 50px;
-		    background: orange;
-		    border:#000 solid 4px;
-			cursor: move;
-		    position: relative;
-			z-index: 1;
-		}
+		<style>
+			div.fixed {
+			    position: fixed;
+			    bottom: 0;
+			    right: 100px;
+			}
+		</style>
 
-		#block5 {
-		    width: 50px;
-		    height: 50px;
-		    background: purple;
-		    border:#000 solid 4px;
-			cursor: move;
-		    position: relative;
-			z-index: 1;
-		}
+		<script type="text/javascript">
+			var color = ['red', 'blue','green','orange','yellow'];
+			for (var i = 0; i < variableName ;i++) {
+				var x= Math.floor(Math.random() * 5); 
+				document.write("<style> #block"+i+" {width: 50px;height: 50px;background:"+color[x] +";border:#000 solid 4px;cursor: move;position: absolute;z-index: 1;} </style>");
+			}
+		</script>
+
 	</style>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -70,35 +44,26 @@
 
 	<script type="text/javascript">
 		var z = 1;
-		var colorMap = new Map();
 		$( init );
-
 		function init() {
-			$('#block1').draggable({containment: '#container', start: function(event, ui) {
-				$(this).css('z-index', ++z);
-			}});
-			$('#block2').draggable({containment: '#container', start: function(event, ui) {
-				$(this).css('z-index', ++z);
-			}});
-			$('#block3').draggable({containment: '#container', start: function(event, ui) {
-				$(this).css('z-index', ++z);
-			}});
-			$('#block4').draggable({containment: '#container', start: function(event, ui) {
-				$(this).css('z-index', ++z);
-			}});
-			$('#block5').draggable({containment: '#container', start: function(event, ui) {
-				$(this).css('z-index', ++z);
-			}});
-			colorMap.set('block1', '#ff69b4');
-			colorMap.set('block2', '#ff69b4');
-			colorMap.set('block3', '#ff69b4');
-			colorMap.set('block4', '#ff69b4');
-			colorMap.set('block5', '#ff69b4');
+			for (var i = 0; i < variableName; i++) {
+				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+					$(this).css('z-index', ++z);
+				}});
+			}
 		}
+	</script>
 
-		function colorHolder(blockId, flipColor) {
-			this.blockId = blockId;
-			this.flipColor = flipColor;
+	<script type="text/javascript">
+		var colorMap = new Map();
+		$( initFlipColors )
+		var x;
+
+		function initFlipColors() {
+			for (var i = 0; i < variableName; i++) {
+				x = Math.floor(Math.random() * 5);
+				colorMap.set('block' + i, color[x]);
+			}
 		}
 
 		function setColor(box) {
@@ -110,19 +75,35 @@
 
 			colorMap.set(box, currentColor);
 		}
-
+		
 	</script>
 	
 </head>
 <body>
 
-	<div id ="container">
-		<div id ="block1" ondblclick="setColor('block1')"></div>
-		<div id = "block2" ondblclick="setColor('block2')"></div>
-		<div id = "block3" ondblclick="setColor('block3')"></div>
-		<div id = "block4" ondblclick="setColor('block4')"></div>
-		<div id = "block5" ondblclick="setColor('block5')"></div>
-	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+    		$(".draggable").draggable();
+		$('.draggable').each(function(el){
+		    var tLeft = Math.floor(Math.random()*1140) + 1,
+		    tTop  = Math.floor(Math.random()*540) + 1;
+		    $(el).css({position:'relative', left: 1140, top: 540});
+		});
+	});
+	</script>
+
+	<script type="text/javascript">
+		var st = "<div id =\"container\">";
+		for (var i = 0; i < variableName; i++) {
+			var letter = Math.floor(Math.random() * 7);
+			var l = ["A", "B", "C", "D", "E", "F", "G"];
+			var tLeft = Math.floor(Math.random()*1140) + 1,
+				tTop  = Math.floor(Math.random()*540) + 1;
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\')\">"+l[letter]+"</div>";
+		}
+		st+="</div>";
+		document.write(st);
+	</script>
 
 </body>
 
