@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>2D Block World Simulation</title>
+
+	<script>
+    	var variableName = Math.floor(Math.random() * 10) + 4;
+	</script>
+
+	<style>
+		#container {
+		    width: 800px;
+		    height: 800px;
+		    background: white;
+		    border:#000 solid 8px;
+		}
+	</style>
+
+	<style type="text/css">
+		div.fixed {
+		    position: fixed;
+		    bottom: 0;
+		    right: 100px;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var color = ['red', 'blue','green','orange','yellow'];
+		for (var i = 0; i < variableName ;i++) {
+			var x= Math.floor(Math.random() * 5); 
+			document.write("<style> #block"+i+" {width: 50px;height: 50px;background:"+color[x] +";border:#000 solid 4px;cursor: move;position: relative;z-index: 1;} </style>");
+		}
+	</script>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+		var z = 1;
+		$( init );
+		function init() {
+			for (var i = 0; i < variableName; i++) {
+				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+					$(this).css('z-index', ++z);
+				}});
+			}
+		}
+	</script>
+
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+    		$(".draggable").draggable();
+		$('.draggable').each(function(i,el){
+		    var tLeft = Math.floor(Math.random()*500),
+		    tTop  = Math.floor(Math.random()*500);
+		    console.log(tleft);console.log(tTop);
+		    $(el).css({position:'absolute', left: tLeft, top: tTop});
+		});
+	});
+	</script>
+
+	<script type="text/javascript">
+		var st = "<div id =\"container\">";
+		for (var i = 0; i < variableName; i++) {
+			var letter = Math.floor(Math.random() * 7);
+			var l = ["A", "B", "C", "D", "E", "F", "G"];
+			st+="<div id =\"block"+i+"\">"+l[letter]+"</div>";
+		}
+		st+="</div>";
+		document.write(st);
+	</script>
+
+</body>
+
+</html>
