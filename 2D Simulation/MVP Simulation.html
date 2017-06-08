@@ -15,12 +15,10 @@
 		#container {
 		    width: 1200px;
 		    height: 600px;
-		    position: absolute;
+		    position: fixed;
 		    background: white;
-		    top:0;
-		    bottom: 0;
-		    left: 0;
-		    right: 0;
+		    top:100px;
+		    left: 150px;
 		    margin: auto;
 		    border:#000 solid 8px;
 		}
@@ -28,7 +26,7 @@
 		<style>
 			div.fixed {
 			    position: fixed;
-			    bottom: 0;
+			    bottom: 0px;
 			    right: 100px;
 			}
 		</style>
@@ -134,21 +132,21 @@
     <small><small><small>
 	<style>
 		p.taskQ {
-		    position: fixed;
+		    position: relative;
 		    top: 0px;
 		    left: 0px;
-		    text-align: justify;
+		    text-align: left;
+		    width: 500px;
 		}
+
+		select.menu {
+		    position: absolute;
+		    top: 28px;
+		    left: 210px;
+		}
+
 	</style>
 	<p class="taskQ" id = "taskQ">Please choose a task </p>
-
-	<style>
-		select.menu {
-		    position: fixed;
-		    top: 30px;
-		    left: 200px;
-		}
-	</style>
 
 	<select class = "menu" id = "selection">
 		<option value="Sorting">Sorting</option>
@@ -172,35 +170,23 @@
 			}
 		})
 		menu.selectedIndex = 0;
-		console.log(213);
 	</script>
-
-	<style>
-		p.fixed {
-		    position: relative;
-		    top: 10px;
-		    left: 300px;
-		    text-align: justify;
-		    font-size: 80%;
-		}
-	</style>
-	<p class="fixed" id = "demo">
 
 	<script type="text/javascript">
 		var br; var bm; var pn; var pp;
 		document.getElementById("selection").addEventListener("click", function(){
 			if (gate == 0) {
 				bm = variableName; br = variableName; pn = 1; pp = 10;
-				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML ="Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 1) {
 				bm = n1 + n2; br = (n1 + n2) * (variableName + 1) / 2; pn = 1; pp = 10;
-				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 2) {
 				bm = variableName; br = 1.5 * 2 * variableName; pn = 2; pp = 20;
-				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 3) {
 				bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
-				document.getElementById("demo").innerHTML = "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			}
 			function factorial(x) {
 				var c = 1; for (var i = 1; i <= x; i++) {c *= i;}
@@ -213,27 +199,24 @@
 	<style>
 		div.instruction {
 		    position: relative;
-		    top: 10px;
-		    left: 500px;
+		    top: -8px;
+		    left: 0px;
+		    width: 270px;
+		    z-index: 1;
 		}
-	</style>
-
-	<style>
 		button.buttonenter {
-		    position: relative;
-		    top: 10px;
-		    left: 530px;
+		    position: absolute;
+		    top: 71px;
+		    left: 290px;
+		}
+		div.numofwords {
+		    position: absolute;
+		    top: 68px;
+		    left: 380px;
 		}
 	</style>
 
-	<style>
-		p.numofwords {
-		    position: relative;
-		    top: 10px;
-		    left: 600px;
-		}
-	</style>
-	<p class = "numofwords" id="numofwords"></p>
+	<div class = "numofwords" id="numofwords"></div>
 
 	<div class = "instruction" id="instruction">
 	    <label>
