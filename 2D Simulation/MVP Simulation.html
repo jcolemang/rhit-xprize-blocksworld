@@ -16,6 +16,7 @@
 	<div style="font-size:40px">
 
 	<style>
+
 		#container {
 		    width: 1200px;
 		    height: 600px;
@@ -25,6 +26,18 @@
 		    left: 150px;
 		    margin: auto;
 		    border:#000 solid 8px;
+		    -webkit-user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-ms-user-select: none;
+		}
+
+		#gestureCount {
+			width: 50px;
+			height: 50px;
+			border: #000 solid 4px;
+			background: gray;
+			position: absolute;
 		}
 
 		<style>
@@ -80,6 +93,7 @@
 	<script type="text/javascript">
 		var colorMap = new Map();
 		var letterMap = new Map();
+		var gestureCount = 0;
 		
 		$( initFlipColors )
 		$( initFlipLetters )
@@ -100,30 +114,41 @@
 			}
 		}
 
-		function setColor(box) {
+		function flipBlock(box) {
+			swapColor(box);
+			swapLetter(box);
+		}
+
+		function swapColor(box) {
 			var property = document.getElementById(box);
-
 			var currentColor = property.style.backgroundColor;
-
+			
 			property.style.backgroundColor = colorMap.get(box);
-
 			colorMap.set(box, currentColor);
 		}
 
-		function setLetter(box) {
+		function swapLetter(box) {
 			var property = document.getElementById(box);
-
 			var currentLetter = property.textContent || property.innerText;
 
 			property.textContent = letterMap.get(box);
-
 			letterMap.set(box, currentLetter);
 		}
+
+		function incrementGesture() {
+			var property = document.getElementById('gestureCount');
+			gestureCount++;
+			property.innerText = gestureCount;
+		}
+
+		// function refresh() {
+		// 	window.location.href = "MVP Simulation.html";
+		// }
 		
 	</script>
 	
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -137,6 +162,7 @@
 	</script>
 
 	<script type="text/javascript">
+
 		var st = "<div id =\"container\">";
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
@@ -150,6 +176,7 @@
 		document.write(st);
 	</script>
 
+	<p id = "gestureCount">0</p>
     <small><small><small>
 	<style>
 		p.taskQ {
@@ -284,7 +311,6 @@
 	</script>
 
 	</small></small></small>
-
 
 </body>
 
