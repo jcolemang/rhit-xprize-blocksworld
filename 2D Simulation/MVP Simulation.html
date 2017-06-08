@@ -4,9 +4,12 @@
 	<title>2D Block World Simulation</title>
 
 	<script>
-    	var variableName = Math.floor(Math.random() * 10) + 4;
-    	var counter = 0;
+    	var NumBlocks = Math.floor(Math.random() * 10) + 4;
+    	var NumGesture = 0;
+    	var NumWords = 0;
     	var n1 = 1; var n2 = 1;
+    	var actualMove = 0;
+    	var w1 = 0.1, w2 = 0.5;
 	</script>
 
 	<div style="font-size:40px">
@@ -34,7 +37,7 @@
 
 		<script type="text/javascript">
 			var color = ['red', 'blue','green','orange','yellow'];
-			for (var i = 0; i < variableName ;i++) {
+			for (var i = 0; i < NumBlocks ;i++) {
 				var x= Math.floor(Math.random() * 5); 
 				document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px;} </style>");
 			}
@@ -49,7 +52,7 @@
 		var z = 1;
 		$( init );
 		function init() {
-			for (var i = 0; i < variableName; i++) {
+			for (var i = 0; i < NumBlocks; i++) {
 				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
 					$(this).css('z-index', ++z);
 				}});
@@ -67,14 +70,14 @@
 		var y;
 
 		function initFlipColors() {
-			for (var i = 0; i < variableName; i++) {
+			for (var i = 0; i < NumBlocks; i++) {
 				x = Math.floor(Math.random() * 5);
 				colorMap.set('block' + i, color[x]);
 			}
 		}
 
 		function initFlipLetters() {
-			for (var i = 0; i < variableName; i++) {
+			for (var i = 0; i < NumBlocks; i++) {
 				y = Math.floor(Math.random() * 7);
 				letterMap.set('block' + i, letters[y]);
 			}
@@ -118,7 +121,7 @@
 
 	<script type="text/javascript">
 		var st = "<div id =\"container\">";
-		for (var i = 0; i < variableName; i++) {
+		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = (Math.floor(Math.random()*22.8) + 0.02) * 50,
@@ -136,7 +139,7 @@
 		    top: 0px;
 		    left: 0px;
 		    text-align: left;
-		    width: 500px;
+		    width: 800px;
 		}
 
 		select.menu {
@@ -173,19 +176,27 @@
 	</script>
 
 	<script type="text/javascript">
-		var br; var bm; var pn; var pp;
+		var br; var bm; var pn; var pp; var p; var te; var ie;
 		document.getElementById("selection").addEventListener("click", function(){
 			if (gate == 0) {
-				bm = variableName; br = variableName; pn = 1; pp = 10;
+				bm = NumBlocks; br = NumBlocks; pn = 1; pp = 10;
+				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
+				p = te/ie;
 				document.getElementById("taskQ").innerHTML ="Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 1) {
-				bm = n1 + n2; br = (n1 + n2) * (variableName + 1) / 2; pn = 1; pp = 10;
+				bm = n1 + n2; br = (n1 + n2) * (NumBlocks + 1) / 2; pn = 1; pp = 10;
+				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
+				p = te/ie;
 				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 2) {
-				bm = variableName; br = 1.5 * 2 * variableName; pn = 2; pp = 20;
+				bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
+				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
+				p = te/ie;
 				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			} else if (gate == 3) {
 				bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
+				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
+				p = te/ie;
 				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
 			}
 			function factorial(x) {
@@ -230,7 +241,9 @@
 	<script>
 		function inputlength() {
 		    var x = document.getElementById("txt_instruction").value;
-		    document.getElementById("numofwords").innerHTML = (x.split(" ").length - 1) + 1;
+		    if (x.length != 0)
+		    	NumWords = (x.split(" ").length - 1) + 1;
+		   	document.getElementById("numofwords").innerHTML = NumWords;
 		}
 	</script>
 
