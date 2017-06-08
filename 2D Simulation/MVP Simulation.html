@@ -10,6 +10,7 @@
     	var n1 = 1; var n2 = 1;
     	var actualMove = 0;
     	var w1 = 0.1, w2 = 0.5;
+    	var previous_top = [];var previous_left = [];
 	</script>
 
 	<div style="font-size:40px">
@@ -55,9 +56,25 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
 					$(this).css('z-index', ++z);
+					var Startpos = $(this).position();
+					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+        			// console.log("START: \nLeft: "+ Startpos.left + "\nTop: " + Startpos.top);
+				}, stop: function(event, ui) {
+					var Stoppos = $(this).position();
+					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						actualMove++;
+					}
+        			// console.log("STOP: \nLeft: "+ Stoppos.left + "\nTop: " + Stoppos.top);
 				}});
 			}
 		}
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			$("#block" + i).draggable({
+			});
+		}	
 	</script>
 
 	<script type="text/javascript">
@@ -126,6 +143,7 @@
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = (Math.floor(Math.random()*22.8) + 0.02) * 50,
 				tTop  = (Math.floor(Math.random()*10.8) + 0.02) * 50;
+			previous_left.push(tLeft);previous_top.push(tTop);
 			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\">"+letters[l]+"</div>";
 		}
 		st+="</div>";
@@ -182,22 +200,22 @@
 				bm = NumBlocks; br = NumBlocks; pn = 1; pp = 10;
 				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
 				p = te/ie;
-				document.getElementById("taskQ").innerHTML ="Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML ="Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 			} else if (gate == 1) {
 				bm = n1 + n2; br = (n1 + n2) * (NumBlocks + 1) / 2; pn = 1; pp = 10;
 				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
 				p = te/ie;
-				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 			} else if (gate == 2) {
 				bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
 				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
 				p = te/ie;
-				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 			} else if (gate == 3) {
 				bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
 				te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * NumGesture)/bm;
 				p = te/ie;
-				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp;
+				document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 			}
 			function factorial(x) {
 				var c = 1; for (var i = 1; i <= x; i++) {c *= i;}
@@ -225,6 +243,16 @@
 		    top: 68px;
 		    left: 380px;
 		}
+		button.buttonShow {
+		    position: fixed;
+		    top: 120px;
+		    left: 0px;
+		}
+		p.showmovement {
+		    position: fixed;
+		    top: 130px;
+		    left: 30px;
+		}
 	</style>
 
 	<div class = "numofwords" id="numofwords"></div>
@@ -244,6 +272,14 @@
 		    if (x.length != 0)
 		    	NumWords = (x.split(" ").length - 1) + 1;
 		   	document.getElementById("numofwords").innerHTML = NumWords;
+		}
+	</script>
+
+	<button class = "buttonShow" onclick="movement()">Show Movement</button>
+	<p class = "showmovement" id = "showmovement"></p>
+	<script>
+		function movement() {
+			document.getElementById("showmovement").innerHTML = actualMove;
 		}
 	</script>
 
