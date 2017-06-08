@@ -22,8 +22,10 @@
 		    height: 600px;
 		    position: fixed;
 		    background: white;
-		    top:100px;
-		    left: 150px;
+		    top:0;
+		    left:0;
+		    bottom:0;
+		    right:0;
 		    margin: auto;
 		    border:#000 solid 8px;
 		    -webkit-user-select: none;
@@ -37,7 +39,9 @@
 			height: 50px;
 			border: #000 solid 4px;
 			background: gray;
-			position: absolute;
+			position: fixed;
+			top: 150px;
+			left: 0px;
 		}
 
 		<style>
@@ -163,14 +167,14 @@
 
 	<script type="text/javascript">
 
-		var st = "<div id =\"container\">";
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\">";
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = (Math.floor(Math.random()*22.8) + 0.02) * 50,
 				tTop  = (Math.floor(Math.random()*10.8) + 0.02) * 50;
 			previous_left.push(tLeft);previous_top.push(tTop);
-			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\">"+letters[l]+"</div>";
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
