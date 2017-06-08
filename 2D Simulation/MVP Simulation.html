@@ -61,7 +61,7 @@
 		<script type="text/javascript">
 			var color = ['red', 'blue','green','orange','yellow'];
 			for (var i = 0; i < NumBlocks ;i++) {
-				var x= Math.floor(Math.random() * 5); 
+				var x= Math.floor(Math.random() * 5);
 				document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px;} </style>");
 			}
 		</script>
@@ -96,13 +96,12 @@
 		for (var i = 0; i < NumBlocks; i++) {
 			$("#block" + i).draggable({
 			});
-		}	
+		}
 	</script>
 
 	<script type="text/javascript">
 		var colorMap = new Map();
 		var letterMap = new Map();
-		
 		$( initFlipColors )
 		$( initFlipLetters )
 		var x;
@@ -126,7 +125,7 @@
 		function swapColor(box) {
 			var property = document.getElementById(box);
 			var currentColor = property.style.backgroundColor;
-			
+
 			property.style.backgroundColor = colorMap.get(box);
 			colorMap.set(box, currentColor);
 		}
@@ -144,9 +143,9 @@
 		// function refresh() {
 		// 	window.location.href = "MVP Simulation.html";
 		// }
-		
+
 	</script>
-	
+
 </head>
 <body oncontextmenu="return false;">
 
@@ -289,13 +288,25 @@
 		}
 		button.buttonShow {
 		    position: fixed;
-		    top: 120px;
+		    top: 130px;
+		    left: 0px;
+		}
+		button.buttonEnd {
+		    position: fixed;
+		    top: 150px;
 		    left: 0px;
 		}
 		p.showmovement {
 		    position: fixed;
 		    top: 130px;
 		    left: 30px;
+		}
+		div.wordsForSearch {
+		    position: relative;
+		    top: -4px;
+		    left: 0px;
+		    width: 270px;
+		    z-index: 1;
 		}
 	</style>
 
@@ -304,6 +315,13 @@
 	<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
 	    <label>
 	        Enter instructions	:
+	        <input id="txt_instruction" type="text" />
+	    </label>
+	</div>
+
+	<div class = "wordsForSearch" id="wordsForSearch">
+	    <label>
+	        Words
 	        <input id="txt_instruction" type="text" />
 	    </label>
 	</div>
@@ -326,6 +344,13 @@
 			document.getElementById("showmovement").innerHTML = actualMove;
 		}
 	</script>
+	<button class = "buttonEnd" onclick="endGame()">End</button>
+	<script>
+		function endGame() {
+			window.close();
+		}
+	</script>
+
 
 	</small></small></small>
 
