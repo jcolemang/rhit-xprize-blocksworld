@@ -259,6 +259,7 @@
 			bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
 			te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
 			p = te/ie;
+		}
 			// document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 		} else if (taskID == 3) {
 			bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
@@ -271,7 +272,6 @@
 			return c;
 		}
 	</script>
-
 
 	<style>
 		div.instruction {
@@ -321,6 +321,7 @@
 		    left: 0px;
 		    width: 270px;
 		    z-index: 1;
+				visibility:hidden;
 		}
 	</style>
 
@@ -332,7 +333,6 @@
 	        <input id="txt_instruction" type="text" />
 	    </label>
 	</div>
-
 	<div class = "wordsForSearch" id="wordsForSearch">
 	    <label>
 	        Words
@@ -376,7 +376,11 @@
 		}
 	</script>
 
-
+	<script type="text/javascript">
+		if(taskID==1){
+			document.getElementById("wordsForSearch").style.visibility = "visible";
+		}
+	</script>
 	</small></small></small>
 
 	<style>
@@ -441,7 +445,7 @@
 
 	/* Add animation (fade in the popup) */
 	@-webkit-keyframes fadeIn {
-	    from {opacity: 0;} 
+	    from {opacity: 0;}
 	    to {opacity: 1;}
 	}
 
