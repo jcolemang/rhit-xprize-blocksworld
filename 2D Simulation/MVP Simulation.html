@@ -5,6 +5,7 @@
 
 	<script>
 		var startTime, endTime;
+			var oldBlock = "blockNone";
     	var NumBlocks = Math.floor(Math.random() * 10) + 4;
     	var gestureCount = 0;
     	var NumWords = 0;
@@ -96,7 +97,8 @@
         			// console.log("START: \nLeft: "+ Startpos.left + "\nTop: " + Startpos.top);
 				}, stop: function(event, ui) {
 					var Stoppos = $(this).position();
-					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+					if ((Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) && oldBlock != $(this)[0].getAttribute('id')) {
+						oldBlock = $(this)[0].getAttribute('id');
 						actualMove++;
 						incrementMovement();
 					}
