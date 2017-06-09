@@ -47,8 +47,17 @@
 			border: #000 solid 4px;
 			background: gray;
 			position: fixed;
-			top: 150px;
-			left: 0px;
+			top: 100px;
+			left: 50px;
+		}
+		#MovementCount {
+			width: 50px;
+			height: 50px;
+			border: #000 solid 4px;
+			background: gray;
+			position: fixed;
+			top: 180px;
+			left: 50px;
 		}
 		<style>
 			div.fixed {
@@ -63,7 +72,7 @@
 			var color = ['red', 'blue','green','orange','yellow'];
 			for (var i = 0; i < NumBlocks ;i++) {
 				var x= Math.floor(Math.random() * 5);
-				document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px;} </style>");
+				document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: Arial, Helvetica, sans-serif;} </style>");
 			}
 		</script>
 
@@ -86,6 +95,7 @@
 					var Stoppos = $(this).position();
 					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
 						actualMove++;
+						incrementMovement();
 					}
         			// console.log("STOP: \nLeft: "+ Stoppos.left + "\nTop: " + Stoppos.top);
 				}});
@@ -141,10 +151,10 @@
 			gestureCount++;
 			property.innerText = gestureCount;
 		}
-		// function incrementMovement() {
-		// 	var property = document.getElementById('MovementCount');
-		// 	property.innerText = actualMove;
-		// }
+		function incrementMovement() {
+			var property = document.getElementById('MovementCount');
+			property.innerText = actualMove;
+		}
 		// function refresh() {
 		// 	window.location.href = "MVP Simulation.html";
 		// }
@@ -176,7 +186,8 @@
 			var x = -1;
 			for (var j = 0; j < position_x.length; j ++) {
 				if (Math.abs(position_x[j] - tLeft) < 50) {
-					x = j;break;
+					if (x ==- 1 || Math.abs(position_y[j] - tTop) < Math.abs(position_y[x] - tTop))
+						x = j;
 				}
 			}
 			while (x != -1) {
@@ -186,7 +197,8 @@
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
 					if (Math.abs(position_x[j] - tLeft) < 50) {
-						x = j;break;
+						if (x ==- 1 || Math.abs(position_y[j] - tTop) < Math.abs(position_y[x] - tTop))
+							x = j;
 					}
 				}
 			}
@@ -198,6 +210,8 @@
 	</script>
 
 	<p id = "gestureCount">0</p>
+	<p id = "MovementCount">0</p>
+
     <small><small><small>
 	<style>
 		p.taskQ {
@@ -259,8 +273,6 @@
 			bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
 			te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
 			p = te/ie;
-		}
-			// document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 		} else if (taskID == 3) {
 			bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
 			te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
@@ -281,6 +293,22 @@
 		    width: 360px;
 		    z-index: 1;
 		}
+		div.wordsForUser1 {
+		    position: relative;
+		    top: -35px;
+		    left: 420px;
+		    width: 400px;
+		    z-index: 1;
+			visibility:hidden;
+		}
+		div.wordsForUser2 {
+		    position: relative;
+		    top: -64px;
+		    left: 800px;
+		    width: 400px;
+		    z-index: 1;
+			visibility:hidden;
+		}
 		button.buttonenter {
 		    position: absolute;
 		    top: 71px;
@@ -291,37 +319,19 @@
 		    top: 68px;
 		    left: 500px;
 		}
-		button.buttonShow {
-		    position: fixed;
-		    top: 130px;
-		    left: 0px;
-		}
 		button.buttonEnd {
 		    position: fixed;
 		    top: 450px;
 		    left: 50px;
-		    width: 50px;
-		    height: 30px;
+		    width: 68px;
+		    height: 40px;
 		}
 		button.buttonStart {
 		    position: fixed;
 		    top: 350px;
 		    left: 50px;
-		    width: 50px;
-		    height: 30px;
-		}
-		p.showmovement {
-		    position: fixed;
-		    top: 130px;
-		    left: 30px;
-		}
-		div.wordsForSearch {
-		    position: relative;
-		    top: -4px;
-		    left: 0px;
-		    width: 270px;
-		    z-index: 1;
-				visibility:hidden;
+		    width: 68px;
+		    height: 40px;
 		}
 	</style>
 
@@ -333,9 +343,16 @@
 	        <input id="txt_instruction" type="text" />
 	    </label>
 	</div>
-	<div class = "wordsForSearch" id="wordsForSearch">
+	<div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;">
 	    <label>
-	        Words
+	        Words For User 1:
+	        <input id="txt_instruction" type="text" />
+	    </label>
+	</div>
+
+	<div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;">
+	    <label>
+	        Words For User 2:
 	        <input id="txt_instruction" type="text" />
 	    </label>
 	</div>
@@ -351,22 +368,17 @@
 		}
 	</script>
 
-	<button class = "buttonShow" onclick="movement()">Show Movement</button>
-	<p class = "showmovement" id = "showmovement"></p>
-	<script>
-		function movement() {
-			document.getElementById("showmovement").innerHTML = actualMove;
-		}
-	</script>
+	<input type="image" src="./startbutton.png" />
 
-	<button class = "buttonStart" onclick="StartGame()">Start</button>
+	<button class = "buttonStart" onclick="StartGame()" style="background: url(startbutton.png)">Start</button>
+
 	<script>
 		function StartGame() {
 			startTime = new Date().getTime();
 		}
 	</script>
 
-	<button class = "buttonEnd" onclick="endGame()">End</button>
+	<button class = "buttonEnd" onclick="endGame()" style="background: url(startbutton.png)">End</button>
 	<script>
 		function endGame() {
 			endTime = new Date().getTime();
@@ -378,9 +390,16 @@
 
 	<script type="text/javascript">
 		if(taskID==1){
-			document.getElementById("wordsForSearch").style.visibility = "visible";
+			document.getElementById("wordsForUser1").style.visibility = "visible";
 		}
 	</script>
+
+	<script type="text/javascript">
+		if(taskID==1){
+			document.getElementById("wordsForUser2").style.visibility = "visible";
+		}
+	</script>
+
 	</small></small></small>
 
 	<style>
@@ -467,6 +486,7 @@
 	  		</script>
 		</span>
 	</div>
+	</body>
 
 	<script>
 	// When the user clicks on div, open the popup
