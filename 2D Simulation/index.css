@@ -1,0 +1,149 @@
+#container {
+    width: 1200px;
+    height: 600px;
+    position: fixed;
+    background-image: url(parchment.jpg);
+    top:100px;
+    left:0;
+    bottom:0;
+    right:0;
+    margin: auto;
+    border:#000 solid 8px;
+    -webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+}
+
+#gadgetWrapper {
+    float: left;
+    width: 200px;
+}
+
+#taskOverviewWrapper {
+    position: absolute;
+    top: 0%;
+    right: 3%;
+    width: 200px;
+}
+
+#gestureCount {
+	width: 50px;
+	height: 50px;
+	border: #000 solid 4px;
+	background: gray;
+}
+
+div.fixed {
+    position: fixed;
+    bottom: 0px;
+    right: 100px;
+}
+
+p.taskQ {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/*		select.menu {
+    position: absolute;
+    top: 28px;
+    left: 210px;
+}*/
+
+div.instruction {
+    display: inline;
+    width: 360px;
+}
+button.buttonenter {
+    display: inline;
+}
+
+div.numofwords {
+    display: inline;
+}
+
+div.show {
+    width: 360px;
+}
+
+p.showmovement {
+    display: inline;
+}
+
+button.buttonEnd {
+    background-image: url(startButton.png);
+}
+
+/* Popup container - can be anything you want 
+.popup {
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    width: 300px;
+    height: 80px;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}*/
+
+/* The actual popup */
+
+.popuptext {
+    visibility: hidden;
+    width: 300px;
+    height: 450px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    right: -30%;
+    top: 100%;
+    text-align: left;
+    padding: 10px;
+    line-height:1.5;
+    cursor: pointer;
+}
+.popuptext::after {
+    content: "";
+    position: absolute;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+/* Toggle this class - hide and show the popup */
+.show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+p.helper {
+    /*top: 0%;
+    right: 0%;*/
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+div.wordsForUser1 {
+    width: 400px;
+    visibility:hidden;
+}
+div.wordsForUser2 {
+    width: 400px;
+    visibility:hidden;
+}
+button.buttonStart {
+    background-image: url(startButton.png);
+}
