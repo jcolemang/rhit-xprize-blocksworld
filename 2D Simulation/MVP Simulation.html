@@ -5,6 +5,8 @@
 
 	<script>
 		var startTime, endTime;
+			var startPosMap = {};
+			var endPosMap = {};
 			var oldBlock = "blockNone";
     	var NumBlocks = Math.floor(Math.random() * 10) + 4;
     	var gestureCount = 0;
@@ -213,6 +215,17 @@
 		st+="</div>";
 		document.write(st);
 	</script>
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			var blockid = document.getElementById('block'+i);
+			if(blockid) {
+				if(NumBlocks >= Object.keys(startPosMap).length){
+					var pos = blockid.style;
+					startPosMap['block'+i] = pos;
+				}
+			}
+		}
+	</script>
 
 	<p id = "gestureCount">0</p>
 	<p id = "MovementCount">0</p>
@@ -388,6 +401,15 @@
 		function endGame() {
 			endTime = new Date().getTime();
 			var time = endTime - startTime;
+			for (var i = 0; i < NumBlocks; i++) {
+				var blockid = document.getElementById('block'+i);
+				if(blockid) {
+					if(NumBlocks >= Object.keys(endPosMap).length){
+						var pos = blockid.style;
+						endPosMap['block'+i] = pos;
+					}
+				}
+			}
 			alert('How long you take to finish the task? ' + time/1000 + 's');
 			window.close();
 		}
@@ -479,18 +501,7 @@
 	}
 	</style>
 	</head>
-	<style>
-		body {
-    	background: url(/Pictures/backgroundPNG.png) repeat 0 0;
-		}
-	</style>
 	<body style="text-align:center">
-	<style>
-		body {
-			background: url(/Pictures/backgroundPNG.png) repeat 0 0;
-		}
-	</style>
-
 	<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 	<div class="popup" onclick="myFunction()" style="font-size:18px; font-family:verdana">Introduction of the game
 		<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
