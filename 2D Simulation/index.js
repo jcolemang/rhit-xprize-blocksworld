@@ -19,6 +19,12 @@ var startTime, endTime;
 var startPosMap = {};
 var endPosMap = {};
 var oldBlock = "blockNone";
+var start = new Array();
+var end = new Array();
+var interval = new Array();
+var type = new Array();
+var instructiondate;
+var instructionstarttime;
 
 
 
@@ -93,7 +99,6 @@ function incrementGesture() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
-    initMetrics();
     
 }
 
@@ -113,28 +118,25 @@ function setTaskHeader() {
     document.getElementById("taskQ").innerHTML = "Today, you will have task: " + task[taskID] + "!";
 }
 
-function initMetrics() {
+function calculateBackEndData() {
     if (taskID == 0) {
         bm = NumBlocks; br = NumBlocks; pn = 1; pp = 10;
         te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
-        // document.getElementById("taskQ").innerHTML ="Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
     } else if (taskID == 1) {
         bm = n1 + n2; br = (n1 + n2) * (NumBlocks + 1) / 2; pn = 1; pp = 10;
         te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
-        // document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn+ " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
     } else if (taskID == 2) {
         bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
         te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
-        // document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
     } else if (taskID == 3) {
         bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
         te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
-        // document.getElementById("taskQ").innerHTML = "Please choose a task\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"+ "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
     }
+    return "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 }
 
 function factorial(x) {
@@ -143,10 +145,19 @@ function factorial(x) {
 }
 
 function inputlength() {
+    end.push(getDateTime());
+    start.push(instructiondate);
+    type.push("Instructions");
+    interval.push(new Date().getTime() - instructionstarttime);
     var x = document.getElementById("txt_instruction").value;
-    if (x.length != 0)
-        NumWords = (x.split(" ").length - 1) + 1;
-    document.getElementById("numofwords").innerHTML = NumWords;
+    if (x.length != 0) {
+        var numToAdd = (x.split(" ").length - 1) + 1;
+        NumWords += numToAdd;
+    }
+    instructions += x + "\n";
+    document.getElementById("numofwords").innerHTML = numToAdd;
+
+    document.getElementById("txt_instruction").value = "";
 }
 
 function movement() {
@@ -154,7 +165,13 @@ function movement() {
 }
 
 function endGame() {
-    return window.stop();
+    endTime = new Date().getTime();
+    var time = endTime - startTime;
+    alert('Time you took to finish the task? ' + time/1000 + 's with: ' + calculateBackEndData());
+    for (var i=0;i<start.length;i++) {
+        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]+"\n");
+    }
+    // window.close();
 }
 
 // When the user clicks on div, open the popup
@@ -181,4 +198,25 @@ function endGame() {
     }
     alert('How long you take to finish the task? ' + time/1000 + 's');
     window.close();
+}
+
+function getDateTime() {
+    var date = new Date();
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return month + "/" + day + "/" + year + " " + hour + ":" + min + ":" + sec;
+}
+
+function instructiontime() {
+    instructionstarttime = new Date().getTime();
+    instructiondate = getDateTime();
 }
