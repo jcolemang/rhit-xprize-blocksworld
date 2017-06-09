@@ -4,6 +4,7 @@
 	<title>2D Block World Simulation</title>
 
 	<script>
+		var startTime, endTime;
     	var NumBlocks = Math.floor(Math.random() * 10) + 4;
     	var gestureCount = 0;
     	var NumWords = 0;
@@ -140,6 +141,10 @@
 			gestureCount++;
 			property.innerText = gestureCount;
 		}
+		// function incrementMovement() {
+		// 	var property = document.getElementById('MovementCount');
+		// 	property.innerText = actualMove;
+		// }
 		// function refresh() {
 		// 	window.location.href = "MVP Simulation.html";
 		// }
@@ -166,21 +171,21 @@
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
-			var tLeft = (Math.floor(Math.random()*22.8 + 0.02)) * 50,
-				tTop  = (Math.floor(Math.random()*10.8 + 0.02)) * 50;
+			var tLeft = Math.floor(Math.random()*22.8) * 50,
+				tTop  = Math.floor(Math.random()*10.8) * 50;
 			var x = -1;
 			for (var j = 0; j < position_x.length; j ++) {
-				if (position_x[j] == tLeft) {
+				if (Math.abs(position_x[j] - tLeft) < 50) {
 					x = j;break;
 				}
 			}
 			while (x != -1) {
-				if (position_y[x] != tTop) break;
-				tLeft = (Math.floor(Math.random()*22.8 + 0.02)) * 50;
-				tTop  = (Math.floor(Math.random()*10.8 + 0.02)) * 50;
+				if (Math.abs(position_y[x] - tTop) >= 50) break;
+				tLeft = Math.floor(Math.random()*22.8) * 50;
+				tTop  = Math.floor(Math.random()*10.8) * 50;
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft) {
+					if (Math.abs(position_x[j] - tLeft) < 50) {
 						x = j;break;
 					}
 				}
@@ -293,8 +298,17 @@
 		}
 		button.buttonEnd {
 		    position: fixed;
-		    top: 150px;
-		    left: 0px;
+		    top: 450px;
+		    left: 50px;
+		    width: 50px;
+		    height: 30px;
+		}
+		button.buttonStart {
+		    position: fixed;
+		    top: 350px;
+		    left: 50px;
+		    width: 50px;
+		    height: 30px;
 		}
 		p.showmovement {
 		    position: fixed;
@@ -344,9 +358,20 @@
 			document.getElementById("showmovement").innerHTML = actualMove;
 		}
 	</script>
+
+	<button class = "buttonStart" onclick="StartGame()">Start</button>
+	<script>
+		function StartGame() {
+			startTime = new Date().getTime();
+		}
+	</script>
+
 	<button class = "buttonEnd" onclick="endGame()">End</button>
 	<script>
 		function endGame() {
+			endTime = new Date().getTime();
+			var time = endTime - startTime;
+			alert('How long you take to finish the task? ' + time/1000 + 's');
 			window.close();
 		}
 	</script>
