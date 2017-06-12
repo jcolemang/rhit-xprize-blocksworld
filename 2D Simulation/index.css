@@ -29,9 +29,22 @@
 
 #gestureCount {
 	width: 50px;
-	height: 50px;
-	border: #000 solid 4px;
-	background: gray;
+    height: 50px;
+    border: #000 solid 4px;
+    background: gray;
+    position: fixed;
+    top: 150px;
+    left: 50px;
+}
+
+#MovementCount {
+    width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    background: gray;
+    position: fixed;
+    top: 280px;
+    left: 50px;
 }
 
 div.fixed {
@@ -51,32 +64,65 @@ p.taskQ {
 }*/
 
 div.instruction {
-    display: inline;
-    width: 360px;
+    position: relative;
+    top: -12px;
+    left: 0px;
+    width: 400px;
+    z-index: 1;
 }
-button.buttonenter {
-    display: inline;
+
+div.wordsForUser1 {
+    position: relative;
+    top: -36px;
+    left: 420px;
+    width: 400px;
+    z-index: 1;
+    visibility:hidden;
 }
+
+div.wordsForUser2 {
+    position: relative;
+    top: -58px;
+    left: 800px;
+    width: 400px;
+    z-index: 1;
+    visibility:hidden;
+}
+
 
 div.numofwords {
     display: inline;
 }
 
-div.show {
-    width: 360px;
-}
-
-p.showmovement {
-    width: 50px;
-    height: 50px;
-    border: #000 solid 4px;
-    background: gray;
-}
-
 button.buttonEnd {
     background-image: url(startButton.png);
+    position: fixed;
+    top: 550px;
+    left: 50px;
+    width: 68px;
+    height: 40px;
 }
 
+button.buttonStart {
+    background-image: url(startButton.png);
+    position: fixed;
+    top: 450px;
+    left: 50px;
+    width: 68px;
+    height: 40px;
+}
+
+p.gesture {
+    position: fixed;
+    top: 140px;
+    left: 35px;
+}
+
+p.movement {
+    position: fixed;
+    top: 270px;
+    left: 30px;
+}
 /* Popup container - can be anything you want 
 .popup {
     position: fixed;
@@ -137,16 +183,4 @@ p.helper {
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
-}
-
-div.wordsForUser1 {
-    width: 400px;
-    visibility:hidden;
-}
-div.wordsForUser2 {
-    width: 400px;
-    visibility:hidden;
-}
-button.buttonStart {
-    background-image: url(startButton.png);
 }

@@ -32,6 +32,7 @@
 						interval.push(new Date().getTime() - movementstarttime);
 						type.push("Movement");
 						actualMove++;
+						incrementMovement();
 					}
 				}});
 			}
@@ -120,7 +121,7 @@
 			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
 				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
 			  		<script type="text/javascript">
-			  			document.getElementById("myPopup").innerHTML = instructions[taskID];
+			  			document.getElementById("myPopup").innerHTML = introductions[taskID];
 			  		</script>
 				</span>
 			</div>
@@ -129,13 +130,15 @@
   	</div>
 
 	<div class = "gadgetWrapper">
-		<p class = "taskQ" id = "taskQ" style = "font-size: 40px">
+		<small><small><small>
+		<p class = "taskQ" id = "taskQ" style = "font-size: 30px">
 			<script>
 				setTaskHeader();
 			</script>
 		</p>
+		</small></small></small>
 
-		<div class = "instruction" id="instruction">
+		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
 		    <label>
 		        Enter instructions	:
 		        <input id="txt_instruction" type="text" />
@@ -154,7 +157,7 @@
 
     <button class = "buttonStart" onclick="StartGame()" >Start</button>
 		
-		<button class = "buttonEnd" onclick="endGame()" >End</button>
+	<button class = "buttonEnd" onclick="endGame()" >End</button>
 
     <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
     	<script type="text/javascript">
@@ -176,7 +179,9 @@
         </label>
     </div>
     	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
   
 </body>
