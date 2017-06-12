@@ -35,29 +35,29 @@ for (var i = 0; i < NumBlocks ;i++) {
 
 function initInstructions() {
     task.push("Sorting");
-    task.push("Matching"); 
+    task.push("Matching");
     task.push("Searching");
     task.push("Rainbow");
-    instructions.push("Sorting:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to sort the blocks in a particular way." + 
-        "<br>&emsp;When you speak, the converted text will show up in the text box.<br>Once the task is complete, click the end button.<br><br>User2 " + 
+    instructions.push("Sorting:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to sort the blocks in a particular way." +
+        "<br>&emsp;When you speak, the converted text will show up in the text box.<br>Once the task is complete, click the end button.<br><br>User2 " +
         "Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>");
-    
-    instructions.push("Matching:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to try to match the blocks according to some criterion" + 
-        ".<br>&emsp;When you speak, the converted text will show up in the text box.<br>&emsp;After giving the instruction, you and the other user will simultaneously flip " + 
-        "two separate blocks. If the blocks match, you should drag both the blocks to the left. If they don’t, the other user will drag both the blocks to the right" + 
-        ".<br>&emsp;Once the all the blocks have been dragged to either side, click the end button.<br>&emsp;If one block is left at the end, drag it to your side and " + 
-        "click the end button.<br><br>User2 Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the " + 
+
+    instructions.push("Matching:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to try to match the blocks according to some criterion" +
+        ".<br>&emsp;When you speak, the converted text will show up in the text box.<br>&emsp;After giving the instruction, you and the other user will simultaneously flip " +
+        "two separate blocks. If the blocks match, you should drag both the blocks to the left. If they don’t, the other user will drag both the blocks to the right" +
+        ".<br>&emsp;Once the all the blocks have been dragged to either side, click the end button.<br>&emsp;If one block is left at the end, drag it to your side and " +
+        "click the end button.<br><br>User2 Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the " +
         "minimum number of block moves possible.");
-    
-    instructions.push("Searching:<br><br>User1 Instructions:<br>&emsp;Select two related words.<br>&emsp;Tell the other user which one of those words you are going to " + 
-        "search and which ones they are supposed to search.<br>&emsp;Type in the word in double quotes into the give textbox named “Words”.<br>&emsp;When you speak, " + 
-        "the converted text will show up in the text box.<br>&emsp;Try to complete the task in the minimum number of block moves possible.<br>&emsp;Once the task is " + 
-        "complete, click the end button.<br>&emsp; Try to complete the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;The other " + 
+
+    instructions.push("Searching:<br><br>User1 Instructions:<br>&emsp;Select two related words.<br>&emsp;Tell the other user which one of those words you are going to " +
+        "search and which ones they are supposed to search.<br>&emsp;Type in the word in double quotes into the give textbox named “Words”.<br>&emsp;When you speak, " +
+        "the converted text will show up in the text box.<br>&emsp;Try to complete the task in the minimum number of block moves possible.<br>&emsp;Once the task is " +
+        "complete, click the end button.<br>&emsp; Try to complete the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;The other " +
         "user will give you instructions to complete the task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
-    
-    instructions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user " + 
-        "to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete " + 
-        "the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the " + 
+
+    instructions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user " +
+        "to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete " +
+        "the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the " +
         "task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
 }
 
@@ -99,7 +99,7 @@ function incrementGesture() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
-    
+
 }
 
 function setSearchFieldOne() {
@@ -164,16 +164,6 @@ function movement() {
     document.getElementById("showmovement").innerHTML = actualMove;
 }
 
-function endGame() {
-    endTime = new Date().getTime();
-    var time = endTime - startTime;
-    alert('Time you took to finish the task? ' + time/1000 + 's with: ' + calculateBackEndData());
-    for (var i=0;i<start.length;i++) {
-        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]+"\n");
-    }
-    // window.close();
-}
-
 // When the user clicks on div, open the popup
 function popUpGameIntro() {
     var popup = document.getElementById("myPopup");
@@ -197,7 +187,8 @@ function endGame() {
         }
     }
     alert('How long you take to finish the task? ' + time/1000 + 's');
-    window.close();
+    document.body.innerHTML = '';
+    document.documentElement.innerHTML = 'Good job!';
 }
 
 function getDateTime() {
