@@ -4,11 +4,11 @@
 	<title>2D Block World Simulation</title>
 
 	<meta charset="UTF-8">
-	
+
 	<link rel="stylesheet" type="text/css" href="index.css">
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
-	
+
   	<script type="text/javascript" src="index.js"></script>
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
@@ -105,7 +105,7 @@
 		initFlipLetters();
 		initTaskID();
 	</script>
-  
+
   <style>
     body {
       background: url(background.jpg) repeat 0 0;
@@ -153,9 +153,9 @@
 			<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "showmovement" id = "showmovement" style = "font-size: 40px; text-align: center">0</p>
 		</div>
-
+		<div class = "gestureToggle" id="gestureToggle"></div>
     <button class = "buttonStart" onclick="StartGame()" >Start</button>
-		
+
 	<button class = "buttonEnd" onclick="endGame()" >End</button>
 
     <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
@@ -182,6 +182,6 @@
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
-  
+
 </body>
 </html>
