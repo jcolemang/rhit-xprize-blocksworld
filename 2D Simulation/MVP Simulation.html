@@ -4,11 +4,11 @@
 	<title>2D Block World Simulation</title>
 
 	<meta charset="UTF-8">
-
+	
 	<link rel="stylesheet" type="text/css" href="index.css">
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
-
+	
   	<script type="text/javascript" src="index.js"></script>
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
@@ -105,10 +105,10 @@
 		initFlipLetters();
 		initTaskID();
 	</script>
-
+  
   <style>
     body {
-      background: url(background.jpg) repeat 0 0;
+      background: url(img/background.jpg) repeat 0 0;
     }
   </style>
 
@@ -124,8 +124,8 @@
 			  			document.getElementById("myPopup").innerHTML = introductions[taskID];
 			  		</script>
 				</span>
+				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 			</div>
-			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 		</div>
   	</div>
 
@@ -149,13 +149,8 @@
 		    <div class = "numofwords" id="numofwords"></div>
 		</div>
 
-		<div class = "show" id="show">
-			<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-			<p class = "showmovement" id = "showmovement" style = "font-size: 40px; text-align: center">0</p>
-		</div>
-		<div class = "gestureToggle" id="gestureToggle"></div>
     <button class = "buttonStart" onclick="StartGame()" >Start</button>
-
+		
 	<button class = "buttonEnd" onclick="endGame()" >End</button>
 
     <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
@@ -182,6 +177,23 @@
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
-
+  
 </body>
+	<body>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<div id = "AudioRecord" class = "AudioRecord">
+			<fieldset><legend>RECORD AUDIO</legend>
+				<input onclick="startRecording()" type="button" value="start recording"/>
+				<input onclick="stopRecording()" type="button" value="stop recording" />
+			</fieldset>
+		</div>
+
+		<script src="Recorderjs/recorder.js"></script>   
+    	<script src="jsHtml5AudioRecorder.js"></script>               
+    	<script src="js/init.js"></script>
+    </body>
 </html>

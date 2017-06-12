@@ -1,12 +1,10 @@
 #container {
     width: 1200px;
     height: 600px;
-    position: fixed;
-    background-image: url(parchment.jpg);
-    top:100px;
-    left:0;
-    bottom:0;
-    right:0;
+    position: absolute;
+    background-image: url(img/parchment.jpg);
+    top:120px;
+    left:180px;
     margin: auto;
     border:#000 solid 8px;
     -webkit-user-select: none;
@@ -21,7 +19,7 @@
 }
 
 #taskOverviewWrapper {
-    position: absolute;
+    position: relative;
     top: 0%;
     right: 3%;
     width: 200px;
@@ -32,31 +30,17 @@
     height: 50px;
     border: #000 solid 4px;
     background: gray;
-    position: fixed;
+    position: absolute;
     top: 150px;
     left: 50px;
 }
-
-#gestureToggle {
-    width: 20px;
-    height: 20px;
-    background-color: black;
-    cursor: move;
-    position: absolute;
-    visibility: hidden;
-    left: auto;
-    top: auto;
-    z-index: 1;
-    vertical-align: middle;
-    line-height: 50px;
-  }
 
 #MovementCount {
     width: 50px;
     height: 50px;
     border: #000 solid 4px;
     background: gray;
-    position: fixed;
+    position: absolute;
     top: 280px;
     left: 50px;
 }
@@ -68,6 +52,8 @@ div.fixed {
 }
 
 p.taskQ {
+    position: relative;
+    top:0px;
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -109,8 +95,8 @@ div.numofwords {
 }
 
 button.buttonEnd {
-    background-image: url(startButton.png);
-    position: fixed;
+    background-image: url(img/startButton.png);
+    position: absolute;
     top: 550px;
     left: 50px;
     width: 68px;
@@ -118,8 +104,8 @@ button.buttonEnd {
 }
 
 button.buttonStart {
-    background-image: url(startButton.png);
-    position: fixed;
+    background-image: url(img/startButton.png);
+    position: absolute;
     top: 450px;
     left: 50px;
     width: 68px;
@@ -127,17 +113,17 @@ button.buttonStart {
 }
 
 p.gesture {
-    position: fixed;
-    top: 140px;
-    left: 35px;
+    position: relative;
+    top: -24px;
+    left: 30px;
 }
 
 p.movement {
-    position: fixed;
-    top: 270px;
-    left: 30px;
+    position: relative;
+    top: 60px;
+    left: 25px;
 }
-/* Popup container - can be anything you want
+ /*Popup container - can be anything you want */
 .popup {
     position: fixed;
     top: 20px;
@@ -150,7 +136,7 @@ p.movement {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}*/
+}
 
 /* The actual popup */
 
@@ -164,8 +150,8 @@ p.movement {
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
-    right: -30%;
-    top: 100%;
+    right: -3%;
+    top: 85%;
     text-align: left;
     padding: 10px;
     line-height:1.5;
@@ -185,13 +171,18 @@ p.movement {
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
-p.helper {
-    /*top: 0%;
-    right: 0%;*/
+
+div.AudioRecord {
+    position: relative;
+    top: 500px;
+    left: 10px;
+    width: 300px;
+    height: 100px;
 }
+
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-    from {opacity: 0;}
+    from {opacity: 0;} 
     to {opacity: 1;}
 }
 @keyframes fadeIn {
