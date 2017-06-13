@@ -1,19 +1,3 @@
-/**
- * Object:  jsHtml5AudioRecorder
- * Version: master
- * Author:  Edouard Kombo
- * Twitter: @EdouardKombo
- * Github:  https://github.com/edouardkombo
- * Blog:    http://creativcoders.wordpress.com
- * Url:     https://github.com/edouardkombo/jsHtml5AudioRecorder
- * 
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
- * 
- * Record live audio stream in html5 with echo cancellation, save it on server or download directly from browser
- */
-
 var jsHtml5AudioRecorder = function(){};
 
 jsHtml5AudioRecorder.prototype = {
@@ -163,7 +147,7 @@ jsHtml5AudioRecorder.prototype = {
      */
     save: function (blob, stream) {
         
-        var datas       = 'path='+this.mediaPath+'&extension='+this.audioExtension;                  
+        var datas = 'path='+this.mediaPath+'&extension='+this.audioExtension;        
 
         var client = new XMLHttpRequest();
         client.onreadystatechange = function() 
@@ -200,18 +184,18 @@ jsHtml5AudioRecorder.prototype = {
      */
     download: function(blob, stream) {
         
-        var url             = window.URL.createObjectURL(blob);
+        var url = window.URL.createObjectURL(blob);
         //Create a link
-        var hf              = document.createElement('a');
+        var hf = document.createElement('a');
 
-        var temporaryId     = new Date().toISOString();
+        var temporaryId = new Date().toISOString();
         
         //Define link attributes
-        hf.href             = url;
-        hf.id               = temporaryId;
-        hf.download         = temporaryId + '.' + this.audioExtension;
-        hf.innerHTML        = hf.download;
-        hf.style.display    = 'none';
+        hf.href = url;
+        hf.id = temporaryId;
+        hf.download = temporaryId + '.' + this.audioExtension;
+        hf.innerHTML = hf.download;
+        hf.style.display = 'none';
         hf.style.visibility = 'hidden';
         //Append the link inside html code
         document.body.appendChild(hf);
@@ -233,21 +217,21 @@ jsHtml5AudioRecorder.prototype = {
      */
     stream: function(blob) {
         
-        var url             = window.URL.createObjectURL(blob);
+        var url = window.URL.createObjectURL(blob);
         
         //Create audio tag
-        var audio           = document.createElement('audio');
+        var audio = document.createElement('audio');
         
         //Define audio tag attributes
-        audio.src               = url;
-        audio.id                = this.audioTagId;
+        audio.src = url;
+        audio.id = this.audioTagId;
         
         if (this.showStreamOnFinish) {
-            audio.style.display     = 'block';
-            audio.style.visibility  = 'visible';            
+            audio.style.display = 'block';
+            audio.style.visibility = 'visible';            
         } else {
-            audio.style.display     = 'none';
-            audio.style.visibility  = 'hidden';            
+            audio.style.display = 'none';
+            audio.style.visibility = 'hidden';            
         }        
          
         document.body.appendChild(audio);
