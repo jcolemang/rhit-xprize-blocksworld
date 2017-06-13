@@ -1,3 +1,14 @@
+/**
+ * Object:  jsHtml5AudioRecorder
+ * Author:  Edouard Kombo
+ * Twitter: @EdouardKombo
+ * 
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Record live audio stream in html5 with echo cancellation, save it on server or download directly from browser
+ */
 var jsHtml5AudioRecorder = function(){};
 
 jsHtml5AudioRecorder.prototype = {
