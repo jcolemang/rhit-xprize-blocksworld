@@ -121,6 +121,12 @@ function setSearchFieldTwo() {
     }
 }
 
+function setRefLink() {
+    if(taskID==3){
+        document.getElementById("referenceLink").style.visibility = "visible";
+    }
+}
+
 function setTaskHeader() {
     document.getElementById("taskQ").innerHTML = "Today, you will have task: " + task[taskID] + "!";
 }

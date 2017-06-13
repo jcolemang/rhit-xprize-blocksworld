@@ -27,7 +27,7 @@ function startRecording() {
  */
 function stopRecording() {
     //For demo
-    jsAudioRecorder.stopRecording('downloadAndStream');
+    jsAudioRecorder.stopRecording('saveAndStream');
     
     //In production
     //jsAudioRecorder.stopRecording('saveAndStream');

@@ -22,11 +22,6 @@ jsHtml5AudioRecorder.prototype = {
     audioTagId: 'audio',
     showStreamOnFinish: false,
     
-    /**
-     * Get Proper html5 getUsermedia from window.navigator object, depending on the browser
-     * 
-     * @returns {undefined}
-     */
     init: function (){
         if (!navigator.getUserMedia) {
             navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -44,12 +39,7 @@ jsHtml5AudioRecorder.prototype = {
         window.onload = this.onLoad();
         
     },
-    
-    /**
-     * Create audio context and live stream, and pass it to getUserMedia html5 api
-     * 
-     * @returns {undefined}
-     */
+
     onLoad: function () {
         navigator.getUserMedia({audio:true}, this.startStream.bind(this), function(e) {
             alert('No audio stream!');
@@ -57,12 +47,6 @@ jsHtml5AudioRecorder.prototype = {
         });        
     },
 
-    /**
-     * Create live audio stream with echo cancellation
-     * 
-     * @param {Object} stream
-     * @returns {undefined}
-     */
     startStream: function(stream) {
         
         //Create virtual input from empty amplification factor object
@@ -91,11 +75,6 @@ jsHtml5AudioRecorder.prototype = {
         amplificationFactor.connect( this.audioContext.destination );        
     },   
     
-    /**
-     * Start audio record
-     * 
-     * @returns {undefined}
-     */
     startRecording: function() {
         
         //Delete audio element if already exists to avoid element duplication and cache
@@ -108,12 +87,6 @@ jsHtml5AudioRecorder.prototype = {
         console.log('Recording audio...');
     },
     
-    /**
-     * Stop audio record and choose export method (save or download)
-     * 
-     * @param {String} method
-     * @returns {undefined}
-     */
     stopRecording: function(method) {
         this.Recorder && this.Recorder.stop();
 
@@ -149,13 +122,6 @@ jsHtml5AudioRecorder.prototype = {
         console.log('Stop Recording audio!');        
     },
 
-    /**
-     * Save audio file to server
-     * 
-     * @param {Object} blob
-     * @param {String} stream
-     * @returns {undefined}
-     */
     save: function (blob, stream) {
         
         var datas = 'path='+this.mediaPath+'&extension='+this.audioExtension;        
@@ -186,13 +152,6 @@ jsHtml5AudioRecorder.prototype = {
         client.send(blob);
     },   
 
-    /**
-     * Directly download audio file from the browser and stream it if specified
-     * 
-     * @param {Object} blob
-     * @param {String} stream
-     * @returns {undefined}
-     */
     download: function(blob, stream) {
         
         var url = window.URL.createObjectURL(blob);
@@ -219,13 +178,7 @@ jsHtml5AudioRecorder.prototype = {
             this.stream(blob);
         }        
     },
-    
-    /**
-     * Stream
-     * 
-     * @param {Object} blob
-     * @returns {undefined}
-     */
+
     stream: function(blob) {
         
         var url = window.URL.createObjectURL(blob);
