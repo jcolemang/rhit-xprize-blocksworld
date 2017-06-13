@@ -71,33 +71,6 @@ div.instruction {
     z-index: 1;
 }
 
-div.wordsForUser1 {
-    position: relative;
-    top: -36px;
-    left: 420px;
-    width: 400px;
-    z-index: 1;
-    visibility:hidden;
-}
-
-div.wordsForUser2 {
-    position: relative;
-    top: -58px;
-    left: 800px;
-    width: 400px;
-    z-index: 1;
-    visibility:hidden;
-}
-
-div.referenceLink {
-    position: relative;
-    left: 500px;
-    top: -120px;
-    z-index: 1;
-    color: white;
-    /*visibility:hidden;*/
-}
-
 div.numofwords {
     display: inline;
 }
@@ -133,16 +106,26 @@ a.buttonLike {
 }
 
 p.gesture {
-    position: relative;
-    top: -44px;
+    position: absolute;
+    top: 130px;
     left: 30px;
 }
 
 p.movement {
-    position: relative;
-    top: 40px;
+    position: absolute;
+    top: 260px;
     left: 25px;
 }
+
+div.referenceLink {
+    position: relative;
+    left: 500px;
+    top: -80px;
+    z-index: 1;
+    color: white;
+    visibility:hidden;
+}
+
  /*Popup container - can be anything you want */
 .popup {
     position: fixed;
@@ -194,7 +177,7 @@ p.movement {
 
 div.AudioRecord {
     position: relative;
-    top: 500px;
+    top: 600px;
     left: 10px;
     width: 300px;
     height: 100px;

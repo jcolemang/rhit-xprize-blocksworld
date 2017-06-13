@@ -153,55 +153,24 @@
 		
 	<button class = "buttonEnd" onclick="endGame()" >End</button>
 
-    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
-    	<script type="text/javascript">
-    		setSearchFieldOne();
-    	</script>
-        <label>
-            Words For User 1:
-            <input id="search_words_1_text" type="text" />
-        </label>
-    </div>
-
-    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
-    	<script type="text/javascript">
-    		setSearchFieldTwo();
-    	</script>
-        <label>
-            Words For User 2:
-            <input id="search_words_2_text" type="text" />
-        </label>
-    </div>
+<!-- 	<div class = "SelectWords" id = "SelectWords" style="font-family: Arial, Helvetica, sans-serif;">
+		<script type="text/javascript">
+			
+		</script>
+	</div> -->
 
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
 		<script type="text/javascript">
     		setRefLink();
     	</script>
-    	<a class = "buttonLike" href="rainbow.html" target="_blank">See your rainbow path here!</a>
 	</div>
 
     	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
     	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+
+		<div class = "wordsToShow" style="font-size:20px; font-family:verdana"></div>
 	</div>
   
-</body>
-	<body>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<div id = "AudioRecord" class = "AudioRecord">
-			<fieldset><legend>RECORD AUDIO</legend>
-				<input onclick="startRecording()" type="button" value="start recording"/>
-				<input onclick="stopRecording()" type="button" value="stop recording" />
-			</fieldset>
-		</div>
-
-		<script src="Recorderjs/recorder.js"></script>   
-    	<script src="jsHtml5AudioRecorder.js"></script>               
-    	<script src="js/init.js"></script>
-    </body>
 </html>

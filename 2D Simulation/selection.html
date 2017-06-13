@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select your words</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <script type="text/javascript">
+        var valueChoose1, valueChoose2;
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <style type="text/css">
+        td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+        .selected {
+            background-color: brown;
+            color: #FFF;
+        }
+    </style>
+
+    <table id="table">
+        <tr>
+            <td>abcde</td>
+            <td>dkska</td>
+        </tr>
+        <tr>
+            <td>wqdmxc</td>
+            <td>qwertc</td>
+        </tr>
+        <tr>
+            <td>asdefd</td>
+            <td>mcldpe</td>
+        </tr>
+        <tr>
+            <td>pkrewrw</td>
+            <td>saflwop</td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $("#table tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');    
+            valueChoose1 =$(this).find('td:first').html();
+            valueChoose2 =$(this).find('td:last-child').html();
+        });
+    </script>
+    <script type="text/javascript">
+        function clickOk() {
+            alert("words: " + valueChoose1 + " " + valueChoose2 + " are chosen.");
+        }
+    </script>
+    <input type="button" name="OK" class="ok" value="OK" onclick="clickOk()" />
+    <button type="button" onclick="javascript:window.close()">Finish</button>
+
+</body>
+</html>

@@ -26,7 +26,10 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
-
+var selectionflag = 0;
+var valueChoose1 = "", valueChoose2 = "";
+var chooseFlag = 0;
+var myWindow;
 
 
 for (var i = 0; i < NumBlocks ;i++) {
@@ -109,21 +112,24 @@ function initTaskID() {
 
 }
 
-function setSearchFieldOne() {
-    if(taskID==2){
-        document.getElementById("wordsForUser1").style.visibility = "visible";
-    }
+function setupValue(x,y) {
+    console.log(x);
+    console.log(y);
 }
 
-function setSearchFieldTwo() {
-    if(taskID==2){
-        document.getElementById("wordsForUser2").style.visibility = "visible";
+function setsetVisible() {
+    if (taskID == 2) {
+        document.getElementById("referenceLink").style.visibility = "visible";
     }
 }
 
 function setRefLink() {
-    if(taskID==3){
+    if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"rainbow.html\" target=\"_blank\">See your rainbow path here!</a>";
+    } else if (taskID==2) {
+        document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection.html\" onclick=\"myWindow = window.open('selection.html', 'newwindow', 'width=500, height=450'); return false;\">Select Your Words Here!</a>";
     }
 }
 
@@ -168,7 +174,7 @@ function inputlength() {
         NumWords += numToAdd;
     }
     instructions += x + "\n";
-    document.getElementById("numofwords").innerHTML = numToAdd;
+    // document.getElementById("numofwords").innerHTML = numToAdd;
     // instructions.push(x);
 
     document.getElementById("txt_instruction").value = "";
