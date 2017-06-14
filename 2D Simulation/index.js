@@ -27,7 +27,7 @@ var instructiondate;
 var instructionstarttime;
 var instructions = "";
 var selectionflag = 0;
-var valueChoose1 = "", valueChoose2 = "";
+var RainbowPath = "!";
 var chooseFlag = 0;
 var myWindow;
 
@@ -112,11 +112,6 @@ function initTaskID() {
 
 }
 
-function setupValue(x,y) {
-    console.log(x);
-    console.log(y);
-}
-
 function setsetVisible() {
     if (taskID == 2) {
         document.getElementById("referenceLink").style.visibility = "visible";
@@ -126,10 +121,10 @@ function setsetVisible() {
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"rainbow.html\" target=\"_blank\">See your rainbow path here!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+    
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection.html\" onclick=\"myWindow = window.open('selection.html', 'newwindow', 'width=500, height=450'); return false;\">Select Your Words Here!</a>";
     }
 }
 
@@ -191,6 +186,8 @@ function popUpGameIntro() {
 }
 
 function StartGame() {
+    RainbowPath = localStorage.getItem("Rainbow Path");
+    console.log(RainbowPath);
     startTime = new Date().getTime();
 }
 

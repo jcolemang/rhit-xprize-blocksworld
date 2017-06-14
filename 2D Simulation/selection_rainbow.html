@@ -6,7 +6,7 @@
 </head>
 <body>
     <script type="text/javascript">
-        var valueChoose1, valueChoose2;
+        var choose;
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <style type="text/css">
@@ -20,36 +20,34 @@
 
     <table id="table">
         <tr>
-            <td>abcde</td>
-            <td>dkska</td>
+            <td>Rainbow 1</td>
+            <td><a href = "img/Rainbow1.png" onclick="window.open(this.href, 'newwindow', 'width=300, height=250'); return false;">Click here to see</a></td>
         </tr>
         <tr>
-            <td>wqdmxc</td>
-            <td>qwertc</td>
+            <td>Rainbow 2</td>
+            <td><a href = "img/Rainbow2.png" onclick="window.open(this.href, 'newwindow', 'width=300, height=250'); return false;">Click here to see</a></td>
         </tr>
         <tr>
-            <td>asdefd</td>
-            <td>mcldpe</td>
+            <td>Rainbow 3</td>
+            <td><a href = "img/Rainbow3.png" onclick="window.open(this.href, 'newwindow', 'width=300, height=250'); return false;">Click here to see</a></td>
         </tr>
         <tr>
-            <td>pkrewrw</td>
-            <td>saflwop</td>
+            <td>Rainbow 4</td>
+            <td><a href = "img/Rainbow4.png" onclick="window.open(this.href, 'newwindow', 'width=300, height=250'); return false;">Click here to see</a></td>
         </tr>
     </table>
     <script type="text/javascript">
         $("#table tr").click(function(){
             $(this).addClass('selected').siblings().removeClass('selected');    
-            valueChoose1 =$(this).find('td:first').html();
-            valueChoose2 =$(this).find('td:last-child').html();
+            choose =$(this).find('td:first').html();
         });
     </script>
     <script type="text/javascript">
         function clickOk() {
-            alert("words: " + valueChoose1 + " " + valueChoose2 + " are chosen.");
+            localStorage.setItem("Rainbow Path", choose);
+            window.close();
         }
     </script>
     <input type="button" name="OK" class="ok" value="OK" onclick="clickOk()" />
-    <button type="button" onclick="javascript:window.close()">Finish</button>
-
 </body>
 </html>
