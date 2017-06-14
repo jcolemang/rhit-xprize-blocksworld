@@ -126,6 +126,14 @@ div.referenceLink {
     visibility:hidden;
 }
 
+div.showChosen {
+    position: absolute;
+    left: 510px;
+    top: 85px;
+    z-index: 1;
+    color: white;
+}
+
  /*Popup container - can be anything you want */
 .popup {
     position: fixed;

@@ -79,6 +79,7 @@ function initFlipLetters() {
         letterMap.set('block' + i, letters[y]);
     }
 }
+
 function flipBlock(box) {
     swapColor(box);
     swapLetter(box);
@@ -184,14 +185,27 @@ function popUpGameIntro() {
     popup.classList.toggle("show");
 }
 
+function showChosenStuff() {
+    if (taskID == 2) {
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show Your choice</a>";
+    } else if (taskID == 3) {
+        var x = RainbowPath.substring(RainbowPath.indexOf(" ") + 1, RainbowPath.length);
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
+    }
+}
+
 function StartGame() {
     if (taskID == 3) {
         RainbowPath = localStorage.getItem("Rainbow Path");
         console.log(RainbowPath);
+        document.getElementById("showChosen").style.visibility = "visible";
+        showChosenStuff();
     }
     if (taskID == 2) {
         searchingwords = localStorage.getItem("Searching words");
         console.log(searchingwords);
+        document.getElementById("showChosen").style.visibility = "visible";
+        showChosenStuff();
     }
     startTime = new Date().getTime();
 }
@@ -215,7 +229,7 @@ function endGame() {
     console.log(instructions);
     alert('How long you take to finish the task? ' + time/1000 + 's');
     document.body.innerHTML = '';
-    document.documentElement.innerHTML = 'Good job!';
+    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 }
 
 function getDateTime() {
