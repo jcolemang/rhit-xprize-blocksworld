@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select your words</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <script type="text/javascript">
+        var choose;
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <p id = "a"></p>
+    <script type="text/javascript">
+        var x = localStorage.getItem("Searching words");
+        var w1 = x.substring(0, x.indexOf(" "));
+        var w2 = x.substring(x.indexOf(" ") + 1, x.length);
+    	document.getElementById("a").innerHTML = "<p>" + "Word 1:" + w1 + "<br>" + "Word 2:" + w2 + "</p>";
+    </script>
+</body>

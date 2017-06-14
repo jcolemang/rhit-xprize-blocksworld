@@ -26,7 +26,9 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
-
+var selectionflag = 0;
+var RainbowPath = "!";
+var searchingwords = "!";
 
 
 for (var i = 0; i < NumBlocks ;i++) {
@@ -39,26 +41,26 @@ function initInstructions() {
     task.push("Matching");
     task.push("Searching");
     task.push("Rainbow");
-    introductions.push("Sorting:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to sort the blocks in a particular way." +
-        "<br>&emsp;When you speak, the converted text will show up in the text box.<br>Once the task is complete, click the end button.<br><br>User2 " +
+    introductions.push("Sorting:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to sort the blocks in a particular way." + 
+        "<br>&emsp;When you speak, the converted text will show up in the text box.<br>Once the task is complete, click the end button.<br><br>User2 " + 
         "Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>");
-
-    introductions.push("Matching:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to try to match the blocks according to some criterion" +
-        ".<br>&emsp;When you speak, the converted text will show up in the text box.<br>&emsp;After giving the instruction, you and the other user will simultaneously flip " +
-        "two separate blocks. If the blocks match, you should drag both the blocks to the left. If they don’t, the other user will drag both the blocks to the right" +
-        ".<br>&emsp;Once the all the blocks have been dragged to either side, click the end button.<br>&emsp;If one block is left at the end, drag it to your side and " +
-        "click the end button.<br><br>User2 Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the " +
+    
+    introductions.push("Matching:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to try to match the blocks according to some criterion" + 
+        ".<br>&emsp;When you speak, the converted text will show up in the text box.<br>&emsp;After giving the instruction, you and the other user will simultaneously flip " + 
+        "two separate blocks. If the blocks match, you should drag both the blocks to the left. If they don’t, the other user will drag both the blocks to the right" + 
+        ".<br>&emsp;Once the all the blocks have been dragged to either side, click the end button.<br>&emsp;If one block is left at the end, drag it to your side and " + 
+        "click the end button.<br><br>User2 Instructions:<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the " + 
         "minimum number of block moves possible.");
-
-    introductions.push("Searching:<br><br>User1 Instructions:<br>&emsp;Select two related words.<br>&emsp;Tell the other user which one of those words you are going to " +
-        "search and which ones they are supposed to search.<br>&emsp;Type in the word in double quotes into the give textbox named “Words”.<br>&emsp;When you speak, " +
-        "the converted text will show up in the text box.<br>&emsp;Try to complete the task in the minimum number of block moves possible.<br>&emsp;Once the task is " +
-        "complete, click the end button.<br>&emsp; Try to complete the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;The other " +
+    
+    introductions.push("Searching:<br><br>User1 Instructions:<br>&emsp;Select two related words.<br>&emsp;Tell the other user which one of those words you are going to " + 
+        "search and which ones they are supposed to search.<br>&emsp;Type in the word in double quotes into the give textbox named “Words”.<br>&emsp;When you speak, " + 
+        "the converted text will show up in the text box.<br>&emsp;Try to complete the task in the minimum number of block moves possible.<br>&emsp;Once the task is " + 
+        "complete, click the end button.<br>&emsp; Try to complete the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;The other " + 
         "user will give you instructions to complete the task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
-
-    introductions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user " +
-        "to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete " +
-        "the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the " +
+    
+    introductions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user " + 
+        "to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete " + 
+        "the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the " + 
 
         "task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
 }
@@ -77,10 +79,10 @@ function initFlipLetters() {
         letterMap.set('block' + i, letters[y]);
     }
 }
+
 function flipBlock(box) {
     swapColor(box);
     swapLetter(box);
-    document.getElementById("gestureToggle").style.visibility = "hidden";
 }
 function swapColor(box) {
     var property = document.getElementById(box);
@@ -98,16 +100,11 @@ function incrementGesture() {
     var property = document.getElementById('gestureCount');
     gestureCount++;
     property.innerText = gestureCount;
-   var gestureElement = document.getElementById("gestureToggle");
-   gestureElement.style.left = event.clientX+'px';
-   gestureElement.style.top = event.clientY+'px';
-   gestureElement.style.visibility = "visible";
 }
 
 function incrementMovement() {
     var property = document.getElementById('MovementCount');
     property.innerText = actualMove;
-    document.getElementById("gestureToggle").style.visibility = "hidden";
 }
 
 function initTaskID() {
@@ -115,15 +112,19 @@ function initTaskID() {
 
 }
 
-function setSearchFieldOne() {
-    if(taskID==2){
-        document.getElementById("wordsForUser1").style.visibility = "visible";
+function setsetVisible() {
+    if (taskID == 2) {
+        document.getElementById("referenceLink").style.visibility = "visible";
     }
 }
 
-function setSearchFieldTwo() {
-    if(taskID==2){
-        document.getElementById("wordsForUser2").style.visibility = "visible";
+function setRefLink() {
+    if (taskID==3){
+        document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+    } else if (taskID==2) {
+        document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 
@@ -168,7 +169,7 @@ function inputlength() {
         NumWords += numToAdd;
     }
     instructions += x + "\n";
-    document.getElementById("numofwords").innerHTML = numToAdd;
+    // document.getElementById("numofwords").innerHTML = numToAdd;
     // instructions.push(x);
 
     document.getElementById("txt_instruction").value = "";
@@ -184,7 +185,28 @@ function popUpGameIntro() {
     popup.classList.toggle("show");
 }
 
+function showChosenStuff() {
+    if (taskID == 2) {
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show Your choice</a>";
+    } else if (taskID == 3) {
+        var x = RainbowPath.substring(RainbowPath.indexOf(" ") + 1, RainbowPath.length);
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
+    }
+}
+
 function StartGame() {
+    if (taskID == 3) {
+        RainbowPath = localStorage.getItem("Rainbow Path");
+        console.log(RainbowPath);
+        document.getElementById("showChosen").style.visibility = "visible";
+        showChosenStuff();
+    }
+    if (taskID == 2) {
+        searchingwords = localStorage.getItem("Searching words");
+        console.log(searchingwords);
+        document.getElementById("showChosen").style.visibility = "visible";
+        showChosenStuff();
+    }
     startTime = new Date().getTime();
 }
 
@@ -203,11 +225,11 @@ function endGame() {
     for (var i = 0; i < start.length;i++) {
         console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
     }
-
+    
     console.log(instructions);
     alert('How long you take to finish the task? ' + time/1000 + 's');
     document.body.innerHTML = '';
-    document.documentElement.innerHTML = 'Good job!';
+    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 }
 
 function getDateTime() {

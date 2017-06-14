@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select your words</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <script type="text/javascript">
+        var choose;
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <style type="text/css">
+        td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+        .selected {
+            background-color: brown;
+            color: #FFF;
+        }
+    </style>
+
+    <table id="table">
+        <tr>
+            <td>Rainbow 1</td>
+            <td><a href = "img/Rainbow1.png" onclick="window.open(this.href, 'newwindow', 'width=500, height=450'); return false;">Click here to see</a></td>
+        </tr>
+        <tr>
+            <td>Rainbow 2</td>
+            <td><a href = "img/Rainbow2.png" onclick="window.open(this.href, 'newwindow', 'width=500, height=450'); return false;">Click here to see</a></td>
+        </tr>
+        <tr>
+            <td>Rainbow 3</td>
+            <td><a href = "img/Rainbow3.png" onclick="window.open(this.href, 'newwindow', 'width=500, height=450'); return false;">Click here to see</a></td>
+        </tr>
+        <tr>
+            <td>Rainbow 4</td>
+            <td><a href = "img/Rainbow4.png" onclick="window.open(this.href, 'newwindow', 'width=500, height=450'); return false;">Click here to see</a></td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        $("#table tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');    
+            choose =$(this).find('td:first').html();
+        });
+    </script>
+    <script type="text/javascript">
+        function clickOk() {
+            localStorage.setItem("Rainbow Path", choose);
+            window.close();
+        }
+    </script>
+    <input type="button" name="OK" class="ok" value="OK" onclick="clickOk()" />
+</body>
+</html>
