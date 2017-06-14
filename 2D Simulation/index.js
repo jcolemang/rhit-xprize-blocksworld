@@ -28,8 +28,7 @@ var instructionstarttime;
 var instructions = "";
 var selectionflag = 0;
 var RainbowPath = "!";
-var chooseFlag = 0;
-var myWindow;
+var searchingwords = "!";
 
 
 for (var i = 0; i < NumBlocks ;i++) {
@@ -122,9 +121,9 @@ function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
         document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
-    
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 
@@ -186,8 +185,14 @@ function popUpGameIntro() {
 }
 
 function StartGame() {
-    RainbowPath = localStorage.getItem("Rainbow Path");
-    console.log(RainbowPath);
+    if (taskID == 3) {
+        RainbowPath = localStorage.getItem("Rainbow Path");
+        console.log(RainbowPath);
+    }
+    if (taskID == 2) {
+        searchingwords = localStorage.getItem("Searching words");
+        console.log(searchingwords);
+    }
     startTime = new Date().getTime();
 }
 
