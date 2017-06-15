@@ -34,7 +34,7 @@
     visibility: hidden;
     left: auto;
     top: auto;
-    z-index: 1;
+    z-index:99999;
     vertical-align: middle;
     line-height: 50px;
   }

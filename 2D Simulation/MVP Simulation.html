@@ -58,7 +58,7 @@
 	</script>
 
 	<script type="text/javascript">
-		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture(event)\" style=\"font-size: 40px\">";
 		var position_x = [];var position_y = [];
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);

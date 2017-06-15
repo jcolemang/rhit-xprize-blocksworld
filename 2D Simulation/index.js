@@ -97,13 +97,13 @@ function swapLetter(box) {
     property.textContent = letterMap.get(box);
     letterMap.set(box, currentLetter);
 }
-function incrementGesture() {
+function incrementGesture(e) {
     var property = document.getElementById('gestureCount');
     gestureCount++;
     property.innerText = gestureCount;
     var gestureElement = document.getElementById("gestureToggle");
-    gestureElement.style.left = event.clientX+'px';
-    gestureElement.style.top = event.clientY+'px';
+    gestureElement.style.left = e.clientX+'px';
+    gestureElement.style.top = e.clientY+'px';
     gestureElement.style.visibility = "visible";
 }
 
