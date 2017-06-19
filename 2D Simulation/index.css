@@ -8,14 +8,28 @@
     margin: auto;
     border:#000 solid 8px;
     -webkit-user-select: none;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	-ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+.block {
+    width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    cursor: move;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+    font-family: 'Corben', Georgia, Times, serif;
 }
 
 #gadgetWrapper {
     float: left;
     width: 200px;
+    font-weight: bold;
 }
 
 #taskOverviewWrapper {
@@ -40,7 +54,7 @@
   }
 
 #gestureCount {
-	width: 50px;
+	  width: 50px;
     height: 50px;
     border: #000 solid 4px;
     background: gray;
@@ -71,18 +85,19 @@ p.taskQ {
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
-/*		select.menu {
-    position: absolute;
-    top: 28px;
-    left: 210px;
-}*/
 
 div.instruction {
     position: relative;
     top: -12px;
     left: 0px;
-    width: 400px;
-    z-index: 1;
+    width: 1600px;
+}
+
+
+div.user_message {
+    position: fixed;
+    top: 90px;
+    left: 500px;
 }
 
 div.numofwords {

@@ -1,12 +1,15 @@
-var NumBlocks = Math.floor(Math.random() * 10) + 4;
+var random_multiplier = 10;
+var random_addition = 4;
+var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
+var Max_Num_Blocks = random_multiplier + random_addition;
 var gestureCount = 0;
 var NumWords = 0;
 var n1 = 1; var n2 = 1;
 var actualMove = 0;
 var w1 = 0.1, w2 = 0.5;
 var previous_top = [];var previous_left = [];
-var colorMap = new Map();
-var letterMap = new Map();
+var flipColorArray = [];
+var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
@@ -27,6 +30,7 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
+var time;
 var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
@@ -55,16 +59,16 @@ function initInstructions() {
 
 
 function initFlipColors() {
-    for (var i = 0; i < NumBlocks; i++) {
+    for (var i = 0; i < Max_Num_Blocks; i++) {
         x = Math.floor(Math.random() * 5);
-        colorMap.set('block' + i, color[x]);
+        flipColorArray[i] = color[x];
     }
 }
 
 function initFlipLetters() {
-    for (var i = 0; i < NumBlocks; i++) {
+    for (var i = 0; i < Max_Num_Blocks; i++) {
         y = Math.floor(Math.random() * 7);
-        letterMap.set('block' + i, letters[y]);
+        flipLetterArray[i] = letters[y];
     }
 }
 
@@ -72,31 +76,35 @@ function flipBlock(box) {
     swapColor(box);
     swapLetter(box);
     document.getElementById("gestureToggle").style.visibility = "hidden";
+    actualMove++;
+    setMovement();
 }
+
 function swapColor(box) {
     var property = document.getElementById(box);
     var currentColor = property.style.backgroundColor;
-    property.style.backgroundColor = colorMap.get(box);
-    colorMap.set(box, currentColor);
+    property.style.backgroundColor = flipColorArray[box.substring(5)];
+    flipColorArray[box.substring(5)] = currentColor;
 }
+
 function swapLetter(box) {
     var property = document.getElementById(box);
     var currentLetter = property.textContent || property.innerText;
-    property.textContent = letterMap.get(box);
-    letterMap.set(box, currentLetter);
+    property.textContent = flipLetterArray[box.substring(5)];
+    flipLetterArray[box.substring(5)] = currentLetter;
 }
-function incrementGesture(e) {
-    var property = document.getElementById('gestureCount');
-    gestureCount++;
-    property.innerText = gestureCount;
-    var gestureElement = document.getElementById("gestureToggle");
 
-    gestureElement.style.left = e.clientX+'px';
-    gestureElement.style.top = e.clientY+'px';
+function setGestureWithPosition(left, top) {
+    var property = document.getElementById('gestureCount');
+    property.innerText = gestureCount;
+    var gestureElement = document.getElementById('gestureToggle');
+    gestureElement.style.left = left + 'px';
+    gestureElement.style.top = top + 'px';
+
     gestureElement.style.visibility = "visible";
 }
 
-function incrementMovement() {
+function setMovement() {
     var property = document.getElementById('MovementCount');
     property.innerText = actualMove;
     document.getElementById("gestureToggle").style.visibility = "hidden";
@@ -106,7 +114,6 @@ function initTaskID() {
     taskID = Math.floor(Math.random()*4);
 
 }
-
 function setsetVisible() {
     if (taskID == 2) {
         document.getElementById("referenceLink").style.visibility = "visible";
@@ -164,8 +171,6 @@ function inputlength() {
         NumWords += numToAdd;
     }
     instructions += x + "\n";
-    // document.getElementById("numofwords").innerHTML = numToAdd;
-    // instructions.push(x);
 
     document.getElementById("txt_instruction").value = "";
 }
@@ -208,7 +213,7 @@ function StartGame() {
 
 function endGame() {
     endTime = new Date().getTime();
-    var time = endTime - startTime;
+    time = endTime - startTime;
     for (var i = 0; i < NumBlocks; i++) {
         var blockid = document.getElementById('block'+i);
         if(blockid) {

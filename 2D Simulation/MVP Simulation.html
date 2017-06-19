@@ -5,6 +5,8 @@
 
 	<meta charset="UTF-8">
 
+	<meta http-equiv="pragma" content="no-cache" />
+
 	<link rel="stylesheet" type="text/css" href="index.css">
   <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
@@ -12,18 +14,252 @@
 	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 
-  <script type="text/javascript" src="index.js"></script>
+  <style>
+    body {
+      background: url(background.jpg) repeat 0 0;
+    }
+  </style>
+
+</head>
+
+<body oncontextmenu="return false;" onunload="closeEvent()">
+
+	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
+		<div style="text-align:center">
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
+				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+			  		<script type="text/javascript">
+			  		    var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
+    					  var cardintro = "Card instructions:<br>&emsp;Mouse right click: flips card<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag card to another position: moves card to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
+
+			  			  document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
+			  		</script>
+				</span>
+				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+			</div>
+		</div>
+  </div>
+
+	<div class = "gadgetWrapper">
+		<small><small><small>
+		<p class = "taskQ" id = "taskQ" style = "font-size: 30px"></p>
+		</small></small></small>
+
+		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
+		    <label>
+		        Enter instructions	:
+		        <input id="txt_instruction" type="text" />
+		    </label>
+
+		    <button class = "buttonenter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
+
+		    <div class = "numofwords" id="numofwords"></div>
+
+		</div>
+
+    <div class = "gestureToggle" id="gestureToggle"></div>
+    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
+
+    <button class = "buttonEnd" id="buttonEnd" onclick="endGame(); endGameForAllUsers()" >End</button>
+
+    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
+
+    <div class = "user_message" id="user_message"></div>
+    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
+	</div>
+    
+  <div id = "AudioRecord" class = "AudioRecord">
+			<fieldset><legend>RECORD AUDIO</legend>
+				<div>
+					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
+				</div>
+				<div>
+					<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
+				</div>
+				<button id="callButton" onclick="startRecording()">start recording</button>
+				<button id="hangupButton" onclick="stopRecording()">stop recording</button>
+			</fieldset>
+	</div>
+    
+  <div class = "liveAudio">
+      <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+  </div>
+
+
+	<script type="text/javascript" src="index.js"></script>
+
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
+	<script src="/socket.io/socket.io.js"></script>
+    
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+	<script src="Recorderjs/recorder.js"></script>
+  <script src="jsHtml5AudioRecorder.js"></script>
+  <script src="js/init.js"></script>
+
 	<script type="text/javascript">
-		var pc1;
-		var pc2;
-		var peer;
-		var conn;
+    setRefLink();
+		initBlocks();
+		initInstructions();
+		initFlipColors();
+		initFlipLetters();
+		initTaskID();
+		setTaskHeader();
+		setSearchFieldOne();
+		setSearchFieldTwo();
+		document.getElementById("myPopup").innerHTML = introductions[taskID];
+
+		var color = ['red', 'blue','green','orange','yellow'];
+
+		function initBlocks() {
+			var container = document.createElement("div");
+			container.id = "container";
+
+			container.ondblclick = function(e) {
+				gestureCount++;
+				var event = e || window.event;
+				setGestureWithPosition(event.clientX, event.clientY);
+				send_gesture_to_server();
+			};
+			container.style.fontSize = "40px";
+			document.body.appendChild(container);
+
+			var position_x = [];var position_y = [];
+			for (var i = 0; i < NumBlocks; i++) {
+				var color_x= Math.floor(Math.random() * 5);
+				var l = Math.floor(Math.random() * 7);
+				var tLeft = Math.floor(Math.random()*22.8) * 50,
+					tTop  = Math.floor(Math.random()*10.8) * 50;
+				var x = -1;
+				for (var j = 0; j < position_x.length; j ++) {
+					if (position_x[j] == tLeft && position_y[j] == tTop) {
+						x = j;
+					}
+				}
+				while (x != -1) {
+					if (Math.abs(position_y[x] - tTop) >= 50) break;
+					tLeft = Math.floor(Math.random()*22.8) * 50;
+					tTop  = Math.floor(Math.random()*10.8) * 50;
+					var x = -1;
+					for (var j = 0; j < position_x.length; j ++) {
+						if (position_x[j] == tLeft && position_y[j] == tTop) {
+							x = j;
+						}
+					}
+				}
+				previous_left.push(tLeft);
+				previous_top.push(tTop);
+
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+			}
+		}
+
 	</script>
-	
-	<script type="text/javascript">
+
+	<script type="text/javascript" >
+		var socket = io.connect("http://localhost:8080");
+
+		var username = prompt('Please enter your name.');
+
+		socket.emit('username', username);
+
+		var left_array = [];
+		var top_array = [];
+		var current_colors = [];
+		var current_letters = [];
+
+
+		for (var i = 0; i < NumBlocks; i++) {
+			var position = $("#block" + i).position();
+			var current_color = $("#block" + i).css("background-color");
+			var current_letter = $("#block" + i).text();
+			left_array.push(position.left);
+			top_array.push(position.top);
+			current_colors.push(current_color);
+			current_letters.push(current_letter);
+		}
+
+		socket.emit('setInitialPosition', {
+			numBlocks: NumBlocks,
+			lefts: left_array,
+			tops: top_array,
+			colors: current_colors,
+			flipColorArray: flipColorArray,
+			letters: current_letters,
+			flipLetterArray: flipLetterArray,
+			currentTask: taskID,
+			movement_count: actualMove,
+			gesture_count: gestureCount
+		});
+
+		var z = 1;
+
+		socket.on('update_position', function (data) {
+			
+			var left = data.left;
+			var top = data.top;
+			var block = data.block_id;
+			$("#" + block).css({
+				left: left + "px",
+				top: top + "px"
+			});
+			$("#" + block).css('z-index', ++z);
+		});
+
+		socket.on('update_flip_block', function (block_id) {
+			flipBlock(block_id);
+		});
+
+		socket.on('setInitialPosition', function(data) {
+			var container = document.getElementById("container");
+			
+			flipColorArray = data.flipColorArray.slice(0);
+			flipLetterArray = data.flipLetterArray.slice(0);
+			NumBlocks = data.numBlocks;
+			taskID = data.currentTask;
+			actualMove = data.movement_count;
+			gestureCount = data.gesture_count;
+			setTaskHeader();
+			setSearchFieldOne();
+			setSearchFieldTwo();
+			document.getElementById("myPopup").innerHTML = introductions[taskID];
+
+			while(container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+
+			for (var i = 0; i < NumBlocks; i++) {
+				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+			}
+
+			document.getElementById("instruction").style.visibility = "hidden";
+			document.getElementById("buttonStart").style.visibility = "hidden";
+			document.getElementById("buttonEnd").style.visibility = "hidden";
+
+
+		});
+
+		function send_flip_to_server(block_id) {
+			socket.emit('receive_flip_block', block_id);
+		}
+
+		$(document).ready(function() {
+    		$(".draggable").draggable();
+			
+			$('.draggable').each(function(el){
+			    var tLeft = Math.floor(Math.random()*1140) + 1,
+			    tTop  = Math.floor(Math.random()*540) + 1;
+			    $(el).css({position:'relative', left: 1140, top: 540});
+			});
+		});
+
 		var z = 1;
 		$( init );
 		function init() {
@@ -42,11 +278,72 @@
 						interval.push(new Date().getTime() - movementstarttime);
 						type.push("Movement");
 						actualMove++;
-						incrementMovement();
+						setMovement();
+						send_movement_to_server();
 					}
-				}});
+				}, drag: function(event, ui) {
+					var coord = $(this).position();
+					var block_id = $(this).attr('id');
+					socket.emit('receive_position', {
+						block_id: block_id,
+						left: coord.left,
+						top: coord.top
+					});
+				}
+
+				});
 			}
 		}
+
+		function send_movement_to_server() {
+			socket.emit('receive_movement_data', actualMove);
+		}
+
+		socket.on('update_movement_data', function(data) {
+			actualMove = data;
+			setMovement();
+		});
+
+		function send_user_message_to_server() {
+			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+		}
+
+		socket.on('update_user_message', function(message) {
+			document.getElementById("user_message").innerHTML = message;
+		});
+
+		function endGameForAllUsers() {
+			socket.emit('end_game_for_all_users', time);
+		}
+
+		socket.on('end_game_for_user', function(time_data) {
+			alert('How long you take to finish the task? ' + time_data/1000 + 's');
+		    document.body.innerHTML = '';
+		    document.documentElement.innerHTML = 'Good job!';
+		});
+
+		function send_gesture_to_server() {
+			socket.emit('receive_gesture_data', {
+				gestureCount: gestureCount,
+				left: $("#gestureToggle").position().left,
+				top: $("#gestureToggle").position().top
+			});
+		}
+
+		socket.on('update_gesture_data', function(data) {
+			gestureCount = data.gestureCount;
+			setGestureWithPosition(data.left, data.top);
+		});
+
+		function closeEvent() {
+			socket_emit('user_left_game');
+		}
+
+		socket.on('user_left_game', function() {
+			document.body.innerHTML = '';
+			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
+		});
+
 	</script>
 
 	<script type="text/javascript">
@@ -54,46 +351,6 @@
 			$("#block" + i).draggable({
 			});
 		}
-	</script>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-    		$(".draggable").draggable();
-		$('.draggable').each(function(el){
-		    var tLeft = Math.floor(Math.random()*1140) + 1,
-		    tTop  = Math.floor(Math.random()*540) + 1;
-		    $(el).css({position:'relative', left: 1140, top: 540});
-		});
-	});
-	</script>
-
-	<script type="text/javascript">
-		var st = "<div id =\"container\" ondblclick=\"incrementGesture(event)\" style=\"font-size: 40px\">";
-		var position_x = [];var position_y = [];
-		for (var i = 0; i < NumBlocks; i++) {
-			var l = Math.floor(Math.random() * 7);
-			var tLeft = Math.floor(Math.random()*22.8) * 50,
-				tTop  = Math.floor(Math.random()*10.8) * 50;
-			var x = -1;
-			for (var j = 0; j < position_x.length; j ++) {
-				if (position_x[j] == tLeft && position_y[j] == tTop)
-					x = j;
-			}
-			while (x != -1) {
-				if (Math.abs(position_y[x] - tTop) >= 50) break;
-				tLeft = Math.floor(Math.random()*22.8) * 50;
-				tTop  = Math.floor(Math.random()*10.8) * 50;
-				var x = -1;
-				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft && position_y[j] == tTop)
-						x = j;
-				}
-			}
-			previous_left.push(tLeft);previous_top.push(tTop);
-			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
-		}
-		st+="</div>";
-		document.write(st);
 	</script>
 
 	<script type="text/javascript">
@@ -108,108 +365,7 @@
 
 		}
 	</script>
-
-	<script type="text/javascript">
-		initInstructions();
-		initFlipColors();
-		initFlipLetters();
-		initTaskID();
-	</script>
-
-  <style>
-    body {
-      background: url(img/background.jpg) repeat 0 0;
-    }
-  </style>
-
-</head>
-
-<body oncontextmenu="return false;">
-
-	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
-		<div style="text-align:center">
-			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
-				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
-			  		<script type="text/javascript">
-			  		    var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
-    					var cardintro = "Card instructions:<br>&emsp;Mouse right click: flips card<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag card to another position: moves card to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
-
-			  			document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
-			  		</script>
-				</span>
-				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
-			</div>
-		</div>
-  	</div>
-
-	<div class = "gadgetWrapper">
-		<small><small><small>
-		<p class = "taskQ" id = "taskQ" style = "font-size: 30px">
-			<script>
-				setTaskHeader();
-			</script>
-		</p>
-		</small></small></small>
-
-		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
-		    <label>
-		        Enter instructions	:
-		        <input id="txt_instruction" type="text" />
-		    </label>
-
-		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
-
-		    <div class = "numofwords" id="numofwords"></div>
-		</div>
-
-    <button class = "buttonStart" onclick="StartGame()" >Start</button>
-
-	<button class = "buttonEnd" onclick="endGame()" >End</button>
-	<div class = "gestureToggle" id="gestureToggle"></div>
-
-    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
-		<script type="text/javascript">
-    		setRefLink();
-    	</script>
-	</div>
-
-    	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
-    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
-		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
-
-		<div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
-		</div>
-	</div>
-  
-  
-  <!-- Audio recording and live audio -->
-  
-  
-  <div id = "AudioRecord" class = "AudioRecord">
-			<fieldset><legend>RECORD AUDIO</legend>
-				<div>
-					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
-				</div>
-				<div>
-					<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
-				</div>
-				<button id="callButton" onclick="startRecording()">start recording</button>
-				<button id="hangupButton" onclick="stopRecording()">stop recording</button>
-			</fieldset>
-	</div>
-
-	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
-	<script src="Recorderjs/recorder.js"></script>
-  <script src="jsHtml5AudioRecorder.js"></script>
-  <script src="js/init.js"></script>
     
-    
-  <div class = "liveAudio">
-      <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-  </div>
-
 </body>
 </html>
 

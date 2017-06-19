@@ -1,0 +1,203 @@
+#container {
+    width: 1200px;
+    height: 600px;
+    position: absolute;
+    background-image: url(parchment.jpg);
+    top:50%;
+    left:0;
+    bottom:50%;
+    right:0;
+    margin: auto;
+    border:#000 solid 8px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+.block {
+    width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    cursor: move;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+    font-family: 'Corben', Georgia, Times, serif;
+}
+
+#gadgetWrapper {
+    float: left;
+    width: 200px;
+    font-weight: bold;
+}
+
+#taskOverviewWrapper {
+    position: absolute;
+    top: 0%;
+    right: 3%;
+    width: 200px;
+}
+
+#gestureCount {
+    width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    background: gray;
+    position: fixed;
+    top: 150px;
+    left: 50px;
+}
+
+#gestureToggle {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    cursor: move;
+    position: absolute;
+    visibility: hidden;
+    left: auto;
+    top: auto;
+    z-index: 1;
+    vertical-align: middle;
+    line-height: 50px;
+  }
+
+#MovementCount {
+    width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    background: gray;
+    position: fixed;
+    top: 280px;
+    left: 50px;
+}
+
+div.fixed {
+    position: fixed;
+    bottom: 0px;
+    right: 100px;
+}
+
+p.taskQ {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.instruction {
+    position: relative;
+    top: -12px;
+    left: 0px;
+    width: 1600px;
+}
+
+div.wordsForUser1 {
+    width: 400px;
+    visibility:hidden;
+
+}
+
+div.wordsForUser2 {
+    width: 400px;
+    visibility:hidden;
+}
+
+
+div.user_message {
+    position: fixed;
+    top: 90px;
+    left: 500px;
+}
+
+button.buttonEnd {
+    background-image: url(startbutton.png);
+    position: fixed;
+    top: 550px;
+    left: 50px;
+    width: 68px;
+    height: 40px;
+}
+
+button.buttonStart {
+    background-image: url(startbutton.png);
+    position: fixed;
+    top: 450px;
+    left: 50px;
+    width: 68px;
+    height: 40px;
+}
+
+p.gesture {
+    position: fixed;
+    top: 140px;
+    left: 35px;
+}
+
+p.movement {
+    position: fixed;
+    top: 270px;
+    left: 30px;
+}
+/* Popup container - can be anything you want
+.popup {
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    width: 300px;
+    height: 80px;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}*/
+
+/* The actual popup */
+
+.popuptext {
+    visibility: hidden;
+    width: 300px;
+    height: 450px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    right: -30%;
+    top: 100%;
+    text-align: left;
+    padding: 10px;
+    line-height:1.5;
+    cursor: pointer;
+}
+.popuptext::after {
+    content: "";
+    position: absolute;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+/* Toggle this class - hide and show the popup */
+.show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+p.helper {
+    /*top: 0%;
+    right: 0%;*/
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
