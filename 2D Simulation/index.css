@@ -34,7 +34,7 @@
     visibility: hidden;
     left: auto;
     top: auto;
-    z-index:99999;
+    z-index: 1;
     vertical-align: middle;
     line-height: 50px;
   }
@@ -167,8 +167,8 @@ div.showChosen {
 
 .popuptext {
     visibility: hidden;
-    width: 300px;
-    height: 450px;
+    width: 450px;
+    height: 580px;
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -182,14 +182,7 @@ div.showChosen {
     line-height:1.5;
     cursor: pointer;
 }
-.popuptext::after {
-    content: "";
-    position: absolute;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
+
 /* Toggle this class - hide and show the popup */
 .show {
     visibility: visible;
@@ -199,10 +192,18 @@ div.showChosen {
 
 div.AudioRecord {
     position: relative;
-    top: 600px;
-    left: 10px;
-    width: 300px;
-    height: 100px;
+    top: 700px;
+    left: 50px;
+    width: 600px;
+    height: 300px;
+}
+
+div.liveAudio {
+    position: absolute;
+    top: 80px;
+    left: 800px;
+    width: 600px;
+    height: 300px;
 }
 
 /* Add animation (fade in the popup) */
