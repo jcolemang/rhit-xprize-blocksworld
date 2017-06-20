@@ -2,12 +2,11 @@
     width: 1200px;
     height: 600px;
     position: absolute;
-    background-image: url(parchment.jpg);
-    top:50%;
-    left:0;
-    bottom:50%;
-    right:0;
+    background-image: url(img/parchment.jpg);
+    top:120px;
+    left:180px;
     margin: auto;
+    z-index: 1;
     border:#000 solid 8px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -35,20 +34,10 @@
 }
 
 #taskOverviewWrapper {
-    position: absolute;
+    position: relative;
     top: 0%;
     right: 3%;
     width: 200px;
-}
-
-#gestureCount {
-    width: 50px;
-    height: 50px;
-    border: #000 solid 4px;
-    background: gray;
-    position: fixed;
-    top: 150px;
-    left: 50px;
 }
 
 #gestureToggle {
@@ -60,17 +49,27 @@
     visibility: hidden;
     left: auto;
     top: auto;
-    z-index: 1;
+    z-index: 5;
     vertical-align: middle;
     line-height: 50px;
   }
+
+#gestureCount {
+	width: 50px;
+    height: 50px;
+    border: #000 solid 4px;
+    background: gray;
+    position: absolute;
+    top: 150px;
+    left: 50px;
+}
 
 #MovementCount {
     width: 50px;
     height: 50px;
     border: #000 solid 4px;
     background: gray;
-    position: fixed;
+    position: absolute;
     top: 280px;
     left: 50px;
 }
@@ -82,6 +81,8 @@ div.fixed {
 }
 
 p.taskQ {
+    position: relative;
+    top:0px;
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -93,27 +94,20 @@ div.instruction {
     width: 1600px;
 }
 
-div.wordsForUser1 {
-    width: 400px;
-    visibility:hidden;
-
-}
-
-div.wordsForUser2 {
-    width: 400px;
-    visibility:hidden;
-}
-
 
 div.user_message {
-    position: fixed;
+    position: absolute;
     top: 90px;
     left: 500px;
 }
 
+div.numofwords {
+    display: inline;
+}
+
 button.buttonEnd {
-    background-image: url(startbutton.png);
-    position: fixed;
+    background-image: url(img/startbutton.png);
+    position: absolute;
     top: 550px;
     left: 50px;
     width: 68px;
@@ -121,26 +115,56 @@ button.buttonEnd {
 }
 
 button.buttonStart {
-    background-image: url(startbutton.png);
-    position: fixed;
+    background-image: url(img/startbutton.png);
+    position: absolute;
     top: 450px;
     left: 50px;
     width: 68px;
     height: 40px;
 }
 
+a.buttonLike {
+  font: Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
 p.gesture {
-    position: fixed;
-    top: 140px;
-    left: 35px;
+    position: absolute;
+    top: 130px;
+    left: 30px;
 }
 
 p.movement {
-    position: fixed;
-    top: 270px;
-    left: 30px;
+    position: absolute;
+    top: 260px;
+    left: 25px;
 }
-/* Popup container - can be anything you want
+
+div.referenceLink {
+    position: absolute;
+    left: 60%;
+    top: 7%;
+    z-index: 1;
+    color: white;
+    visibility:hidden;
+}
+
+div.showChosen {
+    position: absolute;
+    left: 35%;
+    top: 7%;
+    z-index: 1;
+    color: white;
+}
+
+ /*Popup container - can be anything you want */
 .popup {
     position: fixed;
     top: 20px;
@@ -149,49 +173,56 @@ p.movement {
     height: 80px;
     display: inline-block;
     cursor: pointer;
+    z-index: 2;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}*/
+}
 
 /* The actual popup */
 
 .popuptext {
     visibility: hidden;
-    width: 300px;
-    height: 450px;
+    width: 450px;
+    height: 580px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
-    right: -30%;
-    top: 100%;
+    right: -3%;
+    top: 85%;
     text-align: left;
     padding: 10px;
     line-height:1.5;
     cursor: pointer;
 }
-.popuptext::after {
-    content: "";
-    position: absolute;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
+
 /* Toggle this class - hide and show the popup */
 .show {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
-p.helper {
-    /*top: 0%;
-    right: 0%;*/
+
+div.AudioRecord {
+    position: relative;
+    top: 700px;
+    left: 50px;
+    width: 600px;
+    height: 300px;
 }
+
+div.liveAudio {
+    position: absolute;
+    top: 60px;
+    left: 800px;
+    width: 600px;
+    height: 300px;
+}
+
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
     from {opacity: 0;}

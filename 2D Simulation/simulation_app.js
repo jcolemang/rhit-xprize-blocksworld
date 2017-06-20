@@ -76,29 +76,32 @@ io.on('connection', function(socket) {
 		// console.log("The recent room is: " + recentRoom);
 		// console.log("The next room is: " + nextRoom);
 
-
-		if (recentRoom >= 0) {
-			if (socket.room.substring(4) == recentRoom) {
-				hmnUser = true;
-				recentRoom = -1;
-				if (!contains(unoccupiedRooms, socket.room.substring(4))) {
-					unoccupiedRooms.push(socket.room.substring(4));
+		var room = io.sockets.adapter.rooms[socket.room];
+		if (socket.room) {
+			if (recentRoom >= 0) {
+				if (socket.room.substring(4) == recentRoom) {
+					hmnUser = true;
+					recentRoom = -1;
+					if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
+						unoccupiedRooms.push(socket.room.substring(4));
+					}
+				} else {
+					hmnUser = false;
+					if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
+						unoccupiedRooms.push(socket.room.substring(4));
+					}
 				}
 			} else {
-				hmnUser = false;
-				if (!contains(unoccupiedRooms, socket.room.substring(4))) {
+				hmnUser = true;
+				recentRoom = -1;
+				if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
 					unoccupiedRooms.push(socket.room.substring(4));
 				}
 			}
-		} else {
-			hmnUser = true;
-			recentRoom = -1;
-			if (!contains(unoccupiedRooms, socket.room.substring(4))) {
-				unoccupiedRooms.push(socket.room.substring(4));
-			}
-		}
 
-		socket.to(socket.room).emit('user_left_game');
+			socket.to(socket.room).emit('user_left_game');
+		}
+		
 	});
 
 	socket.on('setInitialPosition', function(data) {
