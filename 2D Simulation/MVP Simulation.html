@@ -66,20 +66,20 @@
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
     
   	<div id = "AudioRecord" class = "AudioRecord">
-		<fieldset><legend>RECORD AUDIO</legend>
-			<div>
-				<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
-			</div>
-			<div>
-				<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
-			</div>
-			<button id="callButton" onclick="startRecording()">start recording</button>
-			<button id="hangupButton" onclick="stopRecording()">stop recording</button>
-		</fieldset>
+			<fieldset><legend>RECORD AUDIO</legend>
+				<div>
+					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
+				</div>
+				<div>
+					<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
+				</div>
+<!-- 				<button id="callButton" onclick="startRecording()">start recording</button>
+				<button id="hangupButton" onclick="stopRecording()">stop recording</button> -->
+			</fieldset>
 	</div>
     
   	<div class = "liveAudio">
-      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Public/Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
   	</div>
 
 
@@ -94,7 +94,7 @@
   	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 	<script src="Recorderjs/recorder.js"></script>
-  	<script src="jsHtml5AudioRecorder.js"></script>
+  	<script src="Public/jsHtml5AudioRecorder.js"></script>
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
@@ -358,6 +358,60 @@
 				}
 			}
 
+		}
+	</script>
+
+		<script type="text/javascript">
+		function StartGame() {
+		    if (taskID == 3) {
+		        RainbowPath = localStorage.getItem("Rainbow Path");
+		        console.log(RainbowPath);
+		        document.getElementById("showChosen").style.visibility = "visible";
+		        showChosenStuff();
+		    }
+		    if (taskID == 2) {
+		        searchingwords = localStorage.getItem("Searching words");
+		        console.log(searchingwords);
+		        document.getElementById("showChosen").style.visibility = "visible";
+		        showChosenStuff();
+		    }
+		    startTime = new Date().getTime();
+		    startPeer(1);
+		    startRecording();
+		}
+
+		function endGame() {
+		    endTime = new Date().getTime();
+		    stopRecording();
+		    time = endTime - startTime;
+		    for (var i = 0; i < NumBlocks; i++) {
+		        var blockid = document.getElementById('block'+i);
+		        if(blockid) {
+		            if(NumBlocks >= Object.keys(endPosMap).length){
+		                var pos = blockid.style;
+		                endPosMap['block'+i] = pos;
+		            }
+		        }
+		    }
+		    for (var i = 0; i < start.length;i++) {
+		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
+		    }
+
+		    console.log(instructions);
+		    alert('How long you take to finish the task? ' + time/1000 + 's');
+		    document.body.innerHTML = '';
+		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
+		    console.log(recordCounter);
+		    if (recordCounter != 0) {
+		        const testFolder = '/media/Temp';
+		        const fs = require('fs');
+
+		        fs.readdir(testFolder, (err, files) => {
+		          files.forEach(file => {
+		            console.log(file);
+		          });
+		        })
+		    }
 		}
 	</script>
     

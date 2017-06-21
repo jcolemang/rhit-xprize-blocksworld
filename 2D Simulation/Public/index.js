@@ -125,10 +125,10 @@ function initTaskID() {
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 
@@ -194,45 +194,6 @@ function showChosenStuff() {
         var x = RainbowPath.substring(RainbowPath.indexOf(" ") + 1, RainbowPath.length);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
     }
-}
-
-function StartGame() {
-    if (taskID == 3) {
-        RainbowPath = localStorage.getItem("Rainbow Path");
-        console.log(RainbowPath);
-        document.getElementById("showChosen").style.visibility = "visible";
-        showChosenStuff();
-    }
-    if (taskID == 2) {
-        searchingwords = localStorage.getItem("Searching words");
-        console.log(searchingwords);
-        document.getElementById("showChosen").style.visibility = "visible";
-        showChosenStuff();
-    }
-    startTime = new Date().getTime();
-    startPeer(1);
-}
-
-function endGame() {
-    endTime = new Date().getTime();
-    time = endTime - startTime;
-    for (var i = 0; i < NumBlocks; i++) {
-        var blockid = document.getElementById('block'+i);
-        if(blockid) {
-            if(NumBlocks >= Object.keys(endPosMap).length){
-                var pos = blockid.style;
-                endPosMap['block'+i] = pos;
-            }
-        }
-    }
-    for (var i = 0; i < start.length;i++) {
-        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
-    }
-
-    console.log(instructions);
-    alert('How long you take to finish the task? ' + time/1000 + 's');
-    document.body.innerHTML = '';
-    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 }
 
 function getDateTime() {

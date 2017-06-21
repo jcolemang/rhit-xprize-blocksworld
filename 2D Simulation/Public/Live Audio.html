@@ -12,9 +12,20 @@
 
         // PeerJS object
         var peer = new Peer({ key: 'lwjd5qra8257b9', debug: 3});
+        var anotherID = null;
 
         peer.on('open', function(){
             $('#my-id').text(peer.id);
+            console.log(localStorage.getItem("WhichAudio"));
+            if (localStorage.getItem("WhichAudio") == null) {
+                localStorage.setItem("WhichAudio", peer.id);
+                document.getElementById("instruction").innerHTML += "<p>Please wait for your partner to call you.</p>";
+                document.getElementById("Callbutton").style.visibility = "hidden";
+            } else {
+                anotherID = localStorage.getItem("WhichAudio");
+                localStorage.setItem("WhichAudio", null);
+                document.getElementById("instruction").innerHTML += "<p>Click call button to call your partner.</p>";
+            }
         });
 
         // Receiving a call
@@ -26,14 +37,14 @@
         peer.on('error', function(err){
             alert(err.message);
             // Return to step 2 if error occurs
-            step2();
+            step2() ;
         });
 
         // Click handlers setup
         $(function() {
             $('#make-call').click(function() {
                 // Initiate a call!
-                var call = peer.call($('#callto-id').val(), window.localStream);
+                var call = peer.call(anotherID, window.localStream);
                 step3(call);
             });
 
@@ -108,10 +119,8 @@
 
             <div id="step2">
                 <p>Your id: <span id="my-id">...</span></p>
-                <p>Share this id with others so they can call you.</p>
-                <h3>Make a call</h3>
-                <div class="pure-form">
-                    <input type="text" placeholder="Call user id..." id="callto-id">
+                <p id = "instruction"></p>
+                <div class="pure-form" id = "Callbutton">
                     <a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
                 </div>
             </div>
