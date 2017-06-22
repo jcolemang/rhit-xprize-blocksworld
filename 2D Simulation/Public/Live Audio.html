@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script type="text/javascript" src="/dist/peer.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
+
         // Compatibility shim
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -14,18 +16,22 @@
         var peer = new Peer({ key: 'lwjd5qra8257b9', debug: 3});
         var anotherID = null;
 
+        var socket = window.opener.socket;
+
         peer.on('open', function(){
             $('#my-id').text(peer.id);
-            console.log(localStorage.getItem("WhichAudio"));
-            if (localStorage.getItem("WhichAudio") == null) {
-                localStorage.setItem("WhichAudio", peer.id);
-                document.getElementById("instruction").innerHTML += "<p>Please wait for your partner to call you.</p>";
-                document.getElementById("Callbutton").style.visibility = "hidden";
-            } else {
-                anotherID = localStorage.getItem("WhichAudio");
-                localStorage.setItem("WhichAudio", null);
-                document.getElementById("instruction").innerHTML += "<p>Click call button to call your partner.</p>";
-            }
+            socket.emit('audio_connection', peer.id);
+            document.getElementById("instruction").innerHTML += "<p>Please wait for your partner to call you.</p>";
+            document.getElementById("Callbutton").style.visibility = "hidden";
+
+            socket.on('audio_connection', function(id) {
+                anotherID = id;
+                if (anotherID != null) {
+                    document.getElementById("instruction").innerHTML = "<p>Click call button to call your partner.</p>";
+                    document.getElementById("Callbutton").style.visibility = "visible";
+                }
+            });
+
         });
 
         // Receiving a call

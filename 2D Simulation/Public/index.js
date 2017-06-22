@@ -44,8 +44,13 @@ for (var i = 0; i < NumBlocks ;i++) {
     document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
 }
 
-function setIntroduction() {
-    document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
+function setIntroduction(num) {
+    if (num == 1) {
+        document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
+    } else {
+        document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions2[taskID];
+    }
+    
 }
 
 function initInstructions() {
@@ -125,10 +130,10 @@ function initTaskID() {
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 

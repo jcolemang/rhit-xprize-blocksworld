@@ -6,6 +6,8 @@ var express = require('express'),
 
 var starting_game_data = new Map();
 
+var voice_connection_data = new Map();
+
 var recentRoom = -1;
 var nextRoom = 0;
 var unoccupiedRooms = [];
@@ -69,12 +71,15 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('end_game_for_user', time);
 	});
 
+	socket.on('audio_connection', function(id) {
+		if (voice_connection_data.get(socket.room) == null) {
+			voice_connection_data.set(socket.room, id)
+		} else {
+			socket.emit('audio_connection', voice_connection_data.get(socket.room));
+		}
+	});
+
 	socket.on('disconnect', function() {
-		// console.log("On disconnect...");
-		// console.log("The username of the socket is: " + socket.username);
-		// console.log("The room of the current socket is: " + socket.room);
-		// console.log("The recent room is: " + recentRoom);
-		// console.log("The next room is: " + nextRoom);
 
 		var room = io.sockets.adapter.rooms[socket.room];
 		if (socket.room) {
@@ -98,7 +103,7 @@ io.on('connection', function(socket) {
 					unoccupiedRooms.push(socket.room.substring(4));
 				}
 			}
-
+			voice_connection_data.set(socket.room, null);
 			socket.to(socket.room).emit('user_left_game');
 		}
 		

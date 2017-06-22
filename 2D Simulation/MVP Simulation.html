@@ -79,7 +79,7 @@
 	</div>
     
   	<div class = "liveAudio">
-      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Public/Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
   	</div>
 
 
@@ -94,7 +94,7 @@
   	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 	<script src="Recorderjs/recorder.js"></script>
-  	<script src="Public/jsHtml5AudioRecorder.js"></script>
+  	<script src="jsHtml5AudioRecorder.js"></script>
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
@@ -104,7 +104,7 @@
 		initFlipLetters();
 		initTaskID();
 		setTaskHeader();
-		setIntroduction();
+		setIntroduction(1);
     	setRefLink();
 
 		var color = ['red', 'blue','green','orange','yellow'];
@@ -242,6 +242,11 @@
 			document.getElementById("referenceLink").style.visibility = "hidden";
 			document.getElementById("showChosen").style.visibility = "hidden";
 
+			document.getElementById("container").ondblclick = function(e) {
+				e.preventDefault();
+			};
+
+			setIntroduction(2);
 
 		});
 
@@ -318,7 +323,7 @@
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
 		    document.body.innerHTML = '';
-		    document.documentElement.innerHTML = 'Good job!';
+		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 		});
 
 		function send_gesture_to_server() {
@@ -376,7 +381,7 @@
 		        showChosenStuff();
 		    }
 		    startTime = new Date().getTime();
-		    startPeer(1);
+		    //startPeer(1);
 		    startRecording();
 		}
 
@@ -401,17 +406,17 @@
 		    alert('How long you take to finish the task? ' + time/1000 + 's');
 		    document.body.innerHTML = '';
 		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
-		    console.log(recordCounter);
-		    if (recordCounter != 0) {
-		        const testFolder = '/media/Temp';
-		        const fs = require('fs');
+		    // console.log(recordCounter);
+		    // if (recordCounter != 0) {
+		    //     const testFolder = '/media/Temp';
+		    //     const fs = require('fs');
 
-		        fs.readdir(testFolder, (err, files) => {
-		          files.forEach(file => {
-		            console.log(file);
-		          });
-		        })
-		    }
+		    //     fs.readdir(testFolder, (err, files) => {
+		    //       files.forEach(file => {
+		    //         console.log(file);
+		    //       });
+		    //     })
+		    // }
 		}
 	</script>
     
