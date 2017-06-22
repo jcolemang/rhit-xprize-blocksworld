@@ -158,8 +158,8 @@ div.referenceLink {
 
 div.showChosen {
     position: absolute;
-    left: 35%;
-    top: 7%;
+    left: 500px;
+    top: 100px;
     z-index: 1;
     color: white;
 }

@@ -130,10 +130,10 @@ function initTaskID() {
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 

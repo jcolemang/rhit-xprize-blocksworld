@@ -24,16 +24,17 @@ if (isset($_POST)) {
     $type = (string) filter_input(INPUT_GET, 'type');     
 
     //Set session and directory
-    $id = $session->getId();    
+    $id = $session->getId();
+    $curId = time(); 
     
     //"/media/Temp/1234/1234.yyy"
-    $simplePath = $path . $id . DIRECTORY_SEPARATOR . $id . '.' . $extension;
+    $simplePath = $path . $id . DIRECTORY_SEPARATOR . $curId . '.' . $extension;
     
     //"C:/xxxx/media/Temp/1234"
     $basePath  = (string) $_SERVER['DOCUMENT_ROOT'] . $path . $id;   
     
     //"C:/xxxx/media/Temp/1234/1234.yyy"
-    $baseFilename = (string) $basePath . DIRECTORY_SEPARATOR . $id . '.' . $extension;    
+    $baseFilename = (string) $basePath . DIRECTORY_SEPARATOR . $curId . '.' . $extension;    
     
     //Search inside "C:/xxxx/media/Temp/1234" directory
     $directory->setDirectoryIterator($basePath);
@@ -49,7 +50,7 @@ if (isset($_POST)) {
     $simplePath = str_replace($firstArray, $secondArray, $simplePath);
 
     //If a content exists, we delete and replace it
-    $directory->delete($id . '.' . $extension);
+    $directory->delete($curId . '.' . $extension);
 
     //Create file and return status
     file_put_contents($baseFilename, $media);       
