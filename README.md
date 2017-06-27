@@ -3,7 +3,6 @@
 GitHub Instructions
 
 New Feature: 
-USE TRELLO PLEASE!
 	When you are about to work on your own feature, cd to the project repo on your laptop and type in git branch. Make sure you are on master branch. Also check if you have the most up to date repo by typing git status or git pull. Then type in git checkout -b 'branch-mame'. Please use the naming convention feature-initial such as randomisation-yd.
 Commit New Feature: 
 Once you are done with development on your own branch. Follow the commands below to push your changes to your own branch.
