@@ -233,3 +233,114 @@ div.liveAudio {
     from {opacity: 0;}
     to {opacity:1 ;}
 }
+
+#disablingDiv {
+    /* Do not display it on entry */
+    display: none; 
+ 
+    /* Display it on the layer with index 1001.
+       Make sure this is the highest z-index value
+       used by layers on that page */
+    z-index:200;
+    
+    /* make it cover the whole screen */
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+ 
+    /* make it white but fully transparent */
+    background-color: black; 
+    opacity:.70; 
+    filter: alpha(opacity=00); 
+}
+
+#tutorial1 {
+    z-index: 300;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial2 {
+    visibility: hidden;
+    z-index: 400;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#containerPointer {
+    width: 1200px;
+    height: 600px;
+    position: absolute;
+    top:120px;
+    left:180px;
+    margin: auto;
+    border:white solid 8px;
+}
+
+#tutorial3 {
+    visibility: hidden;
+    z-index: 500;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial4 {
+    visibility: hidden;
+    z-index: 600;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial5 {
+    visibility: hidden;
+    z-index: 650;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial6 {
+    visibility: hidden;
+    z-index: 700;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial7 {
+    visibility: hidden;
+    z-index: 750;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}
+
+#tutorial8 {
+    visibility: hidden;
+    z-index: 800;
+    position: absolute; 
+    top: 0%; 
+    left: 0%; 
+    width: 100%; 
+    height: 100%; 
+}

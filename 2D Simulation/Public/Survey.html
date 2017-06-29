@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<h2 style="font-family:verdana"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>
+	<p style="font-family:verdana">1. Which communication tool you use?</p>
+	<input type="radio" name="selection" value="Text"> Text
+	<input type="radio" name="selection" value="Audio"> Audio
+	<p style="font-family:verdana">2. Which browser you use?</p>
+	<input type="radio" name="selection" value="Firefox"> Firefox
+	<input type="radio" name="selection" value="Chrome"> Google Chrome
+	<input type="radio" name="selection" value="Other"> Other brower
+	<p style="font-family:verdana">Please leave some feedback</p>
+	<textarea rows="4" cols="50"></textarea><br>
+
+	<button class = "Finishbutton" style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="Finish()">Finish</button>
+	<script type="text/javascript">
+		function Finish() {
+		    document.body.innerHTML = '';
+		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
+		}
+	</script>
+</body>
+</html>
