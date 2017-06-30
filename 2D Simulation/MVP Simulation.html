@@ -8,7 +8,7 @@
 	<meta http-equiv="pragma" content="no-cache" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" type="text/css" href="Public/index.css">
+	<link rel="stylesheet" type="text/css" href="index.css">
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
 		        <input id="txt_instruction" type="text" />
 		    </label>
 
-		    <button class = "buttonenter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
+		    <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
 		    <div class = "numofwords" id="numofwords"></div>
 
@@ -161,24 +161,19 @@
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
     </script>
-    
-  	<div class = "liveAudio">
-      	<a class = "buttonLike" href="Public/Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-  	</div>
 
-
-	<script type="text/javascript" src="Public/index.js"></script>
+	<script type="text/javascript" src="index.js"></script>
 
  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://137.112.34.114:8080/socket.io/socket.io.js"></script>
     
   	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 	<script src="Recorderjs/recorder.js"></script>
-  	<script src="Public/jsHtml5AudioRecorder.js"></script>
+  	<script src="jsHtml5AudioRecorder.js"></script>
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
@@ -240,7 +235,7 @@
 	</script>
 
 	<script type="text/javascript" >
-		var socket = io.connect("http://localhost:8080");
+		var socket = io.connect("http://137.112.34.114:8080");
 
 		var username = prompt('Please enter your name.');
 
@@ -275,6 +270,73 @@
 			gesture_count: gestureCount
 		});
 
+		socket.emit('am_I_second_to_join');
+
+		socket.on('freeze_everything', function() {
+			console.log("Freezing everything!");
+			// var startButton = document.getElementById('buttonStart');
+			// var endButton = document.getElementById('buttonEnd');
+			// var enterButton = document.getElementById('buttonEnter');
+			// var refButton = document.getElementById('referenceLink');
+
+			// startButton.onclick = function(e) {
+			// 	// Do nothing;
+			// };
+
+			// endButton.onclick = function(e) {
+			// 	// Do nothing;
+			// };
+
+			// enterButton.onclick = function(e) {
+			// 	// Do nothing;
+			// };
+
+			// document.getElementById('container').ondblclick = function(e) {
+			// 	// Do nothing;
+			// };
+
+			// for (var i = 0; i < NumBlocks; i++) {
+			// 	flip_on = false;
+
+			// 	$("#block" + i).draggable("disable");
+			// }
+		});
+
+		socket.on('unfreeze_everything', function() {
+           	console.log("Unfreezing everything!");
+    //         var startButton = document.getElementById('buttonStart');
+    //         var endButton = document.getElementById('buttonEnd');
+    //         var enterButton = document.getElementById('buttonEnter');
+    //         var refButton = document.getElementById('referenceLink');
+
+    //         startButton.onclick = function(e) {
+    //             StartGame();
+    //         };
+
+    //         endButton.onclick = function(e) {
+    //             endGame();
+    //             endGameForAllUsers();
+    //         };
+
+    //         enterButton.onclick = function(e) {
+    //             send_user_message_to_server();
+    //             inputlength();
+    //         };
+
+    //         document.getElementById('container').ondblclick = function(e) {
+    //             gestureCount++;
+    //             var event = e || window.event;
+    //             setGestureWithPosition(event.clientX, event.clientY);
+    //             send_gesture_to_server();
+    //         };
+
+    //         for (var i = 0; i < NumBlocks; i++) {
+    //             flip_on = true;
+				// $("#block" + i).draggable("enable");
+    //         }
+        });
+
+
 		var z = 1;
 
 		socket.on('update_position', function (data) {
@@ -295,7 +357,8 @@
 
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
-			
+
+			human_voice = false;			
 			flipColorArray = data.flipColorArray.slice(0);
 			flipLetterArray = data.flipLetterArray.slice(0);
 			NumBlocks = data.numBlocks;
@@ -317,8 +380,7 @@
 			$( init );
 
 			for (var i = 0; i < NumBlocks; i++) {
-				$("#block" + i).draggable({
-				});
+				$("#block" + i).draggable("enable");
 			}
 
 			document.getElementById("instruction").style.visibility = "hidden";
@@ -428,6 +490,9 @@
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
 		});
+
+		// Opens the popup window for communication between clients.
+		window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
 
 	</script>
 
@@ -586,6 +651,7 @@
 	</script>
 
 		<script type="text/javascript">
+
 		function StartGame() {
 		    if (taskID == 3) {
 		        RainbowPath = localStorage.getItem("Rainbow Path");

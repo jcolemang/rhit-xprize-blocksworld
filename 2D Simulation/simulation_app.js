@@ -1,12 +1,9 @@
-var express = require('express'),
-	app = express(),
-	server = require('http').createServer(app),
-	io = require('socket.io')(server),
+var	io = require('socket.io').listen(8080),
 	path = require('path');
 
 var starting_game_data = new Map();
-
 var voice_connection_data = new Map();
+var waiting_data = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
@@ -14,12 +11,6 @@ var unoccupiedRooms = [];
 var numPlayersInRoom = [];
 var hmnUser = true
 var room_to_join;
-
-app.use(express.static(path.join(__dirname, 'Public')));
-
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/MVP Simulation.html');
-});
 
 io.on('connection', function(socket) {
 
@@ -45,6 +36,15 @@ io.on('connection', function(socket) {
 	socket.on('username', function(username) {
 		socket.username = username;
 		console.log(username + ' has connected to the server!');
+	});
+
+	socket.on('am_I_second_to_join', function() {
+		if (waiting_data.get(socket.room) == null) {
+			waiting_data.set(socket.room, true);
+			socket.emit('freeze_everything');
+		} else {
+			socket.to(socket.room).emit('unfreeze_everything');
+		}
 	});
 
 	socket.on('receive_position', function(data) {
@@ -79,6 +79,15 @@ io.on('connection', function(socket) {
 		}
 	});
 
+	socket.on('reset_audio_id', function() {
+		voice_connection_data.set(socket.room, null);
+		socket.to(socket.room).emit('alert_human_disconnect');
+	});
+
+	socket.on('human_reconnected', function() {
+		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
+	});
+
 	socket.on('disconnect', function() {
 
 		var room = io.sockets.adapter.rooms[socket.room];
@@ -104,6 +113,7 @@ io.on('connection', function(socket) {
 				}
 			}
 			voice_connection_data.set(socket.room, null);
+			waiting_data.set(socket.room, null);
 			socket.to(socket.room).emit('user_left_game');
 		}
 		
@@ -123,8 +133,6 @@ io.on('connection', function(socket) {
 		}
 	});
 });
-
-server.listen(8080);
 
 function contains(arr, obj) {
 	var i = arr.length;
