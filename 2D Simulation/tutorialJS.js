@@ -1,6 +1,6 @@
 var random_multiplier = 10;
 var random_addition = 4;
-var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
+var NumBlocks = 1;
 var Max_Num_Blocks = random_multiplier + random_addition;
 var gestureCount = 0;
 var NumWords = 0;
@@ -34,14 +34,12 @@ var time;
 var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
-var human_voice = true;
-// var flip_on = true;
 var blocks_x, blocks_y;
-var initialWords1 = ['abcde', 'position'], initialWords2 = ['aqeri', 'previous'];
-var chosenWords;
+var flipflag = 0;
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var cardintro = "Card instructions:<br>&emsp;Mouse right click: flips card<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag card to another position: moves card to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
+
 
 for (var i = 0; i < NumBlocks ;i++) {
     var x= Math.floor(Math.random() * 5);
@@ -89,14 +87,13 @@ function initFlipLetters() {
 }
 
 function flipBlock(box) {
-    // if (flip_on) {
-        swapColor(box);
-        swapLetter(box);
-        document.getElementById("gestureToggle").style.visibility = "hidden";
-        actualMove++;
-        setMovement();
-    // }
-    
+    swapColor(box);
+    flipflag = 1;
+    swapLetter(box);
+    document.getElementById("gestureToggle").style.visibility = "hidden";
+    actualMove++;
+    setMovement();
+    document.getElementById("button3").disabled = false;
 }
 
 function swapColor(box) {
@@ -131,24 +128,16 @@ function setMovement() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
-    if (taskID == 2) {
-        chosenWords = Math.floor(Math.random() * 2);
-        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length * 2;
-        if (chosenWords == 0) {
-            letters = ['A', 'B', 'C', 'D', 'E', 'I', 'R', 'Q'];
-        } else {
-            letters = ['P','O','S','I','T','I','O','N','P','E','R','I','O','U','S'];
-        }
-    }
+
 }
 
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
-        // document.getElementById("referenceLink").style.visibility = "visible";
-        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
+        document.getElementById("referenceLink").style.visibility = "visible";
+        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"Public/selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 
@@ -209,12 +198,9 @@ function popUpGameIntro() {
 
 function showChosenStuff() {
     if (taskID == 2) {
-        localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show Your choice</a>";
     } else if (taskID == 3) {
-        RainbowPath = localStorage.getItem("Rainbow Path");
         var x = RainbowPath.substring(RainbowPath.indexOf(" ") + 1, RainbowPath.length);
-        console.log(x);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
     }
 }

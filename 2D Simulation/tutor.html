@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>2D Block World Simulation</title>
+
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" type="text/css" href="tutorialcss.css">
+	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+	<link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+
+	<script type="text/javascript" src="tutorialJS.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	
+	<script type="text/javascript">
+		var z = 1;
+		function init() {
+			for (var i = 0; i < NumBlocks; i++) {
+				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+					$(this).css('z-index', ++z);
+					var Startpos = $(this).position();
+					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+        			movementstarttime = new Date().getTime();
+        			movementdate = getDateTime();
+				}, stop: function(event, ui) {
+					var Stoppos = $(this).position();
+					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						start.push(movementdate);
+						end.push(getDateTime());
+						interval.push(new Date().getTime() - movementstarttime);
+						type.push("Movement");
+						actualMove++;
+						document.getElementById("MovementCount").innerText = actualMove;
+						document.getElementById('button5').disabled = false;
+					}
+				}});
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			$("#block" + i).draggable({
+			});
+		}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+    		$(".draggable").draggable();
+		$('.draggable').each(function(el){
+		    var tLeft = Math.floor(Math.random()*1140) + 1,
+		    tTop  = Math.floor(Math.random()*540) + 1;
+		    $(el).css({position:'relative', left: 1140, top: 540});
+		});
+	});
+	</script>
+
+	<script type="text/javascript">
+		function incrementGesture(event) {
+			gestureCount++;
+			document.getElementById("gestureCount").innerText = gestureCount;
+
+			var x = event.clientX;
+    		var y = event.clientY;
+			var gestureElement = document.getElementById('tog');
+			gestureElement.style.left = x + 'px';
+			gestureElement.style.top = y + 'px';
+			gestureElement.style.visibility = "visible";
+			document.getElementById('button4').disabled = false;
+		}
+	</script>
+
+	<div id = "tog" style="width: 20px;height: 20px; background-color: black;position: absolute;visibility: hidden;left: auto; top: auto; vertical-align: middle; z-index:1002;"></div>
+
+	<script type="text/javascript">
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture(event)\" style=\"font-size: 40px\">";
+		var position_x = [];var position_y = [];
+		for (var i = 0; i < NumBlocks; i++) {
+			var l = Math.floor(Math.random() * 7);
+			var tLeft = Math.floor(Math.random()*10) * 50 + 300,
+				tTop  = Math.floor(Math.random()*4) * 50 + 150;
+			previous_left.push(tLeft);previous_top.push(tTop);
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
+			blocks_x = tTop; blocks_y = tLeft;
+		}
+		st+="</div>";
+		document.write(st);
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			var blockid = document.getElementById('block'+i);
+			if(blockid) {
+				if(NumBlocks >= Object.keys(startPosMap).length){
+					var pos = blockid.style;
+					startPosMap['block'+i] = pos;
+				}
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		initInstructions();
+		initFlipColors();
+		initFlipLetters();
+		initTaskID();
+	</script>
+
+  <style>
+    body {
+      background: url(img/background.jpg) repeat 0 0;
+    }
+  </style>
+
+</head>
+
+<body oncontextmenu="return false;">
+
+	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
+		<div style="text-align:center">
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
+				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+			  		<script type="text/javascript">
+			  		    var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
+    					var cardintro = "Card instructions:<br>&emsp;Mouse right click: flips card<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag card to another position: moves card to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
+			  			document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
+			  		</script>
+				</span>
+				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+			</div>
+		</div>
+  	</div>
+
+	<div class = "gadgetWrapper">
+		<small><small><small>
+		<p class = "taskQ" id = "taskQ" style = "font-size: 30px">
+			<script>
+				setTaskHeader();
+			</script>
+		</p>
+		</small></small></small>
+
+		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
+		    <label>
+		        Enter instructions	:
+		        <input id="txt_instruction" type="text" />
+		    </label>
+
+		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+
+		    <div class = "numofwords" id="numofwords"></div>
+		</div>
+
+    <button class = "buttonStart" onclick="StartGame()" >Start</button>
+
+	<button class = "buttonEnd" onclick="endGame()" >End</button>
+	<div class = "gestureToggle" id="gestureToggle"></div>
+
+    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
+		<script type="text/javascript">
+    		setRefLink();
+    	</script>
+	</div>
+
+    	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+
+		<div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
+		</div>
+	</div>
+    
+	<div class = "liveAudio">
+		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+	</div>
+
+	<div id = "disablingDivtop"></div>
+	<div id = "disablingDivleft"></div>
+	<div id = "disablingDivright"></div>
+	<div id = "disablingDivbottom"></div>
+	<script type="text/javascript">
+		document.getElementById('disablingDivtop').style.display='block';
+		document.getElementById('disablingDivleft').style.display='block';
+		document.getElementById('disablingDivright').style.display='block';
+		document.getElementById('disablingDivbottom').style.display='block';
+	</script>
+
+	<div id = "tutorial1">
+		<p id = "head1" style="text-align:center; font-size:30px; font-family:verdana">Hello! Welcome to card world tutorial!</p>
+		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;IIn this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. You will be able to communicate with your partner but they will not be able to communicate with you. The two of you will need to work together to complete the task. Once you are satisfied that the task has been completed, click the End button. <em>Try to complete the task as efficiently as possible.<br></div>
+		<button id = "next1" style="position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;" onclick = "nextPageTo2()">>>Next</button>
+	</div>
+
+	<div id = 'tutorial' style= "position: absolute; z-index: 400;"></div>
+
+	<script type="text/javascript">
+		function nextPageTo2() {
+			document.getElementById("head1").style.visibility = "hidden";
+			document.getElementById("generalins").style.visibility = "hidden";
+			document.getElementById("next1").style.visibility = "hidden";
+
+			document.getElementById("tutorial1").innerHTML = "<div id = \"containerPointer\" onclick = ShowBlocks()></div>";
+			document.getElementById('tutorial1').innerHTML += "<img id = \"img1\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 200px; left: 120px\">";
+			document.getElementById('tutorial1').innerHTML += "<div id = \"close1\" style=\"position:absolute; top: 200px; left: 0px; width: 9%; text-align:center;font-size:18px; font-family:verdana\">Here is the table of cards. <br> Click it to continue.</div>";
+		}
+
+		function ShowBlocks() {
+			document.getElementById('img1').style.visibility = "hidden";
+			document.getElementById('containerPointer').style.visibility = "hidden";
+			document.getElementById('close1').style.visibility = "hidden";
+
+			console.log(blocks_x);console.log(blocks_y);
+			blocks_x+=128;blocks_y+=188;
+			document.getElementById('tutorial1').innerHTML = "<div id = \"highlight1\" style = \"width: 50px; height:50px; border:white solid 4px; position:absolute; top:"+blocks_x+"px;left:"+blocks_y+"px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img id = \"img2\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 64)+"px\">";
+			document.getElementById('tutorial1').innerHTML += "<div id = \"inst1\" style=\"font-size:18px; font-family:verdana;width:50px;height:50px;position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 120)+"px\">Here is one card.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"next2\" onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:30px;position:absolute; top:"+(blocks_x + 100)+"px; left: "+(blocks_y - 120)+"px\">>>Try card operation.</button>";
+		}
+
+		function BlockOp() {
+			document.getElementById('highlight1').style.visibility = "hidden";
+			document.getElementById('img2').style.visibility = "hidden";
+			document.getElementById('inst1').style.visibility = "hidden";
+			document.getElementById('next2').style.visibility = "hidden";
+			document.getElementById('tutorial1').style.visibility = "hidden";
+
+			document.getElementById('disablingDivbottom').style.display = 'none';
+			$("#block1").css("z-index", "2000");
+			console.log($("#block1").css("z-index"));
+			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">Each card has two sides. You can flip a card over by right-clicking it. Try it now.</div>";
+			document.getElementById('tutorial').innerHTML += "<button id = \"button3\" onclick = \"Showgesture()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById("button3").disabled = true;
+		}
+
+		function Showgesture() {
+			document.getElementById('text2').style.visibility = "hidden";
+			document.getElementById('button3').style.visibility = "hidden";
+
+			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text3\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">You can \"point\" to a location on the table by double-clicking there. Try it now by double-clicking somewhere on the table.</div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text4\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y + 80)+"px\">When you point to a location, a small icon remains on the screen at that location until you do something else. Your partner can also see this icon.</div>";
+			document.getElementById('tutorial').innerHTML += "<button id = \"button4\" onclick = \"nextPageTo3()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById('button4').disabled = true;
+		}
+
+		function nextPageTo3() {
+			document.getElementById('tog').style.visibility = "hidden";
+			document.getElementById("text3").innerText = "You can move the cards around by clicking and dragging. Try moving this card somewhere else.";
+			document.getElementById("text4").style.visibility = "hidden";
+			document.getElementById("button4").style.visibility = "hidden";
+			$( init );
+			document.getElementById('tutorial').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo4()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById("button5").disabled = true;
+		}
+
+		function nextPageTo4() {
+			document.getElementById("text3").style.visibility = "hidden";
+			document.getElementById("disablingDivbottom").style.display = "block";
+			document.getElementById("tutorial").style.visibility = "hidden";
+			document.getElementById("tutorial1").style.visibility = "visible";
+
+			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 190px; left: 50px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 320px; left: 50px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 160px; left: 110px\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 290px; left: 110px\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 210px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Here is the gesture counter and the movement counter. Your goal is complete the task with the fewest number of gestures and movements. Pointing counts as one gesture. Flipping a card or moving a card counts as one movement.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo5()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
+		}
+
+		function nextPageTo5() {
+			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 68px; height: 40px; border: white solid 4px; position: absolute; top: 445px; left: 45px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 68px; height: 40px; border: white solid 4px; position: absolute; top: 545px; left: 45px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 410px; left: 110px\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 510px; left: 110px\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 440px; left: 160px; width:400px; font-size:18px; font-family:verdana\">When you are ready to start the game, press the Start button. </div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 540px; left: 160px; width:200px; font-size:18px; font-family:verdana\">Remeber to click the End button when the task is completed. The game will not end until you click the End button.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo6()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
+		}
+
+		function nextPageTo6() {
+			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 80px; height: 30px; border: white solid 4px; position: absolute; top: 50px; left: 800px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 400px; height: 24px; border: white solid 4px; position: absolute; top: 80px; left: 5px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Here are the communication tools. You must keep the live audio page open for the duration of the game or your partner will not be able to hear you.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 200px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
+		}
+
+		function nextPageTo7() {
+			document.getElementById('tutorial1').innerHTML = "<div style=\"position:absolute; top: 25%; left: 25%; width: 50%; text-align:center;font-size:30px; font-family:verdana\">You have finished the tutorial. Click next to enter the game.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;\" onclick = \"location.href = 'game.html';\">>>Next</button>";
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		
+	</script>
+
+</body>
+</html>
