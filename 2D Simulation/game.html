@@ -9,8 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" type="text/css" href="index.css">
-  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
- 	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+  	<link href="//fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+ 	<link href="//fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -54,7 +54,7 @@
 	    <div class = "gestureToggle" id="gestureToggle"></div>
 	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
-	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame(); endGameForAllUsers()" >End</button>
+	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
 
 	    <div class = "user_message" id="user_message"></div>
 	    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
@@ -68,7 +68,7 @@
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
     
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
       
         var recognizer = null;
 
@@ -118,9 +118,9 @@
                 console.log("Recognization API stopped");
             }
         }
-    </script>
+    </script> -->
 
-    <script>
+    <!-- <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -128,25 +128,25 @@
 
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script> -->
 
-    <div class = "liveAudio">
+    <!-- <div class = "liveAudio">
       	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-  	</div>
+  	</div> -->
 
 	<script type="text/javascript" src="index.js"></script>
 
- 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+ 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script src="http://137.112.34.114:8080/socket.io/socket.io.js"></script>
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     
-  	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
-	<script src="Recorderjs/recorder.js"></script>
+	<!-- <script src="Recorderjs/recorder.js"></script>
   	<script src="jsHtml5AudioRecorder.js"></script>
-  	<script src="js/init.js"></script>
+  	<script src="js/init.js"></script> -->
 
 	<script type="text/javascript">
 		initTaskID();
@@ -162,6 +162,14 @@
 		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
+			// Adds 1 to NumBlocks if the task is matching, ensuring an even
+			// number of blocks to be matched.
+			if (taskID == 1) {
+				if (NumBlocks % 2 != 0) {
+					NumBlocks++;
+				}
+			}
+
 			var container = document.createElement("div");
 			container.id = "container";
 
@@ -212,7 +220,7 @@
 	</script>
 
 	<script type="text/javascript" >
-		var socket = io.connect("http://137.112.34.114:8080");
+		var socket = io.connect("https://blockworld.rose-hulman.edu:8080");
 
 		var username = prompt('Please enter your name.');
 
@@ -433,21 +441,18 @@
 		});
 
 		function send_user_message_to_server() {
-			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+			if (start_button_pressed) {
+				socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+			}
 		}
 
 		socket.on('update_user_message', function(message) {
 			document.getElementById("user_message").innerHTML = message;
 		});
 
-		function endGameForAllUsers() {
-			socket.emit('end_game_for_all_users', time);
-		}
-
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    document.body.innerHTML = '';
-		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
+		    window.location.href = "Survey.html";
 		});
 
 		function send_gesture_to_server() {
@@ -469,7 +474,7 @@
 		});
 
 		// Opens the popup window for communication between clients.
-		window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
+		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
 
 	</script>
 
@@ -503,6 +508,7 @@
 		document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
+			start_button_pressed = true;
 		    if (taskID == 3) {
 		        // RainbowPath = localStorage.getItem("Rainbow Path");
 		        // console.log(RainbowPath);
@@ -516,46 +522,51 @@
 		        showChosenStuff();
 		    }
 		    startTime = new Date().getTime();
-		    //startPeer(1);
-		    startRecording();
-		    recognize();
+		    // startPeer(1);
+		    // startRecording();
+		    // recognize();
 		    document.getElementById("buttonEnd").disabled = false;
 			document.getElementById("buttonEnter").disabled = false;
 			document.getElementById('disablingDivbottom').style.display='none';
 		}
 
 		function endGame() {
-		    endTime = new Date().getTime();
-		    stopRecording();
-		    time = endTime - startTime;
-		    for (var i = 0; i < NumBlocks; i++) {
-		        var blockid = document.getElementById('block'+i);
-		        if(blockid) {
-		            if(NumBlocks >= Object.keys(endPosMap).length){
-		                var pos = blockid.style;
-		                endPosMap['block'+i] = pos;
-		            }
-		        }
-		    }
-		    for (var i = 0; i < start.length;i++) {
-		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
-		    }
+		    if (start_button_pressed) {
+				endTime = new Date().getTime();
+			    // stopRecording();
+			    time = endTime - startTime;
+			    for (var i = 0; i < NumBlocks; i++) {
+			        var blockid = document.getElementById('block'+i);
+			        if(blockid) {
+			            if(NumBlocks >= Object.keys(endPosMap).length){
+			                var pos = blockid.style;
+			                endPosMap['block'+i] = pos;
+			            }
+			        }
+			    }
+			    for (var i = 0; i < start.length;i++) {
+			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
+			    }
 
-		    console.log(instructions);
-		    alert('How long you take to finish the task? ' + time/1000 + 's');
-		    stopRecog();
-		    window.location.href = "Survey.html";
-		    // console.log(recordCounter);
-		    // if (recordCounter != 0) {
-		    //     const testFolder = '/media/Temp';
-		    //     const fs = require('fs');
+			    console.log(instructions);
+			    alert('Time you took to finish the task? ' + time/1000 + 's');
+			    // stopRecog();
 
-		    //     fs.readdir(testFolder, (err, files) => {
-		    //       files.forEach(file => {
-		    //         console.log(file);
-		    //       });
-		    //     })
-		    // }
+				  socket.emit('end_game_for_all_users', time);
+
+			    window.location.href = "Survey.html";
+			    // console.log(recordCounter);
+			    // if (recordCounter != 0) {
+			    //     const testFolder = '/media/Temp';
+			    //     const fs = require('fs');
+
+			    //     fs.readdir(testFolder, (err, files) => {
+			    //       files.forEach(file => {
+			    //         console.log(file);
+			    //       });
+			    //     })
+			    // }
+			}
 		}
 	</script>
 
