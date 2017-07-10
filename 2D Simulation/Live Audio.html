@@ -4,16 +4,21 @@
 
 <body>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script type="text/javascript" src="/dist/peer.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script type="text/javascript">
 
         // Compatibility shim
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
         // PeerJS object
-        var peer = new Peer({ key: 'lwjd5qra8257b9', debug: 3});
+        var peer = new Peer({
+            host: 'https://blockworld.rose-hulman.edu',
+            port: 9000,
+            path: '/var/www/html/',
+            debug: 3
+        });
         var anotherID = null;
 
         var socket = window.opener.socket;
@@ -106,6 +111,12 @@
                 // Set your video displays
                 $('#my-video').prop('src', URL.createObjectURL(stream));
                 window.localStream = stream;
+
+                // This should theoretically disable the audio stream in the call.
+                if (human_voice) {
+                    window.localStream.getAudioTracks()[0].enabled = false;
+                }
+                
                 step2();
             }, function(){ $('#step1-error').show(); });
         }

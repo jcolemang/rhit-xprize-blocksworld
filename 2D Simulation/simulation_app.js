@@ -1,9 +1,34 @@
-var	io = require('socket.io').listen(8080),
+var https = require('https');
+var fs = require('fs');
+
+var options = {
+	key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
+	cert: fs.readFileSync('/etc/ssl/ibm-mvpsimulator_rose-hulman_edu_cert.cer')
+};
+
+var app = https.createServer(options);
+
+var	io = require('socket.io').listen(app),
 	path = require('path');
+
+app.listen(8080, "0.0.0.0");
+
+
+// var PeerServer = require('peer').PeerServer;
+// var peerServer = PeerServer({
+// 	host: 'https://blockworld.rose-hulman.edu', 
+// 	port: 9000, 
+// 	path: '/var/www/html/',
+// 	ssl: {
+// 		key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
+// 		cert: fs.readFileSync('/etc/ssl/ibm-mvpsimulator_rose-hulman_edu_cert.cer')
+// 	}
+// });
 
 var starting_game_data = new Map();
 var voice_connection_data = new Map();
 var waiting_data = new Map();
+var game_times = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
@@ -68,7 +93,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('end_game_for_all_users', function(time) {
-		socket.to(socket.room).emit('end_game_for_user', time);
+		game_times.set(socket.room, time);
 	});
 
 	socket.on('audio_connection', function(id) {
@@ -114,7 +139,7 @@ io.on('connection', function(socket) {
 			}
 			voice_connection_data.set(socket.room, null);
 			waiting_data.set(socket.room, null);
-			socket.to(socket.room).emit('user_left_game');
+			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
 		}
 		
 	});
