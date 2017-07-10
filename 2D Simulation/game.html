@@ -9,8 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" type="text/css" href="index.css">
-  <link href="//fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
- 	<link href="//fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+ 	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -20,6 +20,7 @@
       		background: url(img/background.jpg) repeat 0 0;
     	}
   	</style>
+
 </head>
 
 <body oncontextmenu="return false;">
@@ -53,7 +54,7 @@
 	    <div class = "gestureToggle" id="gestureToggle"></div>
 	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
-	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame()" >End</button>
+	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame(); endGameForAllUsers()" >End</button>
 
 	    <div class = "user_message" id="user_message"></div>
 	    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
@@ -61,15 +62,13 @@
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
+	    <div id ="vertical-line" style="height: 610px; position: absolute; left: 550px; top: 120px;"> </div>
+		<div id ="vertical-line2" style="height: 610px; position: absolute; left: 980px; top: 120px;"> </div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
-
-	<!-- <div class = "liveAudio">
--      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
--  	</div> -->
     
-	<!-- <script type="text/javascript">
+	<script type="text/javascript">
       
         var recognizer = null;
 
@@ -106,6 +105,7 @@
                 recognizer.onend = function() {
                     recognizer = null;
                     console.log("Recogniztion API stopped");
+                    recognize();
                 }
                 recognizer.start();
             }
@@ -128,24 +128,29 @@
 
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
-    </script> -->
+    </script>
+
+    <div class = "liveAudio">
+      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+  	</div>
 
 	<script type="text/javascript" src="index.js"></script>
 
- 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+ 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<script src="http://137.112.34.114:8080/socket.io/socket.io.js"></script>
     
-  	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script>
+  	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 	<script src="Recorderjs/recorder.js"></script>
-  	<script src="jsHtml5AudioRecorder.js"></script> -->
+  	<script src="jsHtml5AudioRecorder.js"></script>
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
 		initTaskID();
+		writeBlocks();
 		initBlocks();
 		initInstructions();
 		initFlipColors();
@@ -157,14 +162,6 @@
 		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
-			// Adds 1 to NumBlocks if the task is matching, ensuring an even
-			// number of blocks to be matched.
-			if (taskID == 1) {
-				if (NumBlocks % 2 != 0) {
-					NumBlocks++;
-				}
-			}
-
 			var container = document.createElement("div");
 			container.id = "container";
 
@@ -181,8 +178,8 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
-				var tLeft = Math.floor(Math.random()*22.8) * 50,
-					tTop  = Math.floor(Math.random()*10.8) * 50;
+				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
 					if (position_x[j] == tLeft && position_y[j] == tTop) {
@@ -191,8 +188,8 @@
 				}
 				while (x != -1) {
 					if (Math.abs(position_y[x] - tTop) >= 50) break;
-					tLeft = Math.floor(Math.random()*22.8) * 50;
-					tTop  = Math.floor(Math.random()*10.8) * 50;
+					tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
+					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
 					var x = -1;
 					for (var j = 0; j < position_x.length; j ++) {
 						if (position_x[j] == tLeft && position_y[j] == tTop) {
@@ -215,7 +212,7 @@
 	</script>
 
 	<script type="text/javascript" >
-		var socket = io.connect("https://blockworld.rose-hulman.edu:8080");
+		var socket = io.connect("http://137.112.34.114:8080");
 
 		var username = prompt('Please enter your name.');
 
@@ -436,18 +433,21 @@
 		});
 
 		function send_user_message_to_server() {
-			if (start_button_pressed) {
-				socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
-			}
+			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 		}
 
 		socket.on('update_user_message', function(message) {
 			document.getElementById("user_message").innerHTML = message;
 		});
 
+		function endGameForAllUsers() {
+			socket.emit('end_game_for_all_users', time);
+		}
+
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Survey.html";
+		    document.body.innerHTML = '';
+		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 		});
 
 		function send_gesture_to_server() {
@@ -469,7 +469,7 @@
 		});
 
 		// Opens the popup window for communication between clients.
-		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
+		window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
 
 	</script>
 
@@ -503,7 +503,6 @@
 		document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
-      start_button_pressed = true;
 		    if (taskID == 3) {
 		        // RainbowPath = localStorage.getItem("Rainbow Path");
 		        // console.log(RainbowPath);
@@ -518,53 +517,70 @@
 		    }
 		    startTime = new Date().getTime();
 		    //startPeer(1);
-		    // startRecording();
-		    // recognize();
-      document.getElementById("buttonEnd").disabled = false;
+		    startRecording();
+		    recognize();
+		    document.getElementById("buttonEnd").disabled = false;
 			document.getElementById("buttonEnter").disabled = false;
 			document.getElementById('disablingDivbottom').style.display='none';
 		}
 
 		function endGame() {
-			if (start_button_pressed) {
-				endTime = new Date().getTime();
-			    // stopRecording();
-			    time = endTime - startTime;
-			    for (var i = 0; i < NumBlocks; i++) {
-			        var blockid = document.getElementById('block'+i);
-			        if(blockid) {
-			            if(NumBlocks >= Object.keys(endPosMap).length){
-			                var pos = blockid.style;
-			                endPosMap['block'+i] = pos;
-			            }
-			        }
-			    }
-			    for (var i = 0; i < start.length;i++) {
-			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
-			    }
+		    endTime = new Date().getTime();
+		    stopRecording();
+		    time = endTime - startTime;
+		    for (var i = 0; i < NumBlocks; i++) {
+		        var blockid = document.getElementById('block'+i);
+		        if(blockid) {
+		            if(NumBlocks >= Object.keys(endPosMap).length){
+		                var pos = blockid.style;
+		                endPosMap['block'+i] = pos;
+		            }
+		        }
+		    }
+		    for (var i = 0; i < start.length;i++) {
+		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
+		    }
 
-			    console.log(instructions);
-			    alert('Time you took to finish the task? ' + time/1000 + 's');
-			    // stopRecog();
+		    console.log(instructions);
+		    alert('How long you take to finish the task? ' + time/1000 + 's');
+		    stopRecog();
+		    window.location.href = "Survey.html";
+		    // console.log(recordCounter);
+		    // if (recordCounter != 0) {
+		    //     const testFolder = '/media/Temp';
+		    //     const fs = require('fs');
 
-				  socket.emit('end_game_for_all_users', time);
+		    //     fs.readdir(testFolder, (err, files) => {
+		    //       files.forEach(file => {
+		    //         console.log(file);
+		    //       });
+		    //     })
+		    // }
+		}
+	</script>
 
-			    window.location.href = "Survey.html";
-			    // console.log(recordCounter);
-			    // if (recordCounter != 0) {
-			    //     const testFolder = '/media/Temp';
-			    //     const fs = require('fs');
+<!-- 	<iframe id="frmFile1" src="hs1.txt" onload="LoadFile();" style="display: none;"></iframe>
+	<iframe id="frmFile2" src="hs2.txt" onload="LoadFile();" style="display: none;"></iframe>
+	<iframe id="frmFile3" src="hs3.txt" onload="LoadFile();" style="display: none;"></iframe>
+	<iframe id="frmFile4" src="hs4.txt" onload="LoadFile();" style="display: none;"></iframe>
 
-			    //     fs.readdir(testFolder, (err, files) => {
-			    //       files.forEach(file => {
-			    //         console.log(file);
-			    //       });
-			    //     })
-			    // }
+	<script type="text/javascript">
+		var score = [];
+		function LoadFile() {
+			var oFrame = document.getElementById("frmFile" + taskID);
+			var strRawContents = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+			while (strRawContents.indexOf("\r") >= 0)
+				strRawContents = strRawContents.replace("\r", "");
+			var arrLines = strRawContents.split("\n");
+			console.log("File " + oFrame.src + " has " + arrLines.length + " lines");
+			for (var i = 0; i < arrLines.length; i++) {
+				var curLine = arrLines[i];
+				score += curLine;
+				console.log("Line #" + (i + 1) + " is: '" + curLine + "'");
 			}
 		}
 	</script>
-    
+     -->
 </body>
 </html>
 
