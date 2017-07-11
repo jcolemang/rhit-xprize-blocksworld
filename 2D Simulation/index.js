@@ -175,23 +175,39 @@ function setTaskHeader() {
 
 function calculateBackEndData() {
     if (taskID == 0) {
-        bm = NumBlocks; br = NumBlocks; pn = 1; pp = 10;
-        te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
+        bm = NumBlocks;
+        br = NumBlocks;
+        pn = 1;
+        pp = 10;
+        te = (br - actualMove)/(br - bm);
+        ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
     } else if (taskID == 1) {
-        bm = n1 + n2; br = (n1 + n2) * (NumBlocks + 1) / 2; pn = 1; pp = 10;
-        te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
+        bm = n1 + n2;
+        br = (n1 + n2) * (NumBlocks + 1) / 2;
+        pn = 1;
+        pp = 10;
+        te = (br - actualMove)/(br - bm);
+        ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
     } else if (taskID == 2) {
-        bm = NumBlocks; br = 1.5 * 2 * NumBlocks; pn = 2; pp = 20;
-        te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
+        bm = NumBlocks;
+        br = 1.5 * 2 * NumBlocks;
+        pn = 2;
+        pp = 20;
+        te = (br - actualMove)/(br - bm);
+        ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
     } else if (taskID == 3) {
-        bm = n1 + n2; br = n1 + factorial(n2 + 1)/Math.pow(2, n2); pn = 2; pp = 20;
-        te = (br - actualMove)/(br - bm); ie = (w1 * NumWords + w2 * gestureCount)/bm;
+        bm = n1 + n2;
+        br = n1 + factorial(n2 + 1)/Math.pow(2, n2);
+        pn = 2;
+        pp = 20;
+        te = (br - actualMove)/(br - bm);
+        ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
     }
-    return "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
+    // return "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
 }
 
 function factorial(x) {

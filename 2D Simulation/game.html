@@ -547,6 +547,20 @@
 
 				socket.emit('end_game_for_all_users', time);
 
+				calculateBackEndData();
+
+				socket.emit('send_data_to_server', {
+					time: time,
+					task: task[taskID],
+					bm: bm,
+					br: br,
+					pn: pn,
+					pp: pp,
+					te: te,
+					ie: ie,
+					p: p
+				});
+
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);
 			    // if (recordCounter != 0) {

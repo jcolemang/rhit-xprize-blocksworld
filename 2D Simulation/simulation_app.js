@@ -171,6 +171,14 @@ io.on('connection', function(socket) {
 			hmnUser = true;
 		}
 	});
+
+	socket.on('send_data_to_server', function(data) {
+		// In order to access the data, use the following:
+		// data.time, data.task, data.bm, data.br, data.pn,
+		// data.pp, data.te, data.ie, data.p. All of them
+		// should be numbers except for the task, which will
+		// be a string of the task.
+	});
 });
 
 function contains(arr, obj) {
