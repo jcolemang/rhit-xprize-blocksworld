@@ -282,15 +282,15 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 510px; left: 110px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 440px; left: 160px; width:400px; font-size:18px; font-family:verdana\">When you are ready to start the game, press the Start button. </div>";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 540px; left: 160px; width:200px; font-size:18px; font-family:verdana\">Remeber to click the End button when the task is completed. The game will not end until you click the End button.</div>";
-			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo7()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo6()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
 		}
 
-		// For the testing portion, we are skipping the introduction of the live audio feature. It will not be included in the tutorial or the game.
+		// For the testing portion, we are skipping part of the introduction of the live audio feature. It will not be included in the tutorial or the game.
 
 		function nextPageTo6() {
-			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 80px; height: 30px; border: white solid 4px; position: absolute; top: 50px; left: 800px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 400px; height: 24px; border: white solid 4px; position: absolute; top: 80px; left: 5px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
+			// document.getElementById('tutorial1').innerHTML = "<div style = \"width: 80px; height: 30px; border: white solid 4px; position: absolute; top: 50px; left: 800px;\"></div>";
+			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 400px; height: 24px; border: white solid 4px; position: absolute; top: 80px; left: 5px;\"></div>";
+			// document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Here are the communication tools. You must keep the live audio page open for the duration of the game or your partner will not be able to hear you.</div>";
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 200px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
