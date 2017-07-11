@@ -35,7 +35,7 @@ var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
 var human_voice = true;
-// var flip_on = true;
+var flip_on = true;
 var start_button_pressed = false;
 var blocks_x, blocks_y;
 var initialWords1 = ['abcde', 'position'], initialWords2 = ['aqeri', 'previous'];
@@ -94,13 +94,13 @@ function initFlipLetters() {
 }
 
 function flipBlock(box) {
-    // if (flip_on) {
+    if (flip_on) {
         swapColor(box);
         swapLetter(box);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
-    // }
+    }
     
 }
 

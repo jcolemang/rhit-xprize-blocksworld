@@ -257,68 +257,46 @@
 
 		socket.emit('am_I_second_to_join');
 
-		socket.on('freeze_everything', function() {
-			console.log("Freezing everything!");
-			// var startButton = document.getElementById('buttonStart');
-			// var endButton = document.getElementById('buttonEnd');
-			// var enterButton = document.getElementById('buttonEnter');
-			// var refButton = document.getElementById('referenceLink');
+		socket.on('freeze_start', function() {
+			var startButton = document.getElementById('buttonStart');
+			var endButton = document.getElementById('buttonEnd');
+			var enterButton = document.getElementById('buttonEnter');
 
-			// startButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			startButton.disabled = true;
+			endButton.disabled = true;
+			enterButton.disabled = true;
 
-			// endButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			document.getElementById('container').ondblclick = function(e) {
+				// Do nothing;
+			};
 
-			// enterButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			for (var i = 0; i < NumBlocks; i++) {
+				flip_on = false;
 
-			// document.getElementById('container').ondblclick = function(e) {
-			// 	// Do nothing;
-			// };
-
-			// for (var i = 0; i < NumBlocks; i++) {
-			// 	flip_on = false;
-
-			// 	$("#block" + i).draggable("disable");
-			// }
+				$("#block" + i).draggable("disable");
+			}
 		});
 
-		socket.on('unfreeze_everything', function() {
-           	console.log("Unfreezing everything!");
-    //         var startButton = document.getElementById('buttonStart');
-    //         var endButton = document.getElementById('buttonEnd');
-    //         var enterButton = document.getElementById('buttonEnter');
-    //         var refButton = document.getElementById('referenceLink');
+		socket.on('unfreeze_start', function() {
 
-    //         startButton.onclick = function(e) {
-    //             StartGame();
-    //         };
+			socket.emit('disable_blocks_for_player_2');
 
-    //         endButton.onclick = function(e) {
-    //             endGame();
-    //             endGameForAllUsers();
-    //         };
+           	var startButton = document.getElementById('buttonStart');
+			startButton.disabled = false;
+        });
 
-    //         enterButton.onclick = function(e) {
-    //             send_user_message_to_server();
-    //             inputlength();
-    //         };
+        socket.on('disable_blocks_for_player_2', function() {
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = false;
+				$("#block" + i).draggable("disable");
+            }
+        });
 
-    //         document.getElementById('container').ondblclick = function(e) {
-    //             gestureCount++;
-    //             var event = e || window.event;
-    //             setGestureWithPosition(event.clientX, event.clientY);
-    //             send_gesture_to_server();
-    //         };
-
-    //         for (var i = 0; i < NumBlocks; i++) {
-    //             flip_on = true;
-				// $("#block" + i).draggable("enable");
-    //         }
+        socket.on('enable_blocks_for_player_2', function() {
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+				$("#block" + i).draggable("enable");
+            }
         });
 
 
@@ -505,7 +483,7 @@
 	</script>
 
 	<script type="text/javascript">
-		document.getElementById('disablingDivbottom').style.display='block';
+		// document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
 			start_button_pressed = true;
@@ -527,7 +505,22 @@
 		    // recognize();
 		    document.getElementById("buttonEnd").disabled = false;
 			document.getElementById("buttonEnter").disabled = false;
-			document.getElementById('disablingDivbottom').style.display='none';
+
+			document.getElementById('container').ondblclick = function(e) {
+                gestureCount++;
+                var event = e || window.event;
+                setGestureWithPosition(event.clientX, event.clientY);
+                send_gesture_to_server();
+            };
+
+            for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+				$("#block" + i).draggable("enable");
+            }
+
+            socket.emit("enable_blocks_for_player_2");
+
+			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 
 		function endGame() {
@@ -552,7 +545,7 @@
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
 
-				  socket.emit('end_game_for_all_users', time);
+				socket.emit('end_game_for_all_users', time);
 
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);
