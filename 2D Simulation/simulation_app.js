@@ -57,12 +57,6 @@ io.on('connection', function(socket) {
 		}
 	}
 
-
-	socket.on('username', function(username) {
-		socket.username = username;
-		console.log(username + ' has connected to the server!');
-	});
-
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
 			waiting_data.set(socket.room, true);
