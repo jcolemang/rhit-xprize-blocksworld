@@ -138,12 +138,14 @@ function initTaskID() {
     taskID = Math.floor(Math.random()*4);
     if (taskID == 2) {
         chosenWords = Math.floor(Math.random() * initialWords1.length);
-        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length * 2;
+        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
         letters = [];
         for (var i = 0; i < initialWords1[chosenWords].length; i++) {
             letters.push(initialWords1[chosenWords][i]);
             letters.push(initialWords2[chosenWords][i]);
         }
+        n1 = initialWords1[chosenWords].length;
+        n2 = initialWords2[chosenWords].length;
     }
     if (taskID != 1) {
         document.getElementById('vertical-line').style.visibility = "hidden";
@@ -183,18 +185,18 @@ function calculateBackEndData() {
         ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
     } else if (taskID == 1) {
-        bm = n1 + n2;
-        br = (n1 + n2) * (NumBlocks + 1) / 2;
-        pn = 1;
-        pp = 10;
-        te = (br - actualMove)/(br - bm);
-        ie = (w1 * NumWords + w2 * gestureCount)/bm;
-        p = te/ie;
-    } else if (taskID == 2) {
         bm = NumBlocks;
         br = 1.5 * 2 * NumBlocks;
         pn = 2;
         pp = 20;
+        te = (br - actualMove)/(br - bm);
+        ie = (w1 * NumWords + w2 * gestureCount)/bm;
+        p = te/ie;
+    } else if (taskID == 2) {
+        bm = n1 + n2;
+        br = (n1 + n2) * (NumBlocks + 1) / 2;
+        pn = 1;
+        pp = 10;
         te = (br - actualMove)/(br - bm);
         ie = (w1 * NumWords + w2 * gestureCount)/bm;
         p = te/ie;
