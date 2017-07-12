@@ -15,7 +15,7 @@ app.listen(8080, "0.0.0.0");
 
 var pg = require("pg");
 
-var conString = "pg://postgres:chiey9ib@137.112.34.53:5432/AIxprize";
+var conString = "pg://postgres:bgoyt6@137.112.34.53:5432/AIxprize";
 
 var client = new pg.Client(conString);
 client.connect();
