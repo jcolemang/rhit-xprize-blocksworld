@@ -206,8 +206,6 @@
 
 	<script type="text/javascript" >
 		var socket = io.connect("https://blockworld.rose-hulman.edu:8080");
-		var username = prompt('Please enter your name.');
-		socket.emit('username', username);
 		var left_array = [];
 		var top_array = [];
 		var current_colors = [];
@@ -432,7 +430,7 @@
 	</script>
 
 	<script type="text/javascript">
-	document.getElementById('disablingDivbottom').style.display='block';
+		// document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
 			start_button_pressed = true;
@@ -469,7 +467,7 @@
 
             socket.emit("enable_blocks_for_player_2");
 
-			document.getElementById('disablingDivbottom').style.display='none';
+			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
 		    if (start_button_pressed) {
