@@ -21,6 +21,12 @@ var client = new pg.Client(conString);
 client.connect();
 
 
+var survey_app = https.createServer(options);
+var survey_io = require('socket.io').listen(survey_app);
+
+survey_app.listen(8081, "0.0.0.0");
+
+
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
 // 	host: 'https://blockworld.rose-hulman.edu', 
@@ -63,12 +69,6 @@ io.on('connection', function(socket) {
 			nextRoom++;
 		}
 	}
-
-
-	socket.on('username', function(username) {
-		socket.username = username;
-		console.log(username + ' has connected to the server!');
-	});
 
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
@@ -209,6 +209,18 @@ io.on('connection', function(socket) {
 		// data.pp, data.te, data.ie, data.p. All of them
 		// should be numbers except for the task, which will
 		// be a string of the task.
+	});
+});
+
+
+survey_io.on('connection', function(socket) {
+	socket.on('send_survey_data_to_server', function(data) {
+		// This will be for data that is received by the survey.
+		// It needs its own Node server so as to not conflict with
+		// players connecting to the other one.
+
+		// The data that is used will be data.q1, data.q2, data.q3,
+		// data.q4, data.q5, and data.q6.
 	});
 });
 

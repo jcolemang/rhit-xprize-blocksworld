@@ -2,17 +2,113 @@
 <html>
 <body>
 	<h2 style="font-family:verdana"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>
-	<p style="font-family:verdana">1. Which communication tool you use?</p>
-	<input type="radio" name="selection" value="Text"> Text
-	<input type="radio" name="selection" value="Audio"> Audio
-	<p style="font-family:verdana">2. Which browser you use?</p>
-	<input type="radio" name="selection" value="Firefox"> Firefox
-	<input type="radio" name="selection" value="Chrome"> Google Chrome
-	<input type="radio" name="selection" value="Other"> Other brower
-	<p style="font-family:verdana">Please leave some feedback</p>
-	<textarea rows="4" cols="50"></textarea><br>
+	<p style="font-family:verdana">1. What was your strategy for cooperating with your partner to complete the task?</p>
+	<textarea id = "q1" rows="4" cols="50"></textarea><br>
 
-	<button class = "Finishbutton" style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="location.href = 'finalPage.html';">Submit</button>
+	<p style="font-family:verdana">2. Were there any aspects of the task that you found confusing?</p>
+	<textarea id = "q2" rows="4" cols="50"></textarea><br>
 
+	<p style="font-family:verdana">3. What communication method (e.g., speaking, typing, or "pointing") did you find most effective for coordinating with your partner? </p>
+	<textarea id = "q3" rows="4" cols="50"></textarea><br>
+
+	<p style="font-family:verdana">4. How difficult was it to complete the task?</p>
+	<input type="radio" name="1" id = "41" value="1 (very easy)"> 1 (very easy)
+	<input type="radio" name="1" id = "42" value="2"> 2
+	<input type="radio" name="1" id = "43" value="3"> 3
+	<input type="radio" name="1" id = "44" value="4"> 4
+	<input type="radio" name="1" id = "45" value="5"> 5
+	<input type="radio" name="1" id = "46" value="6"> 6
+	<input type="radio" name="1" id = "47" value="7 (very difficult)"> 7 (very difficult)
+
+	<p style="font-family:verdana">5. How helpful did you find your partner? </p>
+	<input type="radio" name="2" id = "51" value="1 (very easy)"> 1 (not helpful at all)
+	<input type="radio" name="2" id = "52" value="22"> 2
+	<input type="radio" name="2" id = "53" value="33"> 3
+	<input type="radio" name="2" id = "54" value="44"> 4
+	<input type="radio" name="2" id = "55" value="55"> 5
+	<input type="radio" name="2" id = "56" value="66"> 6
+	<input type="radio" name="2" id = "57" value="7 (very difficult)"> 7 (very helpful)
+
+	<p style="font-family:verdana">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>
+	<input type="radio" name="3" id = "61" value="1 (much more difficult)"> 1 (much more difficult)
+	<input type="radio" name="3" id = "62" value="222"> 2
+	<input type="radio" name="3" id = "63" value="333"> 3
+	<input type="radio" name="3" id = "64" value="444"> 4
+	<input type="radio" name="3" id = "65" value="555"> 5
+	<input type="radio" name="3" id = "66" value="666"> 6
+	<input type="radio" name="3" id = "67" value="7 (much easier)"> 7 (much easier)
+	<br><br>
+
+	<button class = "Finishbutton" style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="submit()">Submit</button>
+
+	<script type="text/javascript">
+		var q1, q2, q3, q4, q5, q6;
+		if (document.getElementById("41").checked) {
+			q4 = 1;
+		} else if (document.getElementById("42").checked) {
+			q4 = 2;
+		} else if (document.getElementById("43").checked) {
+			q4 = 3;
+		} else if (document.getElementById("44").checked) {
+			q4 = 4;
+		} else if (document.getElementById("45").checked) {
+			q4 = 5;
+		} else if (document.getElementById("46").checked) {
+			q4 = 6;
+		} else if (document.getElementById("47").checked) {
+			q4 = 7;
+		}
+
+		if (document.getElementById("51").checked) {
+			q5 = 1;
+		} else if (document.getElementById("52").checked) {
+			q5 = 2;
+		} else if (document.getElementById("53").checked) {
+			q5 = 3;
+		} else if (document.getElementById("54").checked) {
+			q5 = 4;
+		} else if (document.getElementById("55").checked) {
+			q5 = 5;
+		} else if (document.getElementById("56").checked) {
+			q5 = 6;
+		} else if (document.getElementById("57").checked) {
+			q5 = 7;
+		}
+
+		if (document.getElementById("61").checked) {
+			q6 = 1;
+		} else if (document.getElementById("62").checked) {
+			q6 = 2;
+		} else if (document.getElementById("63").checked) {
+			q6 = 3;
+		} else if (document.getElementById("64").checked) {
+			q6 = 4;
+		} else if (document.getElementById("65").checked) {
+			q6 = 5;
+		} else if (document.getElementById("66").checked) {
+			q6 = 6;
+		} else if (document.getElementById("67").checked) {
+			q6 = 7;
+		}
+
+		q1 = document.getElementById("q1").value;
+		q2 = document.getElementById("q2").value;
+		q3 = document.getElementById("q3").value;
+	</script>
+
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<script type="text/javascript">
+		var socket = io.connect("https://blockworld.rose-hulman.edu:8081");
+		socket.emit('send_survey_data_to_server', {
+			q1: q1;
+			q2: q2;
+			q3: q3;
+			q4: q4;
+			q5: q5;
+			q6: q6;
+		});
+
+		window.location.href = "finalPage.html";   
+	</script>
 </body>
 </html>
