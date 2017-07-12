@@ -33,6 +33,16 @@
 		</div>
   	</div>
 
+  	<div id ="vertical-line" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 550px; top: 120px; z-index: 200;"> </div>
+	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
+	<div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div>
+
+	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
+	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+
+	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
+	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+
 	<div class = "gadgetWrapper">
 		<small><small><small>
 		<p class = "taskQ" id = "taskQ" style = "font-size: 30px"></p>
@@ -61,8 +71,6 @@
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
-	    <div id ="vertical-line" style="height: 610px; position: absolute; left: 550px; top: 120px;"> </div>
-		<div id ="vertical-line2" style="height: 610px; position: absolute; left: 980px; top: 120px;"> </div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
@@ -133,7 +141,7 @@
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<!-- <script src="/node_modules/socket.io-client/dist/socket.io.js"></script> -->
     
   	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
@@ -174,6 +182,15 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
+				if (taskID == 3) {
+					if (i < n1) {
+						random_x = 10;
+						init_x = 0;
+					} else {
+						random_x = 10;
+						init_x = 600;
+					}
+				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
 					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
 				var x = -1;
@@ -470,14 +487,14 @@
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
-                       if (start_button_pressed) {
-                   	    endTime = new Date().getTime();
+		    if (start_button_pressed) {
+				endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
 			        if(blockid) {
-			           if(NumBlocks >= Object.keys(endPosMap).length){
+			            if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
 			            }
@@ -487,26 +504,24 @@
 			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
 			    }
 			    console.log(instructions);
- 
-                calculateBackEndData();
-                
-                socket.emit('send_data_to_server', {                                      
-                        time: time,
-                        task: task[taskID],
-                        W: NumWords,
-                        G: gestureCount,
-                        b: actualMove, 
-                        bm: bm,
-                        br: br,
-                        pn: pn,
-                        pp: pp,
-                        te: te,
-                        ie: ie,
-                        p: p
-                });
-                    
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
+
+				socket.emit('end_game_for_all_users', time);
+
+				calculateBackEndData();
+
+				socket.emit('send_data_to_server', {
+					time: time,
+					task: task[taskID],
+					bm: bm,
+					br: br,
+					pn: pn,
+					pp: pp,
+					te: te,
+					ie: ie,
+					p: p
+				});
 
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);

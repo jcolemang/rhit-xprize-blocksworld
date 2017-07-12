@@ -150,6 +150,8 @@ function initTaskID() {
     if (taskID != 1) {
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
+        document.getElementById('user3').style.visibility = "hidden";
+        document.getElementById('user4').style.visibility = "hidden";
     } else {
         random_x = 6; init_x = 450;
         if (NumBlocks % 2==1) {
@@ -157,7 +159,16 @@ function initTaskID() {
         }
     }
     if (taskID == 3) {
-         NumBlocks = Math.floor(Math.random() * random_multiplier) + 10;
+        n1 = Math.floor(Math.random() * random_multiplier) + 6;
+        n2 = Math.floor(Math.random() * random_multiplier) + 6;
+        NumBlocks = n1 + n2;
+    } else {
+        document.getElementById('vertical-line3').style.visibility = "hidden";
+        document.getElementById('user1').style.visibility = "hidden";
+        document.getElementById('user2').style.visibility = "hidden";
+    }
+    if (taskID == 1 && taskID == 3) {
+
     }
 }
 
