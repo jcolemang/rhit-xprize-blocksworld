@@ -472,14 +472,14 @@
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
-		    if (start_button_pressed) {
-				endTime = new Date().getTime();
+                       if (start_button_pressed) {
+                   	    endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
 			        if(blockid) {
-			            if(NumBlocks >= Object.keys(endPosMap).length){
+			           if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
 			            }
@@ -489,24 +489,26 @@
 			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
 			    }
 			    console.log(instructions);
+ 
+                calculateBackEndData();
+                
+                socket.emit('send_data_to_server', {                                      
+                        time: time,
+                        task: task[taskID],
+                        W: NumWords,
+                        G: gestureCount,
+                        b: actualMove, 
+                        bm: bm,
+                        br: br,
+                        pn: pn,
+                        pp: pp,
+                        te: te,
+                        ie: ie,
+                        p: p
+                });
+                    
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
-
-				socket.emit('end_game_for_all_users', time);
-
-				calculateBackEndData();
-
-				socket.emit('send_data_to_server', {
-					time: time,
-					task: task[taskID],
-					bm: bm,
-					br: br,
-					pn: pn,
-					pp: pp,
-					te: te,
-					ie: ie,
-					p: p
-				});
 
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);

@@ -13,6 +13,13 @@ var	io = require('socket.io').listen(app),
 
 app.listen(8080, "0.0.0.0");
 
+var pg = require("pg");
+
+var conString = "pg://postgres:chiey9ib@137.112.34.53:5432/AIxprize";
+
+var client = new pg.Client(conString);
+client.connect();
+
 
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
@@ -100,9 +107,9 @@ io.on('connection', function(socket) {
 		io.to(socket.room).emit('update_user_message', message);
 	});
 
-	socket.on('end_game_for_all_users', function(time) {
-		game_times.set(socket.room, time);
-	});
+	//socket.on('end_game_for_all_users', function(time) {
+	//	game_times.set(socket.room, time);
+	//});
 
 	socket.on('audio_connection', function(id) {
 		if (voice_connection_data.get(socket.room) == null) {
@@ -173,6 +180,30 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('send_data_to_server', function(data) {
+                game_times.set(socket.room, data.time);
+                // console.log('time:'+data.time);
+                // console.log('task:'+data.task);
+                // console.log('b:'+data.b);
+                // console.log('W:'+data.W);
+                // console.log('G:'+data.G);
+                // console.log('bm:'+data.bm);      
+                // console.log('br:'+data.br);
+                // console.log('pn:'+data.pn);      
+                // console.log('pp:'+data.pp);
+                // console.log('te:'+data.te);      
+                // console.log('ie:'+data.ie);
+                // console.log('p:'+data.p);
+		
+                var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
+
+		//client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
+		query.on("row", function (row, result) {
+		    result.addRow(row);
+		});
+		query.on("end", function (result) {
+		    console.log(JSON.stringify(result.rows, null, "    "));
+		    client.end();
+});
 		// In order to access the data, use the following:
 		// data.time, data.task, data.bm, data.br, data.pn,
 		// data.pp, data.te, data.ie, data.p. All of them
