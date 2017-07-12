@@ -141,7 +141,7 @@
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<!-- <script src="/node_modules/socket.io-client/dist/socket.io.js"></script> -->
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     
   	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
@@ -510,18 +510,21 @@
 				socket.emit('end_game_for_all_users', time);
 
 				calculateBackEndData();
-
-				socket.emit('send_data_to_server', {
-					time: time,
-					task: task[taskID],
-					bm: bm,
-					br: br,
-					pn: pn,
-					pp: pp,
-					te: te,
-					ie: ie,
-					p: p
-				});
+                
+                socket.emit('send_data_to_server', {                                      
+                    time: time,
+                    task: task[taskID],
+                    W: NumWords,
+                    G: gestureCount,
+                    b: actualMove, 
+                    bm: bm,
+                    br: br,
+                    pn: pn,
+                    pp: pp,
+                    te: te,
+                    ie: ie,
+                    p: p
+                });
 
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);
