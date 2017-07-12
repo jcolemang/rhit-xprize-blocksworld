@@ -136,6 +136,12 @@ function setMovement() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
+    if (taskID == 1) {
+        random_x = 6; init_x = 450;
+        if (NumBlocks % 2==1) {
+            NumBlocks++;
+        }
+    }
     if (taskID == 2) {
         chosenWords = Math.floor(Math.random() * initialWords1.length);
         NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
@@ -147,28 +153,34 @@ function initTaskID() {
         n1 = initialWords1[chosenWords].length;
         n2 = initialWords2[chosenWords].length;
     }
-    if (taskID != 1) {
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-    } else {
-        random_x = 6; init_x = 450;
-        if (NumBlocks % 2==1) {
-            NumBlocks++;
-        }
-    }
     if (taskID == 3) {
         n1 = Math.floor(Math.random() * random_multiplier) + 6;
         n2 = Math.floor(Math.random() * random_multiplier) + 6;
         NumBlocks = n1 + n2;
-    } else {
+    }
+    setUpVisibility();
+}
+
+function setUpVisibility() {
+    if (taskID == 1) {
         document.getElementById('vertical-line3').style.visibility = "hidden";
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
     }
-    if (taskID == 1 && taskID == 3) {
-
+    if (taskID == 2 || taskID == 0) {
+        document.getElementById('vertical-line').style.visibility = "hidden";
+        document.getElementById('vertical-line2').style.visibility = "hidden";
+        document.getElementById('user3').style.visibility = "hidden";
+        document.getElementById('user4').style.visibility = "hidden";
+        document.getElementById('vertical-line3').style.visibility = "hidden";
+        document.getElementById('user1').style.visibility = "hidden";
+        document.getElementById('user2').style.visibility = "hidden";
+    }
+    if (taskID == 3) {
+        document.getElementById('vertical-line').style.visibility = "hidden";
+        document.getElementById('vertical-line2').style.visibility = "hidden";
+        document.getElementById('user3').style.visibility = "hidden";
+        document.getElementById('user4').style.visibility = "hidden";
     }
 }
 
