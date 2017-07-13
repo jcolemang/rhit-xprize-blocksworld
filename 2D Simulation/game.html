@@ -421,7 +421,7 @@
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Survey.html";
+		    window.location.href = "Robot_Survey.html";
 		});
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
@@ -505,6 +505,8 @@
 
             socket.emit("enable_blocks_for_player_2");
 
+            document.getElementById('buttonStart').disabled = true;
+
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
@@ -527,8 +529,6 @@
 			    console.log(instructions);
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
-
-				socket.emit('end_game_for_all_users', time);
 
 				calculateBackEndData();
                 

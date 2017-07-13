@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<h2 style="font-family:verdana"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>
+
+	<p style="font-family:verdana">1. How helpful did you find your partner?</p>
+	<input type="radio" name="1" id = "11" value="1 (very unhelpful)"> 1 (very unhelpful)
+	<input type="radio" name="1" id = "12" value="2"> 2
+	<input type="radio" name="1" id = "13" value="3"> 3
+	<input type="radio" name="1" id = "14" value="4"> 4
+	<input type="radio" name="1" id = "15" value="5"> 5
+	<input type="radio" name="1" id = "16" value="6"> 6
+	<input type="radio" name="1" id = "17" value="7 (very helpful)"> 7 (very helpful)
+
+	<p style="font-family:verdana">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>
+	<input type="radio" name="2" id = "21" value="1 (very ineffectively)"> 1 (very ineffectively)
+	<input type="radio" name="2" id = "22" value="22"> 2
+	<input type="radio" name="2" id = "23" value="33"> 3
+	<input type="radio" name="2" id = "24" value="44"> 4
+	<input type="radio" name="2" id = "25" value="55"> 5
+	<input type="radio" name="2" id = "26" value="66"> 6
+	<input type="radio" name="2" id = "27" value="7 (very effectively)"> 7 (very effectively)
+
+	<p style="font-family:verdana">3. Please describe anything you found confusing about this game.</p>
+	<textarea id = "q3" rows="4" cols="50"></textarea><br>
+
+	<button class = "Finishbutton" style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="submit()">Submit</button>
+
+	<script type="text/javascript">
+		var q1, q2, q3;
+		if (document.getElementById("11").checked) {
+			q1 = 1;
+		} else if (document.getElementById("12").checked) {
+			q1 = 2;
+		} else if (document.getElementById("13").checked) {
+			q1 = 3;
+		} else if (document.getElementById("14").checked) {
+			q1 = 4;
+		} else if (document.getElementById("15").checked) {
+			q1 = 5;
+		} else if (document.getElementById("16").checked) {
+			q1 = 6;
+		} else if (document.getElementById("17").checked) {
+			q1 = 7;
+		}
+
+		if (document.getElementById("21").checked) {
+			q2 = 1;
+		} else if (document.getElementById("22").checked) {
+			q2 = 2;
+		} else if (document.getElementById("23").checked) {
+			q2 = 3;
+		} else if (document.getElementById("24").checked) {
+			q2 = 4;
+		} else if (document.getElementById("25").checked) {
+			q2 = 5;
+		} else if (document.getElementById("26").checked) {
+			q2 = 6;
+		} else if (document.getElementById("27").checked) {
+			q2 = 7;
+		}
+
+		q3 = document.getElementById("q3").value;
+	</script>
+
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<script type="text/javascript">
+		function submit() {
+			var socket = io.connect("https://blockworld.rose-hulman.edu:8081");
+			socket.emit('send_survey_data_to_server', {
+				q1: q1,
+				q2: q2,
+				q3: q3
+			});
+
+			window.location.href = "finalPage.html";  
+		} 
+	</script>
+</body>
+</html>
