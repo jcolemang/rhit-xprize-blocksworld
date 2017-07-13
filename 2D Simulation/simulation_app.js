@@ -13,6 +13,19 @@ var	io = require('socket.io').listen(app),
 
 app.listen(8080, "0.0.0.0");
 
+var pg = require("pg");
+
+var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
+
+var client = new pg.Client(conString);
+client.connect();
+
+
+var survey_app = https.createServer(options);
+var survey_io = require('socket.io').listen(survey_app);
+
+survey_app.listen(8081, "0.0.0.0");
+
 
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
@@ -57,19 +70,21 @@ io.on('connection', function(socket) {
 		}
 	}
 
-
-	socket.on('username', function(username) {
-		socket.username = username;
-		console.log(username + ' has connected to the server!');
-	});
-
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
 			waiting_data.set(socket.room, true);
-			socket.emit('freeze_everything');
+			socket.emit('freeze_start');
 		} else {
-			socket.to(socket.room).emit('unfreeze_everything');
+			socket.to(socket.room).emit('unfreeze_start');
 		}
+	});
+
+	socket.on('enable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('enable_blocks_for_player_2');
+	});
+
+	socket.on('disable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('disable_blocks_for_player_2');
 	});
 
 	socket.on('receive_position', function(data) {
@@ -92,9 +107,9 @@ io.on('connection', function(socket) {
 		io.to(socket.room).emit('update_user_message', message);
 	});
 
-	socket.on('end_game_for_all_users', function(time) {
-		game_times.set(socket.room, time);
-	});
+	//socket.on('end_game_for_all_users', function(time) {
+	//	game_times.set(socket.room, time);
+	//});
 
 	socket.on('audio_connection', function(id) {
 		if (voice_connection_data.get(socket.room) == null) {
@@ -139,7 +154,13 @@ io.on('connection', function(socket) {
 			}
 			voice_connection_data.set(socket.room, null);
 			waiting_data.set(socket.room, null);
-			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			if (game_times.get(socket.room) != null) {
+				socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			} else {
+				socket.to(socket.room).emit('user_left_game');
+			}
+			
+			game_times.set(socket.room, null);
 		}
 		
 	});
@@ -156,6 +177,50 @@ io.on('connection', function(socket) {
 			socket.room = room_to_join;
 			hmnUser = true;
 		}
+	});
+
+	socket.on('send_data_to_server', function(data) {
+                game_times.set(socket.room, data.time);
+                // console.log('time:'+data.time);
+                // console.log('task:'+data.task);
+                // console.log('b:'+data.b);
+                // console.log('W:'+data.W);
+                // console.log('G:'+data.G);
+                // console.log('bm:'+data.bm);      
+                // console.log('br:'+data.br);
+                // console.log('pn:'+data.pn);      
+                // console.log('pp:'+data.pp);
+                // console.log('te:'+data.te);      
+                // console.log('ie:'+data.ie);
+                // console.log('p:'+data.p);
+		
+                var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
+
+		//client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
+		query.on("row", function (row, result) {
+		    result.addRow(row);
+		});
+		query.on("end", function (result) {
+		    console.log(JSON.stringify(result.rows, null, "    "));
+		    client.end();
+});
+		// In order to access the data, use the following:
+		// data.time, data.task, data.bm, data.br, data.pn,
+		// data.pp, data.te, data.ie, data.p. All of them
+		// should be numbers except for the task, which will
+		// be a string of the task.
+	});
+});
+
+
+survey_io.on('connection', function(socket) {
+	socket.on('send_survey_data_to_server', function(data) {
+		// This will be for data that is received by the survey.
+		// It needs its own Node server so as to not conflict with
+		// players connecting to the other one.
+
+		// The data that is used will be data.q1, data.q2, data.q3,
+		// data.q4, data.q5, and data.q6.
 	});
 });
 

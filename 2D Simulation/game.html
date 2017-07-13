@@ -16,7 +16,6 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
   	<style>
     	body {
-
       		background: url(img/background.jpg) repeat 0 0;
     	}
   	</style>
@@ -33,6 +32,16 @@
 			</div>
 		</div>
   	</div>
+
+  	<div id ="vertical-line" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 550px; top: 120px; z-index: 200;"> </div>
+	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
+	<div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div>
+
+	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
+	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+
+	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
+	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -62,8 +71,6 @@
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
-	    <div id ="vertical-line" style="height: 610px; position: absolute; left: 550px; top: 120px;"> </div>
-		<div id ="vertical-line2" style="height: 610px; position: absolute; left: 980px; top: 120px;"> </div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
@@ -71,11 +78,9 @@
 	<!-- <script type="text/javascript">
       
         var recognizer = null;
-
         function recognize() {
             //speechRecognization interface is the heart of recognization API
             window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
-
             if (window.speechRecognition == undefined) {
                 alert("Speech Recogniztion API Not Supported");
             } else {
@@ -91,7 +96,6 @@
                 recognizer.onstart = function(){
                     console.log("Recogniztion API started");
                 }
-
                 //fired everytime user stops speaking.
                 recognizer.onresult = function(event){  
                     for (var count = event.resultIndex; count < event.results.length; count++) {
@@ -100,7 +104,6 @@
                         }
                     }
                 }
-
                 //fired when recognization is stopped manually or automatically.
                 recognizer.onend = function() {
                     recognizer = null;
@@ -110,7 +113,6 @@
                 recognizer.start();
             }
         }
-
         function stopRecog() {
             if(recognizer != null) {
                 //stop it manually
@@ -125,7 +127,6 @@
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
     </script> -->
@@ -158,9 +159,7 @@
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
-
 		var color = ['red', 'blue','green','orange','yellow'];
-
 		function initBlocks() {
 			// Adds 1 to NumBlocks if the task is matching, ensuring an even
 			// number of blocks to be matched.
@@ -169,10 +168,8 @@
 					NumBlocks++;
 				}
 			}
-
 			var container = document.createElement("div");
 			container.id = "container";
-
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
@@ -181,11 +178,20 @@
 			};
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
-
 			var position_x = [];var position_y = [];
+			var cur = 0;
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
+				if (taskID == 3) {
+					if (i < n1) {
+						random_x = 10;
+						init_x = 0;
+					} else {
+						random_x = 10;
+						init_x = 600;
+					}
+				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
 					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
 				var x = -1;
@@ -208,30 +214,39 @@
 				previous_left.push(tLeft);
 				previous_top.push(tTop);
 				blocks_y = tLeft;blocks_x = tTop;
-
 				if (i < letters.length) {
 					l = i;
 				}
-
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+				var colors;
+				if (taskID == 3) {
+					if (setupNum[cur] > 0) {
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					} else if (cur < setupNum.length - 1) {
+						setupNum[cur] = copyNum[cur];
+						cur++;
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					} else {
+						setupNum[cur] = copyNum[cur];
+						cur = 0;
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					}
+				} else {
+					colors = color[color_x];
+				}
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
-
 	</script>
 
 	<script type="text/javascript" >
 		var socket = io.connect("https://blockworld.rose-hulman.edu:8080");
-
-		var username = prompt('Please enter your name.');
-
-		socket.emit('username', username);
-
 		var left_array = [];
 		var top_array = [];
 		var current_colors = [];
 		var current_letters = [];
-
-
 		for (var i = 0; i < NumBlocks; i++) {
 			var position = $("#block" + i).position();
 			var current_color = $("#block" + i).css("background-color");
@@ -241,7 +256,6 @@
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
-
 		socket.emit('setInitialPosition', {
 			numBlocks: NumBlocks,
 			lefts: left_array,
@@ -254,76 +268,50 @@
 			movement_count: actualMove,
 			gesture_count: gestureCount
 		});
-
 		socket.emit('am_I_second_to_join');
 
-		socket.on('freeze_everything', function() {
-			console.log("Freezing everything!");
-			// var startButton = document.getElementById('buttonStart');
-			// var endButton = document.getElementById('buttonEnd');
-			// var enterButton = document.getElementById('buttonEnter');
-			// var refButton = document.getElementById('referenceLink');
+		socket.on('freeze_start', function() {
+			var startButton = document.getElementById('buttonStart');
+			var endButton = document.getElementById('buttonEnd');
+			var enterButton = document.getElementById('buttonEnter');
 
-			// startButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			startButton.disabled = true;
+			endButton.disabled = true;
+			enterButton.disabled = true;
 
-			// endButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			document.getElementById('container').ondblclick = function(e) {
+				// Do nothing;
+			};
 
-			// enterButton.onclick = function(e) {
-			// 	// Do nothing;
-			// };
+			for (var i = 0; i < NumBlocks; i++) {
+				flip_on = false;
 
-			// document.getElementById('container').ondblclick = function(e) {
-			// 	// Do nothing;
-			// };
-
-			// for (var i = 0; i < NumBlocks; i++) {
-			// 	flip_on = false;
-
-			// 	$("#block" + i).draggable("disable");
-			// }
+				$("#block" + i).draggable("disable");
+			}
 		});
 
-		socket.on('unfreeze_everything', function() {
-           	console.log("Unfreezing everything!");
-    //         var startButton = document.getElementById('buttonStart');
-    //         var endButton = document.getElementById('buttonEnd');
-    //         var enterButton = document.getElementById('buttonEnter');
-    //         var refButton = document.getElementById('referenceLink');
+		socket.on('unfreeze_start', function() {
 
-    //         startButton.onclick = function(e) {
-    //             StartGame();
-    //         };
+			socket.emit('disable_blocks_for_player_2');
 
-    //         endButton.onclick = function(e) {
-    //             endGame();
-    //             endGameForAllUsers();
-    //         };
-
-    //         enterButton.onclick = function(e) {
-    //             send_user_message_to_server();
-    //             inputlength();
-    //         };
-
-    //         document.getElementById('container').ondblclick = function(e) {
-    //             gestureCount++;
-    //             var event = e || window.event;
-    //             setGestureWithPosition(event.clientX, event.clientY);
-    //             send_gesture_to_server();
-    //         };
-
-    //         for (var i = 0; i < NumBlocks; i++) {
-    //             flip_on = true;
-				// $("#block" + i).draggable("enable");
-    //         }
+           	var startButton = document.getElementById('buttonStart');
+			startButton.disabled = false;
         });
 
+        socket.on('disable_blocks_for_player_2', function() {
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = false;
+				$("#block" + i).draggable("disable");
+            }
+        });
 
+        socket.on('enable_blocks_for_player_2', function() {
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+				$("#block" + i).draggable("enable");
+            }
+        });
 		var z = 1;
-
 		socket.on('update_position', function (data) {
 			
 			var left = data.left;
@@ -335,14 +323,11 @@
 			});
 			$("#" + block).css('z-index', ++z);
 		});
-
 		socket.on('update_flip_block', function (block_id) {
 			flipBlock(block_id);
 		});
-
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
-
 			human_voice = false;			
 			flipColorArray = data.flipColorArray.slice(0);
 			flipLetterArray = data.flipLetterArray.slice(0);
@@ -353,39 +338,30 @@
 			setTaskHeader();
 			setIntroduction();
 			setRefLink();
-
+			setUpVisibility();
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
-
 			for (var i = 0; i < NumBlocks; i++) {
 				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 			}
-
 			$( init );
-
 			for (var i = 0; i < NumBlocks; i++) {
 				$("#block" + i).draggable("enable");
 			}
-
 			document.getElementById("instruction").style.visibility = "hidden";
 			document.getElementById("buttonStart").style.visibility = "hidden";
 			document.getElementById("buttonEnd").style.visibility = "hidden";
 			document.getElementById("referenceLink").style.visibility = "hidden";
 			document.getElementById("showChosen").style.visibility = "hidden";
-
 			document.getElementById("container").ondblclick = function(e) {
 				e.preventDefault();
 			};
-
 			setIntroduction(2);
-
 		});
-
 		function send_flip_to_server(block_id) {
 			socket.emit('receive_flip_block', block_id);
 		}
-
 		$(document).ready(function() {
     		$(".draggable").draggable();
 			
@@ -395,7 +371,6 @@
 			    $(el).css({position:'relative', left: 1140, top: 540});
 			});
 		});
-
 		var z = 1;
 		$( init );
 		function init() {
@@ -426,35 +401,28 @@
 						top: coord.top
 					});
 				}
-
 				});
 			}
 		}
-
 		function send_movement_to_server() {
 			socket.emit('receive_movement_data', actualMove);
 		}
-
 		socket.on('update_movement_data', function(data) {
 			actualMove = data;
 			setMovement();
 		});
-
 		function send_user_message_to_server() {
 			if (start_button_pressed) {
 				socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 			}
 		}
-
 		socket.on('update_user_message', function(message) {
 			document.getElementById("user_message").innerHTML = message;
 		});
-
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
 		    window.location.href = "Survey.html";
 		});
-
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
 				gestureCount: gestureCount,
@@ -462,20 +430,16 @@
 				top: $("#gestureToggle").position().top
 			});
 		}
-
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
 			setGestureWithPosition(data.left, data.top);
 		});
-
 		socket.on('user_left_game', function() {
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
 		});
-
 		// Opens the popup window for communication between clients.
 		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
-
 	</script>
 
 	<script type="text/javascript">
@@ -494,7 +458,6 @@
 					startPosMap['block'+i] = pos;
 				}
 			}
-
 		}
 	</script>
 	<div id = "disablingDivbottom"></div>
@@ -505,7 +468,7 @@
 	</script>
 
 	<script type="text/javascript">
-		document.getElementById('disablingDivbottom').style.display='block';
+		// document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
 			start_button_pressed = true;
@@ -527,9 +490,23 @@
 		    // recognize();
 		    document.getElementById("buttonEnd").disabled = false;
 			document.getElementById("buttonEnter").disabled = false;
-			document.getElementById('disablingDivbottom').style.display='none';
-		}
 
+			document.getElementById('container').ondblclick = function(e) {
+                gestureCount++;
+                var event = e || window.event;
+                setGestureWithPosition(event.clientX, event.clientY);
+                send_gesture_to_server();
+            };
+
+            for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+				$("#block" + i).draggable("enable");
+            }
+
+            socket.emit("enable_blocks_for_player_2");
+
+			// document.getElementById('disablingDivbottom').style.display='none';
+		}
 		function endGame() {
 		    if (start_button_pressed) {
 				endTime = new Date().getTime();
@@ -547,19 +524,34 @@
 			    for (var i = 0; i < start.length;i++) {
 			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
 			    }
-
 			    console.log(instructions);
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
 
-				  socket.emit('end_game_for_all_users', time);
+				socket.emit('end_game_for_all_users', time);
+
+				calculateBackEndData();
+                
+                socket.emit('send_data_to_server', {                                      
+                    time: time,
+                    task: task[taskID],
+                    W: NumWords,
+                    G: gestureCount,
+                    b: actualMove, 
+                    bm: bm,
+                    br: br,
+                    pn: pn,
+                    pp: pp,
+                    te: te,
+                    ie: ie,
+                    p: p
+                });
 
 			    window.location.href = "Survey.html";
 			    // console.log(recordCounter);
 			    // if (recordCounter != 0) {
 			    //     const testFolder = '/media/Temp';
 			    //     const fs = require('fs');
-
 			    //     fs.readdir(testFolder, (err, files) => {
 			    //       files.forEach(file => {
 			    //         console.log(file);
@@ -574,7 +566,6 @@
 	<iframe id="frmFile2" src="hs2.txt" onload="LoadFile();" style="display: none;"></iframe>
 	<iframe id="frmFile3" src="hs3.txt" onload="LoadFile();" style="display: none;"></iframe>
 	<iframe id="frmFile4" src="hs4.txt" onload="LoadFile();" style="display: none;"></iframe>
-
 	<script type="text/javascript">
 		var score = [];
 		function LoadFile() {
@@ -594,4 +585,3 @@
      -->
 </body>
 </html>
-

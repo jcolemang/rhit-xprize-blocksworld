@@ -173,7 +173,7 @@ div.showChosen {
     height: 80px;
     display: inline-block;
     cursor: pointer;
-    z-index: 2;
+    z-index: 200;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -199,6 +199,7 @@ div.showChosen {
     line-height:1.5;
     cursor: pointer;
     display: table;
+    z-index: 200;
 }
 
 /* Toggle this class - hide and show the popup */

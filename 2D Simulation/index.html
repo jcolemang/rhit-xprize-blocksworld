@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-	<h1 style="text-align: center;">Please agree with following.</h1>
-	<input type="text" name="agreement" style="width: 50%; height: 50%; position: absolute; top:10%; left: 25%;" value="Here is the agreement" readonly><br>
-	<button onclick="location.href = 'newPage.html';" style="width: 100px; height: 40px; background-image: url(img/agree.png); position: absolute; bottom: 30%; left: 25%;">Yes, I agree.</button>
+	<h1 style="text-align: center;">Please agree with following consent.</h1>
+	<div style="position: absolute; top: 10%; left: 25%;">
+		<textarea wrap = "hard" rows="18" cols="80" style="font-size: 18px;" readonly>You are being invited to participate in a research study about cooperation. This study is being conducted by Alan Jern, Ph.D., from the Department of Humanities and Social Sciences at Rose-Hulman Institute of Technology. There are no known risks or costs if you decide to participate in this research study. In this study, you will play a game with a partner that will require you to collaborate to complete a task. The information collected in this study will not benefit you directly, but the information learned in this study could help us better understand how people and intelligent machines (AI) collaborate, and could help develop more intelligent cooperative AI systems. Although the data we collect in this study may be shared publicly, your responses will be stored in a way that will not link your responses to your identity in any way. Your participation in this study is voluntary and you may leave at any time. By completing this study, you are voluntarily agreeing to participate. If you have any questions about the study, please contact Alan Jern at jern@rose-hulman.edu."</textarea>
+	</div>
+	<button onclick="location.href = 'tutor.html';" style="width: 100px; height: 40px; background-image: url(img/agree.png); position: absolute; bottom: 30%; left: 25%;">Yes, I agree.</button>
 	<button onclick="location.href = 'disable.html';" style="width: 100px; height: 40px; background-image: url(img/agree.png); position: absolute; bottom: 30%; left: 70%;">No, I disagree.</button>
 
 	<style type="text/css">
