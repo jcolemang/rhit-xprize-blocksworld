@@ -179,6 +179,7 @@
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
 			var position_x = [];var position_y = [];
+			var cur = 0;
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
@@ -216,7 +217,25 @@
 				if (i < letters.length) {
 					l = i;
 				}
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+				var colors;
+				if (taskID == 3) {
+					if (setupNum[cur] > 0) {
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					} else if (cur < setupNum.length - 1) {
+						setupNum[cur] = copyNum[cur];
+						cur++;
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					} else {
+						cur = 0;
+						colors = setupColor[cur];
+						setupNum[cur]--;
+					}
+				} else {
+					colors = color[color_x];
+				}
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
 	</script>

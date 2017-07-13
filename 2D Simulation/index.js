@@ -39,9 +39,10 @@ var flip_on = true;
 var start_button_pressed = false;
 var blocks_x, blocks_y;
 var initialWords1 = ['ABCDE', 'POSITION'], initialWords2 = ['AQERI', 'PREVIOUS'];
-var chosenWords;
+var chosenWords, specificIns;
 var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
+var setupColor = [], setupNum = [], copyNum = [];
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided blocks with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
@@ -141,6 +142,7 @@ function initTaskID() {
         if (NumBlocks % 2==1) {
             NumBlocks++;
         }
+        specificIns = " (Check if the cards match by color.)";
     }
     if (taskID == 2) {
         chosenWords = Math.floor(Math.random() * initialWords1.length);
@@ -152,11 +154,23 @@ function initTaskID() {
         }
         n1 = initialWords1[chosenWords].length;
         n2 = initialWords2[chosenWords].length;
+        specificIns = "";
     }
     if (taskID == 3) {
         n1 = Math.floor(Math.random() * random_multiplier) + 6;
         n2 = Math.floor(Math.random() * random_multiplier) + 6;
         NumBlocks = n1 + n2;
+        specificIns = "";
+    }
+    if (taskID == 3) {
+        NumBlocks = 16 * 2;
+        n1 = 16; n2 = 16;
+        setupColor = ['red', 'blue'];
+        setupNum = [12, 4];
+        copyNum = [12, 4];
+    }
+    if (taskID == 0) {
+        specificIns = " (Group the cards by color.)";
     }
     setUpVisibility();
 }
@@ -186,8 +200,8 @@ function setUpVisibility() {
 
 function setRefLink() {
     if (taskID==3){
-        document.getElementById("referenceLink").style.visibility = "visible";
-        document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
+        // document.getElementById("referenceLink").style.visibility = "visible";
+        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
         // document.getElementById("referenceLink").style.visibility = "visible";
         // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
@@ -195,7 +209,7 @@ function setRefLink() {
 }
 
 function setTaskHeader() {
-    document.getElementById("taskQ").innerHTML = "Today, you will have task: " + task[taskID] + "!";
+    document.getElementById("taskQ").innerHTML = "Today, you will have task: " + task[taskID] + "!" + specificIns;
 }
 
 function calculateBackEndData() {
@@ -271,9 +285,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        RainbowPath = localStorage.getItem("Rainbow Path");
-        var x = RainbowPath.substring(RainbowPath.indexOf(" ") + 1, RainbowPath.length);
-        console.log(x);
+        var x = 2;
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
     }
 }
