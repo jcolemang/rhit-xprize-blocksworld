@@ -216,7 +216,13 @@ io.on('connection', function(socket) {
 
 survey_io.on('connection', function(socket) {
 	socket.on('send_survey_data_to_server', function(data) {
-		var query = client.query("INSERT INTO survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
+		var query;
+		if (data.q4 != null) {
+			query = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
+		} else {
+			query = client.query("INSERT INTO robot_survey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
+		}
+		
 		query.on("row", function (row, result) {
 		    result.addRow(row);
 		});
