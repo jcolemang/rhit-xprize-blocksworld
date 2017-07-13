@@ -203,7 +203,8 @@ io.on('connection', function(socket) {
 		query.on("end", function (result) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
 		    client.end();
-});
+		});
+
 		// In order to access the data, use the following:
 		// data.time, data.task, data.bm, data.br, data.pn,
 		// data.pp, data.te, data.ie, data.p. All of them
@@ -215,6 +216,15 @@ io.on('connection', function(socket) {
 
 survey_io.on('connection', function(socket) {
 	socket.on('send_survey_data_to_server', function(data) {
+		var query = client.query("INSERT INTO survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
+		query.on("row", function (row, result) {
+		    result.addRow(row);
+		});
+		query.on("end", function (result) {
+		    console.log(JSON.stringify(result.rows, null, "    "));
+		    client.end();
+		});
+
 		// This will be for data that is received by the survey.
 		// It needs its own Node server so as to not conflict with
 		// players connecting to the other one.
