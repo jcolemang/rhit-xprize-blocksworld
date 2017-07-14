@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<meta http-equiv="refresh" content="5;url=tutor.html" />
+
+	<style type="text/css">
+		a.buttonLike {
+			font: Arial;
+			text-decoration: none;
+			background-color: #EEEEEE;
+			color: #333333;
+			padding: 2px 86px 2px 6px;
+			border-top: 1px solid #CCCCCC;
+			border-right: 1px solid #333333;
+			border-bottom: 1px solid #333333;
+			border-left: 1px solid #CCCCCC;
+		}
+	</style>
+	<script type="text/javascript">
+		var countDownDate = new Date().getTime() + 5000;
+	</script>
+	<h2 id = "counter" style="text-align: center;">Thank you for agreement. The page will lead you to the tutorial page in 5 seconds.</h2>
+	<a href = "tutor.html" style="position: absolute; top:10%; left: 36%;">Click here to go to the tutorial page.</a>
+	<script>
+		// Set the date we're counting down to
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+		    // Get todays date and time
+		    var now = new Date().getTime();
+		    
+		    // Find the distance between now an the count down date
+		    var distance = countDownDate - now;
+		    
+		    // Time calculations for days, hours, minutes and seconds
+		    var seconds = Math.floor((distance % (1000 * 60)) / 1000) + 1;
+		    
+		    // Output the result in an element with id="demo"
+		    document.getElementById("counter").innerHTML = "Thank you for agreement. The page will lead you to the tutorial page in " + seconds +" seconds.";
+		    
+		}, 1000);
+	</script>
+</body>
+</html>

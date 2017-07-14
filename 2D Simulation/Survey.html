@@ -39,8 +39,9 @@
 	<input type="radio" name="3" id = "67" value="7 (much easier)"> 7 (much easier)
 	<br><br>
 
-	<button class = "Finishbutton" style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="submit()">Submit</button>
-
+	<button class = "Finishbutton" type = "button"  style = "background-image: url(img/startbutton.png); width: 68px; height: 40px;" onclick="submit()">Submit</button>
+        
+        <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
 	<script type="text/javascript">
 		var q1, q2, q3, q4, q5, q6;
 		if (document.getElementById("41").checked) {
@@ -94,12 +95,11 @@
 		q1 = document.getElementById("q1").value;
 		q2 = document.getElementById("q2").value;
 		q3 = document.getElementById("q3").value;
-	</script>
 
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
-	<script type="text/javascript">
 		function submit() {
-			var socket = io.connect("https://blockworld.rose-hulman.edu:8081");
+event.preventDefault();
+			console.log("SURVEYHTMLLLLLLL");
+			var socket = io.connect("https://blockworld.rose-hulman.edu:1023");
 			socket.emit('send_survey_data_to_server', {
 				q1: q1,
 				q2: q2,

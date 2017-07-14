@@ -10,8 +10,14 @@ var app = https.createServer(options);
 
 var	io = require('socket.io').listen(app),
 	path = require('path');
-
-app.listen(8080, "0.0.0.0");
+//  io.set("origins","*");
+//app.listen(8080, "0.0.0.0");
+app.listen(8080);
+var server = https.createServer(options);
+var survey_io = require('socket.io').listen(server);
+//survey_io.set("origins","*");
+server.listen(1023);
+//server.listen(1023, "0.0.0.0");
 
 var pg = require("pg");
 
@@ -19,13 +25,6 @@ var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
 
 var client = new pg.Client(conString);
 client.connect();
-
-
-var survey_app = https.createServer(options);
-var survey_io = require('socket.io').listen(survey_app);
-
-survey_app.listen(8081, "0.0.0.0");
-
 
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
@@ -51,7 +50,7 @@ var hmnUser = true
 var room_to_join;
 
 io.on('connection', function(socket) {
-
+console.log("HEREEEEEEEEEE22222222");
 	if (recentRoom >= 0) {
 		room_to_join = "Room" + recentRoom;
 		socket.join(room_to_join);
@@ -193,7 +192,7 @@ io.on('connection', function(socket) {
                 // console.log('te:'+data.te);      
                 // console.log('ie:'+data.ie);
                 // console.log('p:'+data.p);
-		
+		console.log("HEREEEEEEEEEE44444");
                 var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
 
 		//client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
@@ -203,8 +202,7 @@ io.on('connection', function(socket) {
 		query.on("end", function (result) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
 		    client.end();
-		});
-
+});
 		// In order to access the data, use the following:
 		// data.time, data.task, data.bm, data.br, data.pn,
 		// data.pp, data.te, data.ie, data.p. All of them
@@ -215,14 +213,16 @@ io.on('connection', function(socket) {
 
 
 survey_io.on('connection', function(socket) {
+        console.log("HEREEEEEEEEEE");
 	socket.on('send_survey_data_to_server', function(data) {
-		var query;
-		if (data.q4 != null) {
-			query = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
-		} else {
-			query = client.query("INSERT INTO robot_survey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
-		}
-		
+console.log("HEREEEEEEEEEE3333");
+console.log("q1:"+data.q1);
+console.log("q2:"+data.q2);
+console.log("q3:"+data.q3);
+console.log("q4:"+data.q4);
+console.log("q5:"+data.q5);
+console.log("q6:"+data.q6);
+                var query = client.query("INSERT INTO survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
 		query.on("row", function (row, result) {
 		    result.addRow(row);
 		});
@@ -230,7 +230,6 @@ survey_io.on('connection', function(socket) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
 		    client.end();
 		});
-
 		// This will be for data that is received by the survey.
 		// It needs its own Node server so as to not conflict with
 		// players connecting to the other one.

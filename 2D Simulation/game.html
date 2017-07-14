@@ -228,7 +228,6 @@
 						colors = setupColor[cur];
 						setupNum[cur]--;
 					} else {
-						setupNum[cur] = copyNum[cur];
 						cur = 0;
 						colors = setupColor[cur];
 						setupNum[cur]--;
@@ -421,7 +420,7 @@
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Robot_Survey.html";
+		    window.location.href = "Survey.html";
 		});
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
@@ -504,8 +503,6 @@
             }
 
             socket.emit("enable_blocks_for_player_2");
-
-            document.getElementById('buttonStart').disabled = true;
 
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
