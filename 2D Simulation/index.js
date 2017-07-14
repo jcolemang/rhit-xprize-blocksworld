@@ -142,7 +142,7 @@ function initTaskID() {
         if (NumBlocks % 2==1) {
             NumBlocks++;
         }
-        specificIns = " (Check if the cards match by color.)";
+        specificIns = " (If the cards are both vowels, or both consonants, they are good, else not.)";
     }
     if (taskID == 2) {
         chosenWords = Math.floor(Math.random() * initialWords1.length);
@@ -157,20 +157,15 @@ function initTaskID() {
         specificIns = "";
     }
     if (taskID == 3) {
-        n1 = Math.floor(Math.random() * random_multiplier) + 6;
-        n2 = Math.floor(Math.random() * random_multiplier) + 6;
-        NumBlocks = n1 + n2;
-        specificIns = "";
-    }
-    if (taskID == 3) {
         NumBlocks = 16 * 2;
         n1 = 16; n2 = 16;
-        setupColor = ['red', 'blue'];
-        setupNum = [12, 4];
-        copyNum = [12, 4];
+        setupColor = ['red', 'blue', 'green', 'orange', 'yellow'];
+        setupNum = [2, 4, 2, 4, 4];
+        copyNum = [2, 4, 2, 4, 4];
+        specificIns = "";
     }
     if (taskID == 0) {
-        specificIns = " (Group the cards by color.)";
+        specificIns = " (Group vowel cards together and consonant cards together.)";
     }
     setUpVisibility();
 }
@@ -285,7 +280,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        var x = 2;
+        var x = 1;
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
     }
 }
