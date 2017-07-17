@@ -46,8 +46,6 @@ var game_times = new Map();
 var recentRoom = -1;
 var nextRoom = 0;
 var unoccupiedRooms = [];
-var numPlayersInRoom = [];
-var hmnUser = true
 var room_to_join;
 
 io.on('connection', function(socket) {
@@ -55,16 +53,19 @@ io.on('connection', function(socket) {
 	if (recentRoom >= 0) {
 		room_to_join = "Room" + recentRoom;
 		socket.join(room_to_join);
+		socket.room = room_to_join;
 		recentRoom = -1;
 	} else {
 		if (unoccupiedRooms.length != 0) {
 			room_to_join = "Room" + unoccupiedRooms[0];
 			socket.join(room_to_join);
+			socket.room = room_to_join;
 			recentRoom = unoccupiedRooms[0];
 			unoccupiedRooms.splice(0, 1);
 		} else {
 			room_to_join = "Room" + nextRoom;
 			socket.join(room_to_join);
+			socket.room = room_to_join;
 			recentRoom = nextRoom;
 			nextRoom++;
 		}
@@ -107,10 +108,6 @@ io.on('connection', function(socket) {
 		io.to(socket.room).emit('update_user_message', message);
 	});
 
-	//socket.on('end_game_for_all_users', function(time) {
-	//	game_times.set(socket.room, time);
-	//});
-
 	socket.on('audio_connection', function(id) {
 		if (voice_connection_data.get(socket.room) == null) {
 			voice_connection_data.set(socket.room, id)
@@ -129,72 +126,50 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
+		var room = io.sockets.adapter.rooms[socket.room.substring(4)];
 
-		var room = io.sockets.adapter.rooms[socket.room];
-		if (socket.room) {
-			if (recentRoom >= 0) {
-				if (socket.room.substring(4) == recentRoom) {
-					hmnUser = true;
-					recentRoom = -1;
-					if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
-						unoccupiedRooms.push(socket.room.substring(4));
-					}
-				} else {
-					hmnUser = false;
-					if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
-						unoccupiedRooms.push(socket.room.substring(4));
-					}
-				}
-			} else {
-				hmnUser = true;
-				recentRoom = -1;
-				if (!room && !contains(unoccupiedRooms, socket.room.substring(4))) {
-					unoccupiedRooms.push(socket.room.substring(4));
-				}
-			}
-			voice_connection_data.set(socket.room, null);
-			waiting_data.set(socket.room, null);
-			if (game_times.get(socket.room) != null) {
-				socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
-			} else {
-				socket.to(socket.room).emit('user_left_game');
-			}
-			
+		if (!room) {
+			unoccupiedRooms.push(socket.room.substring(4));
+			recentRoom = -1;		
+		}
+
+		voice_connection_data.set(socket.room, null);
+		waiting_data.set(socket.room, null);
+		if (game_times.get(socket.room) != null) {
+			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
 			game_times.set(socket.room, null);
+		} else {
+			socket.to(socket.room).emit('user_left_game');
 		}
 		
 	});
 
 	socket.on('setInitialPosition', function(data) {
-		console.log("Room to join: " + room_to_join);
-		if (hmnUser) {
-			starting_game_data.set(room_to_join, data);
-			socket.room = room_to_join;
-			hmnUser = false;
+		console.log("Room to join: " + socket.room);
+		if (io.sockets.adapter.rooms[socket.room].length == 1) {
+			starting_game_data.set(socket.room, data);
 		} else {
 			console.log("Sharing data");
-			socket.emit('setInitialPosition', starting_game_data.get(room_to_join));
-			socket.room = room_to_join;
-			hmnUser = true;
+			socket.emit('setInitialPosition', starting_game_data.get(socket.room));
 		}
 	});
 
 	socket.on('send_data_to_server', function(data) {
-                game_times.set(socket.room, data.time);
-                // console.log('time:'+data.time);
-                // console.log('task:'+data.task);
-                // console.log('b:'+data.b);
-                // console.log('W:'+data.W);
-                // console.log('G:'+data.G);
-                // console.log('bm:'+data.bm);      
-                // console.log('br:'+data.br);
-                // console.log('pn:'+data.pn);      
-                // console.log('pp:'+data.pp);
-                // console.log('te:'+data.te);      
-                // console.log('ie:'+data.ie);
-                // console.log('p:'+data.p);
-		
-                var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
+        game_times.set(socket.room, data.time);
+        // console.log('time:'+data.time);
+        // console.log('task:'+data.task);
+        // console.log('b:'+data.b);
+        // console.log('W:'+data.W);
+        // console.log('G:'+data.G);
+        // console.log('bm:'+data.bm);      
+        // console.log('br:'+data.br);
+        // console.log('pn:'+data.pn);      
+        // console.log('pp:'+data.pp);
+        // console.log('te:'+data.te);      
+        // console.log('ie:'+data.ie);
+        // console.log('p:'+data.p);
+
+        var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
 
 		//client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
 		query.on("row", function (row, result) {
