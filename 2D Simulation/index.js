@@ -29,7 +29,7 @@ var interval = [];
 var type = [];
 var instructiondate;
 var instructionstarttime;
-var instructions = "";
+var instructions = [];
 var time;
 var selectionflag = 0;
 var RainbowPath = "!";
@@ -38,11 +38,14 @@ var human_voice = true;
 var flip_on = true;
 var start_button_pressed = false;
 var blocks_x, blocks_y;
-var initialWords1 = ['ABCDE', 'POSITION'], initialWords2 = ['AQERI', 'PREVIOUS'];
+var initialWords1 = ['abductions', 'authorized', 'bookkeeper'], initialWords2 = ['abductions', 'handiworks', 'barrenness'];
 var chosenWords, specificIns;
 var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
+var movement_startpos = [], movement_endpos = [];
+var time_GF = [];
+var GF_position = [];
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided blocks with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
@@ -89,20 +92,22 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * 7);
+        y = Math.floor(Math.random() * letters.length);
         flipLetterArray[i] = letters[y];
     }
 }
 
-function flipBlock(box) {
+function flipBlock(box, event) {
     if (flip_on) {
         swapColor(box);
         swapLetter(box);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
+        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+        type.push("Flip");
+        time_GF.push(getDateTime());
     }
-    
 }
 
 function swapColor(box) {
@@ -125,8 +130,11 @@ function setGestureWithPosition(left, top) {
     var gestureElement = document.getElementById('gestureToggle');
     gestureElement.style.left = left + 'px';
     gestureElement.style.top = top + 'px';
-
     gestureElement.style.visibility = "visible";
+
+    time_GF.push(getDateTime());
+    GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+    type.push("Gesture");
 }
 
 function setMovement() {
@@ -145,7 +153,7 @@ function initTaskID() {
         specificIns = " (Check if the cards match by color.)";
     }
     if (taskID == 2) {
-        chosenWords = Math.floor(Math.random() * initialWords1.length);
+        chosenWords = 0;
         NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
         letters = [];
         for (var i = 0; i < initialWords1[chosenWords].length; i++) {
@@ -265,7 +273,7 @@ function inputlength() {
             var numToAdd = (x.split(" ").length - 1) + 1;
             NumWords += numToAdd;
         }
-        instructions += x + "\n";  
+        instructions.push(x);  
     }
     document.getElementById("txt_instruction").value = "";
 }
