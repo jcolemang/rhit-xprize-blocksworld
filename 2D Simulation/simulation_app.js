@@ -20,13 +20,6 @@ var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
 var client = new pg.Client(conString);
 client.connect();
 
-
-var survey_app = https.createServer(options);
-var survey_io = require('socket.io').listen(survey_app);
-
-survey_app.listen(8081, "0.0.0.0");
-
-
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
 // 	host: 'https://blockworld.rose-hulman.edu', 
@@ -128,7 +121,7 @@ io.on('connection', function(socket) {
 	socket.on('disconnect', function() {
 		var room = io.sockets.adapter.rooms[socket.room.substring(4)];
 
-		if (!room) {
+		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
 			recentRoom = -1;		
 		}
@@ -185,33 +178,6 @@ io.on('connection', function(socket) {
 		// data.pp, data.te, data.ie, data.p. All of them
 		// should be numbers except for the task, which will
 		// be a string of the task.
-	});
-});
-
-
-survey_io.on('connection', function(socket) {
-	socket.on('send_survey_data_to_server', function(data) {
-		var query;
-		if (data.q4 != null) {
-			query = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q1, data.q2, data.q3, data.q4, data.q5, data.q6]);
-		} else {
-			query = client.query("INSERT INTO robot_survey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
-		}
-		
-		query.on("row", function (row, result) {
-		    result.addRow(row);
-		});
-		query.on("end", function (result) {
-		    console.log(JSON.stringify(result.rows, null, "    "));
-		    client.end();
-		});
-
-		// This will be for data that is received by the survey.
-		// It needs its own Node server so as to not conflict with
-		// players connecting to the other one.
-
-		// The data that is used will be data.q1, data.q2, data.q3,
-		// data.q4, data.q5, and data.q6.
 	});
 });
 
