@@ -424,7 +424,6 @@
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Robot_Survey.html";
 		});
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
@@ -438,8 +437,7 @@
 			setGestureWithPosition(data.left, data.top);
 		});
 		socket.on('user_left_game', function() {
-			document.body.innerHTML = '';
-			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
+			window.location.href = "finalPage.html";
 		});
 		// Opens the popup window for communication between clients.
 		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
@@ -545,6 +543,8 @@
 			    for (var i = 0; i < action.length; i++) {
 			    	console.log(action[i]);
 			    }
+
+			    socket.emit('end_button_pressed');
 
 				calculateBackEndData();
                 

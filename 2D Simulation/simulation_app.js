@@ -35,6 +35,7 @@ var starting_game_data = new Map();
 var voice_connection_data = new Map();
 var waiting_data = new Map();
 var game_times = new Map();
+var going_to_surveys = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
@@ -118,21 +119,26 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
 	});
 
+	socket.on('end_button_pressed', function() {
+		going_to_surveys.set(socket.room, true);
+		socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+	});
+
 	socket.on('disconnect', function() {
 		var room = io.sockets.adapter.rooms[socket.room.substring(4)];
+
+		if (going_to_surveys.get(socket.room) == null) {
+			socket.to(socket.room).emit('user_left_game');
+			going_to_surveys.set(socket.room, null);
+		}
 
 		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
 			recentRoom = -1;		
-		}
-
-		voice_connection_data.set(socket.room, null);
-		waiting_data.set(socket.room, null);
-		if (game_times.get(socket.room) != null) {
-			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
-			game_times.set(socket.room, null);
 		} else {
-			socket.to(socket.room).emit('user_left_game');
+			voice_connection_data.set(socket.room, null);
+			waiting_data.set(socket.room, null);
+			game_times.set(socket.room, null);
 		}
 		
 	});
