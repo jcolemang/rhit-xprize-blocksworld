@@ -637,8 +637,6 @@
 			    	console.log(action[i]);
 			    }
 
-			    socket.emit('end_button_pressed');
-
 				calculateBackEndData();
                 
                 socket.emit('send_data_to_server', {                                      
@@ -656,6 +654,8 @@
                     p: p,
                     Action: action
                 });
+
+                socket.emit('end_button_pressed');
 
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";
