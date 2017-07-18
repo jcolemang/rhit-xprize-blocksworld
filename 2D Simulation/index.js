@@ -38,7 +38,7 @@ var human_voice = true;
 var flip_on = true;
 var start_button_pressed = false;
 var blocks_x, blocks_y;
-var initialWords1 = ['abductions', 'authorized', 'bookkeeper'], initialWords2 = ['abductions', 'handiworks', 'barrenness'];
+var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
 var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
@@ -55,6 +55,78 @@ function writeBlocks() {
         var x= Math.floor(Math.random() * 5);
         document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
+}
+
+function initTaskID() {
+    taskID = Math.floor(Math.random()*4);
+    if (taskID == 1) {
+        random_x = 6; init_x = 450;
+        if (NumBlocks % 2==1) {
+            NumBlocks++;
+        }
+        specificIns = " (Check if the cards match by color.)";
+        letters = [];
+        for (var i = 0; i < NumBlocks; i++) {
+            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+        }
+    }
+    if (taskID == 2) {
+        chosenWords = 0;
+        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
+        letters = [];
+        for (var i = 0; i < initialWords1[chosenWords].length; i++) {
+            var p = Math.floor(Math.random() * 2);
+            if (p == 0) {
+                letters.push(initialWords1[chosenWords][i]);
+                flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            } else {
+                flipLetterArray.push(initialWords1[chosenWords][i]);
+                letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            }
+        }
+
+        for (var i = 0; i < initialWords2[chosenWords].length; i++) {
+            var p = Math.floor(Math.random() * 2);
+            if (p == 0) {
+                letters.push(initialWords2[chosenWords][i]);
+                flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            } else {
+                flipLetterArray.push(initialWords2[chosenWords][i]);
+                letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            }
+        }
+
+        n1 = initialWords1[chosenWords].length;
+        n2 = initialWords2[chosenWords].length;
+        console.log(initialWords1[chosenWords]);
+        specificIns = "";
+    }
+
+    if (taskID == 3) {
+        NumBlocks = 16 * 2;
+        n1 = 16; n2 = 16;
+        setupColor = ['red', 'blue'];
+        setupNum = [12, 4];
+        copyNum = [12, 4];
+
+        letters = [];
+        for (var i = 0; i < NumBlocks; i++) {
+            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+        }
+        specificIns = "";
+    }
+    if (taskID == 0) {
+        specificIns = " (Group the cards by color.)";
+        letters = [];
+        for (var i = 0; i < NumBlocks; i++) {
+            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+        }
+    }
+    console.log(taskID);
+    setUpVisibility();
 }
 
 function setIntroduction(num) {
@@ -90,12 +162,12 @@ function initFlipColors() {
     }
 }
 
-function initFlipLetters() {
-    for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters.length);
-        flipLetterArray[i] = letters[y];
-    }
-}
+// function initFlipLetters() {
+//     for (var i = 0; i < Max_Num_Blocks; i++) {
+//         y = Math.floor(Math.random() * letters.length);
+//         flipLetterArray[i] = letters[y];
+//     }
+// }
 
 function flipBlock(box, event) {
     if (flip_on) {
@@ -104,9 +176,9 @@ function flipBlock(box, event) {
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
-        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+        GF_position.push("(" + event.c
+        time_GF.push(getDateTime());lientX + "," + event.clientY + ")");
         type.push("Flip");
-        time_GF.push(getDateTime());
     }
 }
 
@@ -141,46 +213,6 @@ function setMovement() {
     var property = document.getElementById('MovementCount');
     property.innerText = actualMove;
     document.getElementById("gestureToggle").style.visibility = "hidden";
-}
-
-function initTaskID() {
-    taskID = Math.floor(Math.random()*4);
-    if (taskID == 1) {
-        random_x = 6; init_x = 450;
-        if (NumBlocks % 2==1) {
-            NumBlocks++;
-        }
-        specificIns = " (Check if the cards match by color.)";
-    }
-    if (taskID == 2) {
-        chosenWords = 0;
-        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
-        letters = [];
-        for (var i = 0; i < initialWords1[chosenWords].length; i++) {
-            letters.push(initialWords1[chosenWords][i]);
-            letters.push(initialWords2[chosenWords][i]);
-        }
-        n1 = initialWords1[chosenWords].length;
-        n2 = initialWords2[chosenWords].length;
-        specificIns = "";
-    }
-    if (taskID == 3) {
-        n1 = Math.floor(Math.random() * random_multiplier) + 6;
-        n2 = Math.floor(Math.random() * random_multiplier) + 6;
-        NumBlocks = n1 + n2;
-        specificIns = "";
-    }
-    if (taskID == 3) {
-        NumBlocks = 16 * 2;
-        n1 = 16; n2 = 16;
-        setupColor = ['red', 'blue'];
-        setupNum = [12, 4];
-        copyNum = [12, 4];
-    }
-    if (taskID == 0) {
-        specificIns = " (Group the cards by color.)";
-    }
-    setUpVisibility();
 }
 
 function setUpVisibility() {
