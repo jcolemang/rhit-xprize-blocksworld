@@ -13,6 +13,12 @@ var	io = require('socket.io').listen(app),
 
 app.listen(8080, "0.0.0.0");
 
+Object.keys(io.sockets.sockets).forEach(function(s) {
+	var socket = io.sockets.sockets[s];
+	socket.disconnect(true);
+	io.sockets.in(socket.room).leave(socket.room);
+});
+
 var pg = require("pg");
 
 var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
@@ -133,7 +139,7 @@ io.on('connection', function(socket) {
 		var room = io.sockets.adapter.rooms[socket.room.substring(4)];
 
 		if (going_to_surveys.get(socket.room) == null) {
-			socket.to(socket.room).emit('user_left_game');
+			io.to(socket.room).emit('user_left_game');
 			going_to_surveys.set(socket.room, null);
 		}
 

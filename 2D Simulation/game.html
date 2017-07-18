@@ -242,7 +242,20 @@
 	</script>
 
 	<script type="text/javascript" >
-		var socket = io.connect("https://blockworld.rose-hulman.edu:8080");
+		var socket;
+
+		try {
+			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
+		} catch (err) {
+			window.location.href = "server_down.html";
+		}
+
+		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
+
+		socket.on('connect_failed', function() {
+			window.location.href = "server_down.html"; 
+		});
+
 		var left_array = [];
 		var top_array = [];
 		var current_colors = [];
@@ -256,20 +269,29 @@
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
-		socket.emit('setInitialPosition', {
-			numBlocks: NumBlocks,
-			lefts: left_array,
-			tops: top_array,
-			colors: current_colors,
-			flipColorArray: flipColorArray,
-			letters: current_letters,
-			flipLetterArray: flipLetterArray,
-			currentTask: taskID,
-			movement_count: actualMove,
-			gesture_count: gestureCount,
-			ins : specificIns
-		});
-		socket.emit('am_I_second_to_join');
+		try {
+			socket.emit('setInitialPosition', {
+				numBlocks: NumBlocks,
+				lefts: left_array,
+				tops: top_array,
+				colors: current_colors,
+				flipColorArray: flipColorArray,
+				letters: current_letters,
+				flipLetterArray: flipLetterArray,
+				currentTask: taskID,
+				movement_count: actualMove,
+				gesture_count: gestureCount,
+				ins : specificIns
+			});
+		} catch (err) {
+			window.location.href = "server_down.html"; 
+		}
+		
+		try {
+			socket.emit('am_I_second_to_join');
+		} catch (err) {
+			window.location.href = "server_down.html"; 
+		}
 
 		socket.on('freeze_start', function() {
 			var startButton = document.getElementById('buttonStart');
@@ -293,7 +315,11 @@
 
 		socket.on('unfreeze_start', function() {
 
-			socket.emit('disable_blocks_for_player_2');
+			try {
+				socket.emit('disable_blocks_for_player_2');
+			} catch (err) {
+				window.location.href = "server_down.html"; 
+			}
 
            	var startButton = document.getElementById('buttonStart');
 			startButton.disabled = false;
@@ -395,7 +421,12 @@
 			setIntroduction(2);
 		});
 		function send_flip_to_server(block_id) {
-			socket.emit('receive_flip_block', block_id);
+			try {
+				socket.emit('receive_flip_block', block_id);
+			} catch (err) {
+				window.location.href = "server_down.html"; 
+			}
+			
 		}
 		$(document).ready(function() {
     		$(".draggable").draggable();
@@ -432,17 +463,27 @@
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
 					var block_id = $(this).attr('id');
-					socket.emit('receive_position', {
-						block_id: block_id,
-						left: coord.left,
-						top: coord.top
-					});
+					try {
+						socket.emit('receive_position', {
+							block_id: block_id,
+							left: coord.left,
+							top: coord.top
+						});
+					} catch (err) {
+						window.location.href = "server_down.html"; 
+					}
+					
 				}
 				});
 			}
 		}
 		function send_movement_to_server() {
-			socket.emit('receive_movement_data', actualMove);
+			try {
+				socket.emit('receive_movement_data', actualMove);
+			} catch (err) {
+				window.location.href = "server_down.html"; 
+			}
+			
 		}
 		socket.on('update_movement_data', function(data) {
 			actualMove = data;
@@ -450,7 +491,12 @@
 		});
 		function send_user_message_to_server() {
 			if (start_button_pressed) {
-				socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+				try {
+					socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+				} catch (err) {
+					window.location.href = "server_down.html"; 
+				}
+				
 			}
 		}
 		socket.on('update_user_message', function(message) {
@@ -459,7 +505,7 @@
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');                        
       
-      document.body.innerHTML = '';
+      		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
 			var h = document.createElement("H2");            
@@ -542,22 +588,32 @@
 			 };
 
             document.getElementById("btn1").onclick = function() {
-                socket.emit('send_survey_data_to_server', {
-         													q1: q1,
-															q2: q2,
-															q3: q3
-			  });
+            	try {
+            		socket.emit('send_survey_data_to_server', {
+         				q1: q1,
+						q2: q2,
+						q3: q3
+			  		});
+            	} catch (err) {
+            		window.location.href = "server_down.html"; 
+            	}
+                
 
 			  window.location.href = "finalPage.html";  
             };
         });
 
 		function send_gesture_to_server() {
-			socket.emit('receive_gesture_data', {
-				gestureCount: gestureCount,
-				left: $("#gestureToggle").position().left,
-				top: $("#gestureToggle").position().top
-			});
+			try {
+				socket.emit('receive_gesture_data', {
+					gestureCount: gestureCount,
+					left: $("#gestureToggle").position().left,
+					top: $("#gestureToggle").position().top
+				});
+			} catch (err) {
+				window.location.href = "server_down.html"; 
+			}
+			
 		}
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
@@ -631,7 +687,11 @@
 				$("#block" + i).draggable("enable");
             }
 
-            socket.emit("enable_blocks_for_player_2");
+            try {
+            	socket.emit("enable_blocks_for_player_2");
+            } catch (err) {
+            	window.location.href = "server_down.html"; 
+            }
 
             document.getElementById('buttonStart').disabled = true;
 
@@ -673,23 +733,31 @@
 
 				calculateBackEndData();
                 
-                socket.emit('send_data_to_server', {                                      
-                    time: time,
-                    task: task[taskID] + " " + specificIns,
-                    W: NumWords,
-                    G: gestureCount,
-                    b: actualMove, 
-                    bm: bm,
-                    br: br,
-                    pn: pn,
-                    pp: pp,
-                    te: te,
-                    ie: ie,
-                    p: p,
-                    Action: action
-                });
-
-                socket.emit('end_button_pressed');
+                try {
+                	socket.emit('send_data_to_server', {                                      
+	                    time: time,
+	                    task: task[taskID] + " " + specificIns,
+	                    W: NumWords,
+	                    G: gestureCount,
+	                    b: actualMove, 
+	                    bm: bm,
+	                    br: br,
+	                    pn: pn,
+	                    pp: pp,
+	                    te: te,
+	                    ie: ie,
+	                    p: p,
+	                    Action: action
+	                });
+                } catch (err) {
+                	window.location.href = "server_down.html"; 
+                }
+                
+                try {
+                	socket.emit('end_button_pressed');
+                } catch (err) {
+                	window.location.href = "server_down.html"; 
+                }
 
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";
@@ -841,14 +909,19 @@
 				 };
 
 				document.getElementById("btn1").onclick = function() {
-				    socket.emit('send_survey_data_to_server', {
-				                    							q11:q11,
-																q22:q22,
-																q33: q33,
-																q4: q4,
-				                                				q5: q5,
-				                                				q6: q6
-				});
+					try {
+						socket.emit('send_survey_data_to_server', {
+						    q11:q11,
+							q22:q22,
+							q33: q33,
+							q4: q4,
+						    q5: q5,
+						    q6: q6
+						});
+					} catch (err) {
+						window.location.href = "server_down.html"; 
+					}
+				    
                 window.location.href = "finalPage.html";  
 
 			}
