@@ -173,8 +173,9 @@ io.on('connection', function(socket) {
 	     // console.log('te:'+data.te);      
 	     // console.log('ie:'+data.ie);
 	     // console.log('p:'+data.p);
-		
-  		var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
+		 // console.log('Action:'+data.action);
+  		
+  		var query = client.query("INSERT INTO ibm(time, task, b, W, G, bm, br, pn, pp, te, ie, p, timeAndLocation) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action]);
 		
 		query.on("row", function (row, result) {
 		    result.addRow(row);
