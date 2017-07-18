@@ -204,6 +204,7 @@ io.on('connection', function(socket) {
 		// console.log('q6:'+data.q6);
 
 		var query1, query2;
+		var count = 1;
 		
 		if (data.q4 != null) { 
 			query1 = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q11, data.q22, data.q33, data.q4, data.q5, data.q6]);
@@ -217,6 +218,12 @@ io.on('connection', function(socket) {
 			});
 			query1.on("end", function (result) {
 		    	console.log(JSON.stringify(result.rows, null, "    "));
+		    	if(count === 0) {
+		        	client.end();
+		        }
+		        else {
+		        	count = 0;
+		        }
    			});
 		}
 
@@ -226,7 +233,12 @@ io.on('connection', function(socket) {
             });
             query2.on("end", function (result) {
                 console.log(JSON.stringify(result.rows, null, "    "));
-		        client.end();
+                if(count === 0) {
+		        	client.end();
+		        }
+		        else {
+		        	count = 0;
+		        }
    		    });
 		}
 	});
