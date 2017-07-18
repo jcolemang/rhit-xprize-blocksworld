@@ -20,6 +20,11 @@ var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
 var client = new pg.Client(conString);
 client.connect();
 
+//var survey_app = https.createServer(options);
+//var survey_io = require('socket.io').listen(survey_app);
+
+//survey_app.listen(8081, "0.0.0.0");
+
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
 // 	host: 'https://blockworld.rose-hulman.edu', 
@@ -155,35 +160,68 @@ io.on('connection', function(socket) {
 
 	socket.on('send_data_to_server', function(data) {
         game_times.set(socket.room, data.time);
-        // console.log('time:'+data.time);
-        // console.log('task:'+data.task);
-        // console.log('b:'+data.b);
-        // console.log('W:'+data.W);
-        // console.log('G:'+data.G);
-        // console.log('bm:'+data.bm);      
-        // console.log('br:'+data.br);
-        // console.log('pn:'+data.pn);      
-        // console.log('pp:'+data.pp);
-        // console.log('te:'+data.te);      
-        // console.log('ie:'+data.ie);
-        // console.log('p:'+data.p);
-
-        var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
-
-		//client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
+    
+	     // console.log('time:'+data.time);
+	     // console.log('task:'+data.task);
+	     // console.log('b:'+data.b);
+	     // console.log('W:'+data.W);
+	     // console.log('G:'+data.G);
+	     // console.log('bm:'+data.bm);      
+	     // console.log('br:'+data.br);
+	     // console.log('pn:'+data.pn);      
+	     // console.log('pp:'+data.pp);
+	     // console.log('te:'+data.te);      
+	     // console.log('ie:'+data.ie);
+	     // console.log('p:'+data.p);
+		
+  		var query = client.query("INSERT INTO ibmdb(time, task, b, W, G, bm, br, pn, pp, te, ie, p) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p]);
+		
 		query.on("row", function (row, result) {
 		    result.addRow(row);
 		});
 		query.on("end", function (result) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
-		    client.end();
 		});
+	});
 
-		// In order to access the data, use the following:
-		// data.time, data.task, data.bm, data.br, data.pn,
-		// data.pp, data.te, data.ie, data.p. All of them
-		// should be numbers except for the task, which will
-		// be a string of the task.
+	socket.on('send_survey_data_to_server', function(data) {
+		// console.log('q1:'+data.q1);      
+		// console.log('q2:'+data.q2);
+		// console.log('q3:'+data.q3);
+
+		// console.log('q11:'+data.q11);      
+		// console.log('q22:'+data.q22);
+		// console.log('q33:'+data.q33);
+		// console.log('q4:'+data.q4);      
+		// console.log('q5:'+data.q5);
+		// console.log('q6:'+data.q6);
+
+		var query1, query2;
+		
+		if (data.q4 != null) { 
+			query1 = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q11, data.q22, data.q33, data.q4, data.q5, data.q6]);
+		} else {
+ 			query2 = client.query("INSERT INTO Rsurvey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
+		}
+		
+		if(query1!=null) {		
+			query1.on("row", function (row, result) {
+		    	result.addRow(row);
+			});
+			query1.on("end", function (result) {
+		    	console.log(JSON.stringify(result.rows, null, "    "));
+   			});
+		}
+
+		if(query2!=null) {
+			query2.on("row", function (row, result) {
+                result.addRow(row);
+            });
+            query2.on("end", function (result) {
+                console.log(JSON.stringify(result.rows, null, "    "));
+		        client.end();
+   		    });
+		}
 	});
 });
 
