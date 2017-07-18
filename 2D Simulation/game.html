@@ -266,7 +266,8 @@
 			flipLetterArray: flipLetterArray,
 			currentTask: taskID,
 			movement_count: actualMove,
-			gesture_count: gestureCount
+			gesture_count: gestureCount,
+			ins : specificIns
 		});
 		socket.emit('am_I_second_to_join');
 
@@ -336,10 +337,43 @@
 			taskID = data.currentTask;
 			actualMove = data.movement_count;
 			gestureCount = data.gesture_count;
+			specificIns = data.ins;
+
+			if (taskID == 1) {
+		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        document.getElementById('user1').style.visibility = "hidden";
+		        document.getElementById('user2').style.visibility = "hidden";
+
+		        document.getElementById('vertical-line').style.visibility = "visible";
+		        document.getElementById('vertical-line2').style.visibility = "visible";
+		        document.getElementById('user3').style.visibility = "visible";
+		        document.getElementById('user4').style.visibility = "visible";
+		    }
+		    if (taskID == 2 || taskID == 0) {
+		        document.getElementById('vertical-line').style.visibility = "hidden";
+		        document.getElementById('vertical-line2').style.visibility = "hidden";
+		        document.getElementById('user3').style.visibility = "hidden";
+		        document.getElementById('user4').style.visibility = "hidden";
+
+		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        document.getElementById('user1').style.visibility = "hidden";
+		        document.getElementById('user2').style.visibility = "hidden";
+		    }
+		    if (taskID == 3) {
+		    	document.getElementById('vertical-line3').style.visibility = "visible";
+		    	document.getElementById('user1').style.visibility = "visible";
+		    	document.getElementById('user2').style.visibility = "visible";
+
+		        document.getElementById('vertical-line').style.visibility = "hidden";
+		        document.getElementById('vertical-line2').style.visibility = "hidden";
+		        document.getElementById('user3').style.visibility = "hidden";
+		        document.getElementById('user4').style.visibility = "hidden";
+		    }
+
 			setTaskHeader();
 			setIntroduction();
 			setRefLink();
-			setUpVisibility();
+
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
