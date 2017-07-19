@@ -352,7 +352,7 @@
 			$("#" + block).css('z-index', ++z);
 		});
 		socket.on('update_flip_block', function (block_id) {
-			flipBlock(block_id);
+			flipBlock(block_id, event);
 		});
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
@@ -404,7 +404,7 @@
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 			}
 			$( init );
 			for (var i = 0; i < NumBlocks; i++) {
