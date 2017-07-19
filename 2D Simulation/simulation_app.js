@@ -115,7 +115,7 @@ io.on('connection', function(socket) {
 
 	socket.on('audio_connection', function(id) {
 		if (voice_connection_data.get(socket.room) == null) {
-			voice_connection_data.set(socket.room, id)
+			voice_connection_data.set(socket.room, id);
 		} else {
 			socket.emit('audio_connection', voice_connection_data.get(socket.room));
 		}
@@ -145,13 +145,11 @@ io.on('connection', function(socket) {
 
 		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
-			recentRoom = -1;
-			starting_game_data.set(socket.room, null);	
+			starting_game_data.set(socket.room, null);
 		}
 		voice_connection_data.set(socket.room, null);
 		waiting_data.set(socket.room, null);
 		game_times.set(socket.room, null);
-		
 	});
 
 	socket.on('setInitialPosition', function(data) {
@@ -166,23 +164,9 @@ io.on('connection', function(socket) {
 
 	socket.on('send_data_to_server', function(data) {
         game_times.set(socket.room, data.time);
-    
-	     // console.log('time:'+data.time);
-	     // console.log('task:'+data.task);
-	     // console.log('b:'+data.b);
-	     // console.log('W:'+data.W);
-	     // console.log('G:'+data.G);
-	     // console.log('bm:'+data.bm);      
-	     // console.log('br:'+data.br);
-	     // console.log('pn:'+data.pn);      
-	     // console.log('pp:'+data.pp);
-	     // console.log('te:'+data.te);      
-	     // console.log('ie:'+data.ie);
-	     // console.log('p:'+data.p);
-		 // console.log('Action:'+data.action);
-  		
+
   		var query = client.query("INSERT INTO ibm(time, task, b, W, G, bm, br, pn, pp, te, ie, p, timeAndLocation) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action]);
-		
+
 		query.on("row", function (row, result) {
 		    result.addRow(row);
 		});
@@ -192,27 +176,16 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('send_survey_data_to_server', function(data) {
-		// console.log('q1:'+data.q1);      
-		// console.log('q2:'+data.q2);
-		// console.log('q3:'+data.q3);
-
-		// console.log('q11:'+data.q11);      
-		// console.log('q22:'+data.q22);
-		// console.log('q33:'+data.q33);
-		// console.log('q4:'+data.q4);      
-		// console.log('q5:'+data.q5);
-		// console.log('q6:'+data.q6);
-
 		var query1, query2;
 		var count = 1;
-		
-		if (data.q4 != null) { 
+
+		if (data.q4 != null) {
 			query1 = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q11, data.q22, data.q33, data.q4, data.q5, data.q6]);
 		} else {
  			query2 = client.query("INSERT INTO Rsurvey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
 		}
-		
-		if(query1!=null) {		
+
+		if(query1!=null) {
 			query1.on("row", function (row, result) {
 		    	result.addRow(row);
 			});

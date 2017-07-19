@@ -74,9 +74,9 @@
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
-    
+
 	<!-- <script type="text/javascript">
-      
+
         var recognizer = null;
         function recognize() {
             //speechRecognization interface is the heart of recognization API
@@ -142,7 +142,7 @@
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
-    
+
   	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
 	<!-- <script src="Recorderjs/recorder.js"></script>
@@ -155,7 +155,6 @@
 		initBlocks();
 		initInstructions();
 		initFlipColors();
-		// initFlipLetters();
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
@@ -173,7 +172,7 @@
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
-				setGestureWithPosition(event.clientX, event.clientY);		
+				setGestureWithPosition(event.clientX, event.clientY);
 				send_gesture_to_server();
 			};
 			container.style.fontSize = "40px";
@@ -257,7 +256,9 @@
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
 		socket.on('disconnect', function() {
-			window.location.href = "server_down.html"; 
+			if (!ending_survey) {
+				window.location.href = "server_down.html";	
+			}
 		});
 
 		var left_array = [];
@@ -290,7 +291,7 @@
 		} catch (err) {
 			window.location.href = "server_down.html"; 
 		}
-		
+
 		try {
 			socket.emit('am_I_second_to_join');
 		} catch (err) {
@@ -345,7 +346,6 @@
         });
 		var z = 1;
 		socket.on('update_position', function (data) {
-			
 			var left = data.left;
 			var top = data.top;
 			var block = data.block_id;
@@ -360,7 +360,7 @@
 		});
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
-			human_voice = false;			
+			human_voice = false;
 			flipColorArray = data.flipColorArray.slice(0);
 			flipLetterArray = data.flipLetterArray.slice(0);
 			NumBlocks = data.numBlocks;
@@ -430,11 +430,10 @@
 			} catch (err) {
 				window.location.href = "server_down.html"; 
 			}
-			
 		}
 		$(document).ready(function() {
     		$(".draggable").draggable();
-			
+
 			$('.draggable').each(function(el){
 			    var tLeft = Math.floor(Math.random()*1140) + 1,
 			    tTop  = Math.floor(Math.random()*540) + 1;
@@ -452,32 +451,31 @@
         			movementstarttime = new Date().getTime();
         			movementdate = getDateTime();
 				}, stop: function(event, ui) {
-					var Stoppos = $(this).position();
-					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
-						start.push(movementdate);
-						end.push(getDateTime());
-						interval.push(new Date().getTime() - movementstarttime);
-						type.push("Movement");
-						actualMove++;
-						movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-						movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
-						setMovement();
-						send_movement_to_server();
+						var Stoppos = $(this).position();
+						if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+							start.push(movementdate);
+							end.push(getDateTime());
+							interval.push(new Date().getTime() - movementstarttime);
+							type.push("Movement");
+							actualMove++;
+							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
+							movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
+							setMovement();
+							send_movement_to_server();
 					}
 				}, drag: function(event, ui) {
-					var coord = $(this).position();
-					var block_id = $(this).attr('id');
-					try {
-						socket.emit('receive_position', {
-							block_id: block_id,
-							left: coord.left,
-							top: coord.top
-						});
-					} catch (err) {
-						window.location.href = "server_down.html"; 
+						var coord = $(this).position();
+						var block_id = $(this).attr('id');
+						try {
+							socket.emit('receive_position', {
+								block_id: block_id,
+								left: coord.left,
+								top: coord.top
+							});
+						} catch (err) {
+							window.location.href = "server_down.html"; 
+						}
 					}
-					
-				}
 				});
 			}
 		}
@@ -487,7 +485,6 @@
 			} catch (err) {
 				window.location.href = "server_down.html"; 
 			}
-			
 		}
 		socket.on('update_movement_data', function(data) {
 			actualMove = data;
@@ -498,32 +495,30 @@
 				try {
 					socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 				} catch (err) {
-					window.location.href = "server_down.html"; 
+					window.location.href = "server_down.html";
 				}
-				
 			}
 		}
 		socket.on('update_user_message', function(message) {
 			document.getElementById("user_message").innerHTML = message;
 		});
 		socket.on('end_game_for_user', function(time_data) {
-			alert('How long you take to finish the task? ' + time_data/1000 + 's');                        
-      
+			alert('How long you take to finish the task? ' + time_data/1000 + 's');
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-			var h = document.createElement("H2");            
+			var h = document.createElement("H2");
 			var t = document.createTextNode("Thank you for participating the game. Please take a few seconds to complete this survey.");  
-			h.appendChild(t); 
-			document.body.appendChild(h); 
+			h.appendChild(t);
+			document.body.appendChild(h);
 
-			var p4 = document.createElement("P");            
-			var t4 = document.createTextNode("1. How helpful did you find your partner?");  
-			p4.appendChild(t4); 
-			document.body.appendChild(p4); 
+			var p4 = document.createElement("P");
+			var t4 = document.createTextNode("1. How helpful did you find your partner?");
+			p4.appendChild(t4);
+			document.body.appendChild(p4);
 
 			var newPanel1 = document.createElement("P");
-			    newPanel1.id= "panel1";
+			newPanel1.id= "panel1";
 			var newList1 = document.createElement("select");
 			newList1.setAttribute("id", "newList1");
 			newList1.appendChild(new Option("select", 0));
@@ -534,21 +529,21 @@
 			newList1.appendChild(new Option("5", 5));
 			newList1.appendChild(new Option("6", 6));
 			newList1.appendChild(new Option("7 (very effectively)", 7));
-			   
+
 			newPanel1.appendChild(newList1);
 			document.body.appendChild(newPanel1);
 
-                        var q1 = document.getElementById('newList1').value;
+            var q1 = document.getElementById('newList1').value;
 
-			var p5 = document.createElement("P");            
-			var t5 = document.createTextNode("2. How effectively did your partner communicate what the goal was and what you wanted to do?");  
-			p5.appendChild(t5); 
-			document.body.appendChild(p5); 
+			var p5 = document.createElement("P");
+			var t5 = document.createTextNode("2. How effectively did your partner communicate what the goal was and what you wanted to do?");
+			p5.appendChild(t5);
+			document.body.appendChild(p5);
 
 			var newPanel2 = document.createElement("P");
-			    newPanel2.id= "panel2";
+			newPanel2.id= "panel2";
 			var newList2 = document.createElement("select");
-                        newList2.setAttribute("id", "newList2");			 
+            newList2.setAttribute("id", "newList2");
 			newList2.appendChild(new Option("select", 0));
 			newList2.appendChild(new Option("1 (very ineffectively)", 1));
 			newList2.appendChild(new Option("2", 2));
@@ -557,33 +552,33 @@
 			newList2.appendChild(new Option("5", 5));
 			newList2.appendChild(new Option("6", 6));
 			newList2.appendChild(new Option("7 (very effectively)", 7));
-			   
+
 			newPanel2.appendChild(newList2);
 			document.body.appendChild(newPanel2);
-                        
-                        var q2 = document.getElementById('newList2').value;
 
-			var p1 = document.createElement("P");            
-			var t1 = document.createTextNode("3. Please describe anything you found confusing about this game.");  
-			p1.appendChild(t1); 
-			document.body.appendChild(p1); 
+            var q2 = document.getElementById('newList2').value;
+
+			var p1 = document.createElement("P");
+			var t1 = document.createTextNode("3. Please describe anything you found confusing about this game.");
+			p1.appendChild(t1);
+			document.body.appendChild(p1);
 
 			var input = document.createElement("textarea");
-			input.setAttribute("id", "q3");			
+			input.setAttribute("id", "q3");
 			input.name = "q3";
 			input.cols = "50";
 			input.rows = "4";
-			document.body.appendChild(input); 		    
-                     	
-            var btn = document.createElement("BUTTON"); 
-            btn.setAttribute("id", "btn1");       
-			var t = document.createTextNode("Submit");       
+			document.body.appendChild(input);
+
+            var btn = document.createElement("BUTTON");
+            btn.setAttribute("id", "btn1");
+			var t = document.createTextNode("Submit");
 			btn.appendChild(t);
-			document.body.appendChild(btn);    
+			document.body.appendChild(btn);
 
 			document.getElementById("newList1").onchange = function() {
 			    q1 = document.getElementById('newList1').value;
-			 };                        
+			 };
 			document.getElementById("newList2").onchange = function() {
 			    q2 = document.getElementById('newList2').value;
 			 };
@@ -599,11 +594,10 @@
 						q3: q3
 			  		});
             	} catch (err) {
-            		window.location.href = "server_down.html"; 
+            		window.location.href = "server_down.html";
             	}
-                
-
-			  window.location.href = "finalPage.html";  
+                ending_survey = true;
+			  	window.location.href = "finalPage.html";
             };
         });
 
@@ -615,9 +609,8 @@
 					top: $("#gestureToggle").position().top
 				});
 			} catch (err) {
-				window.location.href = "server_down.html"; 
+				window.location.href = "server_down.html";
 			}
-			
 		}
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
@@ -694,7 +687,7 @@
             try {
             	socket.emit("enable_blocks_for_player_2");
             } catch (err) {
-            	window.location.href = "server_down.html"; 
+            	window.location.href = "server_down.html";
             }
 
             document.getElementById('buttonStart').disabled = true;
@@ -736,14 +729,14 @@
 			    }
 
 				calculateBackEndData();
-                
+
                 try {
-                	socket.emit('send_data_to_server', {                                      
+                	socket.emit('send_data_to_server', {
 	                    time: time,
 	                    task: task[taskID] + " " + specificIns,
 	                    W: NumWords,
 	                    G: gestureCount,
-	                    b: actualMove, 
+	                    b: actualMove,
 	                    bm: bm,
 	                    br: br,
 	                    pn: pn,
@@ -754,9 +747,9 @@
 	                    Action: action
 	                });
                 } catch (err) {
-                	window.location.href = "server_down.html"; 
+                	window.location.href = "server_down.html";
                 }
-                
+
                 try {
                 	socket.emit('end_button_pressed');
                 } catch (err) {
@@ -771,60 +764,60 @@
 				var q5 = 0;
 				var q6 = 0;
 
-				var h = document.createElement("H2");            
-				var t = document.createTextNode("Thank you for participating the game. Please take a few seconds to complete this survey.");  
-				h.appendChild(t); 
-				document.body.appendChild(h); 
+				var h = document.createElement("H2");
+				var t = document.createTextNode("Thank you for participating the game. Please take a few seconds to complete this survey.");
+				h.appendChild(t);
+				document.body.appendChild(h);
 
-				var p1 = document.createElement("P");            
-				var t1 = document.createTextNode("1. What was your strategy for cooperating with your partner to complete the task?");  
-				p1.appendChild(t1); 
-				document.body.appendChild(p1); 
+				var p1 = document.createElement("P");
+				var t1 = document.createTextNode("1. What was your strategy for cooperating with your partner to complete the task?");
+				p1.appendChild(t1);
+				document.body.appendChild(p1);
 
 				var input = document.createElement("textarea");
-				input.setAttribute("id", "q11"); 
+				input.setAttribute("id", "q11");
 
 				input.name = "q1";
 				input.cols = "50";
 				input.rows = "4";
-				document.body.appendChild(input); 
+				document.body.appendChild(input);
 
-				var p2 = document.createElement("P");            
-				var t2 = document.createTextNode("2. Were there any aspects of the task that you found confusing?");  
-				p2.appendChild(t2); 
-				document.body.appendChild(p2); 
+				var p2 = document.createElement("P");
+				var t2 = document.createTextNode("2. Were there any aspects of the task that you found confusing?");
+				p2.appendChild(t2);
+				document.body.appendChild(p2);
 
 				var input2 = document.createElement("textarea");
-				input2.setAttribute("id", "q22"); 
+				input2.setAttribute("id", "q22");
 
 				input2.name = "q2";
 				input2.cols = "50";
 				input2.rows = "4";
-				document.body.appendChild(input2); 
+				document.body.appendChild(input2);
 
-				var p3 = document.createElement("P");            
-				var t3 = document.createTextNode("3. What communication method (e.g., speaking, typing, or pointing) did you find most effective for coordinating with your partner?");  
-				p3.appendChild(t3); 
-				document.body.appendChild(p3); 
+				var p3 = document.createElement("P");
+				var t3 = document.createTextNode("3. What communication method (e.g., speaking, typing, or pointing) did you find most effective for coordinating with your partner?");
+				p3.appendChild(t3);
+				document.body.appendChild(p3);
 
 				var input3 = document.createElement("textarea");
-				input3.setAttribute("id", "q33"); 
+				input3.setAttribute("id", "q33");
 
 				input3.name = "q3";
 				input3.cols = "50";
 				input3.rows = "4";
-				document.body.appendChild(input3); 
+				document.body.appendChild(input3);
 
-				var p4 = document.createElement("P");            
-				var t4 = document.createTextNode("4. How difficult was it to complete the task?");  
-				p4.appendChild(t4); 
-				document.body.appendChild(p4); 
+				var p4 = document.createElement("P");
+				var t4 = document.createTextNode("4. How difficult was it to complete the task?");
+				p4.appendChild(t4);
+				document.body.appendChild(p4);
 
 				var newPanel1 = document.createElement("P");
-				    newPanel1.id= "panel1";
+				newPanel1.id= "panel1";
 				var newList1 = document.createElement("select");
 
-				newList1.setAttribute("id", "newList1"); 
+				newList1.setAttribute("id", "newList1");
 				newList1.appendChild(new Option("select", 0));
 				newList1.appendChild(new Option("1 (very ineffectively)", 1));
 				newList1.appendChild(new Option("2", 2));
@@ -834,20 +827,19 @@
 				newList1.appendChild(new Option("6", 6));
 				newList1.appendChild(new Option("7 (very effectively)", 7));
 
-				   
 				newPanel1.appendChild(newList1);
 				document.body.appendChild(newPanel1);
 
-				var p5 = document.createElement("P");            
-				var t5 = document.createTextNode("5. How helpful did you find your partner?");  
-				p5.appendChild(t5); 
-				document.body.appendChild(p5); 
+				var p5 = document.createElement("P");
+				var t5 = document.createTextNode("5. How helpful did you find your partner?");
+				p5.appendChild(t5);
+				document.body.appendChild(p5);
 
 				var newPanel2 = document.createElement("P");
-				    newPanel2.id= "panel2";
+				newPanel2.id= "panel2";
 				var newList2 = document.createElement("select");
 
-                newList2.setAttribute("id", "newList2");                         
+                newList2.setAttribute("id", "newList2");
                 newList2.appendChild(new Option("select", 0));
                 newList2.appendChild(new Option("1 (very ineffectively)", 1));
                 newList2.appendChild(new Option("2", 2));
@@ -860,13 +852,13 @@
 				newPanel2.appendChild(newList2);
 				document.body.appendChild(newPanel2);
 
-				var p6 = document.createElement("P");            
-				var t6 = document.createTextNode("6. How much more difficult would this task have been if you had to do it on your own, without a partner?");  
-				p6.appendChild(t6); 
-				document.body.appendChild(p6);  
+				var p6 = document.createElement("P");
+				var t6 = document.createTextNode("6. How much more difficult would this task have been if you had to do it on your own, without a partner?");
+				p6.appendChild(t6);
+				document.body.appendChild(p6);
 
 				var newPanel3 = document.createElement("P");
-				    newPanel3.id= "panel3";
+				newPanel3.id= "panel3";
 				var newList3 = document.createElement("select");
 
 				newList3.setAttribute("id", "newList3");
@@ -883,8 +875,8 @@
 				document.body.appendChild(newPanel3);
 
 				var btn = document.createElement("BUTTON");
-				btn.setAttribute("id", "btn1");        
-				var t = document.createTextNode("Submit");       
+				btn.setAttribute("id", "btn1");
+				var t = document.createTextNode("Submit");
 				btn.appendChild(t);
 				document.body.appendChild(btn);
 
@@ -923,12 +915,11 @@
 						    q6: q6
 						});
 					} catch (err) {
-						window.location.href = "server_down.html"; 
+						window.location.href = "server_down.html";
 					}
-				    
-                window.location.href = "finalPage.html";  
-
-			}
+				    ending_survey = true;
+                	window.location.href = "finalPage.html";
+				}
 				//window.location.href = "Survey.html";
 							    // console.log(recordCounter);
 							    // if (recordCounter != 0) {
