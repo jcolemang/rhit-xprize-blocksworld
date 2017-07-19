@@ -182,7 +182,7 @@ io.on('connection', function(socket) {
 		if (data.q4 != null) {
 			query1 = client.query("INSERT INTO human_survey(q1, q2, q3, q4, q5, q6) values($1, $2, $3, $4, $5, $6)", [data.q11, data.q22, data.q33, data.q4, data.q5, data.q6]);
 		} else {
- 			query2 = client.query("INSERT INTO Rsurvey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
+ 			query2 = client.query("INSERT INTO robot_survey(q1, q2, q3) values($1, $2, $3)", [data.q1, data.q2, data.q3]);
 		}
 
 		if(query1!=null) {
