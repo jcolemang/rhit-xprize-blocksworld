@@ -237,6 +237,10 @@
 					colors = color[color_x];
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+				$("#block" + i).bind("contextmenu", function(e) {
+					var event = e || window.event;
+					flipBlock('block' + i, event);
+				});
 			}
 		}
 	</script>
@@ -352,7 +356,7 @@
 			$("#" + block).css('z-index', ++z);
 		});
 		socket.on('update_flip_block', function (block_id) {
-			flipBlock(block_id, event);
+			flipBlock(block_id, null);
 		});
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");

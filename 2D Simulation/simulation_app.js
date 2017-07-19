@@ -136,7 +136,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
-		var room = io.sockets.adapter.rooms[socket.room.substring(4)];
+		var room = io.sockets.adapter.rooms[socket.room];
 
 		if (going_to_surveys.get(socket.room) == null) {
 			io.to(socket.room).emit('user_left_game');

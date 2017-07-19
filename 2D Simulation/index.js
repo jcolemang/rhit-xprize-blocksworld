@@ -104,9 +104,11 @@ function flipBlock(box, event) {
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
-        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-        type.push("Flip");
-        time_GF.push(getDateTime());
+        if (event != null) {
+            GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+            type.push("Flip");
+            time_GF.push(getDateTime());
+        }  
     }
 }
 
