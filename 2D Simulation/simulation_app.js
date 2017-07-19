@@ -145,18 +145,18 @@ io.on('connection', function(socket) {
 
 		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
-			recentRoom = -1;		
-		} else {
-			voice_connection_data.set(socket.room, null);
-			waiting_data.set(socket.room, null);
-			game_times.set(socket.room, null);
+			recentRoom = -1;
+			starting_game_data.set(socket.room, null);	
 		}
+		voice_connection_data.set(socket.room, null);
+		waiting_data.set(socket.room, null);
+		game_times.set(socket.room, null);
 		
 	});
 
 	socket.on('setInitialPosition', function(data) {
 		console.log("Room to join: " + socket.room);
-		if (io.sockets.adapter.rooms[socket.room].length == 1) {
+		if (starting_game_data.get(socket.room) == null) {
 			starting_game_data.set(socket.room, data);
 		} else {
 			console.log("Sharing data");
