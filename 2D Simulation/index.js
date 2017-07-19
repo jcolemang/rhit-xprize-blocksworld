@@ -121,6 +121,7 @@ function swapLetter(box) {
     var property = document.getElementById(box);
     var currentLetter = property.textContent || property.innerText;
     property.textContent = flipLetterArray[box.substring(5)];
+    console.log(box.substring(5) +" " +NumBlocks);
     flipLetterArray[box.substring(5)] = currentLetter;
 }
 
@@ -184,6 +185,10 @@ function initTaskID() {
             }
         }
 
+        for (var i = initialWords2[chosenWords].length + initialWords1[chosenWords].length; i < NumBlocks; i++) {
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+        }
         n1 = initialWords1[chosenWords].length;
         n2 = initialWords2[chosenWords].length;
         console.log(initialWords1[chosenWords]);
