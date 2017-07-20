@@ -240,6 +240,8 @@
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 
+				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
+
 				$("#block" + i).bind("contextmenu", function(e) {
 					var event = e || window.event;
 					flipBlock('block' + i, event);
@@ -540,7 +542,7 @@
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
-      document.body.innerHTML = '';
+      		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
 			var h = document.createElement("H2");            
@@ -637,7 +639,7 @@
 			ending_survey = true;
 		  	window.location.href = "finalPage.html";  
             };
-        });
+        };
 
 		function send_gesture_to_server() {
 			try {
@@ -802,6 +804,7 @@
 	                    ie: ie,
 	                    p: p,
 	                    Action: action,
+	                    initialInfo: initialInfo,
 	                    other: words
 	                });
                 } catch (err) {
