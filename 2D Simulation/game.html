@@ -240,6 +240,11 @@
 					colors = color[color_x];
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+
+				$("#block" + i).bind("contextmenu", function(e) {
+					var event = e || window.event;
+					flipBlock('block' + i, event);
+				});
 			}
 		}
 	</script>
@@ -255,8 +260,10 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		socket.on('connect_failed', function() {
-			window.location.href = "server_down.html"; 
+		socket.on('disconnect', function() {
+			if (!ending_survey) {
+				window.location.href = "server_down.html";	
+			}
 		});
 
 		var left_array = [];
@@ -355,7 +362,7 @@
 			$("#" + block).css('z-index', ++z);
 		});
 		socket.on('update_flip_block', function (block_id) {
-			flipBlock(block_id);
+			flipBlock(block_id, null);
 		});
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
@@ -602,7 +609,8 @@
             	}
                 
 
-			  window.location.href = "finalPage.html";  
+			ending_survey = true;
+		  	window.location.href = "finalPage.html";  
             };
         });
 
