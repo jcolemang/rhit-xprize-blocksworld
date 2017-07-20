@@ -94,13 +94,6 @@ div.instruction {
     width: 1600px;
 }
 
-
-div.user_message {
-    position: absolute;
-    top: 90px;
-    left: 500px;
-}
-
 div.numofwords {
     display: inline;
 }

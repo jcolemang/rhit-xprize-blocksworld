@@ -35,13 +35,13 @@
 
   	<div id ="vertical-line" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 550px; top: 120px; z-index: 200;"> </div>
 	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
-	<div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div>
+	<!-- <div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div> -->
 
-	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
-	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
-	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
-	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -64,8 +64,6 @@
 	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
 	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
-
-	    <div class = "user_message" id="user_message"></div>
 	    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
 	    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
@@ -74,7 +72,8 @@
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
-    
+
+	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
 	<!-- <script type="text/javascript">
       
         var recognizer = null;
@@ -244,6 +243,16 @@
 				$("#block" + i).bind("contextmenu", function(e) {
 					var event = e || window.event;
 					flipBlock('block' + i, event);
+					if (am_i_player1) {
+		                players.push("Human");
+		            } else {
+		                players.push("Robot");
+		            }
+
+		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
+		            var flipped_block_letter = document.getElementById('block' + i).value;
+
+		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
 				});
 			}
 		}
@@ -365,6 +374,12 @@
 			flipBlock(block_id, null);
 		});
 		socket.on('setInitialPosition', function(data) {
+			document.getElementById('user1').innerText = "Player1";
+			document.getElementById('user2').innerText = "Player2 (You)";
+			document.getElementById('user3').innerText = "Player1";
+			document.getElementById('user4').innerText = "Player2 (You)";
+			am_i_player1 = false;
+
 			var container = document.getElementById("container");
 			human_voice = false;			
 			flipColorArray = data.flipColorArray.slice(0);
@@ -376,7 +391,7 @@
 			specificIns = data.ins;
 
 			if (taskID == 1) {
-		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 
@@ -391,14 +406,14 @@
 		        document.getElementById('user3').style.visibility = "hidden";
 		        document.getElementById('user4').style.visibility = "hidden";
 
-		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 		    }
 		    if (taskID == 3) {
-		    	document.getElementById('vertical-line3').style.visibility = "visible";
-		    	document.getElementById('user1').style.visibility = "visible";
-		    	document.getElementById('user2').style.visibility = "visible";
+		    	// document.getElementById('vertical-line3').style.visibility = "visible";
+		    	document.getElementById('user1').style.visibility = "hidden";
+		    	document.getElementById('user2').style.visibility = "hidden";
 
 		        document.getElementById('vertical-line').style.visibility = "hidden";
 		        document.getElementById('vertical-line2').style.visibility = "hidden";
@@ -458,17 +473,27 @@
         			movementstarttime = new Date().getTime();
         			movementdate = getDateTime();
 				}, stop: function(event, ui) {
-					var Stoppos = $(this).position();
-					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
-						start.push(movementdate);
-						end.push(getDateTime());
-						interval.push(new Date().getTime() - movementstarttime);
-						type.push("Movement");
-						actualMove++;
-						movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-						movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
-						setMovement();
-						send_movement_to_server();
+						var Stoppos = $(this).position();
+						if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+							start.push(movementdate);
+							end.push(getDateTime());
+							interval.push(new Date().getTime() - movementstarttime);
+							type.push("Movement");
+							actualMove++;
+							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
+							movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
+							if (am_i_player1) {
+				                players.push("Human");
+				            } else {
+				                players.push("Robot");
+				            }
+				            var moved_block_color = document.getElementById('block' + i).style.backgroundColor;
+		            		var moved_block_letter = document.getElementById('block' + i).value;
+
+		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+							
+							setMovement();
+							send_movement_to_server();
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
@@ -510,12 +535,12 @@
 			}
 		}
 		socket.on('update_user_message', function(message) {
-			document.getElementById("user_message").innerHTML = message;
+			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
 		});
-		socket.on('end_game_for_user', function(time_data) {
-			alert('How long you take to finish the task? ' + time_data/1000 + 's');                        
-      
-      		document.body.innerHTML = '';
+			var minutes = Math.floor(time_data / 60);
+			var seconds = time - (minutes * 60);
+			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
+      document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
 			var h = document.createElement("H2");            
@@ -693,9 +718,11 @@
                 send_gesture_to_server();
             };
 
-            for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
-				$("#block" + i).draggable("enable");
+            if (taskID != 3) {
+            	for (var i = 0; i < NumBlocks; i++) {
+	                flip_on = true;
+					$("#block" + i).draggable("enable");
+	            }
             }
 
             try {
@@ -713,6 +740,11 @@
 				endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
+			    time = time / 1000; // Convert to seconds.
+
+			    var minutes = Math.floor(time / 60);
+			    var seconds = time - (minutes * 60);
+
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
 			        if(blockid) {
@@ -722,20 +754,26 @@
 			            }
 			        }
 			    }
-			    var x= 0, y= 0, z = 0, counter = 0; var action = [];
+			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0; var action = [];
 			    for (var i = 0; i < type.length;i++) {
 			        if (type[i] == "Movement") {
-			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-			        	x++; counter++;
+			        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+			        	x++; counter++; user++; block_count++;
 			        } else if (type[i] == "Instructions") {
-			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+			        	action.push(ype[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
 			        	y++; counter++;
 			        } else {
-			        	action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
-			        	z++;
+			        	if (type[i] == "Flip") {
+			        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+							block_count++;
+			        	} else {
+			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	}
+			        	z++; user++;
+			        	
 			        }
 			    }
-			    alert('Time you took to finish the task? ' + time/1000 + 's');
+			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
 			    // stopRecog();
 
 			    for (var i = 0; i < action.length; i++) {
