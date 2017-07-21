@@ -356,7 +356,9 @@
 
         socket.on('enable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
+        		if (taskID != 1) {
+        			flip_on = true;
+        		}
 				$("#block" + i).draggable("enable");
             }
         });
@@ -723,7 +725,9 @@
             if (taskID != 3) {
             	for (var i = 0; i < NumBlocks; i++) {
 	                flip_on = true;
-					$("#block" + i).draggable("enable");
+	                if (taskID != 1) {
+	                	$("#block" + i).draggable("enable");
+	                }					
 	            }
             }
 
