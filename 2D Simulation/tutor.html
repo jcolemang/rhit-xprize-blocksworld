@@ -171,7 +171,7 @@
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 
-		<div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
+		<div class = "showChosen" id = "showChosen" style="position: absolute; top: 10%; left: 40%; font-size:12px; font-family:verdana"></div>
 		</div>
 	</div>
     
@@ -180,6 +180,8 @@
 	<!-- <div class = "liveAudio">
 		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
 	</div> -->
+
+	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
 
 	<div id = "disablingDivtop"></div>
 	<div id = "disablingDivleft"></div>
@@ -296,6 +298,11 @@
 			// document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Here are the communication tools.</div>";
+
+			document.getElementById('tutorial1').innerHTML += "<div style = \"height:400px; width:250px; border: white solid 4px; position: absolute; bottom:25%; right: 5%;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; bottom: 50%; right: 20%\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; bottom: 53%; right: 22%; width:15%; font-size:18px; font-family:verdana\">You can see the instruction here.</div>";
+
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 200px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
 		}
 
@@ -309,9 +316,9 @@
 			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 280px; height: 80px; border: white solid 4px; position: absolute; top: 1%; right: 1%;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 5%; right: 310px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 350px; width:400px; font-size:18px; font-family:verdana\">Remeber to read the specific introduction of the game here.</div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 95px; left: 32%; width: 180px; height: 20px; border: white solid 4px;\"</div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 60px; left: 45%\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 12%; right: 350px; width:400px; font-size:18px; font-family:verdana\">If you have searching and rainbow path, remeber to see your task here.</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 180px; height: 20px; border: white solid 4px;\"</div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 7%; left: 50%;\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">If you have searching and rainbow path, remeber to see your task here.</div>";
 
 			document.getElementById("showChosen").style.visibility = "visible";
 			document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
