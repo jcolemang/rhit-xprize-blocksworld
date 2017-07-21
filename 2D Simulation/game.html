@@ -739,6 +739,8 @@
 
             document.getElementById('buttonStart').disabled = true;
 
+            socket.emit('receive_user_message', "(The game has started!)");
+
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
