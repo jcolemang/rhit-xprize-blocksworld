@@ -52,9 +52,9 @@
 		$(document).ready(function() {
     		$(".draggable").draggable();
 		$('.draggable').each(function(el){
-		    var tLeft = Math.floor(Math.random()*1140) + 1,
-		    tTop  = Math.floor(Math.random()*540) + 1;
-		    $(el).css({position:'relative', left: 1140, top: 540});
+		    var tLeft = Math.floor(Math.random()*(page_width) * 0.7) + 1,
+		    tTop  = Math.floor(Math.random()*(page_height)*0.7) + 1;
+		    $(el).css({position:'relative', left: page_width * 0.7, top: page_height * 0.7});
 		});
 	});
 	</script>
@@ -110,9 +110,18 @@
 		initTaskID();
 	</script>
 
+	<script type="text/javascript">
+		page_width = window.innerWidth;
+		page_height = window.innerHeight;
+	</script>
+
   <style>
     body {
-      background: url(img/background.jpg) repeat 0 0;
+    	background: url(img/background.jpg)	no-repeat center center fixed; 
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
     }
   </style>
 
@@ -181,17 +190,20 @@
 		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
 	</div> -->
 
-	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
+	<div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
 
 	<div id = "disablingDivtop"></div>
 	<div id = "disablingDivleft"></div>
 	<div id = "disablingDivright"></div>
 	<div id = "disablingDivbottom"></div>
+	<div id = "disablingDivcenter"></div>
+
 	<script type="text/javascript">
 		document.getElementById('disablingDivtop').style.display='block';
 		document.getElementById('disablingDivleft').style.display='block';
 		document.getElementById('disablingDivright').style.display='block';
 		document.getElementById('disablingDivbottom').style.display='block';
+		document.getElementById('disablingDivcenter').style.display='block';
 	</script>
 
 	<div id = "tutorial1">
@@ -209,8 +221,8 @@
 			document.getElementById("next1").style.visibility = "hidden";
 
 			document.getElementById("tutorial1").innerHTML = "<div id = \"containerPointer\" onclick = ShowBlocks()></div>";
-			document.getElementById('tutorial1').innerHTML += "<img id = \"img1\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 200px; left: 120px\">";
-			document.getElementById('tutorial1').innerHTML += "<div id = \"close1\" style=\"position:absolute; top: 200px; left: 0px; width: 9%; text-align:center;font-size:18px; font-family:verdana\">Here is the table of blocks. <br> Click it to continue.</div>";
+			document.getElementById('tutorial1').innerHTML += "<img id = \"img1\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 20%; left: 5%\">";
+			document.getElementById('tutorial1').innerHTML += "<div id = \"close1\" style=\"position:absolute; top: 25%; left: 0px; width: 9%; text-align:center;font-size:18px; font-family:verdana\">Here is the table of blocks. <br> Click it to continue.</div>";
 		}
 
 		function ShowBlocks() {
@@ -219,11 +231,15 @@
 			document.getElementById('close1').style.visibility = "hidden";
 
 			console.log(blocks_x);console.log(blocks_y);
-			blocks_x+=128;blocks_y+=188;
-			document.getElementById('tutorial1').innerHTML = "<div id = \"highlight1\" style = \"width: 50px; height:50px; border:white solid 4px; position:absolute; top:"+blocks_x+"px;left:"+blocks_y+"px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img id = \"img2\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 64)+"px\">";
-			document.getElementById('tutorial1').innerHTML += "<div id = \"inst1\" style=\"font-size:18px; font-family:verdana;width:50px;height:50px;position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 120)+"px\">Here is one block.</div>";
-			document.getElementById('tutorial1').innerHTML += "<button id = \"next2\" onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:30px;position:absolute; top:"+(blocks_x + 100)+"px; left: "+(blocks_y - 120)+"px\">>>Try block operation.</button>";
+			blocks_x+=0.15*page_height;blocks_y+=0.15*page_width;
+
+			var block = document.getElementById("block0");
+			var rect = block.getBoundingClientRect();
+
+			document.getElementById('tutorial1').innerHTML = "<div id = \"highlight1\" style = \"width: 50px; height:50px; border:white solid 4px; position:absolute; top:"+ rect.top +"px;left:"+rect.left +"px;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img id = \"img2\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+rect.top+"px; left: "+(rect.left - 64)+"px\">";
+			document.getElementById('tutorial1').innerHTML += "<div id = \"inst1\" style=\"font-size:18px; font-family:verdana;width:50px;height:50px;position:absolute; top:"+rect.top+"px; left: "+(rect.left - 120)+"px\">Here is one block.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"next2\" onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:30px;position:absolute; top:"+(rect.top + 100)+"px; left: "+(rect.left - 120)+"px\">>>Try block operation.</button>";
 		}
 
 		function BlockOp() {
@@ -233,12 +249,14 @@
 			document.getElementById('next2').style.visibility = "hidden";
 			document.getElementById('tutorial1').style.visibility = "hidden";
 
-			document.getElementById('disablingDivbottom').style.display = 'none';
-			$("#block1").css("z-index", "2000");
-			console.log($("#block1").css("z-index"));
-			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">Each block has two sides. You can flip a block over by right-clicking it. Try it now.</div>";
-			document.getElementById('tutorial').innerHTML += "<button id = \"button3\" onclick = \"Showgesture()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById('disablingDivcenter').style.display = 'none';
+
+			var block = document.getElementById("block0");
+			var rect = block.getBoundingClientRect();
+
+			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(rect.top - 120)+"px; left: "+(rect.left - 64)+"px\">";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(rect.top-120)+"px; left: "+(rect.left - 250)+"px\">Each block has two sides. You can flip a block over by right-clicking it. Try it now.</div>";
+			document.getElementById('tutorial').innerHTML += "<button id = \"button3\" onclick = \"Showgesture()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(rect.top-40)+"px; left: "+(rect.left - 40)+"px\">>>Next</button>";
 			document.getElementById("button3").disabled = true;
 		}
 
@@ -246,10 +264,13 @@
 			document.getElementById('text2').style.visibility = "hidden";
 			document.getElementById('button3').style.visibility = "hidden";
 
-			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text3\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">You can \"point\" to a location on the table by double-clicking there. Try it now by double-clicking somewhere on the table.</div>";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text4\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y + 80)+"px\">When you point to a location, a small icon remains on the screen at that location until you do something else. Your partner can also see this icon.</div>";
-			document.getElementById('tutorial').innerHTML += "<button id = \"button4\" onclick = \"nextPageTo3()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			var block = document.getElementById("block0");
+			var rect = block.getBoundingClientRect();
+
+			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(rect.top - 120)+"px; left: "+(rect.left - 64)+"px\">";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text3\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(rect.top-120)+"px; left: "+(rect.left - 250)+"px\">You can \"point\" to a location on the table by double-clicking there. Try it now by double-clicking somewhere on the table.</div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text4\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(rect.top-120)+"px; left: "+(rect.left + 80)+"px\">When you point to a location, a small icon remains on the screen at that location until you do something else. Your partner can also see this icon.</div>";
+			document.getElementById('tutorial').innerHTML += "<button id = \"button4\" onclick = \"nextPageTo3()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(rect.top-40)+"px; left: "+(rect.left - 40)+"px\">>>Next</button>";
 			document.getElementById('button4').disabled = true;
 		}
 
@@ -258,15 +279,19 @@
 			document.getElementById("text3").innerText = "You can move the blocks around by clicking and dragging. Try moving this block somewhere else.";
 			document.getElementById("text4").style.visibility = "hidden";
 			document.getElementById("button4").style.visibility = "hidden";
+
+			var block = document.getElementById("block0");
+			var rect = block.getBoundingClientRect();
+
 			$( init );
-			document.getElementById('tutorial').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo4()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById('tutorial').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo4()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(rect.top-40)+"px; left: "+(rect.left - 40)+"px\">>>Next</button>";
 			document.getElementById("button5").disabled = true;
 		}
 
 		function nextPageTo4() {
 			document.getElementById('tog').style.visibility = "hidden";
 			document.getElementById("text3").style.visibility = "hidden";
-			document.getElementById("disablingDivbottom").style.display = "block";
+			document.getElementById("disablingDivcenter").style.display = "block";
 			document.getElementById("tutorial").style.visibility = "hidden";
 			document.getElementById("tutorial1").style.visibility = "visible";
 
@@ -299,9 +324,9 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Here are the communication tools.</div>";
 
-			document.getElementById('tutorial1').innerHTML += "<div style = \"height:400px; width:250px; border: white solid 4px; position: absolute; bottom:25%; right: 5%;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; bottom: 50%; right: 20%\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; bottom: 53%; right: 22%; width:15%; font-size:18px; font-family:verdana\">You can see the instruction here.</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"height:30%; width:10%; border: white solid 4px; position: absolute; bottom:25%; right: 5%;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; bottom: 40%; right: 18%\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; bottom: 43%; right: 22%; width:15%; font-size:18px; font-family:verdana\">You can see the instruction here.</div>";
 
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 200px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
 		}
@@ -316,7 +341,7 @@
 			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 280px; height: 80px; border: white solid 4px; position: absolute; top: 1%; right: 1%;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 5%; right: 310px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 350px; width:400px; font-size:18px; font-family:verdana\">Remeber to read the specific introduction of the game here.</div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 180px; height: 20px; border: white solid 4px;\"</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 170px; height: 20px; border: white solid 4px;\"</div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 7%; left: 50%;\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">If you have searching and rainbow path, remeber to see your task here.</div>";
 

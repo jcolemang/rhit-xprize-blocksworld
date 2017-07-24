@@ -33,15 +33,15 @@
 		</div>
   	</div>
 
-  	<div id ="vertical-line" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 550px; top: 120px; z-index: 200;"> </div>
-	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
+  	<div id ="vertical-line" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 33.33%; top: 10%; z-index: 200;"> </div>
+	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 56.66%; top: 10%; z-index: 200;"> </div>
 	<!-- <div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div> -->
 
-	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user1" style="position: absolute; left: 30%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user2" style="position: absolute; left: 75%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
-	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user3" style="position: absolute; left: 25%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user4" style="position: absolute; left: 80%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -73,7 +73,7 @@
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
-	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
+	<div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
 	<!-- <script type="text/javascript">
       
         var recognizer = null;
@@ -136,6 +136,11 @@
 
 	<script type="text/javascript" src="index.js"></script>
 
+	<script type="text/javascript">
+		page_width = window.innerWidth;
+		page_height = window.innerHeight;
+	</script>
+
  	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
@@ -187,11 +192,11 @@
 				var l = Math.floor(Math.random() * letters.length);
 				if (taskID == 3) {
 					if (i < n1) {
-						random_x = 10;
+						random_x = Math.floor(page_width * 0.75 * 1 / 3 / 50);
 						init_x = 0;
 					} else {
-						random_x = 10;
-						init_x = 600;
+						random_x = Math.floor(page_width * 0.75 * 1 / 3 / 50);
+						init_x = Math.floor(page_width * 0.75 * 2 / 3);
 					}
 				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
@@ -261,21 +266,21 @@
 	</script>
 
 	<script type="text/javascript" >
-		var socket;
+		// var socket;
 
-		try {
-			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
-		} catch (err) {
-			window.location.href = "server_down.html";
-		}
+		// try {
+		// 	socket = io.connect("https://blockworld.rose-hulman.edu:8080");
+		// } catch (err) {
+		// 	window.location.href = "server_down.html";
+		// }
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		socket.on('disconnect', function() {
-			if (!ending_survey) {
-				window.location.href = "server_down.html";	
-			}
-		});
+		// socket.on('disconnect', function() {
+		// 	if (!ending_survey) {
+		// 		window.location.href = "server_down.html";	
+		// 	}
+		// });
 
 		var left_array = [];
 		var top_array = [];
@@ -461,9 +466,9 @@
     		$(".draggable").draggable();
 			
 			$('.draggable').each(function(el){
-			    var tLeft = Math.floor(Math.random()*1140) + 1,
-			    tTop  = Math.floor(Math.random()*540) + 1;
-			    $(el).css({position:'relative', left: 1140, top: 540});
+			    var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
+			    tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
+			    $(el).css({position:'relative', left: page_width, top: page_height});
 			});
 		});
 		var z = 1;
@@ -538,9 +543,10 @@
 				
 			}
 		}
-		socket.on('update_user_message', function(message) {
-			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
-		});
+		socket.on('end_game_for_user', function(time_data) {
+			socket.on('update_user_message', function(message) {
+				document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
+			});
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
@@ -641,7 +647,7 @@
 			ending_survey = true;
 		  	window.location.href = "finalPage.html";  
             };
-        };
+        });
 
 		function send_gesture_to_server() {
 			try {
@@ -738,8 +744,6 @@
             }
 
             document.getElementById('buttonStart').disabled = true;
-
-            socket.emit('receive_user_message', "(The game has started!)");
 
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
