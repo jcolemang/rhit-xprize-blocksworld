@@ -45,7 +45,6 @@ client.connect();
 var starting_game_data = new Map();
 var voice_connection_data = new Map();
 var waiting_data = new Map();
-var game_times = new Map();
 var going_to_surveys = new Map();
 
 var recentRoom = -1;
@@ -130,9 +129,9 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
 	});
 
-	socket.on('end_button_pressed', function() {
+	socket.on('end_button_pressed', function(time) {
 		going_to_surveys.set(socket.room, true);
-		socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+		socket.to(socket.room).emit('end_game_for_user', time);
 	});
 
 	socket.on('disconnect', function() {
@@ -149,7 +148,6 @@ io.on('connection', function(socket) {
 		}
 		voice_connection_data.set(socket.room, null);
 		waiting_data.set(socket.room, null);
-		game_times.set(socket.room, null);
 	});
 
 	socket.on('setInitialPosition', function(data) {
@@ -163,7 +161,6 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('send_data_to_server', function(data) {
-        game_times.set(socket.room, data.time);
 
   		var query = client.query("INSERT INTO ibm(time, task, b, W, G, bm, br, pn, pp, te, ie, p, timeAndLocation) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action]);
 

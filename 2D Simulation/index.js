@@ -124,7 +124,6 @@ function flipBlock(box, event) {
 }
 
 function swapColor(box) {
-    console.log("Box is " + box);
     var property = document.getElementById(box);
     var currentColor = property.style.backgroundColor;
     property.style.backgroundColor = flipColorArray[box.substring(5)];

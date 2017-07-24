@@ -363,7 +363,9 @@
 
         socket.on('enable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-        		flip_on = true;
+        		if (taskID != 1) {
+        			flip_on = true;
+        		}
 				$("#block" + i).draggable("enable");
             }
         });
@@ -516,8 +518,8 @@
 				            } else {
 				                players.push("Robot");
 				            }
-				            var moved_block_color = this.style.backgroundColor;
-		            		var moved_block_letter = this.value;
+				            var moved_block_color = $(this).style.backgroundColor;
+		            		var moved_block_letter = $(this).value;
 
 		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
 							
