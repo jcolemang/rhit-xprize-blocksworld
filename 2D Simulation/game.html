@@ -35,7 +35,6 @@
 
   	<div id ="vertical-line" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 33.33%; top: 10%; z-index: 200;"> </div>
 	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 56.66%; top: 10%; z-index: 200;"> </div>
-	<!-- <div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div> -->
 
 	<p id ="user1" style="position: absolute; left: 30%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
 	<p id ="user2" style="position: absolute; left: 75%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
@@ -163,9 +162,7 @@
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
-    	for (var i = 0; i < flipLetterArray.length; i++) {
-    		console.log(flipLetterArray[i]);
-    	}
+    	popUpGameIntro();
 		var color = ['red', 'blue','green','orange','yellow'];
 		function initBlocks() {
 			// Adds 1 to NumBlocks if the task is matching, ensuring an even
@@ -180,7 +177,7 @@
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
-				setGestureWithPosition(event.clientX, event.clientY);		
+				setGestureWithPosition(event.clientX, event.clientY, event);		
 				send_gesture_to_server();
 			};
 			container.style.fontSize = "40px";
@@ -243,44 +240,49 @@
 				} else {
 					colors = color[color_x];
 				}
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\">"+letters[l]+"</div>");
 
 				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
 
+				$("#block" + i).data("id", i);
+
 				$("#block" + i).bind("contextmenu", function(e) {
-					var event = e || window.event;
-					flipBlock('block' + i, event);
-					if (am_i_player1) {
-		                players.push("Human");
-		            } else {
-		                players.push("Robot");
-		            }
+					if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
+						var event = e || window.event;
+						flipBlock('block' + $(this).data("id"), event);
+						send_flip_to_server('block' + $(this).data("id"));
+						if (am_i_player1) {
+			                players.push("Human");
+			            } else {
+			                players.push("Robot");
+			            }
 
-		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
-		            var flipped_block_letter = document.getElementById('block' + i).value;
+			            var flipped_block_color = document.getElementById('block' + $(this).data("id")).style.backgroundColor;
+			            var flipped_block_letter = document.getElementById('block' + $(this).data("id")).value;
 
-		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+					}
 				});
 			}
 		}
 	</script>
 
 	<script type="text/javascript" >
-		// var socket;
+		var socket;
 
-		// try {
-		// 	socket = io.connect("https://blockworld.rose-hulman.edu:8080");
-		// } catch (err) {
-		// 	window.location.href = "server_down.html";
-		// }
+		try {
+			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
+		} catch (err) {
+			window.location.href = "server_down.html";
+		}
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		// socket.on('disconnect', function() {
-		// 	if (!ending_survey) {
-		// 		window.location.href = "server_down.html";	
-		// 	}
-		// });
+		socket.on('disconnect', function() {
+			if (!ending_survey) {
+				window.location.href = "server_down.html";	
+			}
+		});
 
 		var left_array = [];
 		var top_array = [];
@@ -361,9 +363,7 @@
 
         socket.on('enable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-        		if (taskID != 1) {
-        			flip_on = true;
-        		}
+        		flip_on = true;
 				$("#block" + i).draggable("enable");
             }
         });
@@ -400,7 +400,6 @@
 			specificIns = data.ins;
 
 			if (taskID == 1) {
-		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 
@@ -415,12 +414,10 @@
 		        document.getElementById('user3').style.visibility = "hidden";
 		        document.getElementById('user4').style.visibility = "hidden";
 
-		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 		    }
 		    if (taskID == 3) {
-		    	// document.getElementById('vertical-line3').style.visibility = "visible";
 		    	document.getElementById('user1').style.visibility = "hidden";
 		    	document.getElementById('user2').style.visibility = "hidden";
 
@@ -438,8 +435,31 @@
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
+
+				$("#block" + i).data("id", i);
+
+				$("#block" + i).bind("contextmenu", function(e) {
+					if (taskID != 1) {
+						var event = e || window.event;
+						flipBlock('block' + $(this).data("id"), event);
+						send_flip_to_server('block' + $(this).data("id"));
+						if (am_i_player1) {
+			                players.push("Human");
+			            } else {
+			                players.push("Robot");
+			            }
+
+			            var flipped_block_color = document.getElementById('block' + $(this).data("id")).style.backgroundColor;
+			            var flipped_block_letter = document.getElementById('block' + $(this).data("id")).value;
+
+			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+					}
+				});
 			}
+
+			
+
 			$( init );
 			for (var i = 0; i < NumBlocks; i++) {
 				$("#block" + i).draggable("enable");
@@ -496,8 +516,8 @@
 				            } else {
 				                players.push("Robot");
 				            }
-				            var moved_block_color = document.getElementById('block' + i).style.backgroundColor;
-		            		var moved_block_letter = document.getElementById('block' + i).value;
+				            var moved_block_color = this.style.backgroundColor;
+		            		var moved_block_letter = this.value;
 
 		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
 							
@@ -543,12 +563,15 @@
 				
 			}
 		}
+    
+		socket.on('update_user_message', function(message) {
+			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
+		});
+
 		socket.on('end_game_for_user', function(time_data) {
-			socket.on('update_user_message', function(message) {
-				document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
-			});
+			time_data = time_data / 1000;
 			var minutes = Math.floor(time_data / 60);
-			var seconds = time - (minutes * 60);
+			var seconds = time_data - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
@@ -663,7 +686,7 @@
 		}
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
-			setGestureWithPosition(data.left, data.top);
+			setGestureWithPosition(data.left, data.top, null);
 		});
 		socket.on('user_left_game', function() {
 			window.location.href = "finalPage.html";
@@ -698,7 +721,6 @@
 	</script>
 
 	<script type="text/javascript">
-		// document.getElementById('disablingDivbottom').style.display='block';
 
 		function StartGame() {
 			start_button_pressed = true;
@@ -724,18 +746,17 @@
 			document.getElementById('container').ondblclick = function(e) {
                 gestureCount++;
                 var event = e || window.event;
-                setGestureWithPosition(event.clientX, event.clientY);
+                setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };
 
-            if (taskID != 3) {
-            	for (var i = 0; i < NumBlocks; i++) {
-	                flip_on = true;
-	                if (taskID != 1) {
-	                	$("#block" + i).draggable("enable");
-	                }					
-	            }
-            }
+            
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+                if (taskID == 2) {
+                	$("#block" + i).draggable("enable");					
+            	}
+        	}
 
             try {
             	socket.emit("enable_blocks_for_player_2");
@@ -744,14 +765,14 @@
             }
 
             document.getElementById('buttonStart').disabled = true;
-
-			// document.getElementById('disablingDivbottom').style.display='none';
+            socket.emit("receive_user_message", "(The game has started!)");
 		}
 		function endGame() {
 		    if (start_button_pressed) {
 				endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
+			    recordTime = time;
 			    time = time / 1000; // Convert to seconds.
 
 			    var minutes = Math.floor(time / 60);
@@ -766,7 +787,10 @@
 			            }
 			        }
 			    }
-			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0; var action = [];
+
+				var action = [];
+
+			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
 			    for (var i = 0; i < type.length;i++) {
 			        if (type[i] == "Movement") {
 			        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
@@ -782,15 +806,10 @@
 			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
 			        	}
 			        	z++; user++;
-			        	
 			        }
 			    }
 			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
 			    // stopRecog();
-
-			    for (var i = 0; i < action.length; i++) {
-			    	console.log(action[i]);
-			    }
 
 				calculateBackEndData();
 
@@ -800,12 +819,12 @@
 				}
                 
                 try {
-                	socket.emit('send_data_to_server', {                                      
-	                    time: time,
+                	socket.emit('send_data_to_server', {
+	                    time: recordTime,
 	                    task: task[taskID] + " " + specificIns,
 	                    W: NumWords,
 	                    G: gestureCount,
-	                    b: actualMove, 
+	                    b: actualMove,
 	                    bm: bm,
 	                    br: br,
 	                    pn: pn,
@@ -818,13 +837,13 @@
 	                    other: words
 	                });
                 } catch (err) {
-                	window.location.href = "server_down.html"; 
+                	window.location.href = "server_down.html";
                 }
-                
+
                 try {
-                	socket.emit('end_button_pressed');
+                	socket.emit('end_button_pressed', recordTime);
                 } catch (err) {
-                	window.location.href = "server_down.html"; 
+                	window.location.href = "server_down.html";
                 }
 
 				document.body.innerHTML = '';
@@ -1071,7 +1090,6 @@
 			q1 = document.getElementById("q1").value;
 			q2 = document.getElementById("q2").value;
 			q3 = document.getElementById("q3").value;
-			console.log(q1 +" " + q2 + " " +q3);
 
 			document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
 
