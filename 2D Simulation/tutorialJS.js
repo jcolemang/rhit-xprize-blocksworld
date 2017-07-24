@@ -1,5 +1,3 @@
-var page_width = 0;
-var page_height = 0;
 var random_multiplier = 10;
 var random_addition = 4;
 var NumBlocks = 1;

@@ -1,5 +1,3 @@
-var page_width = 0;
-var page_height = 0;
 var random_multiplier = 10;
 var random_addition = 4;
 var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
@@ -32,8 +30,7 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = [];
-var time = 0;
-var recordTime = 0;
+var time;
 var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
@@ -43,17 +40,13 @@ var start_button_pressed = false;
 var blocks_x, blocks_y;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
-var random_x = Math.floor(page_width * 0.75 / 50), random_y = Math.floor(page_height * 0.75 / 50);
+var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
 var movement_startpos = [], movement_endpos = [];
 var time_GF = [];
 var GF_position = [];
-var players = [];
-var block_actions = [];
 var ending_survey = false;
-var am_i_player1 = true;
-var initialInfo = [];
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided blocks with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
@@ -78,18 +71,15 @@ function initInstructions() {
     task.push("Sorting");
     task.push("Matching");
     task.push("Searching");
-    task.push("Construction");
+    task.push("Rainbow");
 
-    introductions1.push("Sorting:<br>&emsp;Your task is to sort the blocks in a particular way. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide how you want to sort the blocks and instruct your partner to move the blocks in order to finish the task. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.");
+    introductions1.push("Sorting:<br>&emsp;Your task is to sort the blocks in a particular way. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide how you want to sort the blocks and instruct your partner to move the blocks in order to finish the task. This can be accomplished by speaking to your partner through your device’s microphone, or by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to hear what you say and see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
-    
-    introductions1.push("Matching:<br>Your task is to match the blocks in a particular way. Once the game starts, both of you and your partner will flip two separate blocks. If the blocks match, Player 1 will drag both the blocks to the left. If they don’t, Player 2 will drag both the blocks to the right. The objective of the task is to flip all of the blocks over and move them to their respective sides as quickly as possible. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide by what criteria you want to match the blocks and instruct your partner to flip and move the blocks in order to finish the task. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
+    introductions1.push("Matching:<br>Your task is to match the blocks in a particular way. Once the game starts, both of you and your partner will flip two separate blocks. If the blocks match, Player 1 will drag both the blocks to the left. If they don’t, Player 2 will drag both the blocks to the right. The objective of the task is to flip all of the blocks over and move them to their respective sides as quickly as possible. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide by what criteria you want to match the blocks and instruct your partner to flip and move the blocks in order to finish the task. This can be accomplished by speaking to your partner through your device’s microphone, or by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to hear what you say and see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
-    
-    introductions1.push("Searching:<br>Your task is to search for blocks on the board in order to create a pair of words. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;Once the game has begun, you will see a button appear near the top right of the board. Clicking this button will show you what two words need to be spelled with the blocks. Your task is to spell one of the words yourself, and get your partner to spell the other word. NOTE: You may not spell both of the words yourself, and have your partner do nothing to contribute to the task. There must be some sort of collaboration between the two of you. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
+    introductions1.push("Searching:<br>Your task is to search for blocks on the board in order to create a pair of words. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;Select a pair of words that you will search for. Tell your partner which one of those words you are going to search for and which one they will search for. This can be accomplished by speaking to your partner through your device’s microphone, or by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to hear what you say and see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
-    
-    introductions1.push("Construction:<br>Your task is to create a specific pattern (like a triangle) using the blocks, along with your partner. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will be given a specific pattern that will need to be assembled with blocks. You will not be allowed to move any of the blocks; you can only give your partner instructions for how to move them. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
+    introductions1.push("Rainbow:<br>Your task is to create a specific pattern (like a triangle) using the blocks, along with your partner. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide what pattern you want to create with the blocks and provide instructions for your partner to move the blocks in order to finish the task. Both you and your partner are permitted to move the blocks in any way you choose, but it is encouraged that both of you move half of the blocks each in order to complete the pattern. This can be accomplished by speaking to your partner through your device’s microphone, or by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to hear what you say and see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
 }
 
@@ -134,10 +124,11 @@ function swapLetter(box) {
     var property = document.getElementById(box);
     var currentLetter = property.textContent || property.innerText;
     property.textContent = flipLetterArray[box.substring(5)];
+    console.log(box.substring(5) +" " +NumBlocks);
     flipLetterArray[box.substring(5)] = currentLetter;
 }
 
-function setGestureWithPosition(left, top, event) {
+function setGestureWithPosition(left, top) {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
     var gestureElement = document.getElementById('gestureToggle');
@@ -145,12 +136,9 @@ function setGestureWithPosition(left, top, event) {
     gestureElement.style.top = top + 'px';
     gestureElement.style.visibility = "visible";
 
-    if (event != null) {
-        time_GF.push(getDateTime());
-        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-        type.push("Gesture");
-    }
-    
+    time_GF.push(getDateTime());
+    GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+    type.push("Gesture");
 }
 
 function setMovement() {
@@ -163,16 +151,11 @@ function setMovement() {
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
     if (taskID == 1) {
-        random_x = 6; init_x = Math.floor(0.7 * page_width / 3);
+        random_x = 6; init_x = 450;
         if (NumBlocks % 2==1) {
             NumBlocks++;
         }
-        if (Math.random() < 0.5) {
-            specificIns = " (Check if the cards match by color.)";
-        } else {
-            specificIns = " (Check if the cards match by letter.)";
-        }
-        
+        specificIns = " (Check if the cards match by color.)";
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
@@ -211,6 +194,7 @@ function initTaskID() {
         }
         n1 = initialWords1[chosenWords].length;
         n2 = initialWords2[chosenWords].length;
+        console.log(initialWords1[chosenWords]);
         specificIns = "";
     }
 
@@ -229,43 +213,34 @@ function initTaskID() {
         specificIns = "";
     }
     if (taskID == 0) {
-        if (Math.random() < 0.5) {
-            specificIns = " (Group the cards by letter.)";
-        } else {
-            specificIns = " (Group the cards by color.)";
-        }
-        
+        specificIns = " (Group the cards by color.)";
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
             flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
     }
+    console.log(taskID);
     setUpVisibility();
 }
     
 
 function setUpVisibility() {
     if (taskID == 1) {
-        //document.getElementById('vertical-line3').style.visibility = "hidden";
+        document.getElementById('vertical-line3').style.visibility = "hidden";
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "visible";
-        document.getElementById('user4').style.visibility = "visible";
-
     }
     if (taskID == 2 || taskID == 0) {
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
         document.getElementById('user4').style.visibility = "hidden";
-        //document.getElementById('vertical-line3').style.visibility = "hidden";
+        document.getElementById('vertical-line3').style.visibility = "hidden";
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
     }
     if (taskID == 3) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
@@ -360,8 +335,8 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        var x = Math.floor((Math.random() * 3) + 1);
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
+        var x = 2;
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ x +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show Your choice</a>";
     }
 }
 
