@@ -522,7 +522,7 @@
 				            } else {
 				                players.push("Robot");
 				            }
-				            var moved_block_color = $(this).css("backgroundColor");
+				            var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
 		            		console.log(cur_letters[$(this).data("id")]);
 
