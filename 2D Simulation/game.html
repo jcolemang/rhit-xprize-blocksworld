@@ -16,7 +16,11 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
   	<style>
     	body {
-      		background: url(img/background.jpg) repeat 0 0;
+      		background: url(img/background.jpg) no-repeat center center fixed;
+      		-webkit-background-size: cover;
+      		-moz-background-size: cover;
+      		-o-background-size: cover;
+      		background-size: cover;
     	}
   	</style>
 
@@ -835,7 +839,7 @@
 			        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
 							block_count++;
 			        	} else {
-			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        		action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
 			        	}
 			        	z++; user++;
 			        }
