@@ -16,11 +16,11 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
   	<style>
     	body {
-      		background: url(img/background.jpg) no-repeat center center fixed;
-      		-webkit-background-size: cover;
-      		-moz-background-size: cover;
-      		-o-background-size: cover;
-      		background-size: cover;
+      		background: url(img/background.jpg)	no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
     	}
   	</style>
 
@@ -526,7 +526,7 @@
 				            } else {
 				                players.push("Robot");
 				            }
-				            var moved_block_color = $(this).css("background-color");
+				            var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
 		            		console.log(cur_letters[$(this).data("id")]);
 
