@@ -579,6 +579,29 @@
 			time_data = time_data / 1000;
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time_data - (minutes * 60);
+
+			var action = [];
+
+			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
+			    for (var i = 0; i < type.length;i++) {
+			        if (type[i] == "Movement") {
+			        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+			        	x++; counter++; user++; block_count++;
+			        } else if (type[i] == "Instructions") {
+			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+			        	y++; counter++;
+			        } else {
+			        	if (type[i] == "Flip") {
+			        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+							block_count++;
+			        	} else {
+			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	}
+			        	z++; user++;
+			        }
+			        console.log(action[i]);
+			    }
+			    
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
 
 			ending_survey = true;
@@ -586,26 +609,26 @@
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-						document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
-				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
-				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
-				document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
-				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
-	            document.getElementById("btn1").onclick = function() {
-	            	try {
-	            		socket.emit('send_survey_data_to_server', {
-	         				q1: q1,
-							q2: q2,
-							q3: q3
-				  		});
-	            	} catch (err) {
-	            		window.location.href = "server_down.html"; 
-	            	}
-	                
+			document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
+			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
+			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
+			document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
+	        document.getElementById("btn1").onclick = function() {
+		        try {
+		            socket.emit('send_survey_data_to_server', {
+		         		q1: q1,
+						q2: q2,
+						q3: q3
+					});
+		        } catch (err) {
+		            window.location.href = "server_down.html"; 
+		        }
+		                
 
 				ending_survey = true;
-			  	window.location.href = "finalPage.html";  
-            };
+				window.location.href = "finalPage.html";  
+           	};
         });
 
         function submit() {
