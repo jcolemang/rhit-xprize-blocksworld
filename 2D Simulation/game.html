@@ -873,6 +873,10 @@
                 // 	window.location.href = "server_down.html";
                 // }
 
+                if (taskID == 3) {
+                	words = rainbow_select;
+                }
+
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
