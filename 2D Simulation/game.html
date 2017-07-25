@@ -575,6 +575,9 @@
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time_data - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
+
+			ending_survey = true;
+
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
@@ -841,6 +844,8 @@
                 	window.location.href = "server_down.html";
                 }
 
+                ending_survey = true;
+
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";
 				document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. What was your strategy for cooperating with your partner to complete the task?</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>	<p id = \"question2\" style=\"font-family:verdana\">2. Were there any aspects of the task that you found confusing?</p>	<textarea id = \"q2\" rows=\"4\" cols=\"50\"></textarea><br>	<p id = \"question3\" style=\"font-family:verdana\">3. What communication method (e.g., speaking, typing, or \"pointing\") did you find most effective for coordinating with your partner? </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
@@ -852,181 +857,6 @@
 				document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much more difficult)\"> 1 (much more difficult)	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much easier)\"> 7 (much easier)	<br><br>";
 
 				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
-
-				// var q11, q22, q33;
-				// var q4 = 0;
-				// var q5 = 0;
-				// var q6 = 0;
-
-				// var h = document.createElement("H2");            
-				// var t = document.createTextNode("Thank you for participating the game. Please take a few seconds to complete this survey.");  
-				// h.appendChild(t); 
-				// document.body.appendChild(h); 
-
-				// var p1 = document.createElement("P");            
-				// var t1 = document.createTextNode("1. What was your strategy for cooperating with your partner to complete the task?");  
-				// p1.appendChild(t1); 
-				// document.body.appendChild(p1); 
-
-				// var input = document.createElement("textarea");
-				// input.setAttribute("id", "q11"); 
-
-				// input.name = "q1";
-				// input.cols = "50";
-				// input.rows = "4";
-				// document.body.appendChild(input); 
-
-				// var p2 = document.createElement("P");            
-				// var t2 = document.createTextNode("2. Were there any aspects of the task that you found confusing?");  
-				// p2.appendChild(t2); 
-				// document.body.appendChild(p2); 
-
-				// var input2 = document.createElement("textarea");
-				// input2.setAttribute("id", "q22"); 
-
-				// input2.name = "q2";
-				// input2.cols = "50";
-				// input2.rows = "4";
-				// document.body.appendChild(input2); 
-
-				// var p3 = document.createElement("P");            
-				// var t3 = document.createTextNode("3. What communication method (e.g., speaking, typing, or pointing) did you find most effective for coordinating with your partner?");  
-				// p3.appendChild(t3); 
-				// document.body.appendChild(p3); 
-
-				// var input3 = document.createElement("textarea");
-				// input3.setAttribute("id", "q33"); 
-
-				// input3.name = "q3";
-				// input3.cols = "50";
-				// input3.rows = "4";
-				// document.body.appendChild(input3); 
-
-				// var p4 = document.createElement("P");            
-				// var t4 = document.createTextNode("4. How difficult was it to complete the task?");  
-				// p4.appendChild(t4); 
-				// document.body.appendChild(p4); 
-
-				// var newPanel1 = document.createElement("P");
-				//     newPanel1.id= "panel1";
-				// var newList1 = document.createElement("select");
-
-				// newList1.setAttribute("id", "newList1"); 
-				// newList1.appendChild(new Option("select", 0));
-				// newList1.appendChild(new Option("1 (very ineffectively)", 1));
-				// newList1.appendChild(new Option("2", 2));
-				// newList1.appendChild(new Option("3", 3));
-				// newList1.appendChild(new Option("4", 4));
-				// newList1.appendChild(new Option("5", 5));
-				// newList1.appendChild(new Option("6", 6));
-				// newList1.appendChild(new Option("7 (very effectively)", 7));
-
-				   
-				// newPanel1.appendChild(newList1);
-				// document.body.appendChild(newPanel1);
-
-				// var p5 = document.createElement("P");            
-				// var t5 = document.createTextNode("5. How helpful did you find your partner?");  
-				// p5.appendChild(t5); 
-				// document.body.appendChild(p5); 
-
-				// var newPanel2 = document.createElement("P");
-				//     newPanel2.id= "panel2";
-				// var newList2 = document.createElement("select");
-
-    //             newList2.setAttribute("id", "newList2");                         
-    //             newList2.appendChild(new Option("select", 0));
-    //             newList2.appendChild(new Option("1 (very ineffectively)", 1));
-    //             newList2.appendChild(new Option("2", 2));
-    //             newList2.appendChild(new Option("3", 3));
-    //             newList2.appendChild(new Option("4", 4));
-    //             newList2.appendChild(new Option("5", 5));
-    //             newList2.appendChild(new Option("6", 6));
-    //             newList2.appendChild(new Option("7 (very effectively)", 7));
-
-				// newPanel2.appendChild(newList2);
-				// document.body.appendChild(newPanel2);
-
-				// var p6 = document.createElement("P");            
-				// var t6 = document.createTextNode("6. How much more difficult would this task have been if you had to do it on your own, without a partner?");  
-				// p6.appendChild(t6); 
-				// document.body.appendChild(p6);  
-
-				// var newPanel3 = document.createElement("P");
-				//     newPanel3.id= "panel3";
-				// var newList3 = document.createElement("select");
-
-				// newList3.setAttribute("id", "newList3");
-				// newList3.appendChild(new Option("select", 0));
-				// newList3.appendChild(new Option("1 (very ineffectively)", 1));
-				// newList3.appendChild(new Option("2", 2));
-				// newList3.appendChild(new Option("3", 3));
-				// newList3.appendChild(new Option("4", 4));
-				// newList3.appendChild(new Option("5", 5));
-				// newList3.appendChild(new Option("6", 6));
-				// newList3.appendChild(new Option("7 (very effectively)", 7));
-
-				// newPanel3.appendChild(newList3);
-				// document.body.appendChild(newPanel3);
-
-				// var btn = document.createElement("BUTTON");
-				// btn.setAttribute("id", "btn1");        
-				// var t = document.createTextNode("Submit");       
-				// btn.appendChild(t);
-				// document.body.appendChild(btn);
-
-				// document.getElementById("q11").onchange = function() {
-				//     q11 = document.getElementById('q11').value;
-				//  };
-
-				// document.getElementById("q22").onchange = function() {
-				//     q22 = document.getElementById('q22').value;
-				//  };
-
-				// document.getElementById("q33").onchange = function() {
-				//     q33 = document.getElementById('q33').value;
-				//  };
-
-				//  document.getElementById("newList1").onchange = function() {
-				//     q4 = document.getElementById('newList1').value;
-				//  };
-
-				// document.getElementById("newList2").onchange = function() {
-				//     q5 = document.getElementById('newList2').value;
-				//  };
-
-				// document.getElementById("newList3").onchange = function() {
-				//     q6 = document.getElementById('newList3').value;
-				//  };
-
-			// 	document.getElementById("btn1").onclick = function() {
-			// 		try {
-			// 			socket.emit('send_survey_data_to_server', {
-			// 			    q11:q11,
-			// 				q22:q22,
-			// 				q33: q33,
-			// 				q4: q4,
-			// 			    q5: q5,
-			// 			    q6: q6
-			// 			});
-			// 		} catch (err) {
-			// 			window.location.href = "server_down.html"; 
-			// 		}
-				    
-   //              window.location.href = "finalPage.html";  
-
-			// }
-				//window.location.href = "Survey.html";
-							    // console.log(recordCounter);
-							    // if (recordCounter != 0) {
-							    //     const testFolder = '/media/Temp';
-							    //     const fs = require('fs');
-							    //     fs.readdir(testFolder, (err, files) => {
-							    //       files.forEach(file => {
-							    //         console.log(file);
-							    //       });
-							    //     })
-							    // }
 		}
 	}
 	</script>
