@@ -575,18 +575,59 @@
 			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
 		});
 
-		socket.on('end_game_for_user', function(time_data) {
-			time_data = time_data / 1000;
-			var minutes = Math.floor(time_data / 60);
-			var seconds = time_data - (minutes * 60);
-			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
+		socket.on('end_game_for_user', function(data) {
+
+			var action = [];
+
+			for (var i = 0; i < data.Action.length; i++) {
+				action.push(data.Action[i]);
+			}
+
+		    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
+		    for (var i = 0; i < type.length;i++) {
+		        if (type[i] == "Movement") {
+		        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+		        	x++; counter++; user++; block_count++;
+		        } else if (type[i] == "Instructions") {
+		        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+		        	y++; counter++;
+		        } else {
+		        	if (type[i] == "Flip") {
+		        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+						block_count++;
+		        	} else {
+		        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+		        	}
+		        	z++; user++;
+		        }
+		    }
+
+			socket.emit('send_data_to_server', {
+                time: data.time,
+                task: data.task,
+                W: data.W,
+                G: data.G,
+                b: data.b,
+                bm: data.bm,
+                br: data.br,
+                pn: data.pn,
+                pp: data.pp,
+                te: data.te,
+                ie: data.ie,
+                p: data.p,
+                Action: action,
+                initialInfo: data.initialInfo,
+                other: data.other
+            });
+			    
+			alert('Time you took to finish the task? ' + data.minutes + "minutes, " + data.seconds + "seconds");
 
 			ending_survey = true;
 
-      		document.body.innerHTML = '';
+			document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-						document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+      		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
 				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
 				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
 				document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
@@ -764,7 +805,6 @@
 				endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
-			    recordTime = time;
 			    time = time / 1000; // Convert to seconds.
 
 			    var minutes = Math.floor(time / 60);
@@ -811,30 +851,48 @@
 					words = initialWords1[chosenWords] + " " + initialWords2[chosenWords];
 				}
                 
-                try {
-                	socket.emit('send_data_to_server', {
-	                    time: recordTime,
-	                    task: task[taskID] + " " + specificIns,
-	                    W: NumWords,
-	                    G: gestureCount,
-	                    b: actualMove,
-	                    bm: bm,
-	                    br: br,
-	                    pn: pn,
-	                    pp: pp,
-	                    te: te,
-	                    ie: ie,
-	                    p: p,
-	                    Action: action,
-	                    initialInfo: initialInfo,
-	                    other: words
-	                });
-                } catch (err) {
-                	window.location.href = "server_down.html";
-                }
+                // try {
+                // 	socket.emit('send_data_to_server', {
+	               //      time: recordTime,
+	               //      task: task[taskID] + " " + specificIns,
+	               //      W: NumWords,
+	               //      G: gestureCount,
+	               //      b: actualMove,
+	               //      bm: bm,
+	               //      br: br,
+	               //      pn: pn,
+	               //      pp: pp,
+	               //      te: te,
+	               //      ie: ie,
+	               //      p: p,
+	               //      Action: action,
+	               //      initialInfo: initialInfo,
+	               //      other: words
+	               //  });
+                // } catch (err) {
+                // 	window.location.href = "server_down.html";
+                // }
 
                 try {
-                	socket.emit('end_button_pressed', recordTime);
+                	socket.emit('end_button_pressed', {
+	                    time: time,
+ 	                    task: task[taskID] + " " + specificIns,
+ 	                    W: NumWords,
+ 	                    G: gestureCount,
+ 	                    b: actualMove,
+ 	                    bm: bm,
+ 	                    br: br,
+ 	                    pn: pn,
+ 	                    pp: pp,
+ 	                    te: te,
+ 	                    ie: ie,
+ 	                    p: p,
+ 	                    Action: action,
+ 	                    initialInfo: initialInfo,
+	                    other: words,
+	                    minutes: minutes,
+	                    seconds: seconds
+ 	                });
                 } catch (err) {
                 	window.location.href = "server_down.html";
                 }
