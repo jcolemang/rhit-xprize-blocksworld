@@ -33,14 +33,14 @@
 		</div>
   	</div>
 
-  	<div id ="vertical-line" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 33.33%; top: 10%; z-index: 200;"> </div>
-	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 70%; position: absolute; left: 56.66%; top: 10%; z-index: 200;"> </div>
+  	<div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
+	<div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
 
-	<p id ="user1" style="position: absolute; left: 30%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user2" style="position: absolute; left: 75%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
-	<p id ="user3" style="position: absolute; left: 25%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user4" style="position: absolute; left: 80%; top: 12%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -67,7 +67,7 @@
 	    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
-	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
+	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
@@ -138,6 +138,10 @@
 	<script type="text/javascript">
 		page_width = window.innerWidth;
 		page_height = window.innerHeight;
+		var line_height = Math.floor(page_height * 0.7) + 5;
+  		document.getElementById("vertical-line").style.height = line_height + "px";
+  		console.log(line_height);
+  		document.getElementById("vertical-line2").style.height = line_height + "px";
 	</script>
 
  	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -189,11 +193,11 @@
 				var l = Math.floor(Math.random() * letters.length);
 				if (taskID == 3) {
 					if (i < n1) {
-						random_x = Math.floor(page_width * 0.75 * 1 / 3 / 50);
+						random_x = Math.floor(page_width * 0.7 * 1 / 3 / 50);
 						init_x = 0;
 					} else {
-						random_x = Math.floor(page_width * 0.75 * 1 / 3 / 50);
-						init_x = Math.floor(page_width * 0.75 * 2 / 3);
+						random_x = Math.floor(page_width * 0.7 * 1 / 3 / 50);
+						init_x = Math.floor(page_width * 0.7 * 2 / 3);
 					}
 				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
