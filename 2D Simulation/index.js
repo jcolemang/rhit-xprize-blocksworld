@@ -43,7 +43,7 @@ var start_button_pressed = false;
 var blocks_x, blocks_y;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
-var random_x = Math.floor(page_width * 0.75 / 50), random_y = Math.floor(page_height * 0.75 / 50);
+var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
 var movement_startpos = [], movement_endpos = [];
@@ -54,6 +54,7 @@ var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
+var cur_letters = [];
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided blocks with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
@@ -61,7 +62,7 @@ var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br
 function writeBlocks() {
     for (var i = 0; i < NumBlocks ;i++) {
         var x= Math.floor(Math.random() * 5);
-        document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        document.write("<style> #block"+i+" {width: 50px; height: 50px; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
 }
 
@@ -135,6 +136,7 @@ function swapLetter(box) {
     var currentLetter = property.textContent || property.innerText;
     property.textContent = flipLetterArray[box.substring(5)];
     flipLetterArray[box.substring(5)] = currentLetter;
+    cur_letters[box.substring(5)] = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {
@@ -162,6 +164,9 @@ function setMovement() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
+
+    var random_x = Math.floor(page_width * 0.75 / 50), random_y = Math.floor(page_height * 0.75 / 50);
+
     if (taskID == 1) {
         random_x = 6; init_x = Math.floor(0.7 * page_width / 3);
         if (NumBlocks % 2==1) {
@@ -241,6 +246,11 @@ function initTaskID() {
             flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
     }
+
+    for (var i = 0; i < letters.length; i ++) {
+        cur_letters.push(letters[i]);
+    }
+    console.log(cur_letters);
     setUpVisibility();
 }
     
