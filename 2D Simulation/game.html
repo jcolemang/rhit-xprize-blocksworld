@@ -586,14 +586,29 @@
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-			document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
-			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
-			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
-			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
-			document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
-		
+						document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
+				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
+				document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
+				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
+	            document.getElementById("btn1").onclick = function() {
+	            	try {
+	            		socket.emit('send_survey_data_to_server', {
+	         				q1: q1,
+							q2: q2,
+							q3: q3
+				  		});
+	            	} catch (err) {
+	            		window.location.href = "server_down.html"; 
+	            	}
+	                
 
-		function submit() {
+				ending_survey = true;
+			  	window.location.href = "finalPage.html";  
+            };
+        });
+
+        function submit() {
 			var q3 = "", q4 = -1, q5 = -1;
 			if (document.getElementById("41").checked) {
 				q4 = 1;
@@ -662,24 +677,6 @@
                 window.location.href = "finalPage.html";  
 			}
 		}
-
-
-            document.getElementById("btn1").onclick = function() {
-            	try {
-            		socket.emit('send_survey_data_to_server', {
-         				q1: q1,
-						q2: q2,
-						q3: q3
-			  		});
-            	} catch (err) {
-            		window.location.href = "server_down.html"; 
-            	}
-                
-
-			ending_survey = true;
-		  	window.location.href = "finalPage.html";  
-            };
-        });
 
 		function send_gesture_to_server() {
 			try {
