@@ -129,9 +129,9 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
 	});
 
-	socket.on('end_button_pressed', function(time) {
+	socket.on('end_button_pressed', function(data) {
 		going_to_surveys.set(socket.room, true);
-		socket.to(socket.room).emit('end_game_for_user', time);
+		socket.to(socket.room).emit('end_game_for_user', data);
 	});
 
 	socket.on('disconnect', function() {
