@@ -129,9 +129,9 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
 	});
 
-	socket.on('end_button_pressed', function(data) {
+	socket.on('end_button_pressed', function(time) {
 		going_to_surveys.set(socket.room, true);
-		socket.to(socket.room).emit('end_game_for_user', data);
+		socket.to(socket.room).emit('end_game_for_user', time);
 	});
 
 	socket.on('disconnect', function() {
@@ -162,7 +162,7 @@ io.on('connection', function(socket) {
 
 	socket.on('send_data_to_server', function(data) {
 
-  		var query = client.query("INSERT INTO ibm(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other]);
+  		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other]);
 
 		query.on("row", function (row, result) {
 		    result.addRow(row);
