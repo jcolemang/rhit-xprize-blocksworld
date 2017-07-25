@@ -220,7 +220,7 @@ function initTaskID() {
         n2 = initialWords2[chosenWords].length;
         specificIns = "";
     }
-    taskID = 3;
+    // taskID = 3;
     if (taskID == 3) {
         rainbow_select = Math.floor(Math.random() * 3) + 1;
         if (rainbow_select == 2) {
