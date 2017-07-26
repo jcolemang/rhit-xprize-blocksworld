@@ -173,8 +173,8 @@ function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
     if (taskID == 1) {
-        random_x = Math.floor(page_width * 0.7 / 150) - 1; init_x = Math.floor(0.7 * page_width / 3);
-        if (NumBlocks % 2==1) {
+        random_x = Math.floor(page_width * 0.7 / 150) - 1; init_x = Math.floor(0.7 * page_width / 150 + 1) * 50;
+        if (NumBlocks % 2 == 1) {
             NumBlocks++;
         }
         if (Math.random() < 0.5) {
@@ -189,6 +189,7 @@ function initTaskID() {
             flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
     }
+
     if (taskID == 2) {
         chosenWords = Math.floor(Math.random() * 3);
         NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
@@ -223,7 +224,7 @@ function initTaskID() {
         n2 = initialWords2[chosenWords].length;
         specificIns = "";
     }
-    // taskID = 3;
+
     if (taskID == 3) {
         rainbow_select = Math.floor(Math.random() * 3) + 1;
         if (rainbow_select == 2) {
@@ -247,6 +248,7 @@ function initTaskID() {
         }
         specificIns = "";
     }
+
     if (taskID == 0) {
         if (Math.random() < 0.5) {
             specificIns = " (Group the cards by letter.)";
