@@ -227,21 +227,11 @@ function initTaskID() {
     }
 
     if (taskID == 3) {
-        rainbow_select = Math.floor(Math.random() * 3) + 1;
-        if (rainbow_select == 2) {
-            NumBlocks = 16 * 2;
-            n1 = 16; n2 = 16;
-            setupColor = ['red', 'blue'];
-            setupNum = [12, 4];
-            copyNum = [12, 4];
-        } else {
-            NumBlocks = 16 * 2;
-            n1 = 16; n2 = 16;
-            setupColor = ['red', 'blue', 'yellow', 'orange', 'green'];
-            setupNum = [4, 4, 3, 3, 2];
-            copyNum = [4, 4, 3, 3, 2];
-        }
-        
+        NumBlocks = 5;
+        n1 = 5; n2 = 5;
+        setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
+        setupNum = [1, 1, 1, 1, 1];
+
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
@@ -410,4 +400,37 @@ function getDateTime() {
 function instructiontime() {
     instructionstarttime = new Date().getTime();
     instructiondate = getDateTime();
+}
+
+function setUpInitialPosition() {
+    var p_top = [], p_left = [];
+    for (var i = 0; i < NumBlocks; i++) {
+        var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+        tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+        var flag = -1;
+        for (var j = 0; j < p_left.length;j ++) {
+            if (p_top[j] == tTop && p_left[j] == tLeft) {
+                flag = j; break;
+            }
+        }
+        if (flag == -1) {
+            p_top.push(tTop);
+            p_left.push(tLeft);
+        } else {
+            while (flag != -1) {
+                flag = -1;
+                tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+                tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+                for (var j = 0; j < p_left.length;j ++) {
+                    if (p_top[j] == tTop && p_left[j] == tLeft) {
+                        flag = j; break;
+                    }
+                }
+            }
+            p_top.push(tTop);
+            p_left.push(tLeft);
+        }
+        document.getElementById("block" + i).style.top = tTop+"px";
+        document.getElementById("block" + i).style.left = tLeft+"px";
+    }
 }

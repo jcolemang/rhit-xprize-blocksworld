@@ -204,13 +204,8 @@
 				var color_x = Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
 				if (taskID == 3) {
-					if (i < n1) {
-						random_x = Math.floor(page_width * 0.7/ 150);
-						init_x = 0;
-					} else {
-						random_x = Math.floor(page_width * 0.7 / 150);
-						init_x = Math.floor(page_width * 0.7 * 2 / 150) * 50;
-					}
+					random_x = Math.floor(page_width * 0.7/ 50) - 1;
+					init_x = 0;
 				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
 					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
@@ -239,20 +234,8 @@
 				}
 				var colors;
 				if (taskID == 3) {
-					if (setupNum[cur] > 0) {
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					} else if (cur < setupNum.length - 1) {
-						setupNum[cur] = copyNum[cur];
-						cur++;
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					} else {
-						setupNum[cur] = copyNum[cur];
-						cur = 0;
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					}
+					colors = setupColor[cur];
+					cur++;
 				} else {
 					colors = color[color_x];
 				}
@@ -300,9 +283,9 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		if (!socket.connected) {
-			window.location.href = "server_down.html";
-		}
+		// if (!socket.connected) {
+		// 	window.location.href = "server_down.html";
+		// }
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
@@ -797,10 +780,9 @@
 		function StartGame() {
 			start_button_pressed = true;
 		    if (taskID == 3) {
-		        // RainbowPath = localStorage.getItem("Rainbow Path");
-		        // console.log(RainbowPath);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
+		        setUpInitialPosition();
 		    }
 		    if (taskID == 2) {
 		        // searchingwords = localStorage.getItem("Searching words");
