@@ -407,7 +407,7 @@
 			taskID = data.currentTask;
 			actualMove = data.movement_count;
 			gestureCount = data.gesture_count;
-			specificIns = data.ins;
+			specificIns = " Wait for instructions.";
 
 			if (taskID == 1) {
 		        document.getElementById('user1').style.visibility = "hidden";
@@ -852,7 +852,7 @@
 
 				var words = "";
 				if (taskID == 2) {
-					words = "Searching Words: User1: " + initialWords1[chosenWords] + " User2: " + initialWords2[chosenWords];
+					words = "Searching Words: User1" + initialWords1[chosenWords] + " User2: " + initialWords2[chosenWords];
 				}
                 
                 // try {
