@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>2D Block World Simulation</title>
+	<title>Blocks World</title>
 
 	<meta charset="UTF-8">
 
@@ -40,11 +40,11 @@
   	<div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
 	<div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
 
-	<p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
+	<p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
 
-	<p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
-	<p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
+	<p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
+	<p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -56,6 +56,14 @@
 		        Enter instructions	:
 		        <input id="txt_instruction" type="text" />
 		    </label>
+
+		    <script type="text/javascript">
+		    	$("#txt_instruction").keyup(function(event){
+				    if(event.keyCode == 13){
+				        $("#txt_instruction").click();
+				    }
+				});
+		    </script>
 
 		    <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
@@ -193,15 +201,15 @@
 			var position_x = [];var position_y = [];
 			var cur = 0;
 			for (var i = 0; i < NumBlocks; i++) {
-				var color_x= Math.floor(Math.random() * 5);
+				var color_x = Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
 				if (taskID == 3) {
 					if (i < n1) {
-						random_x = Math.floor(page_width * 0.7 * 1 / 3 / 50);
+						random_x = Math.floor(page_width * 0.7/ 150);
 						init_x = 0;
 					} else {
-						random_x = Math.floor(page_width * 0.7 * 1 / 3 / 50);
-						init_x = Math.floor(page_width * 0.7 * 2 / 3);
+						random_x = Math.floor(page_width * 0.7 / 150);
+						init_x = Math.floor(page_width * 0.7 * 2 / 150) * 50;
 					}
 				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
@@ -632,11 +640,12 @@
 			document.documentElement.innerHTML = "";
 
       		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
-				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
-				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
-				document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
-				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
-			});
+			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
+			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
+			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
+			document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
+		});
+		
 		function submitRobot() {
 			var q3 = "", q4 = -1, q5 = -1;
 			if (document.getElementById("41").checked) {
@@ -913,9 +922,9 @@
 
 				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
 
-				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> 7 (not helpful at all)";
+				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> <br> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> <br> 2 <input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> <br>3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> <br>4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> <br>5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> <br>6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> <br>7 (not helpful at all)";
 
-				document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much more difficult)\"> 1 (much more difficult)	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much easier)\"> 7 (much easier)	<br><br>";
+				document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much easier)\"> 1 (much easier)	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much more difficult)\"> 7 (much more difficult)	<br><br>";
 
 				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
 		}
