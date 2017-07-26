@@ -295,16 +295,19 @@
 		try {
 			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
 		} catch (err) {
+			console.log("!!!");
 			window.location.href = "server_down.html";
 		}
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		if (!socket.connected) {
-			window.location.href = "server_down.html";
-		}
+		// if (!socket.connected) {
+		// 	console.log("~");
+		// 	window.location.href = "server_down.html";
+		// }
 
 		socket.on('connect_failed', function() {
+			console.log("~~");
 			window.location.href = "server_down.html";
 		});
 
@@ -381,6 +384,7 @@
 			try {
 				socket.emit('disable_blocks_for_player_2');
 			} catch (err) {
+				console.log("!");
 				window.location.href = "server_down.html"; 
 			}
 
@@ -520,6 +524,7 @@
 			try {
 				socket.emit('receive_flip_block', block_id);
 			} catch (err) {
+				console.log("!!");
 				window.location.href = "server_down.html"; 
 			}
 			
@@ -577,6 +582,7 @@
 							top: coord.top
 						});
 					} catch (err) {
+						console.log("@");
 						window.location.href = "server_down.html"; 
 					}
 					
@@ -589,6 +595,7 @@
 				socket.emit('receive_movement_data', actualMove);
 			} catch (err) {
 				window.location.href = "server_down.html"; 
+				console.log("#");
 			}
 			
 		}
@@ -602,6 +609,7 @@
 					socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 				} catch (err) {
 					window.location.href = "server_down.html"; 
+					console.log("$$");
 				}
 				
 			}
@@ -832,7 +840,8 @@
             try {
             	socket.emit("enable_blocks_for_player_2");
             } catch (err) {
-            	window.location.href = "server_down.html"; 
+            	window.location.href = "server_down.html";
+            	console.log("*"); 
             }
 
             document.getElementById('buttonStart').disabled = true;

@@ -169,6 +169,7 @@ function setMovement() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
+    taskID = 3;
 
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
