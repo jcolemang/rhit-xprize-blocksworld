@@ -60,19 +60,19 @@ io.on('connection', function(socket) {
 		socket.room = room_to_join;
 		recentRoom = -1;
 	} else {
-		if (unoccupiedRooms.length != 0) {
-			room_to_join = "Room" + unoccupiedRooms[0];
-			socket.join(room_to_join);
-			socket.room = room_to_join;
-			recentRoom = unoccupiedRooms[0];
-			unoccupiedRooms.splice(0, 1);
-		} else {
+		// if (unoccupiedRooms.length != 0) {
+		// 	room_to_join = "Room" + unoccupiedRooms[0];
+		// 	socket.join(room_to_join);
+		// 	socket.room = room_to_join;
+		// 	recentRoom = unoccupiedRooms[0];
+		// 	unoccupiedRooms.splice(0, 1);
+		// } else {
 			room_to_join = "Room" + nextRoom;
 			socket.join(room_to_join);
 			socket.room = room_to_join;
 			recentRoom = nextRoom;
 			nextRoom++;
-		}
+		// }
 	}
 
 	socket.on('am_I_second_to_join', function() {
@@ -142,10 +142,12 @@ io.on('connection', function(socket) {
 			going_to_surveys.set(socket.room, null);
 		}
 
-		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
-			unoccupiedRooms.push(socket.room.substring(4));
-			starting_game_data.set(socket.room, null);
-		}
+		// if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
+		// 	//unoccupiedRooms.push(socket.room.substring(4));
+		// 	starting_game_data.set(socket.room, null);
+		// }
+
+		starting_game_data.set(socket.room, null);
 		voice_connection_data.set(socket.room, null);
 		waiting_data.set(socket.room, null);
 	});
