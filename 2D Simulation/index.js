@@ -122,6 +122,9 @@ function flipBlock(box, event) {
             GF_position.push("(" + event.clientX + "," + event.clientY + ")");
             type.push("Flip");
             time_GF.push(getDateTime());
+            if (taskID == 1) {
+                document.getElementById("block" + box.substring(5)).style.borderColor = "white";
+            }
         }  
     }
 }
@@ -167,10 +170,10 @@ function setMovement() {
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
 
-    random_x = Math.floor(page_width * 0.7 / 50); random_y = Math.floor(page_height * 0.7 / 50);
+    random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
     if (taskID == 1) {
-        random_x = 6; init_x = Math.floor(0.7 * page_width / 3);
+        random_x = Math.floor(page_width * 0.7 / 150); init_x = Math.floor(0.7 * page_width / 3);
         if (NumBlocks % 2==1) {
             NumBlocks++;
         }
