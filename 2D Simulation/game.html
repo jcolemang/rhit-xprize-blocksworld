@@ -300,6 +300,14 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
+		if (!socket.connected) {
+			window.location.href = "server_down.html";
+		}
+
+		socket.on('connect_failed', function() {
+			window.location.href = "server_down.html";
+		});
+
 		socket.on('disconnect', function() {
 			if (!ending_survey) {
 				window.location.href = "server_down.html";	
@@ -417,10 +425,10 @@
 			flipBlock(block_id, null);
 		});
 		socket.on('setInitialPosition', function(data) {
-			document.getElementById('user1').innerText = "Player1";
-			document.getElementById('user2').innerText = "Player2 (You)";
-			document.getElementById('user3').innerText = "Player1";
-			document.getElementById('user4').innerText = "Player2 (You)";
+			document.getElementById('user1').innerText = "Player 1";
+			document.getElementById('user2').innerText = "Player 2 (You)";
+			document.getElementById('user3').innerText = "Player 1";
+			document.getElementById('user4').innerText = "Player 2 (You)";
 			am_i_player1 = false;
 
 			var container = document.getElementById("container");
@@ -655,7 +663,8 @@
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-      		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+      document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+
 			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
 			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
 			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
@@ -936,11 +945,11 @@
 				document.documentElement.innerHTML = "";
 				document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. What was your strategy for cooperating with your partner to complete the task?</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>	<p id = \"question2\" style=\"font-family:verdana\">2. Were there any aspects of the task that you found confusing?</p>	<textarea id = \"q2\" rows=\"4\" cols=\"50\"></textarea><br>	<p id = \"question3\" style=\"font-family:verdana\">3. What communication method (e.g., speaking, typing, or \"pointing\") did you find most effective for coordinating with your partner? </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
 
-				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very difficult)\"> 1 (very difficult)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very easy)\"> 7 (very easy)";
+				document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very easy)\"> (very easy) 1	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very dificult)\"> 7 (very dificult)";
 
-				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very helpful)\"> <br> 1 (very helpful)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> <br> 2 <input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> <br>3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> <br>4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> <br>5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> <br>6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not helpful at all)\"> <br>7 (not helpful at all)";
+				document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (not helpful at all)\"> (not helpful at all) 1	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (very helpful)\"> 7 (very helpful)";
 
-				document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much easier)\"> 1 (much easier)	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much more difficult)\"> 7 (much more difficult)	<br><br>";
+				document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much easier)\"> (much easier) 1	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much more difficult)\"> 7 (much more difficult)	<br><br>";
 
 				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
 		}
