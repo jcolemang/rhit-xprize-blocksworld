@@ -283,7 +283,11 @@
 		}
 	</script>
 
-	<div id = "disablingDiv">We are currently waiting for another user to joint so that we can connect you. Please be patient.</div>
+	<div id = "disablingDiv">
+		<div id = "freeze">
+			We are currently waiting for another user to joint so that we can connect you. Please be patient.
+		</div>
+	</div>
 
 	<script type="text/javascript" >
 		var socket;
@@ -349,6 +353,8 @@
 			enterButton.disabled = true;
 
 			document.getElementById('disablingDiv').style.display = 'block';
+			// document.getElementById('freeze').style.visibility = 'visible';
+
 			document.getElementById('txt_instruction').disabled = true;
 
 			document.getElementById('container').ondblclick = function(e) {
@@ -371,7 +377,6 @@
 			}
 
 			document.getElementById("disablingDiv").style.display = 'none';
-			document.getElementById('txt_instruction').disabled = false;
 
            	var startButton = document.getElementById('buttonStart');
 			startButton.disabled = false;
@@ -770,7 +775,6 @@
 			}
 		}
 	</script>
-	<div id = "disablingDivbottom"></div>
 
 	<script type="text/javascript">
 		document.getElementById("buttonEnd").disabled = true;
@@ -799,6 +803,7 @@
 		    // recognize();
 		    document.getElementById("buttonEnd").disabled = false;
 			document.getElementById("buttonEnter").disabled = false;
+			document.getElementById('txt_instruction').disabled = false;
 
 			document.getElementById('container').ondblclick = function(e) {
                 gestureCount++;
