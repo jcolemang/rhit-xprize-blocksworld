@@ -286,6 +286,14 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
+		if (!socket.connected) {
+			window.location.href = "server_down.html";
+		}
+
+		socket.on('connect_failed', function() {
+			window.location.href = "server_down.html";
+		});
+
 		socket.on('disconnect', function() {
 			if (!ending_survey) {
 				window.location.href = "server_down.html";	
