@@ -55,6 +55,7 @@ var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
+var goalInfo = [];
 var cur_letters = [];
 var addedBlockColor = [];
 var addedBlockLetter = [];
@@ -232,7 +233,9 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-        setupColor = ['red', 'blue', 'yellow', 'green', 'crimson'];
+
+        setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
+      
         setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
