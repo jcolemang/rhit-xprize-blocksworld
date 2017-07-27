@@ -72,11 +72,17 @@
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
+
+	    <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
+	    <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
+	    	Score
+	    </div>
+	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: white; width: 10%;height: 100px; position: absolute; top: 20%; left: 85%"></div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
-	<div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background-color: white; color: black;"></div>
+	<div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; left: 85%; position: absolute; background-color: white; color: black;"></div>
 	<!-- <script type="text/javascript">
       
         var recognizer = null;
@@ -138,6 +144,30 @@
   	</div> -->
 
 	<script type="text/javascript" src="index.js"></script>
+
+	<script type="text/javascript">
+		function timecounter() {
+			var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;
+			var x = setInterval(function() {
+		    // Get todays date and time
+			    var now = new Date().getTime();
+			    
+			    // Find the distance between now an the count down date
+			    var distance = countDownDate - now;
+			    
+			    // Time calculations for days, hours, minutes and seconds
+			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
+			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			    document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
+			    
+			    // Output the result in an element with id="demo"
+			    if (minutes == 0 && seconds == 0) {
+			    	$("#buttonEnd").click();
+				}
+		    
+			}, 1000);
+		}
+	</script>
 
 	<script type="text/javascript">
 		page_width = window.innerWidth;
@@ -204,13 +234,8 @@
 				var color_x = Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
 				if (taskID == 3) {
-					if (i < n1) {
-						random_x = Math.floor(page_width * 0.7/ 150);
-						init_x = 0;
-					} else {
-						random_x = Math.floor(page_width * 0.7 / 150);
-						init_x = Math.floor(page_width * 0.7 * 2 / 150) * 50;
-					}
+					random_x = Math.floor(page_width * 0.7/ 50) - 1;
+					init_x = 0;
 				}
 				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
 					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
@@ -239,26 +264,14 @@
 				}
 				var colors;
 				if (taskID == 3) {
-					if (setupNum[cur] > 0) {
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					} else if (cur < setupNum.length - 1) {
-						setupNum[cur] = copyNum[cur];
-						cur++;
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					} else {
-						setupNum[cur] = copyNum[cur];
-						cur = 0;
-						colors = setupColor[cur];
-						setupNum[cur]--;
-					}
+					colors = setupColor[cur];
+					cur++;
 				} else {
 					colors = color[color_x];
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
+				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 
 				$("#block" + i).data("id", i);
 
@@ -300,9 +313,9 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		if (!socket.connected) {
-			window.location.href = "server_down.html";
-		}
+		// if (!socket.connected) {
+		// 	window.location.href = "server_down.html";
+		// }
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
@@ -404,6 +417,7 @@
         });
 
         socket.on('enable_blocks_for_player_2', function() {
+        	timecounter();
         	for (var i = 0; i < NumBlocks; i++) {
         	//	if (taskID != 1) {
         			flip_on = true;
@@ -796,11 +810,11 @@
 
 		function StartGame() {
 			start_button_pressed = true;
+			timecounter();
 		    if (taskID == 3) {
-		        // RainbowPath = localStorage.getItem("Rainbow Path");
-		        // console.log(RainbowPath);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
+		        setUpInitialPosition();
 		    }
 		    if (taskID == 2) {
 		        // searchingwords = localStorage.getItem("Searching words");
