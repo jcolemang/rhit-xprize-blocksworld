@@ -268,7 +268,7 @@
 
 	<div id = "disablingDiv">
 		<div id = "freeze">
-			We are currently waiting for another user to joint so that we can connect you. Please be patient.
+			We are currently waiting for another user to join so that we can connect you. Please be patient.
 		</div>
 	</div>
 
@@ -381,6 +381,7 @@
 
         socket.on('disable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
+        		document.getElementById('block' + i).style.visibility = "hidden";
                 flip_on = false;
 				$("#block" + i).draggable("disable");
             }
@@ -388,9 +389,8 @@
 
         socket.on('enable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-        	//	if (taskID != 1) {
-        			flip_on = true;
-        	//	}
+        		document.getElementById('block' + i).style.visibility = "visible";
+        		flip_on = true;
 				$("#block" + i).draggable("enable");
             }
         });
@@ -779,7 +779,11 @@
 
 		function StartGame() {
 			start_button_pressed = true;
+
 		    if (taskID == 3) {
+				    for (var i = 0; i < NumBlocks; i++) {
+	              localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
+	          }
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		        setUpInitialPosition();
@@ -804,7 +808,6 @@
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };
-
             
         	for (var i = 0; i < NumBlocks; i++) {
                 flip_on = true;

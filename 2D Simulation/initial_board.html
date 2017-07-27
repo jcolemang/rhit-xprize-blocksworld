@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Initial Board State</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <script>
+        var numBlocks = window.opener.numBlocks;
+        var container = window.opener.container;
+
+        for (var i = 0; i < numBlocks; i++) {
+            localStorage.getItem("block" + i).appendTo(container);
+        }
+
+        document.body.appendChild(container);
+    </script>
+</body>
+</html>
