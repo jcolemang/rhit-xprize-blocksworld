@@ -381,7 +381,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-       document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=1300, height=700'); return false;\">Show the Construction</a>";
     }
 }
 

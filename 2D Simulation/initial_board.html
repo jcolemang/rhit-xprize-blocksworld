@@ -3,15 +3,18 @@
 <head>
     <title>Initial Board State</title>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
     <script>
         var numBlocks = window.opener.numBlocks;
-        var container = window.opener.container;
+        var container = document.createElement('div');
 
-        for (var i = 0; i < numBlocks; i++) {
-            localStorage.getItem("block" + i).appendTo(container);
-        }
+        container.innerHTML = localStorage.getItem("container");
+
+        // for (var i = 0; i < numBlocks; i++) {
+        //     localStorage.getItem("block" + i).appendTo(container);
+        // }
 
         document.body.appendChild(container);
     </script>
