@@ -883,13 +883,57 @@
 
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
-			        if(blockid) {
+     			    if(blockid) {
+     			    	var pos = $("#block" + i).position();
+     			    	end_top.push(pos.top);
+     			    	end_left.push(pos.left);
 			            if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
 			            }
 			        }
 			    }
+				var totalX = 0;
+                var totalY = 0;
+                for (var index = 0; index < numBlocks; index++) {
+                    totalX = totalX + goal_left[index];
+                    totalY = totalY + goal_top[index];
+                }
+                var avgX = totalX/numBlocks;
+                var avgY = totalY/numBlocks;
+
+                for (var index2 = 0; index2 < numBlocks; index2++) {
+                    origin_goal_left.push(goal_left[index2]-avgX);
+                    origin_goal_top.push(goal_top[index2]-avgY);
+                }
+
+                var totalX2 = 0;
+                var totalY2 = 0;
+                for (var index1 = 0; index1 < numBlocks; index1++) {
+                    totalX2 = totalX2 + end_left[index1];
+                    totalY2 = totalY2 + end_top[index1];
+                }
+                var avgX2 = totalX2/numBlocks;
+                var avgY2 = totalY2/numBlocks;
+
+                for (var index22 = 0; index22 < numBlocks; index22++) {
+                    origin_end_left.push(end_left[index22]-avgX2);
+                    origin_end_top.push(end_top[index22]-avgY2);
+                }
+
+                var errorX = 0;
+                var errorY = 0;
+                for (var index3 = 0; index3 < numBlocks; index3++) {
+                        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
+                        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+                }
+
+                var totalError = errorY + errorX;
+                var fat = $("#container").width();
+				var tall = $("#container").height(); 
+				
+				Emax = (tall + fat)*5;
+				var score = ((Emax - totalError) / Emax) * 100
 
 				var action = [];
 
