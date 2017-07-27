@@ -76,8 +76,8 @@ io.on('connection', function(socket) {
 		}
 	});
 
-	socket.on('enable_blocks_for_player_2', function() {
-		socket.to(socket.room).emit('enable_blocks_for_player_2');
+	socket.on('enable_blocks_for_player_2', function(data) {
+		socket.to(socket.room).emit('enable_blocks_for_player_2', data);
 	});
 
 	socket.on('disable_blocks_for_player_2', function() {
