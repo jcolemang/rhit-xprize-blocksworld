@@ -11,7 +11,8 @@
         var container = document.createElement('div');
 
         container.innerHTML = localStorage.getItem("container");
-
+        container.id = "container";
+        container.style.fontSize = "40px";
         // for (var i = 0; i < numBlocks; i++) {
         //     localStorage.getItem("block" + i).appendTo(container);
         // }
