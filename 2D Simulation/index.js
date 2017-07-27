@@ -59,6 +59,8 @@ var cur_letters = [];
 var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var addedBlockColor = [];
 var addedBlockLetter = [];
+var isGameEnd = false;
+var p_top = [], p_left = [];
 
 var rainbow_select = 0;
 
@@ -381,7 +383,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=1300, height=700'); return false;\">Show the Construction</a>";
+       document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
     }
 }
 
@@ -407,7 +409,6 @@ function instructiontime() {
 }
 
 function setUpInitialPosition() {
-    var p_top = [], p_left = [];
     for (var i = 0; i < NumBlocks; i++) {
         var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;

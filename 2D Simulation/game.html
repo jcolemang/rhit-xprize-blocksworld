@@ -158,11 +158,12 @@
 			    // Time calculations for days, hours, minutes and seconds
 			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-			    document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
-			    
+
 			    // Output the result in an element with id="demo"
-			    if (minutes == 0 && seconds == 0) {
-			    	$("#buttonEnd").click();
+				if (minutes == 0 && seconds == 0) {
+					$("#buttonEnd").click();
+				} else if (isGameEnd != true) {
+					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
 				}
 		    
 			}, 1000);
@@ -220,7 +221,6 @@
 			}
 			var container = document.createElement("div");
 			container.id = "container";
-			
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
@@ -344,6 +344,7 @@
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
+
 		try {
 			socket.emit('setInitialPosition', {
 				numBlocks: NumBlocks,
@@ -420,12 +421,15 @@
             }
         });
 
-        socket.on('enable_blocks_for_player_2', function() {
+        socket.on('enable_blocks_for_player_2', function(data) {
         	timecounter();
+        	console.log("!" + data.p_top);
         	for (var i = 0; i < NumBlocks; i++) {
+        		document.getElementById('block' + i).style.top = data.p_top[i];
+        		document.getElementById('block' + i).style.left = data.p_left[i];
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
-        		
+
 				$("#block" + i).draggable("enable");
             }
         });
@@ -501,8 +505,6 @@
 
 				$("#block" + i).data("id", i);
 
-				document.getElementById('block' + i).style.visibility = "hidden";
-
 				$("#block" + i).bind("contextmenu", function(e) {
 					if (taskID != 1) {
 						var event = e || window.event;
@@ -527,6 +529,7 @@
 			$( init );
 			for (var i = 0; i < NumBlocks; i++) {
 				$("#block" + i).draggable("enable");
+				document.getElementById("block" + i).style.visibility = "hidden";
 			}
 			document.getElementById("instruction").style.visibility = "hidden";
 			document.getElementById("buttonStart").style.visibility = "hidden";
@@ -640,6 +643,8 @@
 			for (var i = 0; i < data.Action.length; i++) {
 				action.push(data.Action[i]);
 			}
+
+			isGameEnd = true;
 
 		    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
 		    for (var i = 0; i < type.length;i++) {
@@ -818,7 +823,6 @@
 			start_button_pressed = true;
 			timecounter();
 		    if (taskID == 3) {
-		    	localStorage.setItem("container", document.getElementById("container").innerHTML);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		        setUpInitialPosition();
@@ -853,7 +857,10 @@
         	}
 
             try {
-            	socket.emit("enable_blocks_for_player_2");
+            	socket.emit("enable_blocks_for_player_2", {
+            		p_top: p_top,
+            		p_left: p_left
+            	});
             } catch (err) {
             	window.location.href = "server_down.html"; 
             }
@@ -867,6 +874,7 @@
 			    // stopRecording();
 			    time = endTime - startTime;
 			    time = time / 1000; // Convert to seconds.
+			    isGameEnd = true;
 
 			    var minutes = Math.floor(time / 60);
 			    var seconds = time - (minutes * 60);
