@@ -15,7 +15,6 @@ var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var color = ['red', 'blue','green','orange','yellow'];
 var taskID = 0;
 var task = [];
@@ -55,10 +54,8 @@ var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
-var goalInfo = [];
+var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
-var addedBlockColor = [];
-var addedBlockLetter = [];
 
 var rainbow_select = 0;
 
@@ -110,8 +107,8 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters2.length);
-        flipLetterArray[i] = letters2[y];
+        y = Math.floor(Math.random() * letters.length);
+        flipLetterArray[i] = letters[y];
     }
 }
 
@@ -233,15 +230,13 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-
         setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
-      
         setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("H".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
         specificIns = "";
     }
@@ -383,7 +378,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ rainbow_select +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
     }
 }
 
@@ -436,6 +431,8 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
+        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }

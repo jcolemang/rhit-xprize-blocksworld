@@ -269,10 +269,12 @@
 				} else {
 					colors = color[color_x];
 				}
-
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				goalInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				goal_top.push(tTop);
+				goal_left.push(tLeft);
 
 				$("#block" + i).data("id", i);
 
@@ -295,12 +297,11 @@
 				});
 			}
 		}
-
 	</script>
 
 	<div id = "disablingDiv">
 		<div id = "freeze">
-			We are currently waiting for another user to join so that we can connect you. Please be patient.
+			We are currently waiting for another user to joint so that we can connect you. Please be patient.
 		</div>
 	</div>
 
@@ -413,7 +414,6 @@
 
         socket.on('disable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.visibility = "hidden";
                 flip_on = false;
 				$("#block" + i).draggable("disable");
             }
@@ -422,8 +422,9 @@
         socket.on('enable_blocks_for_player_2', function() {
         	timecounter();
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.visibility = "visible";
-        		flip_on = true;
+        	//	if (taskID != 1) {
+        			flip_on = true;
+        	//	}
 				$("#block" + i).draggable("enable");
             }
         });
@@ -442,7 +443,7 @@
 		socket.on('update_flip_block', function (block_id) {
 			flipBlock(block_id, null);
 		});
-		socket.on('setInitialPosition', function (data) {
+		socket.on('setInitialPosition', function(data) {
 			document.getElementById('user1').innerText = "Player 1";
 			document.getElementById('user2').innerText = "Player 2 (You)";
 			document.getElementById('user3').innerText = "Player 1";
@@ -813,11 +814,7 @@
 		function StartGame() {
 			start_button_pressed = true;
 			timecounter();
-      
 		    if (taskID == 3) {
-				    for (var i = 0; i < NumBlocks; i++) {
-	              localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
-	          }
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		        setUpInitialPosition();
@@ -842,6 +839,7 @@
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };
+
             
         	for (var i = 0; i < NumBlocks; i++) {
                 flip_on = true;
