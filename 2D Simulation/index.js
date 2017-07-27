@@ -15,6 +15,7 @@ var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
+var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var color = ['red', 'blue','green','orange','yellow'];
 var taskID = 0;
 var task = [];
@@ -55,6 +56,8 @@ var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
 var cur_letters = [];
+var addedBlockColor = [];
+var addedBlockLetter = [];
 
 var rainbow_select = 0;
 
@@ -106,8 +109,8 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters.length);
-        flipLetterArray[i] = letters[y];
+        y = Math.floor(Math.random() * letters2.length);
+        flipLetterArray[i] = letters2[y];
     }
 }
 
@@ -229,13 +232,13 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-        setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
+        setupColor = ['red', 'blue', 'yellow', 'green', 'crimson'];
         setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("H".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
         specificIns = "";
     }
