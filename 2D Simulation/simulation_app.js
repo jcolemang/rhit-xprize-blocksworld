@@ -80,6 +80,10 @@ io.on('connection', function(socket) {
 		socket.to(socket.room).emit('enable_blocks_for_player_2', data);
 	});
 
+	socket.on('Update_score', function(data) {
+		socket.to(socket.room).emit('Update_score', data);
+	});
+
 	socket.on('disable_blocks_for_player_2', function() {
 		socket.to(socket.room).emit('disable_blocks_for_player_2');
 	});
