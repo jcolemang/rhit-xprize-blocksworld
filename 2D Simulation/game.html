@@ -422,9 +422,9 @@
         socket.on('enable_blocks_for_player_2', function() {
         	timecounter();
         	for (var i = 0; i < NumBlocks; i++) {
-        	//	if (taskID != 1) {
-        			flip_on = true;
-        	//	}
+        		document.getElementById('block' + i).style.visibility = "visible";
+        		flip_on = true;
+        		
 				$("#block" + i).draggable("enable");
             }
         });

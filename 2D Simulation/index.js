@@ -56,6 +56,9 @@ var am_i_player1 = true;
 var initialInfo = [];
 var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
+var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
+var addedBlockColor = [];
+var addedBlockLetter = [];
 
 var rainbow_select = 0;
 
@@ -107,8 +110,8 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters.length);
-        flipLetterArray[i] = letters[y];
+        y = Math.floor(Math.random() * letters2.length);
+        flipLetterArray[i] = letters2[y];
     }
 }
 
@@ -236,7 +239,7 @@ function initTaskID() {
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("H".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
         specificIns = "";
     }
@@ -378,7 +381,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/rainbow"+ rainbow_select +".png\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
+       document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
     }
 }
 
