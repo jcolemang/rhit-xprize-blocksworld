@@ -6,12 +6,21 @@
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
+    <style>
+        body {
+            background: url(img/parchment.jpg) no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+    
     <script>
         var numBlocks = window.opener.numBlocks;
         var container = document.createElement('div');
 
         container.innerHTML = localStorage.getItem("container");
-        container.id = "container";
         container.style.fontSize = "40px";
         // for (var i = 0; i < numBlocks; i++) {
         //     localStorage.getItem("block" + i).appendTo(container);
