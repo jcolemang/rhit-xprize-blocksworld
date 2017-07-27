@@ -504,6 +504,7 @@
 				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
 
 				$("#block" + i).data("id", i);
+				document.getElementById('block' + i).style.visibility = "hidden";
 
 				$("#block" + i).bind("contextmenu", function(e) {
 					if (taskID != 1) {
@@ -823,6 +824,7 @@
 			start_button_pressed = true;
 			timecounter();
 		    if (taskID == 3) {
+		    	localStorage.setItem("container", document.getElementById("container").innerHTML);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		        setUpInitialPosition();

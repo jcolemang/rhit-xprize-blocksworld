@@ -60,19 +60,11 @@ io.on('connection', function(socket) {
 		socket.room = room_to_join;
 		recentRoom = -1;
 	} else {
-		// if (unoccupiedRooms.length != 0) {
-		// 	room_to_join = "Room" + unoccupiedRooms[0];
-		// 	socket.join(room_to_join);
-		// 	socket.room = room_to_join;
-		// 	recentRoom = unoccupiedRooms[0];
-		// 	unoccupiedRooms.splice(0, 1);
-		// } else {
-			room_to_join = "Room" + nextRoom;
-			socket.join(room_to_join);
-			socket.room = room_to_join;
-			recentRoom = nextRoom;
-			nextRoom++;
-		// }
+		room_to_join = "Room" + nextRoom;
+		socket.join(room_to_join);
+		socket.room = room_to_join;
+		recentRoom = nextRoom;
+		nextRoom++;
 	}
 
 	socket.on('am_I_second_to_join', function() {
@@ -135,6 +127,10 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
+		if (recentRoom >= 0) {
+			recentRoom = -1;
+		}
+
 		var room = io.sockets.adapter.rooms[socket.room];
 
 		if (going_to_surveys.get(socket.room) == null) {
