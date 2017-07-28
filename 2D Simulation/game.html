@@ -734,6 +734,49 @@
 		        }
 		    }
 
+		   	var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
+			for (var i = 0; i < action.length; i++) {
+				var start_pos = action[i].indexOf('/') - 2;
+				var end_pos = start_pos + 10;
+				dateDay.push(parseInt(action[i].substring(0, 2)));
+				dateMonth.push(parseInt(action[i].substring(3, 5)));
+				dateYear.push(parseInt(action[i].substring(6, 10)));
+				dateTime.push(action[i].substring(start_pos, end_pos));
+				start_pos = action[i].indexOf('/', end_pos) - 2;
+				end_pos = start_pos + 8;
+				dayTime.push(action[i].substring(start_pos, end_pos));
+			}
+			
+			for (var i = 0; i < action.length; i++) {
+				for (var j = i + 1; j < action.length; j++) {
+					if (dateYear[i] > dateYear[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					}
+				}
+			}
+
 			socket.emit('send_data_to_server', {
                 time: data.time,
                 task: data.task,
