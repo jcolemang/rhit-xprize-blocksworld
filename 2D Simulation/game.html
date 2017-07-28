@@ -614,9 +614,6 @@
 							// goal_top[$(this).data("id")] = Stoppos.left;
 							// goal_left[$(this).data("id")] = Stoppos.top;
 							// document.getElementById("scoreBox").innerText = scoreCal();
-							if (!socket.connected) {
-								window.location.href = "server_down.html";
-							}
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
