@@ -16,7 +16,6 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
   	<style>
     	body {
-
       		background: url(img/background.jpg) repeat 0 0;
     	}
   	</style>
@@ -104,11 +103,9 @@
 	<script type="text/javascript">
       
         var recognizer = null;
-
         function recognize() {
             //speechRecognization interface is the heart of recognization API
             window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
-
             if (window.speechRecognition == undefined) {
                 alert("Speech Recogniztion API Not Supported");
             } else {
@@ -124,7 +121,6 @@
                 recognizer.onstart = function(){
                     console.log("Recogniztion API started");
                 }
-
                 //fired everytime user stops speaking.
                 recognizer.onresult = function(event){  
                     for (var count = event.resultIndex; count < event.results.length; count++) {
@@ -133,7 +129,6 @@
                         }
                     }
                 }
-
                 //fired when recognization is stopped manually or automatically.
                 recognizer.onend = function() {
                     recognizer = null;
@@ -142,7 +137,6 @@
                 recognizer.start();
             }
         }
-
         function stopRecog() {
             if(recognizer != null) {
                 //stop it manually
@@ -157,7 +151,6 @@
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
     </script>
@@ -190,13 +183,10 @@
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
-
 		var color = ['red', 'blue','green','orange','yellow'];
-
 		function initBlocks() {
 			var container = document.createElement("div");
 			container.id = "container";
-
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
@@ -205,7 +195,6 @@
 			};
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
-
 			var position_x = [];var position_y = [];
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
@@ -232,26 +221,19 @@
 				previous_left.push(tLeft);
 				previous_top.push(tTop);
 				blocks_y = tLeft;blocks_x = tTop;
-
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
-
 	</script>
 
 	<script type="text/javascript" >
 		var socket = io.connect("http://localhost:8080");
-
 		var username = prompt('Please enter your name.');
-
 		socket.emit('username', username);
-
 		var left_array = [];
 		var top_array = [];
 		var current_colors = [];
 		var current_letters = [];
-
-
 		for (var i = 0; i < NumBlocks; i++) {
 			var position = $("#block" + i).position();
 			var current_color = $("#block" + i).css("background-color");
@@ -261,7 +243,6 @@
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
-
 		socket.emit('setInitialPosition', {
 			numBlocks: NumBlocks,
 			lefts: left_array,
@@ -274,9 +255,7 @@
 			movement_count: actualMove,
 			gesture_count: gestureCount
 		});
-
 		var z = 1;
-
 		socket.on('update_position', function (data) {
 			
 			var left = data.left;
@@ -288,11 +267,9 @@
 			});
 			$("#" + block).css('z-index', ++z);
 		});
-
 		socket.on('update_flip_block', function (block_id) {
 			flipBlock(block_id);
 		});
-
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
 			
@@ -305,40 +282,30 @@
 			setTaskHeader();
 			setIntroduction();
 			setRefLink();
-
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
-
 			for (var i = 0; i < NumBlocks; i++) {
 				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 			}
-
 			$( init );
-
 			for (var i = 0; i < NumBlocks; i++) {
 				$("#block" + i).draggable({
 				});
 			}
-
 			document.getElementById("instruction").style.visibility = "hidden";
 			document.getElementById("buttonStart").style.visibility = "hidden";
 			document.getElementById("buttonEnd").style.visibility = "hidden";
 			document.getElementById("referenceLink").style.visibility = "hidden";
 			document.getElementById("showChosen").style.visibility = "hidden";
-
 			document.getElementById("container").ondblclick = function(e) {
 				e.preventDefault();
 			};
-
 			setIntroduction(2);
-
 		});
-
 		function send_flip_to_server(block_id) {
 			socket.emit('receive_flip_block', block_id);
 		}
-
 		$(document).ready(function() {
     		$(".draggable").draggable();
 			
@@ -348,7 +315,6 @@
 			    $(el).css({position:'relative', left: 1140, top: 540});
 			});
 		});
-
 		var z = 1;
 		$( init );
 		function init() {
@@ -379,38 +345,30 @@
 						top: coord.top
 					});
 				}
-
 				});
 			}
 		}
-
 		function send_movement_to_server() {
 			socket.emit('receive_movement_data', actualMove);
 		}
-
 		socket.on('update_movement_data', function(data) {
 			actualMove = data;
 			setMovement();
 		});
-
 		function send_user_message_to_server() {
 			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 		}
-
 		socket.on('update_user_message', function(message) {
 			document.getElementById("user_message").innerHTML = message;
 		});
-
 		function endGameForAllUsers() {
 			socket.emit('end_game_for_all_users', time);
 		}
-
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
 		    document.body.innerHTML = '';
 		    document.documentElement.innerHTML = "<img src = \"img/final.png\">";
 		});
-
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
 				gestureCount: gestureCount,
@@ -418,17 +376,14 @@
 				top: $("#gestureToggle").position().top
 			});
 		}
-
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
 			setGestureWithPosition(data.left, data.top);
 		});
-
 		socket.on('user_left_game', function() {
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
 		});
-
 	</script>
 
 	<script type="text/javascript">
@@ -447,7 +402,6 @@
 					startPosMap['block'+i] = pos;
 				}
 			}
-
 		}
 	</script>
 
@@ -613,7 +567,6 @@
 		    startRecording();
 		    recognize();
 		}
-
 		function endGame() {
 		    endTime = new Date().getTime();
 		    stopRecording();
@@ -630,18 +583,15 @@
 		    for (var i = 0; i < start.length;i++) {
 		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
 		    }
-
 		    console.log(instructions);
 		    alert('How long you take to finish the task? ' + time/1000 + 's');
 		    stopRecog();
 		    // ConnectDB();
-
 		    window.location.href = "Public/Survey.html";
 		    // console.log(recordCounter);
 		    // if (recordCounter != 0) {
 		    //     const testFolder = '/media/Temp';
 		    //     const fs = require('fs');
-
 		    //     fs.readdir(testFolder, (err, files) => {
 		    //       files.forEach(file => {
 		    //         console.log(file);
@@ -653,4 +603,3 @@
 
 </body>
 </html>
-
