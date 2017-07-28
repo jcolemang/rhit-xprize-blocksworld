@@ -67,17 +67,24 @@
 	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
 	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
-	    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+	    <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
 	    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
-	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-			<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+	    <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
+		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
+
+	    <script type="text/javascript">
+			document.getElementById("gesturecontext").style.visibility = "hidden";
+			document.getElementById("movementcontext").style.visibility = "hidden";
+			document.getElementById("gestureCount").style.visibility = "hidden";
+			document.getElementById("MovementCount").style.visibility = "hidden";
+		</script>
 
 	    <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
 	    <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
 	    	Score
 	    </div>
-	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: white; width: 10%;height: 100px; position: absolute; top: 20%; left: 85%"></div>
+	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 100px; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
 	</div>
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
@@ -272,8 +279,8 @@
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				goalInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
-				console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				console.log("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
 				goal_left.push(tLeft);
 
@@ -317,9 +324,11 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		// if (!socket.connected) {
-		// 	window.location.href = "server_down.html";
-		// }
+		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
+		// doesn't redirect you to the server down page.
+		if (!socket.connected) {
+			window.location.href = "server_down.html";
+		}
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
@@ -424,9 +433,10 @@
         socket.on('enable_blocks_for_player_2', function(data) {
         	timecounter();
         	console.log("!" + data.p_top);
+        	console.log("!" + data.p_left);
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i];
-        		document.getElementById('block' + i).style.left = data.p_left[i];
+        		document.getElementById('block' + i).style.top = data.p_top[i]+"px";
+        		document.getElementById('block' + i).style.left = data.p_left[i]+"px";
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
 
@@ -588,10 +598,25 @@
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
 		            		console.log(cur_letters[$(this).data("id")]);
 
-		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
-							
+		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+							end_left[$(this).data("id")] = Stoppos.left;
+							end_top[$(this).data("id")] = Stoppos.top;
+
 							setMovement();
 							send_movement_to_server();
+
+							console.log($(this).data("id")+ " " + Stoppos.left + " " + Stoppos.top);
+							socket.emit('Update_score', {
+								id : $(this).data("id"),
+								tLeft: Stoppos.left,
+								tTop: Stoppos.top
+							});
+							// goal_top[$(this).data("id")] = Stoppos.left;
+							// goal_left[$(this).data("id")] = Stoppos.top;
+							// document.getElementById("scoreBox").innerText = scoreCal();
+							if (!socket.connected) {
+								window.location.href = "server_down.html";
+							}
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
@@ -610,6 +635,64 @@
 				});
 			}
 		}
+
+		socket.on('Update_score', function(data) {
+			console.log(data.id + " " + data.tLeft + " " + data.tTop);
+			var top = [], left = [];
+			goal_left[data.id] = data.tLeft;
+			goal_top[data.id] = data.tTop;
+
+
+			var totalX = 0;
+		    var totalY = 0;
+		    for (var index = 0; index < NumBlocks; index++) {
+		        console.log(goal_left[index] +" " +goal_top[index]);
+		        totalX = totalX + goal_left[index];
+		        totalY = totalY + goal_top[index];
+		    }
+		    var avgX = totalX/NumBlocks;
+		    var avgY = totalY/NumBlocks;
+		    var origin_goal_left = [], origin_goal_top = [];
+		    var origin_end_left = [];
+			var origin_end_top = [];
+
+		    for (var index2 = 0; index2 < NumBlocks; index2++) {
+		        origin_goal_left.push(goal_left[index2]-avgX);
+		        origin_goal_top.push(goal_top[index2]-avgY);
+		    }
+
+		    var totalX2 = 0;
+		    var totalY2 = 0;
+		    for (var index1 = 0; index1 < NumBlocks; index1++) {
+		        totalX2 = totalX2 + end_left[index1];
+		        totalY2 = totalY2 + end_top[index1];
+		    }
+		    var avgX2 = totalX2/NumBlocks;
+		    var avgY2 = totalY2/NumBlocks;
+
+		    for (var index22 = 0; index22 < NumBlocks; index22++) {
+		        origin_end_left.push(end_left[index22]-avgX2);
+		        origin_end_top.push(end_top[index22]-avgY2);
+		    }
+
+		    var errorX = 0;
+		    var errorY = 0;
+		    for (var index3 = 0; index3 < NumBlocks; index3++) {
+		        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
+		        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+		    }
+
+		    var totalError = errorY + errorX;
+		    var fat = $("#container").width();
+		    var tall = $("#container").height(); 
+		    
+		    Emax = (tall + fat)*5;
+		    var score = ((Emax - totalError) / Emax) * 100;
+
+			document.getElementById('scoreBox').innerText = Math.round(score);
+			console.log(score);
+		});
+
 		function send_movement_to_server() {
 			try {
 				socket.emit('receive_movement_data', actualMove);
@@ -666,52 +749,48 @@
 		        }
 		    }
 
-		    var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
-		    for (var i = 0; i < action.length; i++) {
-		    	var start_pos = action[i].indexOf('/') - 2;
-		    	var end_pos = start_pos + 10;
-		    	dateDay.push(parseInt(action[i].substring(0, 2)));
-		    	dateMonth.push(parseInt(action[i].substring(3, 5)));
-		    	dateYear.push(parseInt(action[i].substring(6, 10)));
-		    	dateTime.push(action[i].substring(start_pos, end_pos));
-		    	start_pos = action[i].indexOf('/', end_pos) - 2;
-		    	end_pos = start_pos + 8;
-		    	dayTime.push(action[i].substring(start_pos, end_pos));
-		    }
+		   	var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
+			for (var i = 0; i < action.length; i++) {
+				var start_pos = action[i].indexOf('/') - 2;
+				var end_pos = start_pos + 10;
+				dateDay.push(parseInt(action[i].substring(0, 2)));
+				dateMonth.push(parseInt(action[i].substring(3, 5)));
+				dateYear.push(parseInt(action[i].substring(6, 10)));
+				dateTime.push(action[i].substring(start_pos, end_pos));
+				start_pos = action[i].indexOf('/', end_pos) - 2;
+				end_pos = start_pos + 8;
+				dayTime.push(action[i].substring(start_pos, end_pos));
+			}
 
-		    for (var i = 0; i < action.length; i++) {
-		    	for (var j = i + 1; j < action.length; j++) {
-		    		if (dateYear[i] > dateYear[j]) {
-		    			var st = action[i]; action[i] = action[j]; action[j] = st;
-		    			st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-		    			st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-		    			st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-		    			st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-		    		} else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
-		    			var st = action[i]; action[i] = action[j]; action[j] = st;
-		    			st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-		    			st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-		    			st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-		    			st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-		    		} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
-		    			var st = action[i]; action[i] = action[j]; action[j] = st;
-		    			st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-		    			st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-		    			st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-		    			st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-		    		} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
-		    			var st = action[i]; action[i] = action[j]; action[j] = st;
-		    			st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-		    			st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-		    			st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-		    			st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-		    		}
-		    	}
-		    }
-
-		    for (var i = 0; i < action.length; i++) {
-		    	console.log(action[i]);
-		    }
+			for (var i = 0; i < action.length; i++) {
+				for (var j = i + 1; j < action.length; j++) {
+					if (dateYear[i] > dateYear[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
+						var st = action[i]; action[i] = action[j]; action[j] = st;
+						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+					}
+				}
+			}
 
 			socket.emit('send_data_to_server', {
                 time: data.time,
@@ -728,6 +807,7 @@
                 p: data.p,
                 Action: action,
                 initialInfo: data.initialInfo,
+                standard_info: data.standard_info,
                 other: data.other
             });
 			    
@@ -738,7 +818,7 @@
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
-      document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+      		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
 
 			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
 			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
@@ -930,13 +1010,17 @@
 
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
-			        if(blockid) {
+     			    if(blockid) {
+     			    	var pos = $("#block" + i).position();
+     			    	end_top.push(pos.top);
+     			    	end_left.push(pos.left);
 			            if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
 			            }
 			        }
 			    }
+			    console.log(scoreCal());
 
 				var action = [];
 
@@ -995,6 +1079,7 @@
                 	words = "Construction: Rainbow" + rainbow_select + ".png";
                 }
 
+                console.log(scoreCal());
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
@@ -1011,8 +1096,10 @@
  	                    p: p,
  	                    Action: action,
  	                    initialInfo: initialInfo,
+ 	                    standard_info: standard_info,
 	                    other: words,
 	                    minutes: minutes,
+	                    finalScore: scoreCal(),
 	                    seconds: seconds
  	                });
                 } catch (err) {

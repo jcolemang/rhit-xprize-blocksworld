@@ -69,6 +69,7 @@ var origin_end_top = [];
 var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
+var standard_info = [];
 
 var rainbow_select = 0;
 
@@ -113,8 +114,8 @@ function initInstructions() {
 
     introductions1.push("Searching:<br>You and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User1 Instructions:<br>&emsp; Click the “show chosen” button to get the words you and your partner have to search for.<br>&emsp; Your partner doesn’t know what word they need to search for. You need to instruct your partner to be able to do this. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type.<br>&emsp;You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game. Both of you will see the outcomes of any changes either of you make to the table.<br>");
     introductions2.push("Searching:<br>ou and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
-    introductions1.push("Rainbow:<br>You need to draw a specific pattern (like a triangle) using the cards, along with your partner.<br>User1 Instructions:<br>&emsp;You will click the “show the construction” button to see what pattern needs to be made, and instruct your partner to get help finishing the task, by speaking into your device’s microphone, or by typing in the text box. Your partner cannot see the pattern. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type. You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game.<br>&emsp;The partner will assist you in the task according to your instructions but only you can speak to him. He can’t speak back. Only he can move blocks. You can’t. Both of you will see the outcomes of any changes either of you make to the table.<br>");
-    introductions2.push("Rainbow:<br>You need to draw a specific pattern (like a triangle) using the cards, along with your partner.<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
+    introductions1.push("Rainbow:<br>User1 Instructions:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. Your partner cannot see the pattern. <br>&emsp;Only your partner can move blocks.<br>&emsp;<br>");
+    introductions2.push("Rainbow:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Pay attention to the gestures. Your partner cannot move blocks.<br>");
 }
 
 
@@ -450,9 +451,58 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
+        end_left.push(tTop);
+        end_top.push(tLeft);
         initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
+    document.getElementById('scoreBox').innerText = Math.round(scoreCal());
+}
+
+function scoreCal() {
+    var totalX = 0;
+    var totalY = 0;
+    for (var index = 0; index < NumBlocks; index++) {
+        console.log(goal_left[index] +" " +goal_top[index]);
+        totalX = totalX + goal_left[index];
+        totalY = totalY + goal_top[index];
+    }
+    var avgX = totalX/NumBlocks;
+    var avgY = totalY/NumBlocks;
+
+    for (var index2 = 0; index2 < NumBlocks; index2++) {
+        origin_goal_left.push(goal_left[index2]-avgX);
+        origin_goal_top.push(goal_top[index2]-avgY);
+    }
+
+    var totalX2 = 0;
+    var totalY2 = 0;
+    for (var index1 = 0; index1 < NumBlocks; index1++) {
+        totalX2 = totalX2 + end_left[index1];
+        totalY2 = totalY2 + end_top[index1];
+    }
+    var avgX2 = totalX2/NumBlocks;
+    var avgY2 = totalY2/NumBlocks;
+
+    for (var index22 = 0; index22 < NumBlocks; index22++) {
+        origin_end_left.push(end_left[index22]-avgX2);
+        origin_end_top.push(end_top[index22]-avgY2);
+    }
+
+    var errorX = 0;
+    var errorY = 0;
+    for (var index3 = 0; index3 < NumBlocks; index3++) {
+        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
+        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+    }
+
+    var totalError = errorY + errorX;
+    var fat = $("#container").width();
+    var tall = $("#container").height(); 
+    
+    Emax = (tall + fat)*5;
+    var score = ((Emax - totalError) / Emax) * 100;
+    return score;
 }
