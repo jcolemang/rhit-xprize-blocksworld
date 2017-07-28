@@ -175,8 +175,8 @@
 	    	</script> -->
 		</div>
 
-    	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
-    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+    	<p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
+    	<p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 
@@ -188,6 +188,12 @@
 	    </div>
 	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 100px; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
 	</div>
+	<script type="text/javascript">
+		document.getElementById("gesturecontext").style.visibility = "hidden";
+		document.getElementById("movementcontext").style.visibility = "hidden";
+		document.getElementById("gestureCount").style.visibility = "hidden";
+		document.getElementById("MovementCount").style.visibility = "hidden";
+	</script>
     
 	<!-- Live Audio button turned off for testing. -->
 
@@ -260,7 +266,7 @@
 			var rect = block.getBoundingClientRect();
 
 			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(rect.top - 120)+"px; left: "+(rect.left - 64)+"px\">";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(rect.top-120)+"px; left: "+(rect.left - 250)+"px\">Flip block: right-click. Try it! </div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(rect.top-120)+"px; left: "+(rect.left - 250)+"px\">Flip block: right-click. Try it! (If the block doesn't appear to flip, it may just be identical on the back)</div>";
 			document.getElementById('tutorial').innerHTML += "<button id = \"button3\" onclick = \"Showgesture()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(rect.top-40)+"px; left: "+(rect.left - 40)+"px\">>>Next</button>";
 			document.getElementById("button3").disabled = true;
 		}
@@ -300,13 +306,7 @@
 			document.getElementById("tutorial").style.visibility = "hidden";
 			document.getElementById("tutorial1").style.visibility = "visible";
 
-			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 190px; left: 50px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 320px; left: 50px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 160px; left: 110px\">";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 290px; left: 110px\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 210px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Complete the task with fewest number of gestures and movements. Pointing = 1 gesture. Flipping or moving block = 1 movement.</div>";
-
-			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo5()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
+			nextPageTo5();
 		}
 
 		function nextPageTo5() {
@@ -332,27 +332,32 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Type instruction and click enter to communicate with your parter. Check in chatbox if message was reached. This will be available to only one of you.</div>";
 
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 22%; right: 15%\">";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 60px height = 80px style=\"position:absolute; top: 12%; right: 35%\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 20%; left: 65%; width:300px; font-size:18px; font-family:verdana\">The game score and timer are here. These help you keep track of how well you're doing and how much time is left before the game ends.</div>";
-
 			document.getElementById('tutorial1').innerHTML += "<div style = \"height:30%; width:10%; border: white solid 4px; position: absolute; bottom:25%; right: 5%;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; bottom: 40%; right: 18%\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; bottom: 43%; right: 22%; width:15%; font-size:18px; font-family:verdana\">Chatbox: message history</div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 55%; right: 18%\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 56%; right: 19%; width:20%; font-size:18px; font-family:verdana\">Chatbox: message history</div>";
 
-			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 300px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 300px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = TimerAndScore()>>>Next</button>";
+		}
+
+		function TimerAndScore() {
+			document.getElementById('tutorial1').innerHTML = "<div style = \"height:100px; width:10%; border: white solid 4px; position: absolute; top:20%; left: 85%;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 26%; right: 19%; width:20%; font-size:18px; font-family:verdana\">The game score and timer are here. These help you keep track of how well you're doing and how much time is left before the game ends.</div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 15%; right: 35%\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 20%; left: 80%\">";
+
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 50%; left: 75%; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
 		}
 
 		function nextPageTo7() {
 			document.getElementById('tutorial1').innerHTML = "<div style=\"position:absolute; top: 5%; left: 25%; width: 50%; text-align:center;font-size:24px; font-family:verdana\">Game instructions</div>";
 			document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Your task:<br>&emsp;If you have the start and end buttons on your screen, you are Player 1. Otherwise, you are Player 2.<br>&emsp;Player 1 will be assigned a pattern and will guide Player 2 to make the pattern using instructions and gestures. <br>&emsp;Player 2 cannot communicate with Player 1.<br>&emsp;Pay attention to the timer and try to maximize your score.<br>Steps for Player 1:<br>&emsp;1. Click the Start button. <br>&emsp;2. Click the “Show the Construction” button to see what pattern needs to be created. <br>&emsp;3. Instruct your partner to make this pattern by typing instructions into the text box. You can also use gestures. <br>&emsp;4. Click the End button when you are satisfied with your score.<br>Steps for Player 2:<br>&emsp;Pay attention to the chatbox to see instructions from the other player and be aware of any gestures being made on the screen.<br>Block Instructions Summary:<br>&emsp;Mouse right click: flips block<br>Whenever you do this, the movement box count increases by 1.<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.</div>";
-			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 70%; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo8()>>>Next</button>";
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; bottom: 10%; right: 20%; width: 10%; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo8()>>>Next</button>";
 		}
 
 		function nextPageTo8() {
 			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 280px; height: 80px; border: white solid 4px; position: absolute; top: 1%; right: 1%;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 5%; right: 310px\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 350px; width:400px; font-size:18px; font-family:verdana\">Instructions for reference</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 15%; width:400px; font-size:18px; font-family:verdana\">Instructions for reference</div>";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 170px; height: 20px; border: white solid 4px;\"</div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 7%; left: 50%;\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">Click here to see what you will be creating. This button is only available to one player.</div>";
