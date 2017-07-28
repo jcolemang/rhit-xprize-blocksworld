@@ -134,7 +134,7 @@
 			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Click here to review game instructions
 				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
 			  		<script type="text/javascript">
-			  		  var generalintro = "General Instructions:<br>&emsp;There are many two-sided blocks on a table. You will work with a partner. One of you will guide the other through instructions and gestures to complete the task. Once the task is completed, the user with access to the End button will end the game.<br>";
+			  		  var generalintro = "General Instructions:<br>&emsp;There are many two-sided blocks on a table. You will work with a partner. One of you will guide the other through instructions and gestures to complete the task. Once the task is completed, the player with access to the End button will end the game.<br>";
     					var blockintro = "Block instructions summary:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
 			  			document.getElementById("myPopup").innerHTML = generalintro + blockintro + introductions1[taskID];
 			  		</script>
@@ -164,16 +164,16 @@
 		    <div class = "numofwords" id="numofwords"></div>
 		</div>
 
-    <button class = "buttonStart" onclick="StartGame()" >Start</button>
+	    <button class = "buttonStart" onclick="StartGame()" >Start</button>
 
-	<button class = "buttonEnd" onclick="endGame()" >End</button>
-	<div class = "gestureToggle" id="gestureToggle"></div>
+		<button class = "buttonEnd" onclick="endGame()" >End</button>
+		<div class = "gestureToggle" id="gestureToggle"></div>
 
-    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
-<!-- 		<script type="text/javascript">
-    		setRefLink();
-    	</script> -->
-	</div>
+	    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
+	<!-- 		<script type="text/javascript">
+	    		setRefLink();
+	    	</script> -->
+		</div>
 
     	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
     	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
@@ -181,7 +181,12 @@
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 
 		<div class = "showChosen" id = "showChosen" style="position: absolute; top: 10%; left: 40%; font-size:12px; font-family:verdana"></div>
-		</div>
+
+		<div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 50%"> Time: 3 minutes 0 seconds</div>
+	    <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
+	    	Score
+	    </div>
+	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 100px; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
 	</div>
     
 	<!-- Live Audio button turned off for testing. -->
@@ -208,7 +213,7 @@
 
 	<div id = "tutorial1">
 		<p id = "head1" style="text-align:center; font-size:30px; font-family:verdana">Hello! Welcome to the Block World Tutorial!</p>
-		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;There are many two-sided blocks on a table. You will work with a partner. One of you will guide the other through instructions and gestures to complete the task. Once the task is completed, the user with access to the End button will end the game.<br></div>
+		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;There are many two-sided blocks on a table. You will work with a partner. One of you will guide the other through instructions and gestures to complete the task. Once the task is completed, the player with access to the End button will end the game.<br></div>
 		<button id = "next1" style="position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;" onclick = "nextPageTo2()">>>Next</button>
 	</div>
 
@@ -311,8 +316,8 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 410px; left: 110px\">";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 510px; left: 110px\">";
 
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 440px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Click the Start button to begin the game. This button is only available to one user. </div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 540px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Click the End button when the task is completed. The game will not end until this button is clicked. This button is only available to one user.</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 440px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Click the Start button to begin the game. This button is only available to one player. </div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 540px; left: 160px; width:400px; font-size:18px; font-family:verdana\">Click the End button when the task is completed. The game will not end until this button is clicked. This button is only available to one player.</div>";
 
 			document.getElementById('tutorial1').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo6()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top: 400px; left: 250px;\">>>Next</button>";
 		}
@@ -327,6 +332,10 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Type instruction and click enter to communicate with your parter. Check in chatbox if message was reached. This will be available to only one of you.</div>";
 
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 22%; right: 15%\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 60px height = 80px style=\"position:absolute; top: 12%; right: 35%\">";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 20%; left: 65%; width:300px; font-size:18px; font-family:verdana\">The game score and timer are here. These help you keep track of how well you're doing and how much time is left before the game ends.</div>";
+
 			document.getElementById('tutorial1').innerHTML += "<div style = \"height:30%; width:10%; border: white solid 4px; position: absolute; bottom:25%; right: 5%;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; bottom: 40%; right: 18%\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; bottom: 43%; right: 22%; width:15%; font-size:18px; font-family:verdana\">Chatbox: message history</div>";
@@ -336,11 +345,8 @@
 
 		function nextPageTo7() {
 			document.getElementById('tutorial1').innerHTML = "<div style=\"position:absolute; top: 5%; left: 25%; width: 50%; text-align:center;font-size:24px; font-family:verdana\">Game instructions</div>";
-			document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Your task:<br>&emsp;If you have the start and end button on yoru screen, you are user1, else you are user2.<br>&emsp;User1 will be assigned a pattern and will guide user2 to make the pattern using instructions and gestures. <br>&emsp;User2 cannot speak back or use gestures.<br>&emsp;Pay attention to the timer and try to maximise your score!</div>";
-			document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Steps for user1:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. <br>&emsp;4. Click end when you are satisfied with your score.</div>";
-    		document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Steps for user2:<br>&emsp;Pay attention to the chatbox to see instructions from the user and lookout for gestures!</div>";
-			document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Block instructions summary:<br>&emsp;Mouse right click: flips block<br>Whenever you do this, the movement box count increases by 1.<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.</div>";
-			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 50%; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo8()>>>Next</button>";
+			document.getElementById('tutorial1').innerHTML += "<div style=\"position:absolute; top: 15%; left: 25%; width: 50%; font-size:16px; font-family:verdana\">Your task:<br>&emsp;If you have the start and end buttons on your screen, you are Player 1. Otherwise, you are Player 2.<br>&emsp;Player 1 will be assigned a pattern and will guide Player 2 to make the pattern using instructions and gestures. <br>&emsp;Player 2 cannot communicate with Player 1.<br>&emsp;Pay attention to the timer and try to maximize your score.<br>Steps for Player 1:<br>&emsp;1. Click the Start button. <br>&emsp;2. Click the “Show the Construction” button to see what pattern needs to be created. <br>&emsp;3. Instruct your partner to make this pattern by typing instructions into the text box. You can also use gestures. <br>&emsp;4. Click the End button when you are satisfied with your score.<br>Steps for Player 2:<br>&emsp;Pay attention to the chatbox to see instructions from the other player and be aware of any gestures being made on the screen.<br>Block Instructions Summary:<br>&emsp;Mouse right click: flips block<br>Whenever you do this, the movement box count increases by 1.<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.</div>";
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 70%; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo8()>>>Next</button>";
 		}
 
 		function nextPageTo8() {
@@ -349,7 +355,7 @@
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 350px; width:400px; font-size:18px; font-family:verdana\">Instructions for reference</div>";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 170px; height: 20px; border: white solid 4px;\"</div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 7%; left: 50%;\">";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">Click here to see what you will be creating. This button is only available to one user.</div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">Click here to see what you will be creating. This button is only available to one player.</div>";
 
 			document.getElementById("showChosen").style.visibility = "visible";
 			document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";

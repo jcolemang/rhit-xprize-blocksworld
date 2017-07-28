@@ -317,9 +317,11 @@
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
-		// if (!socket.connected) {
-		// 	window.location.href = "server_down.html";
-		// }
+		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
+		// doesn't redirect you to the server down page.
+		if (!socket.connected) {
+			window.location.href = "server_down.html";
+		}
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
