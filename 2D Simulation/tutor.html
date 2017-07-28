@@ -345,6 +345,15 @@
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 15%; right: 35%\">";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 20%; left: 80%\">";
 
+			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 300px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = TimerAndScore()>>>Next</button>";
+		}
+
+		function TimerAndScore() {
+			document.getElementById('tutorial1').innerHTML = "<div style = \"height:100px; width:10%; border: white solid 4px; position: absolute; top:20%; left: 85%;\"></div>";
+			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 26%; right: 19%; width:20%; font-size:18px; font-family:verdana\">The game score and timer are here. These help you keep track of how well you're doing and how much time is left before the game ends.</div>";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 15%; right: 35%\">";
+			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 20%; left: 80%\">";
+
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 50%; left: 75%; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
 		}
 
@@ -358,6 +367,7 @@
 			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 280px; height: 80px; border: white solid 4px; position: absolute; top: 1%; right: 1%;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top: 5%; right: 310px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 2%; right: 15%; width:400px; font-size:18px; font-family:verdana\">Instructions for reference</div>";
+			
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 9%; left: 40%; width: 170px; height: 20px; border: white solid 4px;\"</div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 7%; left: 50%;\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 10%; left: 53%; width:400px; font-size:18px; font-family:verdana\">Click here to see what you will be creating. This button is only available to one player.</div>";
