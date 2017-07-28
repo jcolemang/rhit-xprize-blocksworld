@@ -426,8 +426,8 @@
         	console.log("!" + data.p_top);
         	console.log("!" + data.p_left);
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i] + "px";
-        		document.getElementById('block' + i).style.left = data.p_left[i] + "px";
+        		document.getElementById('block' + i).style.top = data.p_top[i]+"px";
+        		document.getElementById('block' + i).style.left = data.p_left[i]+"px";
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
 
@@ -589,15 +589,17 @@
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
 		            		console.log(cur_letters[$(this).data("id")]);
 
-		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
 							end_left[$(this).data("id")] = Stoppos.left;
 							end_top[$(this).data("id")] = Stoppos.top;
 
 							setMovement();
 							send_movement_to_server();
+
+							console.log($(this).data("id")+ " " + Stoppos.left + " " + Stoppos.top);
 							socket.emit('Update_score', {
-								id : i,
-								tleft: Stoppos.left,
+								id : $(this).data("id"),
+								tLeft: Stoppos.left,
 								tTop: Stoppos.top
 							});
 					}
@@ -620,10 +622,60 @@
 		}
 
 		socket.on('Update_score', function(data) {
+			console.log(data.id + " " + data.tLeft + " " + data.tTop);
+			var top = [], left = [];
 			goal_left[data.id] = data.tLeft;
 			goal_top[data.id] = data.tTop;
-			document.getElementById('scoreBox').innerText = Math.round(scoreCal());
-			console.log(scoreCal());
+
+
+			var totalX = 0;
+		    var totalY = 0;
+		    for (var index = 0; index < NumBlocks; index++) {
+		        console.log(goal_left[index] +" " +goal_top[index]);
+		        totalX = totalX + goal_left[index];
+		        totalY = totalY + goal_top[index];
+		    }
+		    var avgX = totalX/NumBlocks;
+		    var avgY = totalY/NumBlocks;
+		    var origin_goal_left = [], origin_goal_top = [];
+		    var origin_end_left = [];
+			var origin_end_top = [];
+
+		    for (var index2 = 0; index2 < NumBlocks; index2++) {
+		        origin_goal_left.push(goal_left[index2]-avgX);
+		        origin_goal_top.push(goal_top[index2]-avgY);
+		    }
+
+		    var totalX2 = 0;
+		    var totalY2 = 0;
+		    for (var index1 = 0; index1 < NumBlocks; index1++) {
+		        totalX2 = totalX2 + end_left[index1];
+		        totalY2 = totalY2 + end_top[index1];
+		    }
+		    var avgX2 = totalX2/NumBlocks;
+		    var avgY2 = totalY2/NumBlocks;
+
+		    for (var index22 = 0; index22 < NumBlocks; index22++) {
+		        origin_end_left.push(end_left[index22]-avgX2);
+		        origin_end_top.push(end_top[index22]-avgY2);
+		    }
+
+		    var errorX = 0;
+		    var errorY = 0;
+		    for (var index3 = 0; index3 < NumBlocks; index3++) {
+		        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
+		        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+		    }
+
+		    var totalError = errorY + errorX;
+		    var fat = $("#container").width();
+		    var tall = $("#container").height(); 
+		    
+		    Emax = (tall + fat)*5;
+		    var score = ((Emax - totalError) / Emax) * 100;
+
+			document.getElementById('scoreBox').innerText = Math.round(score);
+			console.log(score);
 		});
 
 		function send_movement_to_server() {
