@@ -71,7 +71,7 @@ function initInstructions() {
     introductions2.push("Searching:<br>Your task is to search for a word. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
     introductions1.push("Construction:<br>User1 Instructions:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. Your partner cannot see the pattern. <br>&emsp;Only your partner can move blocks.<br>&emsp;<br>");
     introductions2.push("Construction:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Pay attention to the gestures. Your partner cannot move blocks.<br>");
-}}
+}
 
 
 function initFlipColors() {
