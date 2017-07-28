@@ -69,6 +69,7 @@ var origin_end_top = [];
 var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
+var standard_info = [];
 
 var rainbow_select = 0;
 

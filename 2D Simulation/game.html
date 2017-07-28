@@ -272,8 +272,8 @@
 				}
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
-				console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				console.log("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
 				goal_left.push(tLeft);
 
@@ -602,6 +602,9 @@
 								tLeft: Stoppos.left,
 								tTop: Stoppos.top
 							});
+							// goal_top[$(this).data("id")] = Stoppos.left;
+							// goal_left[$(this).data("id")] = Stoppos.top;
+							// document.getElementById("scoreBox").innerText = scoreCal();
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
@@ -746,7 +749,7 @@
 				end_pos = start_pos + 8;
 				dayTime.push(action[i].substring(start_pos, end_pos));
 			}
-			
+
 			for (var i = 0; i < action.length; i++) {
 				for (var j = i + 1; j < action.length; j++) {
 					if (dateYear[i] > dateYear[j]) {
@@ -792,6 +795,7 @@
                 p: data.p,
                 Action: action,
                 initialInfo: data.initialInfo,
+                standard_info: data.standard_info,
                 other: data.other
             });
 			    
@@ -1063,6 +1067,7 @@
                 	words = "Construction: Rainbow" + rainbow_select + ".png";
                 }
 
+                console.log(scoreCal());
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
@@ -1079,8 +1084,10 @@
  	                    p: p,
  	                    Action: action,
  	                    initialInfo: initialInfo,
+ 	                    standard_info: standard_info,
 	                    other: words,
 	                    minutes: minutes,
+	                    finalScore: scoreCal(),
 	                    seconds: seconds
  	                });
                 } catch (err) {
