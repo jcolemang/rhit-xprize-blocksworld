@@ -326,9 +326,9 @@
 
 		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
 		// doesn't redirect you to the server down page.
-		if (!socket.connected) {
-			window.location.href = "server_down.html";
-		}
+		// if (!socket.connected) {
+		// 	window.location.href = "server_down.html";
+		// }
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
@@ -685,9 +685,18 @@
 		    
 		    Emax = (tall + fat)*5;
 		    var score = ((Emax - totalError) / Emax) * 100;
+		    if (initialScore == 0) {
+		        initialScore = score;
+		        score = 0;
+		    } else {
+		        score = 100 * (score - initialScore) / (100 - initialScore);
+		        if (score < 0) {
+		            score = 0;
+		        }
+		    }
 
 			document.getElementById('scoreBox').innerText = Math.round(score);
-			console.log(score);
+			console.log(initialScore);
 		});
 
 		function send_movement_to_server() {
@@ -789,6 +798,8 @@
 				}
 			}
 
+			document.getElementById("scoreBox").innerText = data.finalScore;
+
 			socket.emit('send_data_to_server', {
                 time: data.time,
                 task: data.task,
@@ -805,6 +816,7 @@
                 Action: action,
                 initialInfo: data.initialInfo,
                 standard_info: data.standard_info,
+                finalScore: data.finalScore,
                 other: data.other
             });
 			    
@@ -993,6 +1005,8 @@
 
             document.getElementById('buttonStart').disabled = true;
             socket.emit("receive_user_message", "(The game has started!)");
+            scoreCal();
+			console.log(initialScore + "!");
 		}
 		function endGame() {
 		    if (start_button_pressed) {

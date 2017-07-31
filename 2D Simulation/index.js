@@ -70,6 +70,7 @@ var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
 var standard_info = [];
+var initialScore = -1;
 
 var rainbow_select = 0;
 
@@ -458,51 +459,43 @@ function setUpInitialPosition() {
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal());
+    document.getElementById('scoreBox').innerText = Math.round(scoreCal())/10;
 }
 
 function scoreCal() {
     var totalX = 0;
     var totalY = 0;
     for (var index = 0; index < NumBlocks; index++) {
-        console.log(goal_left[index] +" " +goal_top[index]);
-        totalX = totalX + goal_left[index];
-        totalY = totalY + goal_top[index];
+        totalX = totalX + Math.abs(goal_left[index] - end_left[index]);
+        totalY = totalY + Math.abs(goal_top[index] - end_top[index]);
     }
-    var avgX = totalX/NumBlocks;
-    var avgY = totalY/NumBlocks;
-
-    for (var index2 = 0; index2 < NumBlocks; index2++) {
-        origin_goal_left.push(goal_left[index2]-avgX);
-        origin_goal_top.push(goal_top[index2]-avgY);
-    }
-
-    var totalX2 = 0;
-    var totalY2 = 0;
-    for (var index1 = 0; index1 < NumBlocks; index1++) {
-        totalX2 = totalX2 + end_left[index1];
-        totalY2 = totalY2 + end_top[index1];
-    }
-    var avgX2 = totalX2/NumBlocks;
-    var avgY2 = totalY2/NumBlocks;
-
-    for (var index22 = 0; index22 < NumBlocks; index22++) {
-        origin_end_left.push(end_left[index22]-avgX2);
-        origin_end_top.push(end_top[index22]-avgY2);
-    }
+    var aveX = totalX / NumBlocks;
+    var aveY = totalY / NumBlocks;
+    console.log(aveX +" " +aveY);
 
     var errorX = 0;
     var errorY = 0;
-    for (var index3 = 0; index3 < NumBlocks; index3++) {
-        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
-        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+    for (var i = 0; i < NumBlocks; i++) {
+        errorX = errorX + Math.abs(Math.abs(goal_left[i] - end_left[i]) - aveX);
+        errorY = errorY + Math.abs(Math.abs(goal_top[i] - end_top[i]) - aveY);
     }
+    console.log(errorX +" " +errorY);
 
-    var totalError = errorY + errorX;
+    var totalError = Math.abs(errorY) + Math.abs(errorX);
     var fat = $("#container").width();
     var tall = $("#container").height(); 
     
-    Emax = (tall + fat)*5;
+    var Emax = (tall + fat) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
+    if (initialScore == -1) {
+        initialScore = score;
+        console.log(initialScore);
+        score = 0;
+    } else {
+        score = 100 * (score - initialScore) / (100 - initialScore);
+        if (score < 0) {
+            score = 0;
+        }
+    }
     return score;
 }

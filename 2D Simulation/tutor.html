@@ -131,7 +131,7 @@
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
-			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Click here to review game instructions
+			<div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Click here to review game instructions
 				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
 			  		<script type="text/javascript">
 			  		  var generalintro = "General Instructions:<br>&emsp;There are many two-sided blocks on a table. You will work with a partner. One of you will guide the other through instructions and gestures to complete the task. Once the task is completed, the player with access to the End button will end the game.<br>";
@@ -139,9 +139,14 @@
 			  			document.getElementById("myPopup").innerHTML = generalintro + blockintro + introductions1[taskID];
 			  		</script>
 				</span>
-				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+				<p id = "helper" class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			$('#popup').css("font-size", page_height * 0.025 + "px");
+			$('#helper').css("font-size", page_height * 0.02 + "px");
+		</script>
   	</div>
 
 	<div class = "gadgetWrapper">
@@ -151,15 +156,25 @@
 				setTaskHeader();
 			</script>
 		</p>
+		<script type="text/javascript">
+			$('#taskQ').css("font-size", page_height * 0.04 + "px");
+		</script>
 		</small></small></small>
 
 		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
-		    <label>
+		    <label id = "enterInstructions">
 		        Enter instructions	:
 		        <input id="txt_instruction" type="text" />
 		    </label>
+		    <script type="text/javascript">
+		    	$('#enterInstructions').css("font-size", page_height * 0.025 + "px");
+		    </script>
 
-		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+		    <button id = "buttonenter" class = "buttonenter" onclick="inputlength()">Enter</button>
+		    <script type="text/javascript">
+		    	$('#buttonenter').css("height", page_height * 0.05 + "px");
+		    	$('#txt_instruction').css("height", page_height * 0.03 + "px");
+		    </script>
 
 		    <div class = "numofwords" id="numofwords"></div>
 		</div>
