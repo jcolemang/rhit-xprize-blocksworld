@@ -382,3 +382,10 @@ div.liveAudio {
     opacity:1.00; 
     filter: alpha(opacity=00); 
 }
+
+.shrink {
+    -webkit-transform: scale(0.5);
+    -moz-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    transform: scale(0.5);
+}
