@@ -399,7 +399,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=700, height=350'); return false;\">Show the Construction</a>";
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=800, height=350'); return false;\">Show the Construction</a>";
        }
 }
 
@@ -453,8 +453,10 @@ function setUpInitialPosition() {
         }
         end_left.push(tTop);
         end_top.push(tLeft);
+
+        var flip_or_not = Math.random();
+
         initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
-        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }

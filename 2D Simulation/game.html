@@ -978,14 +978,6 @@
                 send_gesture_to_server();
             };
 
-            
-        	for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
-                if (taskID == 2) {
-                	$("#block" + i).draggable("enable");					
-            	}
-        	}
-
             try {
             	socket.emit("enable_blocks_for_player_2", {
             		p_top: p_top,
@@ -994,6 +986,23 @@
             } catch (err) {
             	window.location.href = "server_down.html"; 
             }
+         
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+                if (taskID == 2) {
+                	$("#block" + i).draggable("enable");					
+            	}
+
+            	var flip_or_not = Math.random();
+
+		        if (flip_or_not < 0.5) {
+		            flipBlock('block' + i, null);
+		            send_flip_to_server('block' + i);
+		        }
+        	}
+
+        	actualMove = 0;
+    		setMovement();
 
             document.getElementById('buttonStart').disabled = true;
             socket.emit("receive_user_message", "(The game has started!)");
