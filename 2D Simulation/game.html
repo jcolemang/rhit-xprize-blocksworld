@@ -167,7 +167,7 @@
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 			    // Output the result in an element with id="demo"
-				if (minutes == 0 && seconds == 0) {
+				if (minutes <= 0 && seconds == 0) {
 					$("#buttonEnd").click();
 				} else if (isGameEnd != true) {
 					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
