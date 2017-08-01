@@ -271,16 +271,10 @@
 					l = i;
 				}
 				var colors;
-				if (taskID == 3) {
-					colors = setupColor[cur];
-					cur++;
-				} else {
-					colors = color[color_x];
-				}
+				colors = color[color_x];
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
 				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
-				console.log("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
 				goal_left.push(tLeft);
 

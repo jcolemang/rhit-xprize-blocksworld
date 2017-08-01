@@ -56,7 +56,6 @@ var am_i_player1 = true;
 var initialInfo = [];
 var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
-var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var addedBlockColor = [];
 var addedBlockLetter = [];
 var numBlocks = 5;
@@ -128,8 +127,8 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters2.length);
-        flipLetterArray[i] = letters2[y];
+        y = Math.floor(Math.random() * letters.length);
+        flipLetterArray[i] = letters[y];
     }
 }
 
@@ -251,13 +250,13 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-        setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
-        setupNum = [1, 1, 1, 1, 1];
+        // setupColor = ['red', 'blue', 'yellow', 'green', 'orange'];
+        // setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("H".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
         specificIns = "";
     }
