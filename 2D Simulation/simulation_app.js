@@ -54,7 +54,7 @@ var room_to_join;
 
 io.on('connection', function(socket) {
 
-	if (recentRoom >= 0) {
+	if (recentRoom >= 0 && io.sockets.adapter.rooms["Room" + recentRoom] != null && io.sockets.adapter.rooms["Room" + recentRoom].length == 1) {
 		connect_sem.take(function() {
 			room_to_join = "Room" + recentRoom;
 			socket.join(room_to_join);
@@ -142,11 +142,6 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
-		if (recentRoom >= 0) {
-			recentRoom = -1;
-		}
-
-		var room = io.sockets.adapter.rooms[socket.room];
 
 		if (going_to_surveys.get(socket.room) == null) {
 			io.to(socket.room).emit('user_left_game');
