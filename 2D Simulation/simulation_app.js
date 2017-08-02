@@ -1,5 +1,7 @@
 var https = require('https');
 var fs = require('fs');
+var connect_sem = require('semaphore')(1);
+var init_sem = require('semaphore')(2);
 
 var options = {
 	key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
@@ -44,37 +46,46 @@ client.connect();
 
 var starting_game_data = new Map();
 var voice_connection_data = new Map();
-var waiting_data = new Map();
 var going_to_surveys = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
-var unoccupiedRooms = [];
 var room_to_join;
 
 io.on('connection', function(socket) {
 
-	if (recentRoom >= 0) {
-		room_to_join = "Room" + recentRoom;
-		socket.join(room_to_join);
-		socket.room = room_to_join;
-		recentRoom = -1;
+	if (recentRoom >= 0 && io.sockets.adapter.rooms["Room" + recentRoom] != null && io.sockets.adapter.rooms["Room" + recentRoom].length == 1) {
+		connect_sem.take(function() {
+			room_to_join = "Room" + recentRoom;
+			socket.join(room_to_join);
+			socket.room = room_to_join;
+			console.log(room_to_join);
+			recentRoom = -1;
+			connect_sem.leave();
+		});	
+		
 	} else {
-		room_to_join = "Room" + nextRoom;
-		socket.join(room_to_join);
-		socket.room = room_to_join;
-		recentRoom = nextRoom;
-		nextRoom++;
-	}
+		connect_sem.take(function() {
+			room_to_join = "Room" + nextRoom;
+			socket.join(room_to_join);
+			socket.room = room_to_join;
+			console.log(room_to_join);
+			recentRoom = nextRoom;
+			nextRoom++;
+			connect_sem.leave();
+		});
 
-	socket.on('am_I_second_to_join', function() {
-		if (waiting_data.get(socket.room) == null) {
-			waiting_data.set(socket.room, true);
-			socket.emit('freeze_start');
-		} else {
-			socket.to(socket.room).emit('unfreeze_start');
-		}
-	});
+		socket.emit('freeze_start');
+	}
+	
+
+	// socket.on('am_I_second_to_join', function() {
+	// 	if (io.sockets.adapter.rooms[socket.room].length == 1) {
+	// 		socket.emit('freeze_start');
+	// 	} else {
+	// 		socket.to(socket.room).emit('unfreeze_start');
+	// 	}
+	// });
 
 	socket.on('enable_blocks_for_player_2', function(data) {
 		socket.to(socket.room).emit('enable_blocks_for_player_2', data);
@@ -131,40 +142,37 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
-		if (recentRoom >= 0) {
-			recentRoom = -1;
-		}
-
-		var room = io.sockets.adapter.rooms[socket.room];
 
 		if (going_to_surveys.get(socket.room) == null) {
 			io.to(socket.room).emit('user_left_game');
 			going_to_surveys.set(socket.room, null);
 		}
 
-		// if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
-		// 	//unoccupiedRooms.push(socket.room.substring(4));
-		// 	starting_game_data.set(socket.room, null);
-		// }
-
 		starting_game_data.set(socket.room, null);
 		voice_connection_data.set(socket.room, null);
-		waiting_data.set(socket.room, null);
 	});
 
 	socket.on('setInitialPosition', function(data) {
-		console.log("Room to join: " + socket.room);
 		if (starting_game_data.get(socket.room) == null) {
-			starting_game_data.set(socket.room, data);
+			init_sem.take(function() {
+				console.log("Setting the initial game data for " + socket.room);
+				starting_game_data.set(socket.room, data);
+				init_sem.leave();
+			});
 		} else {
-			console.log("Sharing data");
+			init_sem.take(function() {
+				console.log("Sharing data with " + socket.room);
+				init_sem.leave();
+			});
 			socket.emit('setInitialPosition', starting_game_data.get(socket.room));
+			socket.to(socket.room).emit('unfreeze_start');
 		}
+		
 	});
 
 	socket.on('send_data_to_server', function(data) {
 
-  		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other]);
+  		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords, finalScore, standard_info) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other, data.finalScore, data.standard_info]);
 
 		query.on("row", function (row, result) {
 		    result.addRow(row);
