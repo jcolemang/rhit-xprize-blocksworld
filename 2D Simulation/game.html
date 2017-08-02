@@ -167,7 +167,7 @@
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 			    // Output the result in an element with id="demo"
-				if (minutes == 0 && seconds == 0) {
+				if (minutes <= 0 && seconds == 0) {
 					$("#buttonEnd").click();
 				} else if (isGameEnd != true) {
 					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
@@ -271,18 +271,12 @@
 					l = i;
 				}
 				var colors;
-				if (taskID == 3) {
-					colors = setupColor[cur];
-					cur++;
-				} else {
-					colors = color[color_x];
-				}
+				colors = color[color_x];
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
 				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
-				console.log("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				goal_top.push(tTop);
 				goal_left.push(tLeft);
-        		goal_top.push(tTop);
 
 				$("#block" + i).data("id", i);
 
@@ -309,7 +303,7 @@
 
 	<div id = "disablingDiv">
 		<div id = "freeze">
-			We are currently waiting for another user to joint so that we can connect you. Please be patient.
+			We are currently waiting for another user to join so that we can connect you. Please be patient.
 		</div>
 	</div>
 
@@ -322,13 +316,17 @@
 			window.location.href = "server_down.html";
 		}
 
-		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
+		// alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
 		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
 		// doesn't redirect you to the server down page.
-		// if (!socket.connected) {
-		// 	window.location.href = "server_down.html";
-		// }
+		if (!socket.connected) {
+			setTimeout(function() {
+				if (!socket.connected) {
+					window.location.href = "server_down.html";
+				}
+			}, 3000);
+		}
 
 		socket.on('connect_failed', function() {
 			window.location.href = "server_down.html";
@@ -372,11 +370,11 @@
 			window.location.href = "server_down.html"; 
 		}
 		
-		try {
-			socket.emit('am_I_second_to_join');
-		} catch (err) {
-			window.location.href = "server_down.html"; 
-		}
+		// try {
+		// 	socket.emit('am_I_second_to_join');
+		// } catch (err) {
+		// 	window.location.href = "server_down.html"; 
+		// }
 
 		socket.on('freeze_start', function() {
 			var startButton = document.getElementById('buttonStart');
@@ -706,7 +704,6 @@
 				dateDay.push(parseInt(action[i].substring(0, 2)));
 				dateMonth.push(parseInt(action[i].substring(3, 5)));
 				dateYear.push(parseInt(action[i].substring(6, 10)));
-				dateTime.push(action[i].substring(start_pos, end_pos));
 				start_pos = action[i].indexOf('/', end_pos) - 2;
 				end_pos = start_pos + 8;
 				dayTime.push(action[i].substring(start_pos, end_pos));
@@ -742,8 +739,6 @@
 				}
 			}
 
-			document.getElementById("scoreBox").innerText = data.finalScore;
-
 			socket.emit('send_data_to_server', {
                 time: data.time,
                 task: data.task,
@@ -757,10 +752,10 @@
                 te: data.te,
                 ie: data.ie,
                 p: data.p,
+                finalScore: Math.floor(data.finalScore),
                 Action: action,
                 initialInfo: data.initialInfo,
                 standard_info: data.standard_info,
-                finalScore: data.finalScore,
                 other: data.other
             });
 			    
@@ -930,14 +925,6 @@
                 send_gesture_to_server();
             };
 
-            
-        	for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
-                if (taskID == 2) {
-                	$("#block" + i).draggable("enable");					
-            	}
-        	}
-
             try {
             	socket.emit("enable_blocks_for_player_2", {
             		p_top: p_top,
@@ -946,11 +933,26 @@
             } catch (err) {
             	window.location.href = "server_down.html"; 
             }
+         
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+                if (taskID == 2) {
+                	$("#block" + i).draggable("enable");					
+            	}
+
+            	var flip_or_not = Math.random();
+
+		        if (flip_or_not < 0.5) {
+		            flipBlock('block' + i, null);
+		            send_flip_to_server('block' + i);
+		        }
+        	}
+
+        	actualMove = 0;
+    		setMovement();
 
             document.getElementById('buttonStart').disabled = true;
             socket.emit("receive_user_message", "(The game has started!)");
-            document.getElementById('scoreBox').innerText = 0;
-            scoreCal();
 		}
 		function endGame() {
 		    if (start_button_pressed) {
@@ -975,6 +977,7 @@
 			            }
 			        }
 			    }
+			    console.log(scoreCal());
 
 				var action = [];
 
@@ -1033,6 +1036,7 @@
                 	words = "Construction: Rainbow" + rainbow_select + ".png";
                 }
 
+                console.log(scoreCal());
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
@@ -1063,7 +1067,7 @@
 
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";
-				document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any.k</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>";
+				document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any.</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>";
 
 				// document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very easy)\"> (very easy) 1	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very dificult)\"> 7 (very dificult)";
 

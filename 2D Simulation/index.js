@@ -56,7 +56,6 @@ var am_i_player1 = true;
 var initialInfo = [];
 var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
-var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var addedBlockColor = [];
 var addedBlockLetter = [];
 var numBlocks = 5;
@@ -70,7 +69,6 @@ var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
 var standard_info = [];
-var initialScore = -1;
 
 var rainbow_select = 0;
 
@@ -115,8 +113,8 @@ function initInstructions() {
 
     introductions1.push("Searching:<br>You and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User1 Instructions:<br>&emsp; Click the “show chosen” button to get the words you and your partner have to search for.<br>&emsp; Your partner doesn’t know what word they need to search for. You need to instruct your partner to be able to do this. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type.<br>&emsp;You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game. Both of you will see the outcomes of any changes either of you make to the table.<br>");
     introductions2.push("Searching:<br>ou and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
-    introductions1.push("Rainbow:<br>User1 Instructions:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. Your partner cannot see the pattern. <br>&emsp;Only your partner can move blocks.<br>&emsp;<br>");
-    introductions2.push("Rainbow:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Pay attention to the gestures. Your partner cannot move blocks.<br>");
+    introductions1.push("Construction:<br>User1 Instructions:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. Your partner cannot see the pattern. <br>&emsp;Only your partner can move blocks.<br>&emsp;<br>");
+    introductions2.push("Construction:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Pay attention to the gestures. Your partner cannot move blocks.<br>");
 }
 
 
@@ -129,8 +127,8 @@ function initFlipColors() {
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters2.length);
-        flipLetterArray[i] = letters2[y];
+        y = Math.floor(Math.random() * letters.length);
+        flipLetterArray[i] = letters[y];
     }
 }
 
@@ -252,13 +250,13 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-        setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
-        setupNum = [1, 1, 1, 1, 1];
+        // setupColor = ['red', 'blue', 'yellow', 'green', 'orange'];
+        // setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("H".charCodeAt(0) + Math.floor(Math.random() * 8)));
+            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
         }
         specificIns = "";
     }
@@ -400,7 +398,7 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=1300, height=700'); return false;\">Show the Construction</a>";
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=800, height=350'); return false;\">Show the Construction</a>";
        }
 }
 
@@ -452,15 +450,16 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
-
-        end_top.push(tTop);
         end_left.push(tLeft);
+        end_top.push(tTop);
+
+        var flip_or_not = Math.random();
+
         initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
-        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal())/10;
+    document.getElementById('scoreBox').innerText = Math.round(scoreCal());
 }
 
 function centroid(x, y) {
