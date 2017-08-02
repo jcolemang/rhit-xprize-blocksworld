@@ -450,8 +450,8 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
-        end_left.push(tLeft);
-        end_top.push(tTop);
+        end_left.push(tTop);
+        end_top.push(tLeft);
 
         var flip_or_not = Math.random();
 
