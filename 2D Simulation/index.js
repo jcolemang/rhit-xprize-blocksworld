@@ -490,7 +490,7 @@ function scoreCal() {
     var fat = $("#container").width();
     var tall = $("#container").height(); 
     
-    var Emax = (tall + fat) * 5;
+    var Emax = (tall + fat - 50) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
 
     if (initialScore != -1) {
