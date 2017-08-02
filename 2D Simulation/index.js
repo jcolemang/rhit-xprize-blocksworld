@@ -69,6 +69,7 @@ var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
 var standard_info = [];
+var initialScore = -1;
 
 var rainbow_select = 0;
 
@@ -494,7 +495,11 @@ function scoreCal() {
     var score = ((Emax - totalError) / Emax) * 100;
 
     if (initialScore != -1) {
-        return 100 / (100 - initialScore) * (score - initialScore);
+        score = 100 / (100 - initialScore) * (score - initialScore);
+        if (score < 0) {
+            score = 0;
+        }
+        return score;
     } else {
         initialScore = score;
         return 0;
