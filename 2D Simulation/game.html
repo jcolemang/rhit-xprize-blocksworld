@@ -950,6 +950,7 @@
             document.getElementById('buttonStart').disabled = true;
             socket.emit("receive_user_message", "(The game has started!)");
             document.getElementById('scoreBox').innerText = 0;
+            scoreCal();
 		}
 		function endGame() {
 		    if (start_button_pressed) {

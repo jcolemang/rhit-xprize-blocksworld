@@ -463,42 +463,41 @@ function setUpInitialPosition() {
     document.getElementById('scoreBox').innerText = Math.round(scoreCal())/10;
 }
 
-function scoreCal() {
-    var totalX = 0;
-    var totalY = 0;
-    for (var index = 0; index < NumBlocks; index++) {
-        totalX = totalX + Math.abs(goal_left[index] - end_left[index]);
-        totalY = totalY + Math.abs(goal_top[index] - end_top[index]);
-        console.log(goal_left[index] + " " + end_left[index] + "|" + goal_top[index] +" "+ end_top[index] + "|" + cur_letters[index]);
+function centroid(x, y) {
+    var centerX = 0, centerY = 0;
+    for (var i = 0; i < x.length; i++) {
+        centerX += x[i];
+        centerY += y[i];
     }
-    var aveX = totalX / NumBlocks;
-    var aveY = totalY / NumBlocks;
-    console.log(aveX +" " +aveY);
+    centerX /= x.length;
+    centerY /= y.length;
+    var center = [];
+    center.push(centerX);
+    center.push(centerY);
+    return center;
+}
 
+function scoreCal() {
+    var centerC = centroid(goal_left, goal_top);
+    var centerA = centroid(end_left, end_top);
     var errorX = 0;
     var errorY = 0;
-    for (var i = 0; i < NumBlocks; i++) {
-        errorX = errorX + Math.abs(Math.abs(goal_left[i] - end_left[i]) - aveX);
-        errorY = errorY + Math.abs(Math.abs(goal_top[i] - end_top[i]) - aveY);
+    for (var index = 0; index < NumBlocks; index++) {
+        errorX = errorX + Math.abs((end_left[index] - centerA[0]) - (goal_left[index] - centerC[0]));
+        errorY = errorY + Math.abs((end_top[index] - centerA[1]) - (goal_top[index] - centerC[1]));
     }
-    console.log(errorX +" " +errorY);
 
     var totalError = errorY + errorX;
     var fat = $("#container").width();
     var tall = $("#container").height(); 
     
-    
     var Emax = (tall + fat) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
-    if (initialScore == -1) {
-        initialScore = score;
-        console.log(initialScore);
-        score = 0;
+
+    if (initialScore != -1) {
+        return 100 / (100 - initialScore) * (score - initialScore);
     } else {
-        // score = 100 * (score - initialScore) / (100 - initialScore);
-        if (score < 0) {
-            score = 0;
-        }
+        initialScore = score;
+        return 0;
     }
-    return score;
 }
