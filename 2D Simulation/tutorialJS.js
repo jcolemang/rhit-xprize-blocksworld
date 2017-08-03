@@ -144,7 +144,7 @@ function setRefLink() {
 }
 
 function setTaskHeader() {
-    document.getElementById("taskQ").innerHTML = "Today, you will have task: " + task[taskID] + "!";
+    document.getElementById("taskQ").innerHTML = "Your task is Construction";
 }
 
 function calculateBackEndData() {
