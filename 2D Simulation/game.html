@@ -152,6 +152,12 @@
 
 	<script type="text/javascript" src="index.js"></script>
 
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+
 	<script type="text/javascript">
 		function timecounter() {
 			var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;
@@ -167,8 +173,11 @@
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 			    // Output the result in an element with id="demo"
-				if (minutes <= 0 && seconds == 0) {
-					$("#buttonEnd").click();
+				if (minutes < 0) {
+					clearInterval(x);
+					if (am_i_player1) {
+						endGame();
+					}
 				} else if (isGameEnd != true) {
 					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
 				}
@@ -182,15 +191,8 @@
 		page_height = window.innerHeight;
 		var line_height = Math.floor(page_height * 0.7) + 5;
   		document.getElementById("vertical-line").style.height = line_height + "px";
-  		console.log(line_height);
   		document.getElementById("vertical-line2").style.height = line_height + "px";
-	</script>
-
- 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	</script>	
     
   	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
@@ -212,10 +214,9 @@
 		initBlocks();
 		initInstructions();
 		initFlipColors();
-		// initFlipLetters()s;
+		// initFlipLetters();
 		setTaskHeader();
 		setIntroduction(1);
-    	setRefLink();
     	popUpGameIntro();
 		var color = ['red', 'blue','green','orange','yellow'];
 		function initBlocks() {
@@ -231,54 +232,69 @@
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
+
 				setGestureWithPosition(event.clientX, event.clientY, event);		
 				send_gesture_to_server();
 			};
-			container.style.fontSize = "40px";
+			container.style.fontSize = "4vmin";
 			document.body.appendChild(container);
-			var position_x = [];var position_y = [];
+			var position_x = [];
+			var position_y = [];
 			var cur = 0;
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x = Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
-				if (taskID == 3) {
-					random_x = Math.floor(page_width * 0.7/ 50) - 1;
-					init_x = 0;
-				}
-				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-				var x = -1;
-				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft && position_y[j] == tTop) {
-						x = j;
-					}
-				}
-				while (x != -1) {
-					if (Math.abs(position_y[x] - tTop) >= 50) break;
-					tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
-					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-					var x = -1;
-					for (var j = 0; j < position_x.length; j ++) {
-						if (position_x[j] == tLeft && position_y[j] == tTop) {
-							x = j;
-						}
-					}
-				}
-				position_x.push(tLeft);
-				position_y.push(tTop);
-				blocks_y = tLeft;blocks_x = tTop;
+
+				var tLeft = 0;
+				var tTop = 0;
+
+				var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+				var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+
+				tLeft = Math.random() * Math.floor(horizontal_percent);
+				tTop = Math.random() * Math.floor(vertical_percent);
+
+				// if (taskID == 3) {
+				// 	random_x = Math.floor(page_width * 0.7/ 50) - 1;
+				// 	init_x = 0;
+				// }
+				// var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+				// var x = -1;
+				// for (var j = 0; j < position_x.length; j ++) {
+				// 	if (position_x[j] == tLeft && position_y[j] == tTop) {
+				// 		x = j;
+				// 	}
+				// }
+				// while (x != -1) {
+				// 	if (Math.abs(position_y[x] - tTop) >= 50) break;
+				// 	tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
+				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+				// 	var x = -1;
+				// 	for (var j = 0; j < position_x.length; j ++) {
+				// 		if (position_x[j] == tLeft && position_y[j] == tTop) {
+				// 			x = j;
+				// 		}
+				// 	}
+				// }
+				// position_x.push(tLeft);
+				// position_y.push(tTop);
+
 				if (i < letters.length) {
 					l = i;
 				}
-				var colors;
-				colors = color[color_x];
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\"></div>");
+
+				$("#block" + i).append("<span style=\"color: black\">" + letters[l] + "<span>");
+
+				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color[color_x] + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
 				goal_left.push(tLeft);
 
 				$("#block" + i).data("id", i);
+				$("#block" + i).data("horizontal_percent", tLeft);
+				$("#block" + i).data("vertical_percent", tTop);
 
 				$("#block" + i).bind("contextmenu", function(e) {
 					if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
@@ -343,11 +359,11 @@
 		var current_colors = [];
 		var current_letters = [];
 		for (var i = 0; i < NumBlocks; i++) {
-			var position = $("#block" + i).position();
+			// var position = $("#block" + i).position();
 			var current_color = document.getElementById("block" + i).style.backgroundColor;
 			var current_letter = cur_letters[i];
-			left_array.push(position.left);
-			top_array.push(position.top);
+			left_array.push($("#block" + i).data("horizontal_percent"));
+			top_array.push($("#block" + i).data("vertical_percent"));
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
@@ -430,11 +446,9 @@
 
         socket.on('enable_blocks_for_player_2', function(data) {
         	timecounter();
-        	console.log("!" + data.p_top);
-        	console.log("!" + data.p_left);
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i]+"px";
-        		document.getElementById('block' + i).style.left = data.p_left[i]+"px";
+        		document.getElementById('block' + i).style.top = data.p_top[i]+"%";
+        		document.getElementById('block' + i).style.left = data.p_left[i]+"%";
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
 
@@ -448,10 +462,12 @@
 			var top = data.top;
 			var block = data.block_id;
 			$("#" + block).css({
-				left: left + "px",
-				top: top + "px"
+				left: left + "%",
+				top: top + "%"
 			});
 			$("#" + block).css('z-index', ++z);
+			$("#" + block).data("horizontal_percent", left);
+			$("#" + block).data("vertical_percent", top);
 		});
 		socket.on('update_flip_block', function (block_id) {
 			flipBlock(block_id, null);
@@ -503,15 +519,19 @@
 
 			setTaskHeader();
 			setIntroduction();
-			setRefLink();
 
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\"></div>").appendTo(container);
+
+				$("#block" + i).append("<span style=\"color: black\">" + data.letters[i] + "<span>");
 
 				$("#block" + i).data("id", i);
+				$("#block" + i).data("horizontal_percent", data.lefts[i]);
+				$("#block" + i).data("vertical_percent", data.tops[i]);
+
 				document.getElementById('block' + i).style.visibility = "hidden";
 
 				$("#block" + i).bind("contextmenu", function(e) {
@@ -562,9 +582,9 @@
     		$(".draggable").draggable();
 			
 			$('.draggable').each(function(el){
-			    var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
-			    tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
-			    $(el).css({position:'relative', left: page_width, top: page_height});
+			    // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
+			    // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
+			    $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
 			});
 		});
 		var z = 1;
@@ -573,20 +593,27 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
 					$(this).css('z-index', ++z);
-					var Startpos = $(this).position();
-					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+					// var Startpos = $(this).position();
+					previous_left[i] = $(this).data("horizontal_percent");
+					previous_top[i] = $(this).data("vertical_percent");
         			movementstarttime = new Date().getTime();
         			movementdate = getDateTime();
 				}, stop: function(event, ui) {
-						var Stoppos = $(this).position();
-						if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						// var Stoppos = $(this).position();
+
+						$("#" + $(this).attr('id')).css({
+							left: $(this).data("horizontal_percent") + "%",
+							top: $(this).data("vertical_percent") + "%"
+						});
+
+						if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
 							start.push(movementdate);
 							end.push(getDateTime());
 							interval.push(new Date().getTime() - movementstarttime);
 							type.push("Movement");
 							actualMove++;
 							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-							movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
+							movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
 							if (am_i_player1) {
 				                players.push("Human");
 				            } else {
@@ -594,33 +621,48 @@
 				            }
 				            var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
-		            		console.log(cur_letters[$(this).data("id")]);
 
 		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
-							end_left[$(this).data("id")] = Stoppos.left;
-							end_top[$(this).data("id")] = Stoppos.top;
+							end_left[$(this).data("id")] = $(this).data("horizontal_percent")
+							end_top[$(this).data("id")] = $(this).data("vertical_percent");
 
 							setMovement();
 							send_movement_to_server();
 
-							console.log($(this).data("id")+ " " + Stoppos.left + " " + Stoppos.top);
 							socket.emit('Update_score', {
 								id : $(this).data("id"),
-								tLeft: Stoppos.left,
-								tTop: Stoppos.top
+								tLeft: $(this).data("horizontal_percent"),
+								tTop: $(this).data("vertical_percent")
 							});
-							// goal_top[$(this).data("id")] = Stoppos.left;
-							// goal_left[$(this).data("id")] = Stoppos.top;
+
 							// document.getElementById("scoreBox").innerText = scoreCal();
 					}
 				}, drag: function(event, ui) {
-					var coord = $(this).position();
+					// var coord = $(this).position();
 					var block_id = $(this).attr('id');
+
+					var rect = document.getElementById('container').getBoundingClientRect();
+
+					var horiz = $(this).position().left / (rect.right - rect.left - 16) * 100;
+
+					var vert = $(this).position().top / (rect.bottom - rect.top - 16) * 100;
+
+					$(this).data("horizontal_percent", horiz);
+					$(this).data("vertical_percent", vert);
+
+					$("#" + block_id).css({
+						left: horiz + "%",
+						top: vert + "%"
+					});
+
+
+					// When blocks get moved, the position changes from 'percentage' to 'px'.
+
 					try {
 						socket.emit('receive_position', {
 							block_id: block_id,
-							left: coord.left,
-							top: coord.top
+							left: horiz,
+							top: vert
 						});
 					} catch (err) {
 						window.location.href = "server_down.html"; 
@@ -631,8 +673,10 @@
 			}
 		}
 
+
+		// Needs to be fixed to account for new percentage based way of calculating position.
+
 		socket.on('Update_score', function(data) {
-			console.log(data.id + " " + data.tLeft + " " + data.tTop);
 			var top = [], left = [];
 			end_left[data.id] = data.tLeft;
 			end_top[data.id] = data.tTop;
@@ -847,11 +891,17 @@
 
 
 		function send_gesture_to_server() {
+			var rect = document.getElementById('container').getBoundingClientRect();
+
+			var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
+
+			var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
+
 			try {
 				socket.emit('receive_gesture_data', {
 					gestureCount: gestureCount,
-					left: $("#gestureToggle").position().left,
-					top: $("#gestureToggle").position().top
+					left: horiz,
+					top: vert
 				});
 			} catch (err) {
 				window.location.href = "server_down.html"; 
@@ -906,7 +956,6 @@
 		    }
 		    if (taskID == 2) {
 		        // searchingwords = localStorage.getItem("Searching words");
-		        // console.log(searchingwords);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		    }
@@ -921,6 +970,7 @@
 			document.getElementById('container').ondblclick = function(e) {
                 gestureCount++;
                 var event = e || window.event;
+
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };
@@ -968,16 +1018,14 @@
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
      			    if(blockid) {
-     			    	var pos = $("#block" + i).position();
-     			    	end_top.push(pos.top);
-     			    	end_left.push(pos.left);
+     			    	end_top.push($("#block" + i).data("vertical_percent"));
+     			    	end_left.push($("#block" + i).data("horizontal_percent"));
 			            if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
 			            }
 			        }
 			    }
-			    console.log(scoreCal());
 
 				var action = [];
 
@@ -998,9 +1046,7 @@
 			        	}
 			        	z++; user++;
 			        }
-			        console.log(action[i]);
 			    }
-			    alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 			    // stopRecog();
 
 				calculateBackEndData();
@@ -1036,7 +1082,8 @@
                 	words = "Construction: Rainbow" + rainbow_select + ".png";
                 }
 
-                console.log(scoreCal());
+                alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
+
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
@@ -1064,6 +1111,8 @@
                 }
 
                 ending_survey = true;
+
+                
 
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";

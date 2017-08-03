@@ -40,7 +40,6 @@ var searchingwords = "!";
 var human_voice = true;
 var flip_on = true;
 var start_button_pressed = false;
-var blocks_x, blocks_y;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
 var random_x = 22.8, random_y = 10.8;
@@ -86,7 +85,7 @@ function calculateEmax() {
 function writeBlocks() {
     for (var i = 0; i < NumBlocks ;i++) {
         var x= Math.floor(Math.random() * 5);
-        document.write("<style> #block"+i+" {width: 50px; height: 50px; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
 }
 
@@ -159,9 +158,8 @@ function swapColor(box) {
 }
 
 function swapLetter(box) {
-    var property = document.getElementById(box);
-    var currentLetter = property.textContent || property.innerText;
-    property.textContent = flipLetterArray[box.substring(5)];
+    var currentLetter = $('#' + box).find('span').html();
+    $('#' + box).find('span').html(flipLetterArray[box.substring(5)]);
     flipLetterArray[box.substring(5)] = currentLetter;
     cur_letters[box.substring(5)] = currentLetter;
 }
@@ -170,13 +168,24 @@ function setGestureWithPosition(left, top, event) {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
     var gestureElement = document.getElementById('gestureToggle');
-    gestureElement.style.left = left + 'px';
-    gestureElement.style.top = top + 'px';
+
+    var rect = document.getElementById('container').getBoundingClientRect();
+
+    if (event == null) {
+        var px_left = rect.left + ((rect.right - rect.left - 16) * (left / 100));
+        var px_top = rect.top + ((rect.bottom - rect.top - 16) * (top / 100));
+
+        gestureElement.style.left = (px_left / $(window).width() * 100) + "%";
+        gestureElement.style.top = (px_top / $(window).height() * 100) + "%";
+    } else {
+        gestureElement.style.left = (left / $(window).width() * 100) + "%";
+        gestureElement.style.top = (top / $(window).height() * 100) + "%"; 
+    }  
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
         time_GF.push(getDateTime());
-        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+        GF_position.push("(" + left + "%," + top + "%)");
         type.push("Gesture");
     }
     
@@ -279,7 +288,6 @@ function initTaskID() {
     for (var i = 0; i < letters.length; i ++) {
         cur_letters.push(letters[i]);
     }
-    console.log(cur_letters);
     setUpVisibility();
 }
     
@@ -309,16 +317,6 @@ function setUpVisibility() {
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
         document.getElementById('user4').style.visibility = "hidden";
-    }
-}
-
-function setRefLink() {
-    if (taskID==3){
-        // document.getElementById("referenceLink").style.visibility = "visible";
-        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
-    } else if (taskID==2) {
-        // document.getElementById("referenceLink").style.visibility = "visible";
-        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
 
@@ -399,8 +397,8 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=800, height=350'); return false;\">Show the Construction</a>";
-       }
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=400, height=175'); return false;\">Show the Construction</a>";
+    }
 }
 
 function getDateTime() {
@@ -426,39 +424,24 @@ function instructiontime() {
 
 function setUpInitialPosition() {
     for (var i = 0; i < NumBlocks; i++) {
-        var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-        tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-        var flag = -1;
-        for (var j = 0; j < p_left.length;j ++) {
-            if (p_top[j] == tTop && p_left[j] == tLeft) {
-                flag = j; break;
-            }
-        }
-        if (flag == -1) {
-            p_top.push(tTop);
-            p_left.push(tLeft);
-        } else {
-            while (flag != -1) {
-                flag = -1;
-                tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-                tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-                for (var j = 0; j < p_left.length;j ++) {
-                    if (p_top[j] == tTop && p_left[j] == tLeft) {
-                        flag = j; break;
-                    }
-                }
-            }
-            p_top.push(tTop);
-            p_left.push(tLeft);
-        }
-        end_left.push(tTop);
-        end_top.push(tLeft);
+        var tLeft = 0;
+        var tTop = 0;
 
-        var flip_or_not = Math.random();
+        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
 
-        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
-        document.getElementById("block" + i).style.top = tTop+"px";
-        document.getElementById("block" + i).style.left = tLeft+"px";
+        tLeft = Math.random() * Math.floor(horizontal_percent);
+        tTop = Math.random() * Math.floor(vertical_percent);
+
+        p_left.push(tLeft);
+        p_top.push(tTop);
+
+        end_left.push(tLeft);
+        end_top.push(tTop);
+
+        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + "%, " + tTop + "%) color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        document.getElementById("block" + i).style.top = tTop+"%";
+        document.getElementById("block" + i).style.left = tLeft+"%";
     }
     document.getElementById('scoreBox').innerText = Math.round(scoreCal());
 }
@@ -488,10 +471,10 @@ function scoreCal() {
     }
 
     var totalError = errorY + errorX;
-    var fat = $("#container").width();
-    var tall = $("#container").height(); 
+    var width = $("#container").width();
+    var height = $("#container").height(); 
     
-    var Emax = (tall + fat - 50) * 5;
+    var Emax = (height + width - 50) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
 
     if (initialScore != -1) {

@@ -16,20 +16,25 @@
         }
     </style>
 
+    <script type="text/javascript" src="index.js"></script>
+
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-    
+
     <script>
-        var numBlocks = window.opener.numBlocks;
+        writeBlocks();
+
         var container = document.createElement('div');
 
         container.innerHTML = localStorage.getItem("container");
-        container.style.fontSize = "40px";
-        
+        container.style.fontSize = "15px";
+        container.style.fontWeight = 'bold';
+
         container.id = 'copy_container';
+
         document.body.appendChild(container);
-        $('#copy_container').addClass('shrink');
+        // $('#copy_container').addClass('shrink');
     </script>
 </body>
 </html>
