@@ -117,20 +117,21 @@ div.numofwords {
 button.buttonEnd {
     background-image: url(img/startbutton.png);
     position: absolute;
-    top: 550px;
-    left: 50px;
-    width: 68px;
-    height: 40px;
+    top: 70%;
+    left: 2%;
+    width: 5%;
+    height: 5%;
 }
 
 button.buttonStart {
     background-image: url(img/startbutton.png);
     position: absolute;
-    top: 450px;
-    left: 50px;
-    width: 68px;
-    height: 40px;
+    top: 50%;
+    left: 2%;
+    width: 5%;
+    height: 5%;
 }
+
 
 a.buttonLike {
   font: Arial;
