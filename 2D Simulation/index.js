@@ -185,7 +185,7 @@ function setGestureWithPosition(left, top, event) {
 
     if (event != null) {
         time_GF.push(getDateTime());
-        GF_position.push("(" + left + "%," + top + "%)");
+        GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
         type.push("Gesture");
     }
     

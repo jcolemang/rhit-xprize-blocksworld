@@ -170,6 +170,10 @@ io.on('connection', function(socket) {
 		
 	});
 
+	// All movements of blocks are recorded with their percentage position relative to the table/container.
+	// All gestures are recorded with their percentage position relative the the entire screen.
+	// All flips are recorded with their pixel position. (Position isn't totally necessary here due to the id also being included.)
+
 	socket.on('send_data_to_server', function(data) {
 
   		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords, finalScore, standard_info) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other, data.finalScore, data.standard_info]);
