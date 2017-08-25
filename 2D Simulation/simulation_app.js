@@ -28,10 +28,10 @@ var conString = "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize";
 var client = new pg.Client(conString);
 client.connect();
 
-//var survey_app = https.createServer(options);
-//var survey_io = require('socket.io').listen(survey_app);
+var verify_app = https.createServer(options);
+var verify_io = require('socket.io').listen(survey_app);
 
-//survey_app.listen(8081, "0.0.0.0");
+verify_app.listen(8081, "0.0.0.0");
 
 // var PeerServer = require('peer').PeerServer;
 // var peerServer = PeerServer({
@@ -224,6 +224,18 @@ io.on('connection', function(socket) {
 		        	count = 0;
 		        }
    		    });
+		}
+	});
+});
+
+var game_password = "password";
+
+verify_io.on("connection", function(socket) {
+	socket.on("verify_login", function(password) {
+		if (password === game_password) {
+			socket.emit("verify_login", true);
+		} else {
+			socket.emit("verify_login", false);
 		}
 	});
 });
