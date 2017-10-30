@@ -10,12 +10,8 @@ var n1 = 1; var n2 = 1;
 var actualMove = 0;
 var w1 = 0.1, w2 = 0.5;
 var previous_top = [];var previous_left = [];
-var flipColorArray = [];
-var flipLetterArray = [];
 var x;
 var y;
-var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var color = ['red', 'blue','green','orange','yellow'];
 var taskID = 0;
 var task = [];
 var introductions1 = [];
@@ -42,7 +38,7 @@ var flip_on = true;
 var start_button_pressed = false;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
-var random_x = 22.8, random_y = 10.8;
+// var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
 var movement_startpos = [], movement_endpos = [];
@@ -52,12 +48,9 @@ var players = [];
 var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
-var initialInfo = [];
 var goalInfo = [], goal_top = [], goal_left = [];
-var cur_letters = [];
-var addedBlockColor = [];
-var addedBlockLetter = [];
-var numBlocks = 5;
+// var addedBlockColor = [];
+// var addedBlockLetter = [];
 var origin_goal_left = [];
 var origin_goal_top = [];
 var end_top = [];
@@ -67,8 +60,18 @@ var origin_end_top = [];
 var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
-var standard_info = [];
 var initialScore = -1;
+
+// I am certain that these are necessary as of Sunday, October 29
+var flipColorArray = [];
+var flipLetterArray = [];
+var letters = ["A", "B", "C", "D", "E", "F", "G"];
+var color = ['red', 'blue','green','orange','yellow'];
+var blockColors;
+var blockLetters;
+var initialInfo = [];
+var standard_info = [];
+console.log('Block Colors: ', blockColors);
 
 var rainbow_select = 0;
 
@@ -80,12 +83,11 @@ function calculateEmax() {
         var width = document.getElementById("#container").style.width;
         var height = document.getElementById("#container").style.height;
         Emax = width + height;
-    }
+    };
 }
-function writeBlocks() {
+function writeBlockStyle(blockColors) {
     for (var i = 0; i < NumBlocks ;i++) {
-        var x= Math.floor(Math.random() * 5);
-        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+blockColors[i] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
 }
 
@@ -95,7 +97,7 @@ function setIntroduction(num) {
     } else {
         document.getElementById("myPopup").innerHTML = introductions2[taskID];
     }
-    
+
 }
 
 function initInstructions() {
@@ -106,10 +108,10 @@ function initInstructions() {
 
     introductions1.push("Sorting:<br>&emsp;Your task is to sort the blocks in a particular way. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide how you want to sort the blocks and instruct your partner to move the blocks in order to finish the task. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
-    
+
     introductions1.push("Matching:<br>Your task is to match the blocks in a particular way. Once the game starts, both of you and your partner will flip two separate blocks. If the blocks match, Player 1 will drag both the blocks to the left. If they don’t, Player 2 will drag both the blocks to the right. The objective of the task is to flip all of the blocks over and move them to their respective sides as quickly as possible. Click the start button to start the game when you are ready to complete the task.<br>Player 1 Instructions:<br>&emsp;You will decide by what criteria you want to match the blocks and instruct your partner to flip and move the blocks in order to finish the task. This can be accomplished by typing instructions to your partner via the text box. No communication between you and your partner will be sent until the start button has been pressed, and the game has begun. Your partner will be able to see what you type, but will not be able to communicate with you. At any time during the game, you may double-click anywhere on the board to gesture to that location to communicate more effectively with your partner. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously. When you have determined the task has been completed according to your specifications, press the end button to complete the game and have your results recorded.<br>");
     introductions2.push("Player 2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your responsibility will be to follow your partner's instructions as closely as possible. Pay attention to the board, as your partner is able to point to locations on the board to help you follow any instructions you are given. Blocks can be moved by holding down left click and dragging them across the screen. Blocks can be flipped by right clicking them. All actions performed on the board will be seen by both players simultaneously.<br>");
-    
+
 
     introductions1.push("Searching:<br>You and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User1 Instructions:<br>&emsp; Click the “show chosen” button to get the words you and your partner have to search for.<br>&emsp; Your partner doesn’t know what word they need to search for. You need to instruct your partner to be able to do this. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type.<br>&emsp;You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game. Both of you will see the outcomes of any changes either of you make to the table.<br>");
     introductions2.push("Searching:<br>ou and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
@@ -118,24 +120,29 @@ function initInstructions() {
 }
 
 
-function initFlipColors() {
-    for (var i = 0; i < Max_Num_Blocks; i++) {
-        x = Math.floor(Math.random() * 5);
-        flipColorArray[i] = color[x];
+function initColors(possibleColors, numBlocks) {
+    let cs = [];
+    for (var i = 0; i < numBlocks; i++) {
+        x = Math.floor(Math.random() * possibleColors.length);
+        cs.push(possibleColors[x]);
     }
+    return cs;
 }
 
-function initFlipLetters() {
-    for (var i = 0; i < Max_Num_Blocks; i++) {
-        y = Math.floor(Math.random() * letters.length);
-        flipLetterArray[i] = letters[y];
+function initLetters(possibleLetters, numBlocks) {
+    let lets = [];
+    for (var i = 0; i < numBlocks; i++) {
+        y = Math.floor(Math.random() * possibleLetters.length);
+        lets.push(letters[y]);
     }
+    return lets;
 }
 
-function flipBlock(box, event) {
+function flipBlock(box, event, bLetters, bColors) {
+    console.log('~~~~~~~ Flipping: ', box);
     if (flip_on) {
-        swapColor(box);
-        swapLetter(box);
+        swapColor(box, bColors);
+        swapLetter(box, bLetters);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
@@ -146,22 +153,24 @@ function flipBlock(box, event) {
             if (taskID == 1) {
                 document.getElementById("block" + box.substring(5)).style.borderColor = "white";
             }
-        }  
+        }
     }
 }
 
-function swapColor(box) {
+function swapColor(box, boxColors) {
     var property = document.getElementById(box);
     var currentColor = property.style.backgroundColor;
-    property.style.backgroundColor = flipColorArray[box.substring(5)];
+    let newColor = flipColorArray[box.substring(5)];
+    property.style.backgroundColor = newColor;
     flipColorArray[box.substring(5)] = currentColor;
+    blockColors[box.substring(5)] = newColor;
 }
 
-function swapLetter(box) {
+function swapLetter(box, bLetters) {
     var currentLetter = $('#' + box).find('span').html();
     $('#' + box).find('span').html(flipLetterArray[box.substring(5)]);
     flipLetterArray[box.substring(5)] = currentLetter;
-    cur_letters[box.substring(5)] = currentLetter;
+    bLetters[box.substring(5)] = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {
@@ -179,8 +188,8 @@ function setGestureWithPosition(left, top, event) {
         gestureElement.style.top = (px_top / $(window).height() * 100) + "%";
     } else {
         gestureElement.style.left = (left / $(window).width() * 100) + "%";
-        gestureElement.style.top = (top / $(window).height() * 100) + "%"; 
-    }  
+        gestureElement.style.top = (top / $(window).height() * 100) + "%";
+    }
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
@@ -188,7 +197,7 @@ function setGestureWithPosition(left, top, event) {
         GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
         type.push("Gesture");
     }
-    
+
 }
 
 function setMovement() {
@@ -199,125 +208,48 @@ function setMovement() {
 
 
 function initTaskID() {
-    taskID = Math.floor(Math.random()*4);
+    // taskID = Math.floor(Math.random()*4);
     taskID = 3;
 
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
-    if (taskID == 1) {
-        random_x = Math.floor(page_width * 0.7 / 150) - 1; init_x = Math.floor(0.7 * page_width / 150 + 1) * 50;
-        if (NumBlocks % 2 == 1) {
-            NumBlocks++;
-        }
-        if (Math.random() < 0.5) {
-            specificIns = " (Check if the cards match by color.)";
-        } else {
-            specificIns = " (Check if the cards match by letter.)";
-        }
-        
-        letters = [];
-        for (var i = 0; i < NumBlocks; i++) {
-            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-        }
-    }
+    NumBlocks = 5;
+    // blockColors = initBackgroundColors(NumBlocks, color);
+    n1 = 5;
+    n2 = 5;
 
-    if (taskID == 2) {
-        chosenWords = Math.floor(Math.random() * 3);
-        NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length + initialWords2[chosenWords].length;
-        letters = [];
-        for (var i = 0; i < initialWords1[chosenWords].length; i++) {
-            var p = Math.floor(Math.random() * 2);
-            if (p == 0) {
-                letters.push(initialWords1[chosenWords][i]);
-                flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            } else {
-                flipLetterArray.push(initialWords1[chosenWords][i]);
-                letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            }
-        }
+    // let curLetters = [];
+    // let flipLetters = [];
+    // for (let i = 0; i < NumBlocks; i++) {
+    //     curLetters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+    //     flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
+    // }
+    specificIns = "";
 
-        for (var i = 0; i < initialWords2[chosenWords].length; i++) {
-            var p = Math.floor(Math.random() * 2);
-            if (p == 0) {
-                letters.push(initialWords2[chosenWords][i]);
-                flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            } else {
-                flipLetterArray.push(initialWords2[chosenWords][i]);
-                letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            }
-        }
-
-        for (var i = initialWords2[chosenWords].length + initialWords1[chosenWords].length; i < NumBlocks; i++) {
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-        }
-        n1 = initialWords1[chosenWords].length;
-        n2 = initialWords2[chosenWords].length;
-        specificIns = "";
-    }
-
-    if (taskID == 3) {
-        NumBlocks = 5;
-        n1 = 5; n2 = 5;
-        // setupColor = ['red', 'blue', 'yellow', 'green', 'orange'];
-        // setupNum = [1, 1, 1, 1, 1];
-
-        letters = [];
-        for (var i = 0; i < NumBlocks; i++) {
-            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-        }
-        specificIns = "";
-    }
-
-    if (taskID == 0) {
-        if (Math.random() < 0.5) {
-            specificIns = " (Group the cards by letter.)";
-        } else {
-            specificIns = " (Group the cards by color.)";
-        }
-        
-        letters = [];
-        for (var i = 0; i < NumBlocks; i++) {
-            letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-            flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-        }
-    }
-
-    for (var i = 0; i < letters.length; i ++) {
-        cur_letters.push(letters[i]);
-    }
+    // for (let i = 0; i < letters.length; i ++) {
+    //     cur_letters.push(letters[i]);
+    // }
     setUpVisibility();
 }
-    
+
+// function initBackgroundColors(num, options) {
+//     console.log('Initializing background colors');
+//     let colors = [];
+//     for (let i = 0; i < num; i++) {
+//         colors.push(options[Math.floor(Math.random() * options.length)]);
+//     }
+//     console.log('Initialized with ', colors);
+//     return colors;
+// }
+
 
 function setUpVisibility() {
-    if (taskID == 1) {
-        //document.getElementById('vertical-line3').style.visibility = "hidden";
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "visible";
-        document.getElementById('user4').style.visibility = "visible";
-
-    }
-    if (taskID == 2 || taskID == 0) {
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-        //document.getElementById('vertical-line3').style.visibility = "hidden";
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-    }
-    if (taskID == 3) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-    }
+    document.getElementById('user1').style.visibility = "hidden";
+    document.getElementById('user2').style.visibility = "hidden";
+    document.getElementById('vertical-line').style.visibility = "hidden";
+    document.getElementById('vertical-line2').style.visibility = "hidden";
+    document.getElementById('user3').style.visibility = "hidden";
+    document.getElementById('user4').style.visibility = "hidden";
 }
 
 function setTaskHeader() {
@@ -377,7 +309,7 @@ function inputlength() {
             var numToAdd = (x.split(" ").length - 1) + 1;
             NumWords += numToAdd;
         }
-        instructions.push(x);  
+        instructions.push(x);
     }
     document.getElementById("txt_instruction").value = "";
 }
@@ -422,8 +354,10 @@ function instructiontime() {
     instructiondate = getDateTime();
 }
 
-function setUpInitialPosition() {
-    for (var i = 0; i < NumBlocks; i++) {
+function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters) {
+    console.log('Calling setUpInitialPosition');
+    console.log('Block colors:', bColors);
+    for (let i = 0; i < NumBlocks; i++) {
         var tLeft = 0;
         var tTop = 0;
 
@@ -439,10 +373,16 @@ function setUpInitialPosition() {
         end_left.push(tLeft);
         end_top.push(tTop);
 
-        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + "%, " + tTop + "%) color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        initialInfo.push("block:" + i + " " +
+                         "initial position: (" + tLeft + "%, " + tTop + "%) " +
+                         "color: " + bColors[i] +
+                         " letters: " + bLetters[i] +
+                         " flipletters: " + flipLetters[i]);
         document.getElementById("block" + i).style.top = tTop+"%";
         document.getElementById("block" + i).style.left = tLeft+"%";
     }
+
+    console.log('Initial Info:', initialInfo);
     document.getElementById('scoreBox').innerText = Math.round(scoreCal());
 }
 
@@ -472,8 +412,8 @@ function scoreCal() {
 
     var totalError = errorY + errorX;
     var width = $("#container").width();
-    var height = $("#container").height(); 
-    
+    var height = $("#container").height();
+
     var Emax = (height + width - 50) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
 

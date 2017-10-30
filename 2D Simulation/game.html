@@ -1,1305 +1,1289 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Blocks World</title>
+  <head>
+    <title>Blocks World</title>
 
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-	<meta http-equiv="pragma" content="no-cache" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" type="text/css" href="index.css">
-  	<link href="//fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
- 	<link href="//fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
-	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  	<style>
-    	body {
-      		background: url(img/background.jpg)	no-repeat center center fixed; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
-    	}
-  	</style>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <style>
+     body {
+         background: url(img/background.jpg)	no-repeat center center fixed;
+         -webkit-background-size: cover;
+         -moz-background-size: cover;
+         -o-background-size: cover;
+         background-size: cover;
+     }
+    </style>
 
-</head>
+  </head>
 
-<body oncontextmenu="return false;">
+  <body oncontextmenu="return false;">
 
-	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
-		<div style="text-align:center">
-			<div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
-				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana"></span>
-				<p id = "helper" class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
-			</div>
-		</div>
-  	</div>
 
-  	<div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
-	<div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
+    <div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
+      <div style="text-align:center">
+        <div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
+          <span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana"></span>
+          <p id = "helper" class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+        </div>
+      </div>
+    </div>
 
-	<p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-	<p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
+    <div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
+    <div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
 
-	<p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-	<p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
+    <p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
+    <p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
 
-	<div class = "gadgetWrapper">
-		<small><small><small>
-		<p class = "taskQ" id = "taskQ" style = "font-size: 30px; position: absolute; top: 0px; left: 0% "></p>
-		</small></small></small>
+    <p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
+    <p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
 
-		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana; position: absolute; top: 9%">
-		    <label>
-		        Enter instructions	:
-		        <input id="txt_instruction" type="text" />
-		    </label>
+    <div class = "gadgetWrapper">
+      <small><small><small>
+        <p class = "taskQ" id = "taskQ" style = "font-size: 30px; position: absolute; top: 0px; left: 0% "></p>
+      </small></small></small>
 
-		    <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
+      <div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana; position: absolute; top: 9%">
+        <label>
+          Enter instructions	:
+          <input id="txt_instruction" type="text" />
+        </label>
 
-		    <div class = "numofwords" id="numofwords"></div>
+        <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
-		</div>
+        <div class = "numofwords" id="numofwords"></div>
 
-	    <div class = "gestureToggle" id="gestureToggle"></div>
-	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
+      </div>
 
-	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
-	    <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
-	    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
-	    <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
-		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
-	    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
+      <div class = "gestureToggle" id="gestureToggle"></div>
+      <button class = "buttonStart" id="buttonStart" onclick="startGame()" >Start</button>
 
-	    <script type="text/javascript">
-			document.getElementById("gesturecontext").style.visibility = "hidden";
-			document.getElementById("movementcontext").style.visibility = "hidden";
-			document.getElementById("gestureCount").style.visibility = "hidden";
-			document.getElementById("MovementCount").style.visibility = "hidden";
-		</script>
+      <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
+      <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
+      <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+      <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
+      <p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+      <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
 
-	    <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
-	    <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
-	    	Score
-	    </div>
-	    <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 15%; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
+      <script type="text/javascript">
+       document.getElementById("gesturecontext").style.visibility = "hidden";
+       document.getElementById("movementcontext").style.visibility = "hidden";
+       document.getElementById("gestureCount").style.visibility = "hidden";
+       document.getElementById("MovementCount").style.visibility = "hidden";
+      </script>
 
-	</div>
+      <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
+      <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
+        Score
+      </div>
+      <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 15%; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
 
-	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
+    </div>
 
-	<div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; left: 85%; position: absolute; background-color: white; color: black;"></div>
-	<!-- <script type="text/javascript">
-      
-        var recognizer = null;
-        function recognize() {
-            //speechRecognization interface is the heart of recognization API
-            window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
-            if (window.speechRecognition == undefined) {
-                alert("Speech Recogniztion API Not Supported");
-            } else {
-                //create a speechRecognization object
-                recognizer = new speechRecognition();
-                //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
-                recognizer.continuous = true;
-                //specify the language of speech. langauge must be in BCP 47 standard.
-                recognizer.lang = "en-US";
-                 //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
-                recognizer.interimResults = true;
-                //fired when speech recognization starts listening.
-                recognizer.onstart = function(){
-                    console.log("Recogniztion API started");
-                }
-                //fired everytime user stops speaking.
-                recognizer.onresult = function(event){  
-                    for (var count = event.resultIndex; count < event.results.length; count++) {
-                        if (event.results[count].isFinal) {
-                            console.log(event.results[count][0].transcript);
-                        }
-                    }
-                }
-                //fired when recognization is stopped manually or automatically.
-                recognizer.onend = function() {
-                    recognizer = null;
-                    console.log("Recogniztion API stopped");
-                    recognize();
-                }
-                recognizer.start();
-            }
-        }
-        function stopRecog() {
-            if(recognizer != null) {
-                //stop it manually
-                recognizer.stop();
-                console.log("Recognization API stopped");
-            }
-        }
-    </script> -->
+    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
+
+    <div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; left: 85%; position: absolute; background-color: white; color: black;"></div>
+    <!-- <script type="text/javascript">
+
+         var recognizer = null;
+         function recognize() {
+         //speechRecognization interface is the heart of recognization API
+         window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
+         if (window.speechRecognition == undefined) {
+         alert("Speech Recogniztion API Not Supported");
+         } else {
+         //create a speechRecognization object
+         recognizer = new speechRecognition();
+         //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
+         recognizer.continuous = true;
+         //specify the language of speech. langauge must be in BCP 47 standard.
+         recognizer.lang = "en-US";
+         //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
+         recognizer.interimResults = true;
+         //fired when speech recognization starts listening.
+         recognizer.onstart = function(){
+         console.log("Recogniztion API started");
+         }
+         //fired everytime user stops speaking.
+         recognizer.onresult = function(event){
+         for (var count = event.resultIndex; count < event.results.length; count++) {
+         if (event.results[count].isFinal) {
+         console.log(event.results[count][0].transcript);
+         }
+         }
+         }
+         //fired when recognization is stopped manually or automatically.
+         recognizer.onend = function() {
+         recognizer = null;
+         console.log("Recogniztion API stopped");
+         recognize();
+         }
+         recognizer.start();
+         }
+         }
+         function stopRecog() {
+         if(recognizer != null) {
+         //stop it manually
+         recognizer.stop();
+         console.log("Recognization API stopped");
+         }
+         }
+         </script> -->
 
     <!-- <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-57883751-1', 'auto');
-        ga('send', 'pageview');
-    </script> -->
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         ga('create', 'UA-57883751-1', 'auto');
+         ga('send', 'pageview');
+         </script> -->
 
     <!-- <div class = "liveAudio">
-      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-  	</div> -->
+         <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+         </div> -->
 
-	<script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="clientConfig.js"></script>
+    <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
-	<script type="text/javascript">
-		page_width = window.innerWidth;
-		page_height = window.innerHeight;
-	    	$("#taskQ").css('font-size', page_height * 0.04 + "px");
-	    	$('#popup').css('font-size', page_height * 0.025 + "px");
-	    	$('#timer').css('font-size', page_height * 0.025 + "px");
-	    	$('#instruction').css('font-size', page_height * 0.025 + "px");
-	    	$('#txt_instruction').css('font-size', page_height * 0.015 + "px");
-	    	$('#buttonEnter').css('font-size', page_height * 0.015 + "px");
-	    	document.getElementById('popup').style.top = "1%";
-	    	document.getElementById('popup').style.right = "0%";
-	    	$('#helper').css('font-size', page_height * 0.02 + "px");
-	    	$('#buttonStart').css('font-size', page_height * 0.02 + "px");
-	    	document.getElementById("buttonStart").style.width = page_width * 0.05 + "px";
-	    	document.getElementById("buttonStart").style.height = page_height * 0.05 + "px";
-	    	$('#buttonEnd').css('font-size', page_height * 0.02 + "px");
-	    	document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
-	    	document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
-	    	$('#score').css('font-size', page_height * 0.02 + "px");
-			$('#showChosen').css('font-size', page_height * 0.02 + "px");
-			$('#chatBox').css('font-size', page_height * 0.025 + "px");
-			$('#myPopup').css('font-size', page_height * 0.025 + "px");
-			$('#myPopup').css('width', page_width * 0.3 + "px");
-			$('#myPopup').css('height', page_height * 0.5 + "px");
-	    </script>
-
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
-
-	<script type="text/javascript">
-		function timecounter() {
-			var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;
-			var x = setInterval(function() {
-		    // Get todays date and time
-			    var now = new Date().getTime();
-			    
-			    // Find the distance between now an the count down date
-			    var distance = countDownDate - now;
-			    
-			    // Time calculations for days, hours, minutes and seconds
-			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
-			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-			    // Output the result in an element with id="demo"
-				if (minutes < 0) {
-					clearInterval(x);
-					if (am_i_player1) {
-						endGame();
-					}
-				} else if (isGameEnd != true) {
-					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
-				}
-		    
-			}, 1000);
-		}
-	</script>
-
-	<script type="text/javascript">
-		page_width = window.innerWidth;
-		page_height = window.innerHeight;
-		var line_height = Math.floor(page_height * 0.7) + 5;
-  		document.getElementById("vertical-line").style.height = line_height + "px";
-  		document.getElementById("vertical-line2").style.height = line_height + "px";
-	</script>	
-    
-  	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
-
-	<!-- <script src="Recorderjs/recorder.js"></script>
-  	<script src="jsHtml5AudioRecorder.js"></script>
-  	<script src="js/init.js"></script> -->
-
-  	<script type="text/javascript">
-		$("#txt_instruction").keyup(function(event){
-			if(event.keyCode == 13){
-				$("#buttonEnter").click();
-			}
-		});
+    <script type="text/javascript">
+     page_width = window.innerWidth;
+     page_height = window.innerHeight;
+     $("#taskQ").css('font-size', page_height * 0.04 + "px");
+     $('#popup').css('font-size', page_height * 0.025 + "px");
+     $('#timer').css('font-size', page_height * 0.025 + "px");
+     $('#instruction').css('font-size', page_height * 0.025 + "px");
+     $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
+     $('#buttonEnter').css('font-size', page_height * 0.015 + "px");
+     document.getElementById('popup').style.top = "1%";
+     document.getElementById('popup').style.right = "0%";
+     $('#helper').css('font-size', page_height * 0.02 + "px");
+     $('#buttonStart').css('font-size', page_height * 0.02 + "px");
+     document.getElementById("buttonStart").style.width = page_width * 0.05 + "px";
+     document.getElementById("buttonStart").style.height = page_height * 0.05 + "px";
+     $('#buttonEnd').css('font-size', page_height * 0.02 + "px");
+     document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
+     document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
+     $('#score').css('font-size', page_height * 0.02 + "px");
+     $('#showChosen').css('font-size', page_height * 0.02 + "px");
+     $('#chatBox').css('font-size', page_height * 0.025 + "px");
+     $('#myPopup').css('font-size', page_height * 0.025 + "px");
+     $('#myPopup').css('width', page_width * 0.3 + "px");
+     $('#myPopup').css('height', page_height * 0.5 + "px");
     </script>
 
-	<script type="text/javascript">
-		initTaskID();
-		writeBlocks();
-		initBlocks();
-		initInstructions();
-		initFlipColors();
-		// initFlipLetters();
-		setTaskHeader();
-		setIntroduction(1);
-    	popUpGameIntro();
-		var color = ['red', 'blue','green','orange','yellow'];
-		function initBlocks() {
-			// Adds 1 to NumBlocks if the task is matching, ensuring an even
-			// number of blocks to be matched.
-			if (taskID == 1) {
-				if (NumBlocks % 2 != 0) {
-					NumBlocks++;
-				}
-			}
-			var container = document.createElement("div");
-			container.id = "container";
-			container.ondblclick = function(e) {
-				gestureCount++;
-				var event = e || window.event;
-
-				setGestureWithPosition(event.clientX, event.clientY, event);		
-				send_gesture_to_server();
-			};
-			container.style.fontSize = "4vmin";
-			document.body.appendChild(container);
-			var position_x = [];
-			var position_y = [];
-			var cur = 0;
-			for (var i = 0; i < NumBlocks; i++) {
-				var color_x = Math.floor(Math.random() * 5);
-				var l = Math.floor(Math.random() * letters.length);
-
-				var tLeft = 0;
-				var tTop = 0;
-
-				var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-				var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
-
-				tLeft = Math.random() * Math.floor(horizontal_percent);
-				tTop = Math.random() * Math.floor(vertical_percent);
-
-				// if (taskID == 3) {
-				// 	random_x = Math.floor(page_width * 0.7/ 50) - 1;
-				// 	init_x = 0;
-				// }
-				// var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-				// var x = -1;
-				// for (var j = 0; j < position_x.length; j ++) {
-				// 	if (position_x[j] == tLeft && position_y[j] == tTop) {
-				// 		x = j;
-				// 	}
-				// }
-				// while (x != -1) {
-				// 	if (Math.abs(position_y[x] - tTop) >= 50) break;
-				// 	tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
-				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-				// 	var x = -1;
-				// 	for (var j = 0; j < position_x.length; j ++) {
-				// 		if (position_x[j] == tLeft && position_y[j] == tTop) {
-				// 			x = j;
-				// 		}
-				// 	}
-				// }
-				// position_x.push(tLeft);
-				// position_y.push(tTop);
-
-				if (i < letters.length) {
-					l = i;
-				}
-
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\"></div>");
-
-				$("#block" + i).append("<span style=\"color: black\">" + letters[l] + "<span>");
-
-				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color[color_x] + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
-				goal_top.push(tTop);
-				goal_left.push(tLeft);
-
-				$("#block" + i).data("id", i);
-				$("#block" + i).data("horizontal_percent", tLeft);
-				$("#block" + i).data("vertical_percent", tTop);
-
-				$("#block" + i).bind("contextmenu", function(e) {
-					if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
-						var event = e || window.event;
-						flipBlock('block' + $(this).data("id"), event);
-						send_flip_to_server('block' + $(this).data("id"));
-						if (am_i_player1) {
-			                players.push("Human");
-			            } else {
-			                players.push("Robot");
-			            }
-
-			            var flipped_block_color =document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-			            var flipped_block_letter = cur_letters[$(this).data("id")];
-
-			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
-					}
-				});
-			}
-		}
-	</script>
-
-	<div id = "disablingDiv">
-		<div id = "freeze">
-			We are currently waiting for another user to join so that we can connect you. Please be patient.
-		</div>
-	</div>
-
-	<script type="text/javascript" >
-		var socket;
-
-		try {
-			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
-		} catch (err) {
-			window.location.href = "server_down.html";
-		}
-
-		// alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
-
-		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
-		// doesn't redirect you to the server down page.
-		if (!socket.connected) {
-			setTimeout(function() {
-				if (!socket.connected) {
-					window.location.href = "server_down.html";
-				}
-			}, 3000);
-		}
-
-		socket.on('connect_failed', function() {
-			window.location.href = "server_down.html";
-		});
-
-		socket.on('disconnect', function() {
-			if (!ending_survey) {
-				window.location.href = "server_down.html";	
-			}
-		});
-
-		var left_array = [];
-		var top_array = [];
-		var current_colors = [];
-		var current_letters = [];
-		for (var i = 0; i < NumBlocks; i++) {
-			// var position = $("#block" + i).position();
-			var current_color = document.getElementById("block" + i).style.backgroundColor;
-			var current_letter = cur_letters[i];
-			left_array.push($("#block" + i).data("horizontal_percent"));
-			top_array.push($("#block" + i).data("vertical_percent"));
-			current_colors.push(current_color);
-			current_letters.push(current_letter);
-		}
-
-		try {
-			socket.emit('setInitialPosition', {
-				numBlocks: NumBlocks,
-				lefts: left_array,
-				tops: top_array,
-				colors: current_colors,
-				flipColorArray: flipColorArray,
-				letters: current_letters,
-				flipLetterArray: flipLetterArray,
-				currentTask: taskID,
-				movement_count: actualMove,
-				gesture_count: gestureCount,
-				ins : specificIns
-			});
-		} catch (err) {
-			window.location.href = "server_down.html"; 
-		}
-		
-		// try {
-		// 	socket.emit('am_I_second_to_join');
-		// } catch (err) {
-		// 	window.location.href = "server_down.html"; 
-		// }
-
-		socket.on('freeze_start', function() {
-			var startButton = document.getElementById('buttonStart');
-			var endButton = document.getElementById('buttonEnd');
-			var enterButton = document.getElementById('buttonEnter');
-
-			document.getElementById("chatBox").innerHTML = "Please wait while another player attempts to connect to your game.";
-
-			startButton.disabled = true;
-			endButton.disabled = true;
-			enterButton.disabled = true;
-
-			document.getElementById('disablingDiv').style.display = 'block';
-			// document.getElementById('freeze').style.visibility = 'visible';
-
-			document.getElementById('txt_instruction').disabled = true;
-
-			document.getElementById('container').ondblclick = function(e) {
-				// Do nothing;
-			};
-
-			for (var i = 0; i < NumBlocks; i++) {
-				flip_on = false;
-
-				$("#block" + i).draggable("disable");
-			}
-		});
-
-		socket.on('unfreeze_start', function() {
-
-			try {
-				socket.emit('disable_blocks_for_player_2');
-			} catch (err) {
-				window.location.href = "server_down.html"; 
-			}
-
-			document.getElementById("disablingDiv").style.display = 'none';
-
-           	var startButton = document.getElementById('buttonStart');
-			startButton.disabled = false;
-
-			document.getElementById('disablingDiv').style.display = "none";
-
-			alert('Another player has joined the game. You may now press the start button to begin.');
-        });
-
-        socket.on('disable_blocks_for_player_2', function() {
-        	for (var i = 0; i < NumBlocks; i++) {
-                flip_on = false;
-				$("#block" + i).draggable("disable");
-            }
-        });
-
-        socket.on('enable_blocks_for_player_2', function(data) {
-        	timecounter();
-        	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i]+"%";
-        		document.getElementById('block' + i).style.left = data.p_left[i]+"%";
-        		document.getElementById('block' + i).style.visibility = "visible";
-        		flip_on = true;
-
-				$("#block" + i).draggable("enable");
-            }
-        });
-		var z = 1;
-		socket.on('update_position', function (data) {
-			
-			var left = data.left;
-			var top = data.top;
-			var block = data.block_id;
-			$("#" + block).css({
-				left: left + "%",
-				top: top + "%"
-			});
-			$("#" + block).css('z-index', ++z);
-			$("#" + block).data("horizontal_percent", left);
-			$("#" + block).data("vertical_percent", top);
-		});
-		socket.on('update_flip_block', function (block_id) {
-			flipBlock(block_id, null);
-		});
-		socket.on('setInitialPosition', function(data) {
-			document.getElementById('user1').innerText = "Player 1";
-			document.getElementById('user2').innerText = "Player 2 (You)";
-			document.getElementById('user3').innerText = "Player 1";
-			document.getElementById('user4').innerText = "Player 2 (You)";
-			am_i_player1 = false;
-
-			var container = document.getElementById("container");
-			human_voice = false;			
-			flipColorArray = data.flipColorArray.slice(0);
-			flipLetterArray = data.flipLetterArray.slice(0);
-			NumBlocks = data.numBlocks;
-			taskID = data.currentTask;
-			actualMove = data.movement_count;
-			gestureCount = data.gesture_count;
-			specificIns = " Wait for instructions.";
-
-			if (taskID == 1) {
-		        document.getElementById('user1').style.visibility = "hidden";
-		        document.getElementById('user2').style.visibility = "hidden";
-
-		        document.getElementById('vertical-line').style.visibility = "visible";
-		        document.getElementById('vertical-line2').style.visibility = "visible";
-		        document.getElementById('user3').style.visibility = "visible";
-		        document.getElementById('user4').style.visibility = "visible";
-		    }
-		    if (taskID == 2 || taskID == 0) {
-		        document.getElementById('vertical-line').style.visibility = "hidden";
-		        document.getElementById('vertical-line2').style.visibility = "hidden";
-		        document.getElementById('user3').style.visibility = "hidden";
-		        document.getElementById('user4').style.visibility = "hidden";
-
-		        document.getElementById('user1').style.visibility = "hidden";
-		        document.getElementById('user2').style.visibility = "hidden";
-		    }
-		    if (taskID == 3) {
-		    	document.getElementById('user1').style.visibility = "hidden";
-		    	document.getElementById('user2').style.visibility = "hidden";
-
-		        document.getElementById('vertical-line').style.visibility = "hidden";
-		        document.getElementById('vertical-line2').style.visibility = "hidden";
-		        document.getElementById('user3').style.visibility = "hidden";
-		        document.getElementById('user4').style.visibility = "hidden";
-		    }
-
-			setTaskHeader();
-			setIntroduction();
-
-			while(container.firstChild) {
-				container.removeChild(container.firstChild);
-			}
-			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\"></div>").appendTo(container);
-
-				$("#block" + i).append("<span style=\"color: black\">" + data.letters[i] + "<span>");
-
-				$("#block" + i).data("id", i);
-				$("#block" + i).data("horizontal_percent", data.lefts[i]);
-				$("#block" + i).data("vertical_percent", data.tops[i]);
-
-				document.getElementById('block' + i).style.visibility = "hidden";
-
-				$("#block" + i).bind("contextmenu", function(e) {
-					if (taskID != 1) {
-						var event = e || window.event;
-						flipBlock('block' + $(this).data("id"), event);
-						send_flip_to_server('block' + $(this).data("id"));
-						if (am_i_player1) {
-			                players.push("Human");
-			            } else {
-			                players.push("Robot");
-			            }
-
-			            var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-			            var flipped_block_letter = cur_letters[$(this).data("id")];
-
-			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
-					}
-				});
-			}
-
-			
-
-			$( init );
-			for (var i = 0; i < NumBlocks; i++) {
-				$("#block" + i).draggable("enable");
-				document.getElementById("block" + i).style.visibility = "hidden";
-			}
-			document.getElementById("instruction").style.visibility = "hidden";
-			document.getElementById("buttonStart").style.visibility = "hidden";
-			document.getElementById("buttonEnd").style.visibility = "hidden";
-			document.getElementById("referenceLink").style.visibility = "hidden";
-			document.getElementById("showChosen").style.visibility = "hidden";
-			document.getElementById("container").ondblclick = function(e) {
-				e.preventDefault();
-			};
-			setIntroduction(2);
-		});
-		function send_flip_to_server(block_id) {
-			try {
-				socket.emit('receive_flip_block', block_id);
-			} catch (err) {
-				window.location.href = "server_down.html"; 
-			}
-			
-		}
-		$(document).ready(function() {
-    		$(".draggable").draggable();
-			
-			$('.draggable').each(function(el){
-			    // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
-			    // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
-			    $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
-			});
-		});
-		var z = 1;
-		$( init );
-		function init() {
-			for (var i = 0; i < NumBlocks; i++) {
-				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
-					$(this).css('z-index', ++z);
-					// var Startpos = $(this).position();
-					previous_left[i] = $(this).data("horizontal_percent");
-					previous_top[i] = $(this).data("vertical_percent");
-        			movementstarttime = new Date().getTime();
-        			movementdate = getDateTime();
-				}, stop: function(event, ui) {
-						// var Stoppos = $(this).position();
-
-						$("#" + $(this).attr('id')).css({
-							left: $(this).data("horizontal_percent") + "%",
-							top: $(this).data("vertical_percent") + "%"
-						});
-
-						if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
-							start.push(movementdate);
-							end.push(getDateTime());
-							interval.push(new Date().getTime() - movementstarttime);
-							type.push("Movement");
-							actualMove++;
-							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-							movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
-							if (am_i_player1) {
-				                players.push("Human");
-				            } else {
-				                players.push("Robot");
-				            }
-				            var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-		            		var moved_block_letter = cur_letters[$(this).data("id")];
-
-		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
-							end_left[$(this).data("id")] = $(this).data("horizontal_percent")
-							end_top[$(this).data("id")] = $(this).data("vertical_percent");
-
-							setMovement();
-							send_movement_to_server();
-
-							socket.emit('Update_score', {
-								id : $(this).data("id"),
-								tLeft: $(this).data("horizontal_percent"),
-								tTop: $(this).data("vertical_percent")
-							});
-
-							// document.getElementById("scoreBox").innerText = scoreCal();
-					}
-				}, drag: function(event, ui) {
-					// var coord = $(this).position();
-					var block_id = $(this).attr('id');
-
-					var rect = document.getElementById('container').getBoundingClientRect();
-
-					var horiz = $(this).position().left / (rect.right - rect.left - 16) * 100;
-
-					var vert = $(this).position().top / (rect.bottom - rect.top - 16) * 100;
-
-					$(this).data("horizontal_percent", horiz);
-					$(this).data("vertical_percent", vert);
-
-					$("#" + block_id).css({
-						left: horiz + "%",
-						top: vert + "%"
-					});
-
-
-					// When blocks get moved, the position changes from 'percentage' to 'px'.
-
-					try {
-						socket.emit('receive_position', {
-							block_id: block_id,
-							left: horiz,
-							top: vert
-						});
-					} catch (err) {
-						window.location.href = "server_down.html"; 
-					}
-					
-				}
-				});
-			}
-		}
-
-
-		// Needs to be fixed to account for new percentage based way of calculating position.
-
-		socket.on('Update_score', function(data) {
-			var top = [], left = [];
-			end_left[data.id] = data.tLeft;
-			end_top[data.id] = data.tTop;
-
-			document.getElementById('scoreBox').innerText = Math.round(scoreCal());
-			console.log(scoreCal());
-		});
-
-		function send_movement_to_server() {
-			try {
-				socket.emit('receive_movement_data', actualMove);
-			} catch (err) {
-				window.location.href = "server_down.html"; 
-			}
-			
-		}
-		socket.on('update_movement_data', function(data) {
-			actualMove = data;
-			setMovement();
-		});
-		function send_user_message_to_server() {
-			if (start_button_pressed) {
-				try {
-					socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
-				} catch (err) {
-					window.location.href = "server_down.html"; 
-				}
-				
-			}
-		}
-    
-		socket.on('update_user_message', function(message) {
-			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
-		});
-
-		socket.on('end_game_for_user', function(data) {
-
-			var action = [];
-
-			for (var i = 0; i < data.Action.length; i++) {
-				action.push(data.Action[i]);
-			}
-
-			isGameEnd = true;
-
-		    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-		    for (var i = 0; i < type.length;i++) {
-		        if (type[i] == "Movement") {
-		        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-		        	x++; counter++; user++; block_count++;
-		        } else if (type[i] == "Instructions") {
-		        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
-		        	y++; counter++;
-		        } else {
-		        	if (type[i] == "Flip") {
-		        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
-						block_count++;
-		        	} else {
-		        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
-		        	}
-		        	z++; user++;
-		        }
-		    }
-
-		   	var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
-			for (var i = 0; i < action.length; i++) {
-				var start_pos = action[i].indexOf('/') - 2;
-				var end_pos = start_pos + 10;
-				dateDay.push(parseInt(action[i].substring(0, 2)));
-				dateMonth.push(parseInt(action[i].substring(3, 5)));
-				dateYear.push(parseInt(action[i].substring(6, 10)));
-				start_pos = action[i].indexOf('/', end_pos) - 2;
-				end_pos = start_pos + 8;
-				dayTime.push(action[i].substring(start_pos, end_pos));
-			}
-
-			for (var i = 0; i < action.length; i++) {
-				for (var j = i + 1; j < action.length; j++) {
-					if (dateYear[i] > dateYear[j]) {
-						var st = action[i]; action[i] = action[j]; action[j] = st;
-						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-					} else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
-						var st = action[i]; action[i] = action[j]; action[j] = st;
-						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
-						var st = action[i]; action[i] = action[j]; action[j] = st;
-						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-					} else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
-						var st = action[i]; action[i] = action[j]; action[j] = st;
-						st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-						st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-						st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-						st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-					}
-				}
-			}
-
-			socket.emit('send_data_to_server', {
-                time: data.time,
-                task: data.task,
-                W: data.W,
-                G: data.G,
-                b: data.b,
-                bm: data.bm,
-                br: data.br,
-                pn: data.pn,
-                pp: data.pp,
-                te: data.te,
-                ie: data.ie,
-                p: data.p,
-                finalScore: Math.round(data.finalScore),
-                Action: action,
-                initialInfo: data.initialInfo,
-                standard_info: data.standard_info,
-                other: data.other
-            });
-			    
-			alert("You have final score: " + Math.round(data.finalScore));
-
-			ending_survey = true;
-
-			document.body.innerHTML = '';
-			document.documentElement.innerHTML = "";
-
-      		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
-
-			// document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
-			// document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
-			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
-			document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
-		});
-		
-		function submitRobot() {
-			var q3 = "", q4 = -1, q5 = -1;
-			// if (document.getElementById("41").checked) {
-			// 	q4 = 1;
-			// } else if (document.getElementById("42").checked) {
-			// 	q4 = 2;
-			// } else if (document.getElementById("43").checked) {
-			// 	q4 = 3;
-			// } else if (document.getElementById("44").checked) {
-			// 	q4 = 4;
-			// } else if (document.getElementById("45").checked) {
-			// 	q4 = 5;
-			// } else if (document.getElementById("46").checked) {
-			// 	q4 = 6;
-			// } else if (document.getElementById("47").checked) {
-			// 	q4 = 7;
-			// }
-			// if (document.getElementById("51").checked) {
-			// 	q5 = 1;
-			// } else if (document.getElementById("52").checked) {
-			// 	q5 = 2;
-			// } else if (document.getElementById("53").checked) {
-			// 	q5 = 3;
-			// } else if (document.getElementById("54").checked) {
-			// 	q5 = 4;
-			// } else if (document.getElementById("55").checked) {
-			// 	q5 = 5;
-			// } else if (document.getElementById("56").checked) {
-			// 	q5 = 6;
-			// } else if (document.getElementById("57").checked) {
-			// 	q5 = 7;
-			// }
-			q3 = document.getElementById("q3").value;
-			document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
-			if (q3 == "") {
-				document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";				
-				// if (q3 == "") {
-				// 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
-				// 	document.getElementById("q3").innerText = q3;
-				// }
-				// if (q4 == -1) {
-				// 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
-				// 	document.getElementById("4" + q4).checked = true;
-				// }
-				// if (q5 == -1) {
-				// 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
-				// 	document.getElementById("5" + q5).checked = true;
-				// }
-				// document.getElementById("require").style.visibility = "visible";
-				// document.getElementById("q3").innerText = q3;
-			} else {
-				try {
-					socket.emit('send_survey_data_to_server', {
-         				q1: q4,
-						q2: q5,
-						q3: q3
-			  		});
-				} catch (err) {
-					window.location.href = "server_down.html"; 
-				}
-                window.location.href = "finalPage.html";  
-			}
-		}
-
-
-
-		function send_gesture_to_server() {
-			var rect = document.getElementById('container').getBoundingClientRect();
-
-			var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
-
-			var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
-
-			try {
-				socket.emit('receive_gesture_data', {
-					gestureCount: gestureCount,
-					left: horiz,
-					top: vert
-				});
-			} catch (err) {
-				window.location.href = "server_down.html"; 
-			}
-			
-		}
-		socket.on('update_gesture_data', function(data) {
-			gestureCount = data.gestureCount;
-			setGestureWithPosition(data.left, data.top, null);
-		});
-		socket.on('user_left_game', function() {
-			window.location.href = "finalPage.html";
-		});
-		// Opens the popup window for communication between clients.
-		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
-	</script>
-
-	<script type="text/javascript">
-		for (var i = 0; i < NumBlocks; i++) {
-			$("#block" + i).draggable({
-			});
-		}
-	</script>
-
-	<script type="text/javascript">
-		for (var i = 0; i < NumBlocks; i++) {
-			var blockid = document.getElementById('block'+i);
-			if(blockid) {
-				if(NumBlocks >= Object.keys(startPosMap).length){
-					var pos = blockid.style;
-					startPosMap['block'+i] = pos;
-				}
-			}
-		}
-	</script>
-
-	<script type="text/javascript">
-		document.getElementById("buttonEnd").disabled = true;
-		document.getElementById("buttonEnter").disabled = true;
-	</script>
-
-	<script type="text/javascript">
-
-		function StartGame() {
-			start_button_pressed = true;
-			timecounter();
-		    if (taskID == 3) {
-		    	localStorage.setItem("container", document.getElementById("container").innerHTML);
-		        document.getElementById("showChosen").style.visibility = "visible";
-		        showChosenStuff();
-		        setUpInitialPosition();
-		    }
-		    if (taskID == 2) {
-		        // searchingwords = localStorage.getItem("Searching words");
-		        document.getElementById("showChosen").style.visibility = "visible";
-		        showChosenStuff();
-		    }
-		    startTime = new Date().getTime();
-		    // startPeer(1);
-		    // startRecording();
-		    // recognize();
-		    document.getElementById("buttonEnd").disabled = false;
-			document.getElementById("buttonEnter").disabled = false;
-			document.getElementById('txt_instruction').disabled = false;
-
-			document.getElementById('container').ondblclick = function(e) {
-                gestureCount++;
-                var event = e || window.event;
-
-                setGestureWithPosition(event.clientX, event.clientY, event);
-                send_gesture_to_server();
-            };
-
-            try {
-            	socket.emit("enable_blocks_for_player_2", {
-            		p_top: p_top,
-            		p_left: p_left
-            	});
-            } catch (err) {
-            	window.location.href = "server_down.html"; 
-            }
-         
-        	for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
-                if (taskID == 2) {
-                	$("#block" + i).draggable("enable");					
-            	}
-
-            	var flip_or_not = Math.random();
-
-		        if (flip_or_not < 0.5) {
-		            flipBlock('block' + i, null);
-		            send_flip_to_server('block' + i);
-		        }
-        	}
-
-        	actualMove = 0;
-    		setMovement();
-
-            document.getElementById('buttonStart').disabled = true;
-            socket.emit("receive_user_message", "(The game has started!)");
-		}
-		function endGame() {
-		    if (start_button_pressed) {
-				endTime = new Date().getTime();
-			    // stopRecording();
-			    time = endTime - startTime;
-			    time = time / 1000; // Convert to seconds.
-			    isGameEnd = true;
-
-			    var minutes = Math.floor(time / 60);
-			    var seconds = time - (minutes * 60);
-
-			    for (var i = 0; i < NumBlocks; i++) {
-			        var blockid = document.getElementById('block'+i);
-     			    if(blockid) {
-     			    	end_top.push($("#block" + i).data("vertical_percent"));
-     			    	end_left.push($("#block" + i).data("horizontal_percent"));
-			            if(NumBlocks >= Object.keys(endPosMap).length){
-			                var pos = blockid.style;
-			                endPosMap['block'+i] = pos;
-			            }
-			        }
-			    }
-
-				var action = [];
-
-			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-			    for (var i = 0; i < type.length;i++) {
-			        if (type[i] == "Movement") {
-			        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-			        	x++; counter++; user++; block_count++;
-			        } else if (type[i] == "Instructions") {
-			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
-			        	y++; counter++;
-			        } else {
-			        	if (type[i] == "Flip") {
-			        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
-							block_count++;
-			        	} else {
-			        		action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
-			        	}
-			        	z++; user++;
-			        }
-			    }
-			    // stopRecog();
-
-				calculateBackEndData();
-
-				var words = "";
-				if (taskID == 2) {
-					words = "Searching Words: User1: " + initialWords1[chosenWords] + " User2: " + initialWords2[chosenWords];
-				}
-                
-                // try {
-                // 	socket.emit('send_data_to_server', {
-	               //      time: recordTime,
-	               //      task: task[taskID] + " " + specificIns,
-	               //      W: NumWords,
-	               //      G: gestureCount,
-	               //      b: actualMove,
-	               //      bm: bm,
-	               //      br: br,
-	               //      pn: pn,
-	               //      pp: pp,
-	               //      te: te,
-	               //      ie: ie,
-	               //      p: p,
-	               //      Action: action,
-	               //      initialInfo: initialInfo,
-	               //      other: words
-	               //  });
-                // } catch (err) {
-                // 	window.location.href = "server_down.html";
-                // }
-
-                if (taskID == 3) {
-                	words = "Construction: Rainbow" + rainbow_select + ".png";
-                }
-
-                alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
-
-                try {
-                	socket.emit('end_button_pressed', {
-	                    time: time,
- 	                    task: task[taskID] + " " + specificIns,
- 	                    W: NumWords,
- 	                    G: gestureCount,
- 	                    b: actualMove,
- 	                    bm: bm,
- 	                    br: br,
- 	                    pn: pn,
- 	                    pp: pp,
- 	                    te: te,
- 	                    ie: ie,
- 	                    p: p,
- 	                    Action: action,
- 	                    initialInfo: initialInfo,
- 	                    standard_info: standard_info,
-	                    other: words,
-	                    minutes: minutes,
-	                    finalScore: scoreCal(),
-	                    seconds: seconds
- 	                });
-                } catch (err) {
-                	window.location.href = "server_down.html";
-                }
-
-                ending_survey = true;
-
-                
-
-				document.body.innerHTML = '';
-				document.documentElement.innerHTML = "";
-				document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any.</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>";
-
-				// document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very easy)\"> (very easy) 1	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very dificult)\"> 7 (very dificult)";
-
-				// document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (not helpful at all)\"> (not helpful at all) 1	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (very helpful)\"> 7 (very helpful)";
-
-				// document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much easier)\"> (much easier) 1	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much more difficult)\"> 7 (much more difficult)	<br><br>";
-
-				document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
-		}
-	}
-	</script>
-
-	<script type="text/javascript">
-		function submit() {
-			var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
-			// if (document.getElementById("41").checked) {
-			// 	q4 = 1;
-			// } else if (document.getElementById("42").checked) {
-			// 	q4 = 2;
-			// } else if (document.getElementById("43").checked) {
-			// 	q4 = 3;
-			// } else if (document.getElementById("44").checked) {
-			// 	q4 = 4;
-			// } else if (document.getElementById("45").checked) {
-			// 	q4 = 5;
-			// } else if (document.getElementById("46").checked) {
-			// 	q4 = 6;
-			// } else if (document.getElementById("47").checked) {
-			// 	q4 = 7;
-			// }
-
-			// if (document.getElementById("51").checked) {
-			// 	q5 = 1;
-			// } else if (document.getElementById("52").checked) {
-			// 	q5 = 2;
-			// } else if (document.getElementById("53").checked) {
-			// 	q5 = 3;
-			// } else if (document.getElementById("54").checked) {
-			// 	q5 = 4;
-			// } else if (document.getElementById("55").checked) {
-			// 	q5 = 5;
-			// } else if (document.getElementById("56").checked) {
-			// 	q5 = 6;
-			// } else if (document.getElementById("57").checked) {
-			// 	q5 = 7;
-			// }
-
-			// if (document.getElementById("61").checked) {
-			// 	q6 = 1;
-			// } else if (document.getElementById("62").checked) {
-			// 	q6 = 2;
-			// } else if (document.getElementById("63").checked) {
-			// 	q6 = 3;
-			// } else if (document.getElementById("64").checked) {
-			// 	q6 = 4;
-			// } else if (document.getElementById("65").checked) {
-			// 	q6 = 5;
-			// } else if (document.getElementById("66").checked) {
-			// 	q6 = 6;
-			// } else if (document.getElementById("67").checked) {
-			// 	q6 = 7;
-			// }
-
-			q1 = document.getElementById("q1").value;
-			// q2 = document.getElementById("q2").value;
-			// q3 = document.getElementById("q3").value;
-
-			document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
-
-			if (q1 == "") {
-				document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// if (q1 == "") {
-				// 	document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question1").style = "width: 680px; font-family:verdana";
-				// 	document.getElementById("q1").innerText = q1;
-				// }
-
-				// if (q2 == "") {
-				// 	document.getElementById("question2").style = "width: 535px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question2").style = "width: 535px; font-family:verdana";
-				// 	document.getElementById("q2").innerText = q2;
-				// }
-
-				// if (q3 == "") {
-				// 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
-				// 	document.getElementById("q3").innerText = q3;
-				// }
-
-				// if (q4 == -1) {
-				// 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
-				// 	document.getElementById("4" + q4).checked = true;
-				// }
-
-				// if (q5 == -1) {
-				// 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
-				// 	document.getElementById("5" + q5).checked = true;
-				// }
-
-				// if (q6 == -1) {
-				// 	document.getElementById("question6").style = "width: 865px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				// } else {
-				// 	document.getElementById("question6").style = "width: 865px; font-family:verdana";
-				// 	document.getElementById("6" + q6).checked = true;
-				// }
-
-				document.getElementById("require").style.visibility = "visible";
-
-				document.getElementById("q1").innerText = q1;
-				// document.getElementById("q2").innerText = q2;
-				// document.getElementById("q3").innerText = q3;
-			} else {
-				try {
-					socket.emit('send_survey_data_to_server', {
-					    q1: q1,
-						q2: q2,
-						q3: q3,
-						q4: q4,
-					    q5: q5,
-					    q6: q6
-					});
-				} catch (err) {
-					window.location.href = "server_down.html"; 
-				}
-                window.location.href = "finalPage.html";  
-			}
-		}
-	</script>
-
-<!-- 	<iframe id="frmFile1" src="hs1.txt" onload="LoadFile();" style="display: none;"></iframe>
-	<iframe id="frmFile2" src="hs2.txt" onload="LoadFile();" style="display: none;"></iframe>
-	<iframe id="frmFile3" src="hs3.txt" onload="LoadFile();" style="display: none;"></iframe>
-	<iframe id="frmFile4" src="hs4.txt" onload="LoadFile();" style="display: none;"></iframe>
-	<script type="text/javascript">
-		var score = [];
-		function LoadFile() {
-			var oFrame = document.getElementById("frmFile" + taskID);
-			var strRawContents = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
-			while (strRawContents.indexOf("\r") >= 0)
-				strRawContents = strRawContents.replace("\r", "");
-			var arrLines = strRawContents.split("\n");
-			console.log("File " + oFrame.src + " has " + arrLines.length + " lines");
-			for (var i = 0; i < arrLines.length; i++) {
-				var curLine = arrLines[i];
-				score += curLine;
-				console.log("Line #" + (i + 1) + " is: '" + curLine + "'");
-			}
-		}
-	</script>
-     -->
-</body>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+
+    <script type="text/javascript">
+     function timecounter() {
+       /* var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;*/
+       var countDownDate = new Date().getTime() + 1000 * 3 * 60 * 1000 + 1000;
+       var x = setInterval(function() {
+         // Get todays date and time
+         var now = new Date().getTime();
+
+         // Find the distance between now an the count down date
+         var distance = countDownDate - now;
+
+         // Time calculations for days, hours, minutes and seconds
+         var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
+         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+         // Output the result in an element with id="demo"
+         if (minutes < 0) {
+           clearInterval(x);
+           if (am_i_player1) {
+             endGame();
+           }
+         } else if (isGameEnd != true) {
+           document.getElementById("timer").innerHTML = "Time: " + minutes + " minutes " + seconds + " seconds";
+         }
+
+       }, 1000);
+     }
+    </script>
+
+    <script type="text/javascript">
+     page_width = window.innerWidth;
+     page_height = window.innerHeight;
+     var line_height = Math.floor(page_height * 0.7) + 5;
+     document.getElementById("vertical-line").style.height = line_height + "px";
+     document.getElementById("vertical-line2").style.height = line_height + "px";
+    </script>
+
+    <!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
+
+    <!-- <script src="Recorderjs/recorder.js"></script>
+         <script src="jsHtml5AudioRecorder.js"></script>
+         <script src="js/init.js"></script> -->
+
+    <script type="text/javascript">
+     $("#txt_instruction").keyup(function(event){
+       if(event.keyCode == 13){
+         $("#buttonEnter").click();
+       }
+     });
+    </script>
+
+    <script type="text/javascript">
+     initTaskID();
+     blockColors = initColors(color, NumBlocks);
+     flipColorArray = initColors(color, NumBlocks);
+     blockLetters = initLetters(letters, NumBlocks);
+     flipLetterArray = initLetters(letters, NumBlocks);
+     initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
+     writeBlockStyle(blockColors);
+     initInstructions();
+     setTaskHeader();
+     setIntroduction(1);
+     popUpGameIntro();
+     var color = ['red', 'blue','green','orange','yellow'];
+
+     function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
+       console.log('Calling initBlocks');
+       // Adds 1 to NumBlocks if the task is matching, ensuring an even
+       // number of blocks to be matched.
+       if (taskID == 1) {
+         if (NumBlocks % 2 != 0) {
+           NumBlocks++;
+         }
+       }
+       var container = document.createElement("div");
+       container.id = "container";
+       container.ondblclick = function(e) {
+         gestureCount++;
+         var event = e || window.event;
+
+         setGestureWithPosition(event.clientX, event.clientY, event);
+         send_gesture_to_server();
+       };
+       container.style.fontSize = "4vmin";
+       document.body.appendChild(container);
+       var position_x = [];
+       var position_y = [];
+       var cur = 0;
+       for (var i = 0; i < NumBlocks; i++) {
+         /* var color_x = Math.floor(Math.random() * 5);*/
+         var color_x = bColors[i];
+         var l = Math.floor(Math.random() * bLetters.length);
+
+         var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+         var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+
+         let tLeft = Math.random() * Math.floor(horizontal_percent);
+         let tTop = Math.random() * Math.floor(vertical_percent);
+
+         if (i < bLetters.length) {
+           l = i;
+         }
+
+         $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
+
+         $("#block" + i).append("<span style=\"color: black\">" + bLetters[l] + "<span>");
+
+         standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + bLetters[l] + " flipletters: " + flipLtrs[l]);
+         goal_top.push(tTop);
+         goal_left.push(tLeft);
+
+         $("#block" + i).data("id", i);
+         $("#block" + i).data("horizontal_percent", tLeft);
+         $("#block" + i).data("vertical_percent", tTop);
+
+         $("#block" + i).bind("contextmenu", function(e) {
+           if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
+             var event = e || window.event;
+             flipBlock('block' + $(this).data("id"), event, bLetters, bColors);
+             send_flip_to_server('block' + $(this).data("id"));
+             if (am_i_player1) {
+               players.push("Human");
+             } else {
+               players.push("Robot");
+             }
+
+             var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
+             var flipped_block_letter = blockLetters[$(this).data("id")];
+
+             block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+           }
+         });
+       }
+     }
+
+    </script>
+
+    <div id = "disablingDiv">
+      <div id = "freeze">
+        We are currently waiting for another user to join so that we can connect you. Please be patient.
+      </div>
+    </div>
+
+    <script type="text/javascript" >
+     var socket;
+     console.log('Is this even happening?');
+
+     try {
+       console.log('Connecting to ' + config.appAddr);
+       socket = io.connect(config.appAddr);
+
+       socket.on('connect_failed', function() {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown('connect_failed');
+       });
+
+       socket.on('disconnect', function() {
+         if (!ending_survey) {
+           /* window.location.href = "server_down.html";*/
+           redirects.pageDown('disconnect');
+         }
+       });
+     } catch (err) {
+       /* window.location.href = "server_down.html";*/
+       console.log('Thrown error')
+       redirects.pageDown(err);
+     }
+
+     // alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
+
+     // I think this code needs to be here to make the overall application work.
+     // However, if testing on localhost, comment this section out so it
+     // doesn't redirect you to the server down page.
+     /* if (!socket.connected) {
+      *   setTimeout(function() {
+      *     if (!socket.connected) {
+      *       console.log('Garbage timeout');
+      *       redirects.pageDown('socket could not connect');
+      *     }
+      *   }, 3000);
+      * }
+      */
+
+     var left_array = [];
+     var top_array = [];
+     for (var i = 0; i < NumBlocks; i++) {
+       // var position = $("#block" + i).position();
+       /* var current_color = document.getElementById("block" + i).style.backgroundColor;*/
+       let current_color = blockColors[i];
+       let current_letter = blockLetters[i];
+       left_array.push($("#block" + i).data("horizontal_percent"));
+       top_array.push($("#block" + i).data("vertical_percent"));
+     }
+
+     try {
+       socket.emit('setInitialPosition', {
+         numBlocks: NumBlocks,
+         lefts: left_array,
+         tops: top_array,
+         colors: blockColors,
+         flipColorArray: flipColorArray,
+         letters: blockLetters,
+         flipLetterArray: flipLetterArray,
+         currentTask: taskID,
+         movement_count: actualMove,
+         gesture_count: gestureCount,
+         ins : specificIns
+       });
+     } catch (err) {
+       /* window.location.href = "server_down.html";*/
+       redirects.pageDown(err);
+     }
+
+     // try {
+     // 	socket.emit('am_I_second_to_join');
+     // } catch (err) {
+     // 	window.location.href = "server_down.html";
+     // }
+
+     socket.on('freeze_start', function() {
+       var startButton = document.getElementById('buttonStart');
+       var endButton = document.getElementById('buttonEnd');
+       var enterButton = document.getElementById('buttonEnter');
+
+       document.getElementById("chatBox").innerHTML = "Please wait while another player attempts to connect to your game.";
+
+       startButton.disabled = true;
+       endButton.disabled = true;
+       enterButton.disabled = true;
+
+       document.getElementById('disablingDiv').style.display = 'block';
+       // document.getElementById('freeze').style.visibility = 'visible';
+
+       document.getElementById('txt_instruction').disabled = true;
+
+       document.getElementById('container').ondblclick = function(e) {
+         // Do nothing;
+       };
+
+       for (var i = 0; i < NumBlocks; i++) {
+         flip_on = false;
+
+         $("#block" + i).draggable("disable");
+       }
+     });
+
+     socket.on('unfreeze_start', function() {
+
+       try {
+         socket.emit('disable_blocks_for_player_2');
+       } catch (err) {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown(err);
+       }
+
+       document.getElementById("disablingDiv").style.display = 'none';
+
+       var startButton = document.getElementById('buttonStart');
+       startButton.disabled = false;
+
+       document.getElementById('disablingDiv').style.display = "none";
+
+       alert('Another player has joined the game. You may now press the start button to begin.');
+     });
+
+     socket.on('disable_blocks_for_player_2', function() {
+       for (var i = 0; i < NumBlocks; i++) {
+         flip_on = false;
+         $("#block" + i).draggable("disable");
+       }
+     });
+
+     socket.on('enable_blocks_for_player_2', function(data) {
+       timecounter();
+       for (var i = 0; i < NumBlocks; i++) {
+         document.getElementById('block' + i).style.top = data.p_top[i]+"%";
+         document.getElementById('block' + i).style.left = data.p_left[i]+"%";
+         document.getElementById('block' + i).style.visibility = "visible";
+         flip_on = true;
+
+         $("#block" + i).draggable("enable");
+       }
+     });
+
+     var z = 1;
+     socket.on('update_position', function (data) {
+
+       var left = data.left;
+       var top = data.top;
+       var block = data.block_id;
+       $("#" + block).css({
+         left: left + "%",
+         top: top + "%"
+       });
+       $("#" + block).css('z-index', ++z);
+       $("#" + block).data("horizontal_percent", left);
+       $("#" + block).data("vertical_percent", top);
+     });
+
+     socket.on('update_flip_block', function (block_id) {
+       flipBlock(block_id, null, blockLetters, blockColors);
+     });
+
+     socket.on('setInitialPosition', function(data) {
+       console.log('Setting initial position');
+       document.getElementById('user1').innerText = "Player 1";
+       document.getElementById('user2').innerText = "Player 2 (You)";
+       document.getElementById('user3').innerText = "Player 1";
+       document.getElementById('user4').innerText = "Player 2 (You)";
+       am_i_player1 = false;
+
+       var container = document.getElementById("container");
+       human_voice = false;
+
+       blockColors = data.colors;
+       blockLetters = data.letters;
+       flipColorArray = data.flipColorArray;
+       flipLetterArray = data.flipLetterArray;
+
+       console.log('New block colors:', blockColors)
+       console.log('New block letters:', blockLetters);
+       NumBlocks = data.numBlocks;
+       taskID = data.currentTask;
+       actualMove = data.movement_count;
+       gestureCount = data.gesture_count;
+       specificIns = " Wait for instructions.";
+
+       if (taskID == 1) {
+         document.getElementById('user1').style.visibility = "hidden";
+         document.getElementById('user2').style.visibility = "hidden";
+
+         document.getElementById('vertical-line').style.visibility = "visible";
+         document.getElementById('vertical-line2').style.visibility = "visible";
+         document.getElementById('user3').style.visibility = "visible";
+         document.getElementById('user4').style.visibility = "visible";
+       }
+       if (taskID == 2 || taskID == 0) {
+         document.getElementById('vertical-line').style.visibility = "hidden";
+         document.getElementById('vertical-line2').style.visibility = "hidden";
+         document.getElementById('user3').style.visibility = "hidden";
+         document.getElementById('user4').style.visibility = "hidden";
+
+         document.getElementById('user1').style.visibility = "hidden";
+         document.getElementById('user2').style.visibility = "hidden";
+       }
+       if (taskID == 3) {
+         document.getElementById('user1').style.visibility = "hidden";
+         document.getElementById('user2').style.visibility = "hidden";
+
+         document.getElementById('vertical-line').style.visibility = "hidden";
+         document.getElementById('vertical-line2').style.visibility = "hidden";
+         document.getElementById('user3').style.visibility = "hidden";
+         document.getElementById('user4').style.visibility = "hidden";
+       }
+
+       setTaskHeader();
+       setIntroduction();
+
+       while(container.firstChild) {
+         container.removeChild(container.firstChild);
+       }
+       for (var i = 0; i < NumBlocks; i++) {
+         $("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + blockColors[i] + "\"></div>").appendTo(container);
+
+         $("#block" + i).append("<span style=\"color: black\">" + blockLetters[i] + "<span>");
+
+         $("#block" + i).data("id", i);
+         $("#block" + i).data("horizontal_percent", data.lefts[i]);
+         $("#block" + i).data("vertical_percent", data.tops[i]);
+
+         document.getElementById('block' + i).style.visibility = "hidden";
+
+         $("#block" + i).bind("contextmenu", function(e) {
+           if (taskID != 1) {
+             var event = e || window.event;
+             flipBlock('block' + $(this).data("id"), event, blockLetters, blockColors);
+             send_flip_to_server('block' + $(this).data("id"));
+             if (am_i_player1) {
+               players.push("Human");
+             } else {
+               players.push("Robot");
+             }
+
+             var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
+             var flipped_block_letter = blockLetters[$(this).data("id")];
+
+             block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+           }
+         });
+       }
+
+
+
+       $( init );
+       for (var i = 0; i < NumBlocks; i++) {
+         $("#block" + i).draggable("enable");
+         document.getElementById("block" + i).style.visibility = "hidden";
+       }
+       document.getElementById("instruction").style.visibility = "hidden";
+       document.getElementById("buttonStart").style.visibility = "hidden";
+       document.getElementById("buttonEnd").style.visibility = "hidden";
+       document.getElementById("referenceLink").style.visibility = "hidden";
+       document.getElementById("showChosen").style.visibility = "hidden";
+       document.getElementById("container").ondblclick = function(e) {
+         e.preventDefault();
+       };
+       setIntroduction(2);
+     });
+     function send_flip_to_server(block_id) {
+       console.log('Sending flip to server');
+       try {
+         socket.emit('receive_flip_block', block_id);
+       } catch (err) {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown(err);
+       }
+
+     }
+     $(document).ready(function() {
+       $(".draggable").draggable();
+
+       $('.draggable').each(function(el){
+         // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
+         // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
+         $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
+       });
+     });
+     var z = 1;
+     $( init );
+     function init() {
+       for (var i = 0; i < NumBlocks; i++) {
+         $('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+           $(this).css('z-index', ++z);
+           // var Startpos = $(this).position();
+           previous_left[i] = $(this).data("horizontal_percent");
+           previous_top[i] = $(this).data("vertical_percent");
+           movementstarttime = new Date().getTime();
+           movementdate = getDateTime();
+         }, stop: function(event, ui) {
+           // var Stoppos = $(this).position();
+
+           $("#" + $(this).attr('id')).css({
+             left: $(this).data("horizontal_percent") + "%",
+             top: $(this).data("vertical_percent") + "%"
+           });
+
+           if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
+             start.push(movementdate);
+             end.push(getDateTime());
+             interval.push(new Date().getTime() - movementstarttime);
+             type.push("Movement");
+             actualMove++;
+             movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
+             movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
+             if (am_i_player1) {
+               players.push("Human");
+             } else {
+               players.push("Robot");
+             }
+             var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
+             var moved_block_letter = blockLetters[$(this).data("id")];
+
+             block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+             end_left[$(this).data("id")] = $(this).data("horizontal_percent")
+             end_top[$(this).data("id")] = $(this).data("vertical_percent");
+
+             setMovement();
+             send_movement_to_server();
+
+             socket.emit('Update_score', {
+               id : $(this).data("id"),
+               tLeft: $(this).data("horizontal_percent"),
+               tTop: $(this).data("vertical_percent")
+             });
+
+             // document.getElementById("scoreBox").innerText = scoreCal();
+           }
+         }, drag: function(event, ui) {
+           // var coord = $(this).position();
+           var block_id = $(this).attr('id');
+
+           var rect = document.getElementById('container').getBoundingClientRect();
+
+           var horiz = $(this).position().left / (rect.right - rect.left - 16) * 100;
+
+           var vert = $(this).position().top / (rect.bottom - rect.top - 16) * 100;
+
+           $(this).data("horizontal_percent", horiz);
+           $(this).data("vertical_percent", vert);
+
+           $("#" + block_id).css({
+             left: horiz + "%",
+             top: vert + "%"
+           });
+
+
+           // When blocks get moved, the position changes from 'percentage' to 'px'.
+
+           try {
+             socket.emit('receive_position', {
+               block_id: block_id,
+               left: horiz,
+               top: vert
+             });
+           } catch (err) {
+             /* window.location.href = "server_down.html";*/
+             redirects.pageDown(err);
+           }
+
+         }
+         });
+       }
+     }
+
+
+     // Needs to be fixed to account for new percentage based way of calculating position.
+
+     socket.on('Update_score', function(data) {
+       var top = [], left = [];
+       end_left[data.id] = data.tLeft;
+       end_top[data.id] = data.tTop;
+
+       document.getElementById('scoreBox').innerText = Math.round(scoreCal());
+       console.log(scoreCal());
+     });
+
+     function send_movement_to_server() {
+       try {
+         socket.emit('receive_movement_data', actualMove);
+       } catch (err) {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown(err);
+       }
+
+     }
+     socket.on('update_movement_data', function(data) {
+       actualMove = data;
+       setMovement();
+     });
+     function send_user_message_to_server() {
+       if (start_button_pressed) {
+         try {
+           socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+         } catch (err) {
+           /* window.location.href = "server_down.html";*/
+           redirects.pageDown(err);
+         }
+
+       }
+     }
+
+     socket.on('update_user_message', function(message) {
+       document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
+     });
+
+     socket.on('end_game_for_user', function(data) {
+
+       var action = [];
+
+       for (var i = 0; i < data.Action.length; i++) {
+         action.push(data.Action[i]);
+       }
+
+       isGameEnd = true;
+
+       var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
+       for (var i = 0; i < type.length;i++) {
+         if (type[i] == "Movement") {
+           action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+           x++; counter++; user++; block_count++;
+         } else if (type[i] == "Instructions") {
+           action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+           y++; counter++;
+         } else {
+           if (type[i] == "Flip") {
+             action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+             block_count++;
+           } else {
+             action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+           }
+           z++; user++;
+         }
+       }
+
+       var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
+       for (var i = 0; i < action.length; i++) {
+         var start_pos = action[i].indexOf('/') - 2;
+         var end_pos = start_pos + 10;
+         dateDay.push(parseInt(action[i].substring(0, 2)));
+         dateMonth.push(parseInt(action[i].substring(3, 5)));
+         dateYear.push(parseInt(action[i].substring(6, 10)));
+         start_pos = action[i].indexOf('/', end_pos) - 2;
+         end_pos = start_pos + 8;
+         dayTime.push(action[i].substring(start_pos, end_pos));
+       }
+
+       for (var i = 0; i < action.length; i++) {
+         for (var j = i + 1; j < action.length; j++) {
+           if (dateYear[i] > dateYear[j]) {
+             var st = action[i]; action[i] = action[j]; action[j] = st;
+             st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+             st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+             st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+             st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+           } else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
+             var st = action[i]; action[i] = action[j]; action[j] = st;
+             st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+             st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+             st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+             st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+           } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
+             var st = action[i]; action[i] = action[j]; action[j] = st;
+             st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+             st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+             st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+             st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+           } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
+             var st = action[i]; action[i] = action[j]; action[j] = st;
+             st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
+             st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
+             st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
+             st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
+           }
+         }
+       }
+
+       socket.emit('send_data_to_server', {
+         time: data.time,
+         task: data.task,
+         W: data.W,
+         G: data.G,
+         b: data.b,
+         bm: data.bm,
+         br: data.br,
+         pn: data.pn,
+         pp: data.pp,
+         te: data.te,
+         ie: data.ie,
+         p: data.p,
+         finalScore: Math.round(data.finalScore),
+         Action: action,
+         initialInfo: data.initialInfo,
+         standard_info: data.standard_info,
+         other: data.other
+       });
+
+       alert("You have final score: " + Math.round(data.finalScore));
+
+       ending_survey = true;
+
+       document.body.innerHTML = '';
+       document.documentElement.innerHTML = "";
+
+       document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
+
+       // document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
+       // document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
+       document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
+       document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
+     });
+
+     function submitRobot() {
+       var q3 = "", q4 = -1, q5 = -1;
+       // if (document.getElementById("41").checked) {
+       // 	q4 = 1;
+       // } else if (document.getElementById("42").checked) {
+       // 	q4 = 2;
+       // } else if (document.getElementById("43").checked) {
+       // 	q4 = 3;
+       // } else if (document.getElementById("44").checked) {
+       // 	q4 = 4;
+       // } else if (document.getElementById("45").checked) {
+       // 	q4 = 5;
+       // } else if (document.getElementById("46").checked) {
+       // 	q4 = 6;
+       // } else if (document.getElementById("47").checked) {
+       // 	q4 = 7;
+       // }
+       // if (document.getElementById("51").checked) {
+       // 	q5 = 1;
+       // } else if (document.getElementById("52").checked) {
+       // 	q5 = 2;
+       // } else if (document.getElementById("53").checked) {
+       // 	q5 = 3;
+       // } else if (document.getElementById("54").checked) {
+       // 	q5 = 4;
+       // } else if (document.getElementById("55").checked) {
+       // 	q5 = 5;
+       // } else if (document.getElementById("56").checked) {
+       // 	q5 = 6;
+       // } else if (document.getElementById("57").checked) {
+       // 	q5 = 7;
+       // }
+       q3 = document.getElementById("q3").value;
+       document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
+       if (q3 == "") {
+         document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // if (q3 == "") {
+         // 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
+         // 	document.getElementById("q3").innerText = q3;
+         // }
+         // if (q4 == -1) {
+         // 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
+         // 	document.getElementById("4" + q4).checked = true;
+         // }
+         // if (q5 == -1) {
+         // 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
+         // 	document.getElementById("5" + q5).checked = true;
+         // }
+         // document.getElementById("require").style.visibility = "visible";
+         // document.getElementById("q3").innerText = q3;
+       } else {
+         try {
+           socket.emit('send_survey_data_to_server', {
+             q1: q4,
+             q2: q5,
+             q3: q3
+           });
+         } catch (err) {
+           /* window.location.href = "server_down.html";*/
+           redirects.pageDown(err);
+         }
+         window.location.href = "finalPage.html";
+       }
+     }
+
+
+
+     function send_gesture_to_server() {
+       console.log('Sending gesture to server');
+       var rect = document.getElementById('container').getBoundingClientRect();
+       var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
+       var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
+
+       try {
+         socket.emit('receive_gesture_data', {
+           gestureCount: gestureCount,
+           left: horiz,
+           top: vert
+         });
+       } catch (err) {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown(err);
+       }
+
+     }
+     socket.on('update_gesture_data', function(data) {
+       gestureCount = data.gestureCount;
+       setGestureWithPosition(data.left, data.top, null);
+     });
+     socket.on('user_left_game', function() {
+       window.location.href = "finalPage.html";
+     });
+     // Opens the popup window for communication between clients.
+     // window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
+    </script>
+
+    <script type="text/javascript">
+     for (var i = 0; i < NumBlocks; i++) {
+       $("#block" + i).draggable({
+       });
+     }
+    </script>
+
+    <script type="text/javascript">
+     for (var i = 0; i < NumBlocks; i++) {
+       var blockid = document.getElementById('block'+i);
+       if(blockid) {
+         if(NumBlocks >= Object.keys(startPosMap).length){
+           var pos = blockid.style;
+           startPosMap['block'+i] = pos;
+         }
+       }
+     }
+    </script>
+
+    <script type="text/javascript">
+     document.getElementById("buttonEnd").disabled = true;
+     document.getElementById("buttonEnter").disabled = true;
+    </script>
+
+    <script type="text/javascript">
+
+     function startGame() {
+       start_button_pressed = true;
+       timecounter();
+       if (taskID == 3) {
+         localStorage.setItem("container", document.getElementById("container").innerHTML);
+         document.getElementById("showChosen").style.visibility = "visible";
+         showChosenStuff();
+         setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray);
+       }
+       if (taskID == 2) {
+         // searchingwords = localStorage.getItem("Searching words");
+         document.getElementById("showChosen").style.visibility = "visible";
+         showChosenStuff();
+       }
+       startTime = new Date().getTime();
+       // startPeer(1);
+       // startRecording();
+       // recognize();
+       document.getElementById("buttonEnd").disabled = false;
+       document.getElementById("buttonEnter").disabled = false;
+       document.getElementById('txt_instruction').disabled = false;
+
+       document.getElementById('container').ondblclick = function(e) {
+         gestureCount++;
+         var event = e || window.event;
+
+         setGestureWithPosition(event.clientX, event.clientY, event);
+         send_gesture_to_server();
+       };
+
+       try {
+         socket.emit("enable_blocks_for_player_2", {
+           p_top: p_top,
+           p_left: p_left
+         });
+       } catch (err) {
+         /* window.location.href = "server_down.html";*/
+         redirects.pageDown(err);
+       }
+
+       for (var i = 0; i < NumBlocks; i++) {
+         flip_on = true;
+         if (taskID == 2) {
+           $("#block" + i).draggable("enable");
+         }
+
+         /* var flip_or_not = Math.random();*/
+         /* */
+         /* if (flip_or_not < 0.5) {*/
+         /* flipBlock('block' + i, null, blockLetters, blockColors);*/
+         /* send_flip_to_server('block' + i);*/
+         /* }*/
+       }
+
+       actualMove = 0;
+       setMovement();
+
+       document.getElementById('buttonStart').disabled = true;
+       socket.emit("receive_user_message", "(The game has started!)");
+     }
+     function endGame() {
+       if (start_button_pressed) {
+         endTime = new Date().getTime();
+         // stopRecording();
+         time = endTime - startTime;
+         time = time / 1000; // Convert to seconds.
+         isGameEnd = true;
+
+         var minutes = Math.floor(time / 60);
+         var seconds = time - (minutes * 60);
+
+         for (var i = 0; i < NumBlocks; i++) {
+           var blockid = document.getElementById('block'+i);
+           if(blockid) {
+             end_top.push($("#block" + i).data("vertical_percent"));
+             end_left.push($("#block" + i).data("horizontal_percent"));
+             if(NumBlocks >= Object.keys(endPosMap).length){
+               var pos = blockid.style;
+               endPosMap['block'+i] = pos;
+             }
+           }
+         }
+
+         var action = [];
+
+         var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
+         for (var i = 0; i < type.length;i++) {
+           if (type[i] == "Movement") {
+             action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+             x++; counter++; user++; block_count++;
+           } else if (type[i] == "Instructions") {
+             action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+             y++; counter++;
+           } else {
+             if (type[i] == "Flip") {
+               action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+               block_count++;
+             } else {
+               action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
+             }
+             z++; user++;
+           }
+         }
+         // stopRecog();
+
+         calculateBackEndData();
+
+         var words = "";
+         if (taskID == 2) {
+           words = "Searching Words: User1: " + initialWords1[chosenWords] + " User2: " + initialWords2[chosenWords];
+         }
+
+         if (taskID == 3) {
+           words = "Construction: Rainbow" + rainbow_select + ".png";
+         }
+
+         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
+
+         try {
+           socket.emit('end_button_pressed', {
+             time: time,
+             task: task[taskID] + " " + specificIns,
+             W: NumWords,
+             G: gestureCount,
+             b: actualMove,
+             bm: bm,
+             br: br,
+             pn: pn,
+             pp: pp,
+             te: te,
+             ie: ie,
+             p: p,
+             Action: action,
+             initialInfo: initialInfo,
+             standard_info: standard_info,
+             other: words,
+             minutes: minutes,
+             finalScore: scoreCal(),
+             seconds: seconds
+           });
+         } catch (err) {
+           /* window.location.href = "server_down.html";*/
+           redirects.pageDown(err);
+         }
+
+         ending_survey = true;
+
+
+
+         document.body.innerHTML = '';
+         document.documentElement.innerHTML = "";
+         document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any.</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>";
+
+         // document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">4. How difficult was it to complete the task?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (very easy)\"> (very easy) 1	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very dificult)\"> 7 (very dificult)";
+
+         // document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">5. How helpful did you find your partner? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (not helpful at all)\"> (not helpful at all) 1	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (very helpful)\"> 7 (very helpful)";
+
+         // document.body.innerHTML += "<p id = \"question6\" style=\"font-family:verdana\">6. How much more difficult would this task have been if you had to do it on your own, without a partner?</p>	<input type=\"radio\" name=\"3\" id = \"61\" value=\"1 (much easier)\"> (much easier) 1	<input type=\"radio\" name=\"3\" id = \"62\" value=\"222\"> 2	<input type=\"radio\" name=\"3\" id = \"63\" value=\"333\"> 3	<input type=\"radio\" name=\"3\" id = \"64\" value=\"444\"> 4	<input type=\"radio\" name=\"3\" id = \"65\" value=\"555\"> 5	<input type=\"radio\" name=\"3\" id = \"66\" value=\"666\"> 6	<input type=\"radio\" name=\"3\" id = \"67\" value=\"7 (much more difficult)\"> 7 (much more difficult)	<br><br>";
+
+         document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
+       }
+     }
+    </script>
+
+    <script type="text/javascript">
+     function submit() {
+       var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
+       // if (document.getElementById("41").checked) {
+       // 	q4 = 1;
+       // } else if (document.getElementById("42").checked) {
+       // 	q4 = 2;
+       // } else if (document.getElementById("43").checked) {
+       // 	q4 = 3;
+       // } else if (document.getElementById("44").checked) {
+       // 	q4 = 4;
+       // } else if (document.getElementById("45").checked) {
+       // 	q4 = 5;
+       // } else if (document.getElementById("46").checked) {
+       // 	q4 = 6;
+       // } else if (document.getElementById("47").checked) {
+       // 	q4 = 7;
+       // }
+
+       // if (document.getElementById("51").checked) {
+       // 	q5 = 1;
+       // } else if (document.getElementById("52").checked) {
+       // 	q5 = 2;
+       // } else if (document.getElementById("53").checked) {
+       // 	q5 = 3;
+       // } else if (document.getElementById("54").checked) {
+       // 	q5 = 4;
+       // } else if (document.getElementById("55").checked) {
+       // 	q5 = 5;
+       // } else if (document.getElementById("56").checked) {
+       // 	q5 = 6;
+       // } else if (document.getElementById("57").checked) {
+       // 	q5 = 7;
+       // }
+
+       // if (document.getElementById("61").checked) {
+       // 	q6 = 1;
+       // } else if (document.getElementById("62").checked) {
+       // 	q6 = 2;
+       // } else if (document.getElementById("63").checked) {
+       // 	q6 = 3;
+       // } else if (document.getElementById("64").checked) {
+       // 	q6 = 4;
+       // } else if (document.getElementById("65").checked) {
+       // 	q6 = 5;
+       // } else if (document.getElementById("66").checked) {
+       // 	q6 = 6;
+       // } else if (document.getElementById("67").checked) {
+       // 	q6 = 7;
+       // }
+
+       q1 = document.getElementById("q1").value;
+       // q2 = document.getElementById("q2").value;
+       // q3 = document.getElementById("q3").value;
+
+       document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
+
+       if (q1 == "") {
+         document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // if (q1 == "") {
+         // 	document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question1").style = "width: 680px; font-family:verdana";
+         // 	document.getElementById("q1").innerText = q1;
+         // }
+
+         // if (q2 == "") {
+         // 	document.getElementById("question2").style = "width: 535px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question2").style = "width: 535px; font-family:verdana";
+         // 	document.getElementById("q2").innerText = q2;
+         // }
+
+         // if (q3 == "") {
+         // 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
+         // 	document.getElementById("q3").innerText = q3;
+         // }
+
+         // if (q4 == -1) {
+         // 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
+         // 	document.getElementById("4" + q4).checked = true;
+         // }
+
+         // if (q5 == -1) {
+         // 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
+         // 	document.getElementById("5" + q5).checked = true;
+         // }
+
+         // if (q6 == -1) {
+         // 	document.getElementById("question6").style = "width: 865px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+         // } else {
+         // 	document.getElementById("question6").style = "width: 865px; font-family:verdana";
+         // 	document.getElementById("6" + q6).checked = true;
+         // }
+
+         document.getElementById("require").style.visibility = "visible";
+
+         document.getElementById("q1").innerText = q1;
+         // document.getElementById("q2").innerText = q2;
+         // document.getElementById("q3").innerText = q3;
+       } else {
+         try {
+           socket.emit('send_survey_data_to_server', {
+             q1: q1,
+             q2: q2,
+             q3: q3,
+             q4: q4,
+             q5: q5,
+             q6: q6
+           });
+         } catch (err) {
+           /* window.location.href = "server_down.html";*/
+           redirects.pageDown(err);
+         }
+         window.location.href = "finalPage.html";
+       }
+     }
+    </script>
+
+    <!-- 	<iframe id="frmFile1" src="hs1.txt" onload="LoadFile();" style="display: none;"></iframe>
+         <iframe id="frmFile2" src="hs2.txt" onload="LoadFile();" style="display: none;"></iframe>
+         <iframe id="frmFile3" src="hs3.txt" onload="LoadFile();" style="display: none;"></iframe>
+         <iframe id="frmFile4" src="hs4.txt" onload="LoadFile();" style="display: none;"></iframe>
+         <script type="text/javascript">
+         var score = [];
+         function LoadFile() {
+         var oFrame = document.getElementById("frmFile" + taskID);
+         var strRawContents = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+         while (strRawContents.indexOf("\r") >= 0)
+         strRawContents = strRawContents.replace("\r", "");
+         var arrLines = strRawContents.split("\n");
+         console.log("File " + oFrame.src + " has " + arrLines.length + " lines");
+         for (var i = 0; i < arrLines.length; i++) {
+         var curLine = arrLines[i];
+         score += curLine;
+         console.log("Line #" + (i + 1) + " is: '" + curLine + "'");
+         }
+         }
+         </script>
+       -->
+  </body>
 </html>
