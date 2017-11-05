@@ -249,7 +249,6 @@
      setTaskHeader();
      setIntroduction(1);
      popUpGameIntro();
-     var color = ['red', 'blue','green','orange','yellow'];
 
      function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
        console.log('Calling initBlocks');
@@ -275,12 +274,16 @@
        var position_y = [];
        var cur = 0;
        for (var i = 0; i < NumBlocks; i++) {
-         /* var color_x = Math.floor(Math.random() * 5);*/
          var color_x = bColors[i];
          var l = Math.floor(Math.random() * bLetters.length);
 
-         var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-         var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+         let horizNum = document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4;
+         let horizDenom = document.getElementById('container').getBoundingClientRect().right * 100;
+         var horizontal_percent = horizNum / horizDenom;
+
+         let vertNum = document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4;
+         let vertDenom = document.getElementById('container').getBoundingClientRect().bottom * 100;
+         var vertical_percent = vertNum / vertDenom;
 
          let tLeft = Math.random() * Math.floor(horizontal_percent);
          let tTop = Math.random() * Math.floor(vertical_percent);
@@ -979,7 +982,6 @@
        start_button_pressed = true;
        timecounter();
        if (taskID == 3) {
-         localStorage.setItem("container", document.getElementById("container").innerHTML);
          document.getElementById("showChosen").style.visibility = "visible";
          showChosenStuff();
          setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray);

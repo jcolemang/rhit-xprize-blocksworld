@@ -85,10 +85,17 @@ function calculateEmax() {
         Emax = width + height;
     };
 }
-function writeBlockStyle(blockColors) {
+
+function getBlockStyle(blockColors) {
+    let doc = '';
     for (var i = 0; i < NumBlocks ;i++) {
-        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+blockColors[i] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        doc += "<style> #block" + i + " {width: 3.8%; height: 7.35%; background-color:"+blockColors[i] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>";
     }
+    return doc;
+}
+
+function writeBlockStyle(blockColors) {
+    document.write(getBlockStyle(blockColors));
 }
 
 function setIntroduction(num) {
@@ -329,8 +336,18 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=400, height=175'); return false;\">Show the Construction</a>";
+
+        document.getElementById("showChosen").innerHTML = "<button class=\"buttonLike\" onclick=\"showConstruction(blockColors)\">Show the Construction</button>";
+
     }
+}
+
+function showConstruction(bColors) {
+    let toSet = document.getElementById("container").innerHTML + getBlockStyle(blockColors);
+    console.log(toSet);
+    localStorage.setItem("container", toSet);
+    window.open('initial_board.html', 'newwindow', 'width=400, height=175');
+    return false;
 }
 
 function getDateTime() {
