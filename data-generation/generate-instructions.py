@@ -24,13 +24,13 @@ class Block:
 
     def __eq__(self, other):
         return self.side1_letter == other.side1_letter and \
-            self.side2_letter == other.side2_letter and    \
-            self.side1_color == other.side1_color and      \
-            self.side2_color == other.side2_color or      \
-                                                         \
-            self.side1_letter == other.side2_letter and    \
-            self.side2_letter == other.side1_letter and    \
-            self.side1_color == other.side2_color and      \
+            self.side2_letter == other.side2_letter    and \
+            self.side1_color == other.side1_color      and \
+            self.side2_color == other.side2_color      or  \
+                                                           \
+            self.side1_letter == other.side2_letter    and \
+            self.side2_letter == other.side1_letter    and \
+            self.side1_color == other.side2_color      and \
             self.side2_color == other.side1_color
 
     def __ne__(self, other):
@@ -158,8 +158,8 @@ def random_block(letters, colors):
 
 def randomize_block(block):
     def maybe_flip(b):
-        if random() < 0.5:
-            return b.flip()
+        # if random() < 0.0:
+        #     return b.flip()
         return b
     def maybe_shift(b):
         if random() < 0.95:
