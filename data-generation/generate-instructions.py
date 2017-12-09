@@ -1,13 +1,10 @@
-
-
 from random import randint, random
 
 
 """
-
 Classes
-
 """
+
 
 class NoActionException(Exception):
     pass
@@ -27,9 +24,14 @@ class Block:
 
     def __eq__(self, other):
         return self.side1_letter == other.side1_letter and \
-            self.side2_letter == other.side2_letter and \
-            self.side1_color == other.side1_color and \
-            self.side2_color == other.side2_color
+            self.side2_letter == other.side2_letter and    \
+            self.side1_color == other.side1_color and      \
+            self.side2_color == other.side2_color or      \
+                                                         \
+            self.side1_letter == other.side2_letter and    \
+            self.side2_letter == other.side1_letter and    \
+            self.side1_color == other.side2_color and      \
+            self.side2_color == other.side1_color
 
     def __ne__(self, other):
         return not self == other
@@ -86,12 +88,8 @@ class Configuration:
 
         block_to_move = rand_element(self.current_blocks)
         moved_block = goal.final_blocks[goal.final_blocks.index(block_to_move)]
-        # moved_block = rand_element(goal.final_blocks)
         new_current_blocks = self.current_blocks[:]
         new_current_blocks.remove(moved_block)
-        # new_current_blocks = [
-        #     b for b in self.current_blocks if b != moved_block
-        # ]
         new_configuration = Configuration(
             new_current_blocks,
             self.final_blocks + [moved_block]
@@ -128,9 +126,7 @@ class Action:
 
 
 """
-
-Random actions
-
+Randomness
 """
 
 def rand_element(ls):
@@ -146,21 +142,24 @@ def random_position():
 
 
 def random_block(letters, colors):
-    l = len(letters) - 1
-    c = len(colors) - 1
-    side1_letter = letters[randint(0, l)]
-    side2_letter = letters[randint(0, l)]
-    side1_color  = colors[randint(0, c)]
-    side2_color  = colors[randint(0, c)]
+    side1_letter = rand_element(letters)
+    side2_letter = rand_element(letters)
+    side1_color  = rand_element(colors)
+    side2_color  = rand_element(colors)
     position = random_position()
-    return Block(side1_letter, side1_color, side2_letter, side2_color, position)
+    return Block(
+        side1_letter,
+        side1_color,
+        side2_letter,
+        side2_color,
+        position
+    )
 
 
 def randomize_block(block):
     def maybe_flip(b):
         if random() < 0.5:
-            # return b.flip()
-            pass
+            return b.flip()
         return b
     def maybe_shift(b):
         if random() < 0.95:
@@ -175,9 +174,7 @@ def random_configuration(num_blocks, letters, colors):
 
 
 """
-
-Not random actions
-
+Entry Points
 """
 
 def solve_board(current_config, goal_config):
@@ -187,12 +184,6 @@ def solve_board(current_config, goal_config):
         return [action] + rest
     except NoActionException as e:
         return []
-
-"""
-
-Entry point
-
-"""
 
 def main():
     colors = ['RED', 'GREEN', 'BLUE']
