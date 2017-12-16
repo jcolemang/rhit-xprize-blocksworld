@@ -24,31 +24,35 @@ class Block:
 
     def __eq__(self, other):
         return self.side1_letter == other.side1_letter and \
-            self.side2_letter == other.side2_letter    and \
-            self.side1_color == other.side1_color      and \
-            self.side2_color == other.side2_color      or  \
+            self.side2_letter    == other.side2_letter and \
+            self.side1_color     == other.side1_color  and \
+            self.side2_color     == other.side2_color  or  \
                                                            \
-            self.side1_letter == other.side2_letter    and \
-            self.side2_letter == other.side1_letter    and \
-            self.side1_color == other.side2_color      and \
-            self.side2_color == other.side1_color
+            self.side1_letter    == other.side2_letter and \
+            self.side2_letter    == other.side1_letter and \
+            self.side1_color     == other.side2_color  and \
+            self.side2_color     == other.side1_color
 
     def __ne__(self, other):
         return not self == other
 
     def shift_to(self, position):
-        return Block(self.side1_letter,
-                     self.side1_color,
-                     self.side2_letter,
-                     self.side2_color,
-                     position)
+        return Block(
+            self.side1_letter,
+            self.side1_color,
+            self.side2_letter,
+            self.side2_color,
+            position
+        )
 
     def flip(self):
-        return Block(self.side2_letter,
-                     self.side2_color,
-                     self.side1_letter,
-                     self.side1_color,
-                     self.position)
+        return Block(
+            self.side2_letter,
+            self.side2_color,
+            self.side1_letter,
+            self.side1_color,
+            self.position
+        )
 
     def __str__(self):
         return '{side1: (%s, %s), side2: (%s, %s), pos: %s}' % \
@@ -76,18 +80,18 @@ class Configuration:
 
     def get_instruction(self, moved_block):
         point = moved_block.position
-        phrase = 'move the %s %s block here: %s' \
+        phrase = 'move the %s %s block here' \
                  % (moved_block.side1_color,
-                    moved_block.side1_letter,
-                    point)
+                    moved_block.side1_letter)
         return Instruction(phrase, point)
 
-    def get_action(self, goal):
+    def generate_action(self, goal_config):
         if self.is_complete():
             raise NoActionException('Board is already complete')
 
         block_to_move = rand_element(self.current_blocks)
-        moved_block = goal.final_blocks[goal.final_blocks.index(block_to_move)]
+        moved_block_index = goal_config.final_blocks.index(block_to_move)
+        moved_block = goal_config.final_blocks[moved_block_index]
         new_current_blocks = self.current_blocks[:]
         new_current_blocks.remove(moved_block)
         new_configuration = Configuration(
@@ -106,13 +110,7 @@ class Configuration:
         return str(list(map(str, self.current_blocks + self.final_blocks)))
 
     def mark_complete(self):
-        return FinalConfiguration(self.current_blocks + self.final_blocks)
-
-
-class FinalConfiguration(Configuration):
-    def __init__(self, blocks):
-        self.current_blocks = []
-        self.final_blocks = blocks
+        return Configuration([], self.current_blocks + self.final_blocks)
 
 
 class Action:
@@ -179,7 +177,7 @@ Entry Points
 
 def solve_board(current_config, goal_config):
     try:
-        action = current_config.get_action(goal_config)
+        action = current_config.generate_action(goal_config)
         rest = solve_board(action.end_conf, goal_config)
         return [action] + rest
     except NoActionException as e:
