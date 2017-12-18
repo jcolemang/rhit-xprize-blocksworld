@@ -11,27 +11,28 @@ class NoActionException(Exception):
 
 
 class Block:
+    last_id = 0
+
+    @staticmethod
+    def get_next_block_id():
+        Block.last_id += 1
+        return Block.last_id
+
     def __init__(self, side1_letter,
                  side1_color,
                  side2_letter,
                  side2_color,
-                 pos):
+                 pos,
+                 block_id=-1):
         self.side1_letter = side1_letter
         self.side1_color = side1_color
         self.side2_letter = side2_letter
         self.side2_color = side2_color
         self.position = pos
+        self.block_id = block_id if block_id > 0 else Block.get_next_block_id()
 
     def __eq__(self, other):
-        return self.side1_letter == other.side1_letter and \
-            self.side2_letter    == other.side2_letter and \
-            self.side1_color     == other.side1_color  and \
-            self.side2_color     == other.side2_color  or  \
-                                                           \
-            self.side1_letter    == other.side2_letter and \
-            self.side2_letter    == other.side1_letter and \
-            self.side1_color     == other.side2_color  and \
-            self.side2_color     == other.side1_color
+        return self.block_id == other.block_id
 
     def __ne__(self, other):
         return not self == other
@@ -42,7 +43,8 @@ class Block:
             self.side1_color,
             self.side2_letter,
             self.side2_color,
-            position
+            position,
+            self.block_id
         )
 
     def flip(self):
@@ -51,7 +53,8 @@ class Block:
             self.side2_color,
             self.side1_letter,
             self.side1_color,
-            self.position
+            self.position,
+            self.block_id
         )
 
     def __str__(self):
