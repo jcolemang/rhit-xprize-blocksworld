@@ -82,3 +82,71 @@ def test_get_instruction_point():
     instruction = gi.Configuration.get_instruction(moved_block)
 
     assert instruction.point == (1, 2)
+
+class TestGenerateAction:
+    def setup_method(self):
+        self.moved_block = gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 2), 1)
+        self.destination_block = gi.Block('A', 'BLUE', 'B', 'GREEN', (2, 2), 1)
+
+        self.goal_block = gi.Block('B', 'YELLOW', 'G', 'RED', (3, 3), 2)
+        self.goal_config = gi.Configuration([], [self.destination_block, self.goal_block])
+
+        self.instruction = gi.Instruction('Phrase', (2, 2))
+
+        def mock_rand_element(blocks):
+            return self.moved_block
+
+        gi.rand_element = mock_rand_element
+
+        def mock_get_instruction(block):
+            return self.instruction
+
+        gi.Configuration.get_instruction = mock_get_instruction
+
+    def test_generate_action_complete_board(self):
+        finished_configuration = gi.Configuration([])
+        try:
+            finished_configuration.generate_action(0)
+            assert False
+        except gi.NoActionException:
+            assert True
+
+    def test_generate_action_completing_board(self):
+        base_config = gi.Configuration([self.moved_block], [self.goal_block])
+        action = base_config.generate_action(self.goal_config)
+
+        assert action.start_conf == base_config
+        assert action.phrase == self.instruction
+
+        self.assert_action_current_blocks(action)
+        self.assert_action_final_blocks(action)
+
+    def test_generate_action_not_completing_board(self):
+        unmoved_block = gi.Block('B', 'YELLOW', 'G', 'RED', (3, 3), 2)
+        base_config = gi.Configuration([self.moved_block, unmoved_block], [])
+
+        action = base_config.generate_action(self.goal_config)
+
+        assert action.start_conf == base_config
+        assert action.phrase == self.instruction
+
+        self.assert_action_current_blocks(action)
+        self.assert_action_final_blocks(action)
+
+    def assert_action_current_blocks(self, action):
+        assert len(action.end_conf.current_blocks) \
+            == len(action.start_conf.current_blocks) - 1
+
+        for end_current_block in action.end_conf.current_blocks:
+            assert end_current_block in action.start_conf.current_blocks
+
+        assert self.moved_block not in action.end_conf.current_blocks
+
+    def assert_action_final_blocks(self, action):
+        assert len(action.end_conf.final_blocks) \
+            == len(action.start_conf.final_blocks) + 1
+
+        for start_goal_block in action.start_conf.final_blocks:
+            assert start_goal_block in action.end_conf.final_blocks
+
+        assert self.destination_block in action.end_conf.final_blocks
