@@ -81,7 +81,8 @@ class Configuration:
     def is_complete(self):
         return self.current_blocks == []
 
-    def get_instruction(self, moved_block):
+    @staticmethod
+    def get_instruction(moved_block):
         point = moved_block.position
         phrase = 'move the %s %s block here' \
                  % (moved_block.side1_color,
@@ -101,7 +102,7 @@ class Configuration:
             new_current_blocks,
             self.final_blocks + [moved_block]
         )
-        instruction = self.get_instruction(moved_block)
+        instruction = Configuration.get_instruction(moved_block)
         return Action(self, new_configuration, instruction)
 
     def scatter(self):
