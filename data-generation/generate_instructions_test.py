@@ -192,3 +192,28 @@ class TestScatter:
 
         assert scattered_config.final_blocks == []
         assert scattered_config.current_blocks == self.scattered_blocks
+
+def test_random_block():
+    indexer = {}
+    indexer['rand_index'] = 0
+    def mock_rand_element(ls):
+        to_return = ls[indexer['rand_index']]
+        indexer['rand_index'] += 1
+        return to_return
+    gi.rand_element = mock_rand_element
+
+    def mock_random_position():
+        return random_position
+    gi.random_position = mock_random_position
+
+    random_position = (23, 54)
+
+    letters = ['A', 'B', 'C', 'D']
+    colors = ['BLUE', 'GREEN', 'RED', 'YELLOW']
+    block = gi.random_block(letters, colors)
+
+    assert block.side1_letter in letters
+    assert block.side2_letter in letters
+    assert block.side1_color in colors
+    assert block.side2_color in colors
+    assert block.position == random_position
