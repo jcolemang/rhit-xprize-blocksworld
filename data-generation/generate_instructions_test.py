@@ -69,3 +69,16 @@ def test_is_complete_nonempty_current_empty_final():
 
 def test_is_complete_nonempty_current_nonempty_final():
     assert not gi.Configuration([1], [2]).is_complete()
+
+def test_get_instruction_phrase():
+    moved_block = gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 2))
+    instruction = gi.Configuration.get_instruction(moved_block)
+
+    assert 'A' in instruction.phrase
+    assert 'BLUE' in instruction.phrase
+
+def test_get_instruction_point():
+    moved_block = gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 2))
+    instruction = gi.Configuration.get_instruction(moved_block)
+
+    assert instruction.point == (1, 2)
