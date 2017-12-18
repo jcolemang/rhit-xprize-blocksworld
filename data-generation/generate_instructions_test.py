@@ -150,3 +150,45 @@ class TestGenerateAction:
             assert start_goal_block in action.end_conf.final_blocks
 
         assert self.destination_block in action.end_conf.final_blocks
+
+class TestScatter:
+    def setup_method(self):
+        self.unscattered_blocks = [gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 1), 1),
+                                   gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 1), 2),
+                                   gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 1), 3),
+                                   gi.Block('A', 'BLUE', 'B', 'GREEN', (1, 1), 4)]
+
+        self.scattered_blocks = [gi.Block('A', 'BLUE', 'B', 'GREEN', (0, 0), 1),
+                                 gi.Block('A', 'BLUE', 'B', 'GREEN', (0, 0), 2),
+                                 gi.Block('A', 'BLUE', 'B', 'GREEN', (0, 0), 3),
+                                 gi.Block('A', 'BLUE', 'B', 'GREEN', (0, 0), 4)]
+        self.randomizer_index = 0
+
+        def mock_randomize_block(block):
+            to_return = self.scattered_blocks[self.randomizer_index]
+            self.randomizer_index += 1
+            return to_return
+
+        gi.randomize_block = mock_randomize_block
+
+    def test_scatter_empty(self):
+        config = gi.Configuration([])
+        scattered_config = config.scatter()
+
+        assert scattered_config.current_blocks == []
+        assert scattered_config.final_blocks == []
+
+    def test_scatter_only_current(self):
+        base_config = gi.Configuration(self.unscattered_blocks[:])
+        scattered_config = base_config.scatter()
+
+        assert scattered_config.final_blocks == []
+        assert scattered_config.current_blocks == self.scattered_blocks
+
+    def test_scatter_current_and_final(self):
+        base_config = gi.Configuration(self.unscattered_blocks[0:2],
+                                       self.unscattered_blocks[2:4])
+        scattered_config = base_config.scatter()
+
+        assert scattered_config.final_blocks == []
+        assert scattered_config.current_blocks == self.scattered_blocks
