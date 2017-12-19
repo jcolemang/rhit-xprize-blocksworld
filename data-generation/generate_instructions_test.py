@@ -236,16 +236,40 @@ def test_random_block():
     assert block.position == random_position
 
 class TestSolveBoard:
+    # TODO: Add test for flips once implemented
     def setup_method(self):
         initial_config = gi.Configuration([
             gi.Block('A', 'BLUE', 'B', 'YELLOW', (0, 1), 1),
             gi.Block('C', 'GREEN', 'D', 'RED', (1, 2), 2),
             gi.Block('E', 'ORANGE', 'F', 'PURPLE', (2, 3), 3)])
-        goal_config = gi.Configuration([
+        self.goal_config = gi.Configuration([], [
             gi.Block('A', 'BLUE', 'B', 'YELLOW', (0, 2), 1),
             gi.Block('C', 'GREEN', 'D', 'RED', (1, 3), 2),
             gi.Block('E', 'ORANGE', 'F', 'PURPLE', (2, 4), 3)])
-        self.actions = gi.solve_board(initial_config, goal_config)
+        self.actions = gi.solve_board(initial_config, self.goal_config)
 
-    def test_solve_board(self):
+    def test_solve_board_length(self):
         assert len(self.actions) == 3
+
+    def test_solve_board_consecutive_configurations(self):
+        for index, action in enumerate(self.actions[0:-2]):
+            next_action = self.actions[index + 1]
+
+            assert action.end_conf == next_action.start_conf
+
+    def test_solve_board_single_changes(self):
+        for action in self.actions:
+            assert len(action.end_conf.final_blocks) \
+                == len(action.start_conf.final_blocks) + 1
+            assert len(action.start_conf.current_blocks) \
+                == len(action.end_conf.current_blocks) + 1
+
+    def test_solve_board_final_action_yields_goal(self):
+        final_config = self.actions[-1].end_conf
+
+        assert final_config.current_blocks == []
+
+        for block in final_config.final_blocks:
+            assert block in self.goal_config.final_blocks
+        for block in self.goal_config.final_blocks:
+            assert block in final_config.final_blocks
