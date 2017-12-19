@@ -96,12 +96,18 @@ class TestGenerateAction:
         def mock_rand_element(blocks):
             return self.moved_block
 
+        self.orig_rand_element = gi.rand_element
         gi.rand_element = mock_rand_element
 
         def mock_get_instruction(block):
             return self.instruction
 
+        self.orig_get_instruction = gi.Configuration.get_instruction
         gi.Configuration.get_instruction = mock_get_instruction
+
+    def teardown_method(self):
+        gi.rand_element = self.orig_rand_element
+        gi.Configuration.get_instruction = self.orig_get_instruction
 
     def test_generate_action_complete_board(self):
         finished_configuration = gi.Configuration([])
@@ -169,7 +175,11 @@ class TestScatter:
             self.randomizer_index += 1
             return to_return
 
+        self.orig_randomize_block = gi.randomize_block
         gi.randomize_block = mock_randomize_block
+
+    def teardown_method(self):
+        gi.randomize_block = self.orig_randomize_block
 
     def test_scatter_empty(self):
         config = gi.Configuration([])
@@ -200,10 +210,14 @@ def test_random_block():
         to_return = ls[indexer['rand_index']]
         indexer['rand_index'] += 1
         return to_return
+
+    orig_rand_element = gi.rand_element
     gi.rand_element = mock_rand_element
 
     def mock_random_position():
         return random_position
+
+    orig_random_position = gi.random_position
     gi.random_position = mock_random_position
 
     random_position = (23, 54)
@@ -212,8 +226,26 @@ def test_random_block():
     colors = ['BLUE', 'GREEN', 'RED', 'YELLOW']
     block = gi.random_block(letters, colors)
 
+    gi.rand_element = orig_rand_element
+    gi.random_position = orig_random_position
+
     assert block.side1_letter in letters
     assert block.side2_letter in letters
     assert block.side1_color in colors
     assert block.side2_color in colors
     assert block.position == random_position
+
+class TestSolveBoard:
+    def setup_method(self):
+        initial_config = gi.Configuration([
+            gi.Block('A', 'BLUE', 'B', 'YELLOW', (0, 1), 1),
+            gi.Block('C', 'GREEN', 'D', 'RED', (1, 2), 2),
+            gi.Block('E', 'ORANGE', 'F', 'PURPLE', (2, 3), 3)])
+        goal_config = gi.Configuration([
+            gi.Block('A', 'BLUE', 'B', 'YELLOW', (0, 2), 1),
+            gi.Block('C', 'GREEN', 'D', 'RED', (1, 3), 2),
+            gi.Block('E', 'ORANGE', 'F', 'PURPLE', (2, 4), 3)])
+        self.actions = gi.solve_board(initial_config, goal_config)
+
+    def test_solve_board(self):
+        assert len(self.actions) == 3

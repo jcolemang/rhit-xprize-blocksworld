@@ -58,10 +58,10 @@ class Block:
         )
 
     def __str__(self):
-        return '{side1: (%s, %s), side2: (%s, %s), pos: %s}' % \
+        return '{side1: (%s, %s), side2: (%s, %s), pos: %s, id: %s}' % \
             (self.side1_letter, self.side1_color,
              self.side2_letter, self.side2_color,
-             self.position)
+             self.position, self.block_id)
 
 
 class Instruction:
