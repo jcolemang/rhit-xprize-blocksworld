@@ -206,19 +206,6 @@ class TestScatter:
 def test_random_block():
     indexer = {}
     indexer['rand_index'] = 0
-    def mock_rand_element(ls):
-        to_return = ls[indexer['rand_index']]
-        indexer['rand_index'] += 1
-        return to_return
-
-    orig_rand_element = gi.rand_element
-    gi.rand_element = mock_rand_element
-
-    def mock_random_position():
-        return random_position
-
-    orig_random_position = gi.random_position
-    gi.random_position = mock_random_position
 
     random_position = (23, 54)
 
@@ -226,14 +213,12 @@ def test_random_block():
     colors = ['BLUE', 'GREEN', 'RED', 'YELLOW']
     block = gi.random_block(letters, colors)
 
-    gi.rand_element = orig_rand_element
-    gi.random_position = orig_random_position
-
     assert block.side1_letter in letters
     assert block.side2_letter in letters
     assert block.side1_color in colors
     assert block.side2_color in colors
-    assert block.position == random_position
+    assert block.position[0] > 0
+    assert block.position[1] > 0
 
 class TestSolveBoard:
     # TODO: Add test for flips once implemented
