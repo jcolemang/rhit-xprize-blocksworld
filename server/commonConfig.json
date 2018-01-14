@@ -1,0 +1,6 @@
+{
+    "serverPort": 8080,
+    "serverAddr": "0.0.0.0",
+    "verifyPort": 8081,
+    "verifyAddr": "0.0.0.0"
+}
