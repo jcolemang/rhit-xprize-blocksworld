@@ -1,4 +1,5 @@
 import json
+import sys
 
 def generateConfig(isLocal):
     config = addCommonConfig({})
@@ -22,5 +23,9 @@ def addSpecificConfig(config, isLocal):
 
 def fillServerOptions(config):
     for var, fileName in config['serverOptions'].items():
-        with open(fileName) as fileData:
-            config['serverOptions'][var] = fileData
+        try:
+            with open(fileName) as fileData:
+                config['serverOptions'][var] = fileData
+        except IOError:
+            print("Failed to open file " + fileName + ". Aborting launch.")
+            sys.exit()
