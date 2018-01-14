@@ -3,9 +3,9 @@ import sys
 import config as cfg
 
 def main():
-    config = cfg.generateConfig(getIsLocal())
+    config = cfg.generate_config(get_is_local())
 
-def getIsLocal():
+def get_is_local():
     args = sys.argv[1:]
     return len(args) == 0 or args[0] == 'local'
 

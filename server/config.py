@@ -1,18 +1,18 @@
 import json
 import sys
 
-def generateConfig(isLocal):
-    config = addCommonConfig({})
-    config = addSpecificConfig(config, isLocal)
-    fillServerOptions(config)
+def generate_config(isLocal):
+    config = add_common_config({})
+    config = add_specific_config(config, isLocal)
+    fill_server_options(config)
 
     return config
 
-def addCommonConfig(config):
+def add_common_config(config):
     with open('commonConfig.json') as commonConfig:
         return dict(config, **json.load(commonConfig))
 
-def addSpecificConfig(config, isLocal):
+def add_specific_config(config, isLocal):
     if isLocal:
         specificConfigFile = 'localConfig.json'
     else:
@@ -21,7 +21,7 @@ def addSpecificConfig(config, isLocal):
     with open(specificConfigFile) as specificConfig:
         return dict(config, **json.load(specificConfig))
 
-def fillServerOptions(config):
+def fill_server_options(config):
     for var, fileName in config['serverOptions'].items():
         try:
             with open(fileName) as fileData:
