@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 
 let generateConfig = function(local) {
@@ -11,7 +10,7 @@ let generateConfig = function(local) {
     config.verifyAddr = '0.0.0.0';
 
     if (local) {
-        config.pgConString = "pg://postgres:player@127.0.0.1:5432/AIxprize";
+        config.pgConString = "pg://postgres:player@127.0.0.1:5432/aixprize";
         config.addr = "http://127.0.0.1:8080";
         config.serverOptions = {};
     }
