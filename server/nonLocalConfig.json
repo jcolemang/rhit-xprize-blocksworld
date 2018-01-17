@@ -1,0 +1,8 @@
+{
+    "pgConString": "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize",
+    "addr": "https://blockworld.rose-hulman.edu:8080",
+    "serverOptions": {
+        "key": "/etc/ssl/private/ibm-mvpsim.key",
+        "cert": "/etc/ssl/ibm-mvpsimulator_rose-hulman_edu_cert.cer"
+    }
+}
