@@ -4,8 +4,10 @@ import tornado.web
 import eventlet
 
 import config as cfg
+from rooms import RoomsTracker
 
 sio = socketio.Server()
+rooms_tracker = RoomsTracker(sio)
 
 def main():
     config = cfg.generate_config(get_is_local())
@@ -16,7 +18,7 @@ def main():
 @sio.on('connect')
 def connection_handler(sid, msg):
     print("Connected to client")
-    sio.enter_room(sid, 'Room0')
+    rooms_tracker.add_to_room(sid)
     sio.emit('freeze_start')
 
 def get_is_local():
