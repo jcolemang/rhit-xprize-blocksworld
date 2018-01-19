@@ -27,6 +27,20 @@ class TestRoomsTracker:
 
         assert self.sio_app.enter_room_calls == {"Room0": 2}
 
+    def test_get_existing_room(self):
+        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_room(5)
+        self.rooms_tracker.add_to_room(12)
+
+        assert self.rooms_tracker.get_room(123) == "Room0"
+        assert self.rooms_tracker.get_room(5) == "Room0"
+        assert self.rooms_tracker.get_room(12) == "Room1"
+
+    def test_get_nonexisting_room(self):
+        self.rooms_tracker.add_to_room(123)
+
+        assert self.rooms_tracker.get_room(5) == None
+
     def test_stress_additions(self):
         class RoomAdder(threading.Thread):
             def __init__(self, count, seed, room_tracker):

@@ -10,6 +10,9 @@ class RoomsTracker:
         self.lock = threading.Lock()
 
     def get_room(self, sid):
+        if sid not in self.room_map:
+            return None
+
         return self.room_map[sid]
 
     def add_to_room(self, sid):
