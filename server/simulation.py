@@ -20,7 +20,7 @@ def get_is_local():
 
 def setup_echos():
     echo_event('enable_blocks_for_player_2')
-    echo_event('disable_blocks_for_player_2')
+    echo_event('disable_blocks_for_player_2', True)
     echo_event('Update_score')
 
 def start_app(config):
@@ -34,9 +34,12 @@ def connection_handler(sid, _):
     rooms_tracker.add_to_room(sid)
     sio.emit('freeze_start')
 
-def echo_event(event):
-    def echo_handler(sid, _):
-        sio.emit(event, room=rooms_tracker.get_room(sid))
+def echo_event(event, ignore_data=False):
+    def echo_handler(sid, data):
+        if ignore_data:
+            data = None
+
+        sio.emit(event, data, rooms_tracker.get_room(sid))
 
     sio.on(event, echo_handler)
 
