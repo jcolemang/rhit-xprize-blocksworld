@@ -12,6 +12,7 @@ rooms_tracker = RoomsTracker(sio)
 def main():
     config = cfg.generate_config(get_is_local())
     setup_echos()
+    setup_updates()
     start_app(config)
 
 def get_is_local():
@@ -22,6 +23,13 @@ def setup_echos():
     echo_event('enable_blocks_for_player_2')
     echo_event('disable_blocks_for_player_2', True)
     echo_event('Update_score')
+
+def setup_updates():
+    update_on_receive('position')
+    update_on_receive('flip_block')
+    update_on_receive('movement_data')
+    update_on_receive('gesture_data')
+    update_on_receive('user_message')
 
 def start_app(config):
     app = tornado.web.Application()
@@ -42,6 +50,12 @@ def echo_event(event, ignore_data=False):
         sio.emit(event, data, rooms_tracker.get_room(sid))
 
     sio.on(event, echo_handler)
+
+def update_on_receive(event):
+    def update_handler(sid, data):
+        sio.emit("update_" + event, data, rooms_tracker.get_room(sid))
+
+    sio.on("receive_" + event, update_handler)
 
 if __name__ == '__main__':
     main()
