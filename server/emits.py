@@ -14,15 +14,15 @@ def setup_initial_position(sio, rooms_tracker):
                 _starting_game_data[room] = data
             else:
                 sio.emit('setInitialPosition', _starting_game_data[room],
-                         room, skip_sid=roommate)
-                sio.emit('unfreeze_start', room=room)
+                         sid, skip_sid=roommate)
+                sio.emit('unfreeze_start', room=room, skip_sid=sid)
 
     sio.on('setInitialPosition', initial_position_handler)
 
 def setup_echos(sio, rooms_tracker):
     def echo_event(event):
         def echo_handler(sid, data=None):
-            sio.emit(event, data, rooms_tracker.get_room(sid))
+            sio.emit(event, data, rooms_tracker.get_room(sid), skip_sid=sid)
 
         sio.on(event, echo_handler)
 
@@ -33,7 +33,7 @@ def setup_echos(sio, rooms_tracker):
 def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
         def update_handler(sid, data=None):
-            sio.emit("update_" + event, data, rooms_tracker.get_room(sid))
+            sio.emit("update_" + event, data, rooms_tracker.get_room(sid), skip_sid=sid)
 
         sio.on("receive_" + event, update_handler)
 

@@ -57,6 +57,7 @@ function startGame() {
     document.getElementById('buttonStart').disabled = true;
     socket.emit("receive_user_message", "(The game has started!)");
 }
+
 function endGame() {
     if (start_button_pressed) {
         endTime = new Date().getTime();
