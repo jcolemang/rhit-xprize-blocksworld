@@ -1,3 +1,21 @@
+import threading
+
+_starting_game_data = dict()
+
+def setup_initial_position(sio, rooms_tracker):
+    lock = threading.Lock()
+
+    def initial_position_handler(sid, data):
+        room = rooms_tracker.get_room(sid)
+        with lock:
+            if room not in _starting_game_data:
+                _starting_game_data[room] = data
+            else:
+                sio.emit('setInitialPosition', _starting_game_data[room], room)
+                sio.emit('unfreeze_start', room)
+
+    sio.on('setInitialPosition', initial_position_handler)
+
 def setup_echos(sio, rooms_tracker):
     def echo_event(event, ignore_data=False):
         def echo_handler(sid, data):
@@ -31,21 +49,22 @@ def setup_reconnected(sio):
 
     sio.on('human_reconnected')
 
-def setup_ending(sio, room_tracker):
-    in_surveys = set()
+def setup_ending(sio, rooms_tracker):
+    _in_surveys = set()
 
     def setup_end_button():
         def end_button_handler(sid, _):
-            in_surveys.add(room_tracker.get_room(sid))
+            _in_surveys.add(rooms_tracker.get_room(sid))
 
         sio.on('end_button_pressed', end_button_handler)
 
     def setup_disconnect():
         def disconnect_handler(sid, _):
-            room = room_tracker.get_room(sid)
-            if room not in in_surveys:
+            room = rooms_tracker.get_room(sid)
+            _starting_game_data.pop(room)
+            if room not in _in_surveys:
                 sio.emit('user_left_game', room)
-                in_surveys.remove(room)
+                _in_surveys.remove(room)
 
         sio.on('disconnect', disconnect_handler)
 

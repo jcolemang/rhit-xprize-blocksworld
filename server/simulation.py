@@ -20,6 +20,7 @@ def get_is_local():
     return len(args) == 0 or args[0] == 'local'
 
 def setup_emits():
+    emits.setup_initial_position(sio, rooms_tracker)
     emits.setup_echos(sio, rooms_tracker)
     emits.setup_updates(sio, rooms_tracker)
     emits.setup_reconnected(sio)
