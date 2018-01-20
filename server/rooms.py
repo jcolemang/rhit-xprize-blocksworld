@@ -7,6 +7,7 @@ class RoomsTracker:
         self.recent_room = None
         self.next_room = 0
         self.room_map = {}
+        self.roommate_map = {}
         self.lock = threading.Lock()
 
     def get_room(self, sid):
@@ -14,6 +15,22 @@ class RoomsTracker:
             return None
 
         return self.room_map[sid]
+
+    def get_roommate(self, sid):
+        room_name = self.get_room(sid)
+        if room_name == None or room_name not in self.roommate_map:
+            return None
+
+        roommate_list = list(self.roommate_map[room_name])
+        if sid in roommate_list:
+            roommate_list.remove(sid)
+
+        if len(roommate_list) is 0:
+            return None
+        if len(roommate_list) > 1:
+            raise "Found > 1 roommates for room " + room_name + ": " + self.roommate_map[room_name]
+
+        return roommate_list[0]
 
     def add_to_room(self, sid):
         with self.lock:
@@ -36,6 +53,9 @@ class RoomsTracker:
     def _enter_room(self, sid, room_name):
         self.sio_app.enter_room(sid, room_name)
         self.room_map[sid] = room_name
+
+        roommates = self.roommate_map.setdefault(room_name, [])
+        roommates += [sid]
 
     @staticmethod
     def _make_room_name(room_num):

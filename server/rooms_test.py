@@ -41,6 +41,30 @@ class TestRoomsTracker:
 
         assert self.rooms_tracker.get_room(5) == None
 
+    def test_get_undefined_roommate(self):
+        assert self.rooms_tracker.get_roommate(123) == None
+
+    def test_get_empty_roommate(self):
+        self.rooms_tracker.add_to_room(123)
+
+        assert self.rooms_tracker.get_roommate(123) == None
+
+    def test_get_one_roommate(self):
+        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_room(5)
+
+        assert self.rooms_tracker.get_roommate(123) == 5
+        assert self.rooms_tracker.get_roommate(5) == 123
+
+    def test_get_multiple_roommates(self):
+        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_room(5)
+        self.rooms_tracker.add_to_room(12)
+
+        assert self.rooms_tracker.get_roommate(123) == 5
+        assert self.rooms_tracker.get_roommate(5) == 123
+        assert self.rooms_tracker.get_roommate(12) == None
+
     def test_stress_additions(self):
         class RoomAdder(threading.Thread):
             def __init__(self, count, seed, room_tracker):
