@@ -17,17 +17,14 @@ def setup_initial_position(sio, rooms_tracker):
     sio.on('setInitialPosition', initial_position_handler)
 
 def setup_echos(sio, rooms_tracker):
-    def echo_event(event, ignore_data=False):
-        def echo_handler(sid, data):
-            if ignore_data:
-                data = None
-
+    def echo_event(event):
+        def echo_handler(sid, data=None):
             sio.emit(event, data, rooms_tracker.get_room(sid))
 
         sio.on(event, echo_handler)
 
     echo_event('enable_blocks_for_player_2')
-    echo_event('disable_blocks_for_player_2', True)
+    echo_event('disable_blocks_for_player_2')
     echo_event('Update_score')
 
 def setup_updates(sio, rooms_tracker):
@@ -53,13 +50,13 @@ def setup_ending(sio, rooms_tracker):
     _in_surveys = set()
 
     def setup_end_button():
-        def end_button_handler(sid, _):
+        def end_button_handler(sid):
             _in_surveys.add(rooms_tracker.get_room(sid))
 
         sio.on('end_button_pressed', end_button_handler)
 
     def setup_disconnect():
-        def disconnect_handler(sid, _):
+        def disconnect_handler(sid):
             room = rooms_tracker.get_room(sid)
             _starting_game_data.pop(room)
             if room not in _in_surveys:
