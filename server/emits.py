@@ -1,6 +1,7 @@
 import threading
 
 _starting_game_data = dict()
+_voice_connection_data = dict()
 
 def setup_initial_position(sio, rooms_tracker):
     lock = threading.Lock()
@@ -11,8 +12,8 @@ def setup_initial_position(sio, rooms_tracker):
             if room not in _starting_game_data:
                 _starting_game_data[room] = data
             else:
-                sio.emit('setInitialPosition', _starting_game_data[room], room)
-                sio.emit('unfreeze_start', room)
+                sio.emit('setInitialPosition', _starting_game_data[room], skip_sid=sid)
+                sio.emit('unfreeze_start', room=room)
 
     sio.on('setInitialPosition', initial_position_handler)
 
@@ -40,30 +41,46 @@ def setup_updates(sio, rooms_tracker):
     update_on_receive('gesture_data')
     update_on_receive('user_message')
 
-def setup_reconnected(sio):
-    def human_reconnected_handler(sid, data):
-        sio.emit('alert_human_reconnected', {})
+def setup_audio(sio, rooms_tracker):
+    def connection_handler(sid, data):
+        room = rooms_tracker.get_room(sid)
+        if room in _voice_connection_data:
+            sio.emit('audio_connection', _voice_connection_data[room])
+        else:
+            _voice_connection_data[room] = data
 
-    sio.on('human_reconnected')
+    def reset_handler(sid):
+        room = rooms_tracker.get_room(sid)
+        _voice_connection_data.pop(room)
+        sio.emit('alert_human_disconnect', room=room)
+
+    sio.on('audio_connection', connection_handler)
+    sio.on('reset_audio_id', reset_handler)
+
+def setup_reconnected(sio, rooms_tracker):
+    def human_reconnected_handler(sid):
+        room = rooms_tracker.get_room(sid)
+        sio.emit('alert_human_reconnected', _voice_connection_data[room])
+
+    sio.on('human_reconnected', human_reconnected_handler)
 
 def setup_ending(sio, rooms_tracker):
     _in_surveys = set()
 
-    def setup_end_button():
-        def end_button_handler(sid):
-            _in_surveys.add(rooms_tracker.get_room(sid))
+    def end_button_handler(sid, data):
+        room = rooms_tracker.get_room(sid)
+        _in_surveys.add(room)
+        sio.emit('end_game_for_user', data, room)
 
-        sio.on('end_button_pressed', end_button_handler)
+    def disconnect_handler(sid):
+        room = rooms_tracker.get_room(sid)
+        _starting_game_data.pop(room)
+        if room not in _in_surveys:
+            sio.emit('user_left_game', room=room)
+            _in_surveys.remove(room)
 
-    def setup_disconnect():
-        def disconnect_handler(sid):
-            room = rooms_tracker.get_room(sid)
-            _starting_game_data.pop(room)
-            if room not in _in_surveys:
-                sio.emit('user_left_game', room)
-                _in_surveys.remove(room)
+        _starting_game_data.pop(room)
+        _voice_connection_data.pop(room)
 
-        sio.on('disconnect', disconnect_handler)
-
-    setup_end_button()
-    setup_disconnect()
+    sio.on('end_button_pressed', end_button_handler)
+    sio.on('disconnect', disconnect_handler)
