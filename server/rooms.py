@@ -33,11 +33,15 @@ class RoomsTracker:
         return roommate_list[0]
 
     def add_to_room(self, sid):
+        created_room = None
         with self.lock:
             if self.recent_room == None:
                 self._add_to_new_room(sid)
+                created_room = True
             else:
                 self._add_to_recent_room(sid)
+                created_room = False
+        return created_room
 
     def _add_to_new_room(self, sid):
         room_name = self._make_room_name(self.next_room)

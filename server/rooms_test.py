@@ -27,6 +27,18 @@ class TestRoomsTracker:
 
         assert self.sio_app.enter_room_calls == {"Room0": 2}
 
+    def test_first_add_returns_true(self):
+        assert self.rooms_tracker.add_to_room(123)
+
+    def test_second_add_returns_false(self):
+        self.rooms_tracker.add_to_room(123)
+        assert not self.rooms_tracker.add_to_room(5)
+
+    def test_third_add_returns_true(self):
+        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_room(5)
+        assert self.rooms_tracker.add_to_room(12)
+
     def test_get_existing_room(self):
         self.rooms_tracker.add_to_room(123)
         self.rooms_tracker.add_to_room(5)
