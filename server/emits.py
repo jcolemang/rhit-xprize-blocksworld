@@ -8,11 +8,13 @@ def setup_initial_position(sio, rooms_tracker):
 
     def initial_position_handler(sid, data):
         room = rooms_tracker.get_room(sid)
+        roommate = rooms_tracker.get_roommate(sid)
         with lock:
             if room not in _starting_game_data:
                 _starting_game_data[room] = data
             else:
-                sio.emit('setInitialPosition', _starting_game_data[room], skip_sid=sid)
+                sio.emit('setInitialPosition', _starting_game_data[room],
+                         room, skip_sid=roommate)
                 sio.emit('unfreeze_start', room=room)
 
     sio.on('setInitialPosition', initial_position_handler)
@@ -30,7 +32,7 @@ def setup_echos(sio, rooms_tracker):
 
 def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
-        def update_handler(sid, data):
+        def update_handler(sid, data=None):
             sio.emit("update_" + event, data, rooms_tracker.get_room(sid))
 
         sio.on("receive_" + event, update_handler)
@@ -44,15 +46,19 @@ def setup_updates(sio, rooms_tracker):
 def setup_audio(sio, rooms_tracker):
     def connection_handler(sid, data):
         room = rooms_tracker.get_room(sid)
+        roommate = rooms_tracker.get_roommate(sid)
         if room in _voice_connection_data:
             sio.emit('audio_connection', _voice_connection_data[room],
-                     room, skip_sid=sid)
+                     room, skip_sid=roommate)
         else:
             _voice_connection_data[room] = data
 
     def reset_handler(sid):
         room = rooms_tracker.get_room(sid)
-        _voice_connection_data.pop(room)
+
+        if room in _voice_connection_data:
+            _voice_connection_data.pop(room)
+
         sio.emit('alert_human_disconnect', room=room)
 
     sio.on('audio_connection', connection_handler)
@@ -77,6 +83,7 @@ def setup_ending(sio, rooms_tracker):
         room = rooms_tracker.get_room(sid)
         if room in _starting_game_data:
             _starting_game_data.pop(room)
+
         if room not in _in_surveys:
             sio.emit('user_left_game', room=room)
         else:
