@@ -75,13 +75,17 @@ def setup_ending(sio, rooms_tracker):
 
     def disconnect_handler(sid):
         room = rooms_tracker.get_room(sid)
-        _starting_game_data.pop(room)
+        if room in _starting_game_data:
+            _starting_game_data.pop(room)
         if room not in _in_surveys:
             sio.emit('user_left_game', room=room)
+        else:
             _in_surveys.remove(room)
 
-        _starting_game_data.pop(room)
-        _voice_connection_data.pop(room)
+        if room in _starting_game_data:
+            _starting_game_data.pop(room)
+        if room in _voice_connection_data:
+            _voice_connection_data.pop(room)
 
     sio.on('end_button_pressed', end_button_handler)
     sio.on('disconnect', disconnect_handler)
