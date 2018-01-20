@@ -6,6 +6,7 @@ import eventlet
 import config as cfg
 from rooms import RoomsTracker
 from echo_emitter import EchoEmitter
+from ending_emitter import setup_ending_emits
 
 sio = socketio.Server()
 rooms_tracker = RoomsTracker(sio)
@@ -14,6 +15,7 @@ def main():
     config = cfg.generate_config(get_is_local())
     echo_emitter = EchoEmitter(sio, rooms_tracker)
     setup_emits(echo_emitter)
+    setup_ending_emits(sio, rooms_tracker)
     start_app(config)
 
 def get_is_local():
