@@ -36,7 +36,7 @@ def start_app(config):
 def connection_handler(sid, _):
     print("Connected to client")
     rooms_tracker.add_to_room(sid)
-    sio.emit('freeze_start')
+    sio.emit('freeze_start', skip_sid=rooms_tracker.get_roommate(sid))
 
 if __name__ == '__main__':
     main()

@@ -45,7 +45,8 @@ def setup_audio(sio, rooms_tracker):
     def connection_handler(sid, data):
         room = rooms_tracker.get_room(sid)
         if room in _voice_connection_data:
-            sio.emit('audio_connection', _voice_connection_data[room])
+            sio.emit('audio_connection', _voice_connection_data[room],
+                     room, skip_sid=sid)
         else:
             _voice_connection_data[room] = data
 
@@ -60,7 +61,7 @@ def setup_audio(sio, rooms_tracker):
 def setup_reconnected(sio, rooms_tracker):
     def human_reconnected_handler(sid):
         room = rooms_tracker.get_room(sid)
-        sio.emit('alert_human_reconnected', _voice_connection_data[room])
+        sio.emit('alert_human_reconnected', _voice_connection_data[room], room)
 
     sio.on('human_reconnected', human_reconnected_handler)
 
