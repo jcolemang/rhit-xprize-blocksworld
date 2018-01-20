@@ -5,8 +5,7 @@ import eventlet
 
 import config as cfg
 from rooms import RoomsTracker
-import echo_emitter as emit
-from ending_emitter import setup_ending_emits
+import emits
 
 sio = socketio.Server()
 rooms_tracker = RoomsTracker(sio)
@@ -21,10 +20,10 @@ def get_is_local():
     return len(args) == 0 or args[0] == 'local'
 
 def setup_emits():
-    emit.setup_echo_emits(sio, rooms_tracker)
-    emit.setup_update_emits(sio, rooms_tracker)
-    emit.setup_reconnected(sio)
-    setup_ending_emits(sio, rooms_tracker)
+    emits.setup_echos(sio, rooms_tracker)
+    emits.setup_updates(sio, rooms_tracker)
+    emits.setup_reconnected(sio)
+    emits.setup_ending(sio, rooms_tracker)
 
 def start_app(config):
     app = tornado.web.Application()
