@@ -56,26 +56,6 @@ def setup_updates(sio, rooms_tracker):
 
     sio.on('receive_user_message', user_message_handler)
 
-def setup_audio(sio, rooms_tracker):
-    def connection_handler(sid, data):
-        room = rooms_tracker.get_room(sid)
-        if room in _voice_connection_data:
-            self_emit(sio, sid, 'audio_connection', rooms_tracker,
-                      _voice_connection_data[room])
-        else:
-            _voice_connection_data[room] = data
-
-    def reset_handler(sid):
-        room = rooms_tracker.get_room(sid)
-
-        if room in _voice_connection_data:
-            _voice_connection_data.pop(room)
-
-        roommate_emit(sio, sid, 'alert_human_disconnect', rooms_tracker)
-
-    sio.on('audio_connection', connection_handler)
-    sio.on('reset_audio_id', reset_handler)
-
 def setup_reconnected(sio, rooms_tracker):
     def human_reconnected_handler(sid):
         room = rooms_tracker.get_room(sid)
