@@ -3,26 +3,35 @@ import threading
 _starting_game_data = dict()
 _voice_connection_data = dict()
 
+def self_emit(sio, sid, event, rooms_tracker, data=None):
+    sio.emit(event, data, rooms_tracker.get_room(sid),
+             rooms_tracker.get_roommate(sid))
+
+def roommate_emit(sio, sid, event, rooms_tracker, data=None):
+    sio.emit(event, data, rooms_tracker.get_room(sid), skip_sid=sid)
+
+def room_emit(sio, sid, event, rooms_tracker, data=None):
+    sio.emit(event, data, rooms_tracker.get_room(sid))
+
 def setup_initial_position(sio, rooms_tracker):
     lock = threading.Lock()
 
     def initial_position_handler(sid, data):
         room = rooms_tracker.get_room(sid)
-        roommate = rooms_tracker.get_roommate(sid)
         with lock:
             if room not in _starting_game_data:
                 _starting_game_data[room] = data
             else:
-                sio.emit('setInitialPosition', _starting_game_data[room],
-                         sid, skip_sid=roommate)
-                sio.emit('unfreeze_start', room=room, skip_sid=sid)
+                self_emit(sio, sid, 'setInitialPosition',
+                          rooms_tracker, _starting_game_data[room])
+                roommate_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
     sio.on('setInitialPosition', initial_position_handler)
 
 def setup_echos(sio, rooms_tracker):
     def echo_event(event):
         def echo_handler(sid, data=None):
-            sio.emit(event, data, rooms_tracker.get_room(sid), skip_sid=sid)
+            roommate_emit(sio, sid, event, rooms_tracker, data)
 
         sio.on(event, echo_handler)
 
@@ -33,7 +42,7 @@ def setup_echos(sio, rooms_tracker):
 def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
         def update_handler(sid, data=None):
-            sio.emit("update_" + event, data, rooms_tracker.get_room(sid), skip_sid=sid)
+            roommate_emit(sio, sid, "update_" + event, rooms_tracker, data)
 
         sio.on("receive_" + event, update_handler)
 
@@ -41,15 +50,18 @@ def setup_updates(sio, rooms_tracker):
     update_on_receive('flip_block')
     update_on_receive('movement_data')
     update_on_receive('gesture_data')
-    update_on_receive('user_message')
+
+    def user_message_handler(sid, data):
+        room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
+
+    sio.on('receive_user_message', user_message_handler)
 
 def setup_audio(sio, rooms_tracker):
     def connection_handler(sid, data):
         room = rooms_tracker.get_room(sid)
-        roommate = rooms_tracker.get_roommate(sid)
         if room in _voice_connection_data:
-            sio.emit('audio_connection', _voice_connection_data[room],
-                     room, skip_sid=roommate)
+            self_emit(sio, sid, 'audio_connection', rooms_tracker,
+                      _voice_connection_data[room])
         else:
             _voice_connection_data[room] = data
 
@@ -59,7 +71,7 @@ def setup_audio(sio, rooms_tracker):
         if room in _voice_connection_data:
             _voice_connection_data.pop(room)
 
-        sio.emit('alert_human_disconnect', room=room)
+        roommate_emit(sio, sid, 'alert_human_disconnect', rooms_tracker)
 
     sio.on('audio_connection', connection_handler)
     sio.on('reset_audio_id', reset_handler)
@@ -67,7 +79,8 @@ def setup_audio(sio, rooms_tracker):
 def setup_reconnected(sio, rooms_tracker):
     def human_reconnected_handler(sid):
         room = rooms_tracker.get_room(sid)
-        sio.emit('alert_human_reconnected', _voice_connection_data[room], room)
+        roommate_emit(sio, sid, 'alert_human_reconnected', rooms_tracker,
+                      _voice_connection_data[room])
 
     sio.on('human_reconnected', human_reconnected_handler)
 
@@ -77,7 +90,7 @@ def setup_ending(sio, rooms_tracker):
     def end_button_handler(sid, data):
         room = rooms_tracker.get_room(sid)
         _in_surveys.add(room)
-        sio.emit('end_game_for_user', data, room)
+        roommate_emit(sio, sid, 'end_game_for_user', rooms_tracker, data)
 
     def disconnect_handler(sid):
         room = rooms_tracker.get_room(sid)
@@ -85,7 +98,7 @@ def setup_ending(sio, rooms_tracker):
             _starting_game_data.pop(room)
 
         if room not in _in_surveys:
-            sio.emit('user_left_game', room=room)
+            room_emit(sio, sid, 'user_left_game', rooms_tracker)
         else:
             _in_surveys.remove(room)
 
