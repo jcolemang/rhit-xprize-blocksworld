@@ -1,5 +1,7 @@
 import threading
 
+import database as db
+
 _starting_game_data = dict()
 _voice_connection_data = dict()
 
@@ -89,3 +91,11 @@ def setup_ending(sio, rooms_tracker):
 
     sio.on('end_button_pressed', end_button_handler)
     sio.on('disconnect', disconnect_handler)
+
+def setup_database(sio, config):
+    db_cursor = db.connect_to_db(config)
+
+    def store_game_handler(_, data):
+        db.store_game(db_cursor, data)
+
+    sio.on('send_data_to_server', store_game_handler)
