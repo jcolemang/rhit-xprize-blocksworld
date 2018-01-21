@@ -93,9 +93,13 @@ def setup_ending(sio, rooms_tracker):
     sio.on('disconnect', disconnect_handler)
 
 def setup_database(sio, config):
-    db_cursor = db.connect_to_db(config)
+    db_connection = db.connect_to_db(config)
 
     def store_game_handler(_, data):
-        db.store_game(db_cursor, data)
+        db.store_game(db_connection, data)
+
+    def store_survey_handler(_, data):
+        db.store_survey(db_connection, data)
 
     sio.on('send_data_to_server', store_game_handler)
+    sio.on('send_survey_data_to_server', store_survey_handler)
