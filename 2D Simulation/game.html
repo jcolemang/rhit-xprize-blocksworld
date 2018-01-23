@@ -3,6 +3,13 @@
   <head>
     <title>Blocks World</title>
 
+    <script type="text/javascript" src="clientConfig.js"></script>
+    <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+
     <meta charset="UTF-8">
 
     <meta http-equiv="pragma" content="no-cache" />
@@ -152,12 +159,6 @@
          <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
          </div> -->
 
-    <script type="text/javascript" src="clientConfig.js"></script>
-    <script type="text/javascript" src="redirect.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
     <script type="text/javascript">
      page_width = window.innerWidth;
      page_height = window.innerHeight;
@@ -184,7 +185,6 @@
      $('#myPopup').css('height', page_height * 0.5 + "px");
     </script>
 
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 
     <script type="text/javascript">
      function timecounter() {
@@ -245,13 +245,15 @@
      flipLetterArray = initLetters(letters, NumBlocks);
      initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
      writeBlockStyle(blockColors);
+     let initialConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
+     finalBlocks = getFinalConfiguration(initialConfig);
+
      initInstructions();
      setTaskHeader();
      setIntroduction(1);
      popUpGameIntro();
 
      function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
-       console.log('Calling initBlocks');
        // Adds 1 to NumBlocks if the task is matching, ensuring an even
        // number of blocks to be matched.
        if (taskID == 1) {
@@ -334,10 +336,7 @@
 
     <script type="text/javascript" >
      var socket;
-     console.log('Is this even happening?');
-
      try {
-       console.log('Connecting to ' + config.appAddr);
        socket = io.connect(config.appAddr);
 
        socket.on('connect_failed', function() {
@@ -353,7 +352,6 @@
        });
      } catch (err) {
        /* window.location.href = "server_down.html";*/
-       console.log('Thrown error')
        redirects.pageDown(err);
      }
 
@@ -493,7 +491,6 @@
      });
 
      socket.on('setInitialPosition', function(data) {
-       console.log('Setting initial position');
        document.getElementById('user1').innerText = "Player 1";
        document.getElementById('user2').innerText = "Player 2 (You)";
        document.getElementById('user3').innerText = "Player 1";
@@ -508,8 +505,6 @@
        flipColorArray = data.flipColorArray;
        flipLetterArray = data.flipLetterArray;
 
-       console.log('New block colors:', blockColors)
-       console.log('New block letters:', blockLetters);
        NumBlocks = data.numBlocks;
        taskID = data.currentTask;
        actualMove = data.movement_count;
@@ -598,7 +593,6 @@
        setIntroduction(2);
      });
      function send_flip_to_server(block_id) {
-       console.log('Sending flip to server');
        try {
          socket.emit('receive_flip_block', block_id);
        } catch (err) {
@@ -711,8 +705,7 @@
        end_left[data.id] = data.tLeft;
        end_top[data.id] = data.tTop;
 
-       document.getElementById('scoreBox').innerText = Math.round(scoreCal());
-       console.log(scoreCal());
+       document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
      });
 
      function send_movement_to_server() {
@@ -924,7 +917,6 @@
 
 
      function send_gesture_to_server() {
-       console.log('Sending gesture to server');
        var rect = document.getElementById('container').getBoundingClientRect();
        var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
        var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
@@ -984,7 +976,8 @@
        if (taskID == 3) {
          document.getElementById("showChosen").style.visibility = "visible";
          showChosenStuff();
-         setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray);
+         setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
+
        }
        if (taskID == 2) {
          // searchingwords = localStorage.getItem("Searching words");
@@ -1114,7 +1107,7 @@
              standard_info: standard_info,
              other: words,
              minutes: minutes,
-             finalScore: scoreCal(),
+             finalScore: scoreCal(finalBlocks),
              seconds: seconds
            });
          } catch (err) {
