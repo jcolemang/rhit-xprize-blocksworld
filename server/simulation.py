@@ -12,20 +12,20 @@ rooms_tracker = RoomsTracker(sio)
 
 def main():
     config = cfg.generate_config(get_is_local())
-    setup_emits()
+    setup_emits(config)
     start_app(config)
 
 def get_is_local():
     args = sys.argv[1:]
     return len(args) == 0 or args[0] == 'local'
 
-def setup_emits():
+def setup_emits(config):
     emits.setup_initial_position(sio, rooms_tracker)
     emits.setup_echos(sio, rooms_tracker)
     emits.setup_updates(sio, rooms_tracker)
-    emits.setup_audio(sio, rooms_tracker)
     emits.setup_reconnected(sio, rooms_tracker)
     emits.setup_ending(sio, rooms_tracker)
+    emits.setup_database(sio, config)
 
 def start_app(config):
     app = tornado.web.Application()

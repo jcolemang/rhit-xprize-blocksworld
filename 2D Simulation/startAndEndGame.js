@@ -6,7 +6,6 @@ function startGame() {
         document.getElementById("showChosen").style.visibility = "visible";
         showChosenStuff();
         setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
-
     }
     if (taskID == 2) {
         // searchingwords = localStorage.getItem("Searching words");
@@ -59,6 +58,7 @@ function startGame() {
     document.getElementById('buttonStart').disabled = true;
     socket.emit("receive_user_message", "(The game has started!)");
 }
+
 function endGame() {
     if (start_button_pressed) {
         endTime = new Date().getTime();
@@ -137,6 +137,7 @@ function endGame() {
                 other: words,
                 minutes: minutes,
                 finalScore: scoreCal(finalBlocks),
+
                 seconds: seconds
             });
         } catch (err) {

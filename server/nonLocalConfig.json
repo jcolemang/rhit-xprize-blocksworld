@@ -1,5 +1,5 @@
 {
-    "pgConString": "pg://postgres:bgoyt6@137.112.92.17:5432/AIxprize",
+    "dbHost": "137.112.92.17",
     "addr": "https://blockworld.rose-hulman.edu:8080",
     "serverOptions": {
         "key": "/etc/ssl/private/ibm-mvpsim.key",

@@ -1,5 +1,6 @@
 
 var socket;
+
 try {
     socket = io.connect(config.appAddr);
 
@@ -15,7 +16,6 @@ try {
         }
     });
 } catch (err) {
-    /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
 
@@ -63,12 +63,6 @@ try {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
-
-// try {
-// 	socket.emit('am_I_second_to_join');
-// } catch (err) {
-// 	window.location.href = "server_down.html";
-// }
 
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
@@ -508,61 +502,12 @@ socket.on('end_game_for_user', function(data) {
 });
 
 function submitRobot() {
-    var q3 = "", q4 = -1, q5 = -1;
-    // if (document.getElementById("41").checked) {
-    // 	q4 = 1;
-    // } else if (document.getElementById("42").checked) {
-    // 	q4 = 2;
-    // } else if (document.getElementById("43").checked) {
-    // 	q4 = 3;
-    // } else if (document.getElementById("44").checked) {
-    // 	q4 = 4;
-    // } else if (document.getElementById("45").checked) {
-    // 	q4 = 5;
-    // } else if (document.getElementById("46").checked) {
-    // 	q4 = 6;
-    // } else if (document.getElementById("47").checked) {
-    // 	q4 = 7;
-    // }
-    // if (document.getElementById("51").checked) {
-    // 	q5 = 1;
-    // } else if (document.getElementById("52").checked) {
-    // 	q5 = 2;
-    // } else if (document.getElementById("53").checked) {
-    // 	q5 = 3;
-    // } else if (document.getElementById("54").checked) {
-    // 	q5 = 4;
-    // } else if (document.getElementById("55").checked) {
-    // 	q5 = 5;
-    // } else if (document.getElementById("56").checked) {
-    // 	q5 = 6;
-    // } else if (document.getElementById("57").checked) {
-    // 	q5 = 7;
-    // }
+    var q3 = "", q4 = -1, q5 = -1;    
     q3 = document.getElementById("q3").value;
+  
     document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
     if (q3 == "") {
         document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-        // if (q3 == "") {
-        // 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-        // } else {
-        // 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
-        // 	document.getElementById("q3").innerText = q3;
-        // }
-        // if (q4 == -1) {
-        // 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-        // } else {
-        // 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
-        // 	document.getElementById("4" + q4).checked = true;
-        // }
-        // if (q5 == -1) {
-        // 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-        // } else {
-        // 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
-        // 	document.getElementById("5" + q5).checked = true;
-        // }
-        // document.getElementById("require").style.visibility = "visible";
-        // document.getElementById("q3").innerText = q3;
     } else {
         try {
             socket.emit('send_survey_data_to_server', {
