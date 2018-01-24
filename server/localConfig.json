@@ -1,6 +1,6 @@
 {
     "isLocal": true,
-    "pgConString": "pg://postgres:player@127.0.0.1:5432/AIxprize",
+    "dbHost": "127.0.0.1",
     "addr": "http://127.0.0.1:8080",
     "serverOptions": {}
 }

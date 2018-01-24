@@ -86,15 +86,6 @@ appListener.sockets.on('connection', function(socket) {
         socket.emit('freeze_start');
     }
 
-
-    // socket.on('am_I_second_to_join', function() {
-    // 	if (io.sockets.adapter.rooms[socket.room].length == 1) {
-    // 		socket.emit('freeze_start');
-    // 	} else {
-    // 		socket.to(socket.room).emit('unfreeze_start');
-    // 	}
-    // });
-
     socket.on('enable_blocks_for_player_2', function(data) {
         socket.to(socket.room).emit('enable_blocks_for_player_2', data);
     });
