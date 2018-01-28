@@ -3,6 +3,15 @@
   <head>
     <title>Blocks World</title>
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="clientConfig.js"></script>
+    <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="startAndEndGame.js"></script>
+
     <meta charset="UTF-8">
 
     <meta http-equiv="pragma" content="no-cache" />
@@ -152,12 +161,6 @@
          <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
          </div> -->
 
-    <script type="text/javascript" src="clientConfig.js"></script>
-    <script type="text/javascript" src="redirect.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
     <script type="text/javascript">
      page_width = window.innerWidth;
      page_height = window.innerHeight;
@@ -184,7 +187,6 @@
      $('#myPopup').css('height', page_height * 0.5 + "px");
     </script>
 
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 
     <script type="text/javascript">
      function timecounter() {
@@ -245,13 +247,15 @@
      flipLetterArray = initLetters(letters, NumBlocks);
      initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
      writeBlockStyle(blockColors);
+     let initialConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
+     finalBlocks = getFinalConfiguration(initialConfig);
+
      initInstructions();
      setTaskHeader();
      setIntroduction(1);
      popUpGameIntro();
 
      function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
-       console.log('Calling initBlocks');
        // Adds 1 to NumBlocks if the task is matching, ensuring an even
        // number of blocks to be matched.
        if (taskID == 1) {
@@ -332,8 +336,6 @@
       </div>
     </div>
 
-    <script type="text/javascript" src="game.js"></script>
-
     <script type="text/javascript">
      for (var i = 0; i < NumBlocks; i++) {
        $("#block" + i).draggable({
@@ -357,8 +359,6 @@
      document.getElementById("buttonEnd").disabled = true;
      document.getElementById("buttonEnter").disabled = true;
     </script>
-
-    <script type="text/javascript" src="startAndEndGame.js"></script>
 
     <script type="text/javascript">
      function submit() {
