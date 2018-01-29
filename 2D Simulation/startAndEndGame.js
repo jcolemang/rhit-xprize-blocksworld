@@ -24,7 +24,6 @@ function startGame() {
         var event = e || window.event;
 
         setGestureWithPosition(event.clientX, event.clientY, event);
-        send_gesture_to_server();
     };
 
     try {

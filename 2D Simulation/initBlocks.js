@@ -26,7 +26,6 @@ function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
         var event = e || window.event;
 
         setGestureWithPosition(event.clientX, event.clientY, event);
-        send_gesture_to_server();
     };
     container.style.fontSize = "4vmin";
     document.body.appendChild(container);

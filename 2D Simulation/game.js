@@ -395,6 +395,8 @@ socket.on('update_movement_data', function(data) {
 });
 function send_user_message_to_server() {
     if (start_button_pressed) {
+        send_gesture_to_server();
+
         try {
             socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
         } catch (err) {
