@@ -20,7 +20,6 @@ function startGame() {
     document.getElementById('txt_instruction').disabled = false;
 
     document.getElementById('container').ondblclick = function(e) {
-        gestureCount++;
         var event = e || window.event;
 
         setGestureWithPosition(event.clientX, event.clientY, event);

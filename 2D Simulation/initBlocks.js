@@ -22,7 +22,6 @@ function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
     var container = document.createElement("div");
     container.id = "container";
     container.ondblclick = function(e) {
-        gestureCount++;
         var event = e || window.event;
 
         setGestureWithPosition(event.clientX, event.clientY, event);

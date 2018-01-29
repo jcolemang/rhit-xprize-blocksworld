@@ -395,6 +395,7 @@ socket.on('update_movement_data', function(data) {
 });
 function send_user_message_to_server() {
     if (start_button_pressed) {
+        gestureCount++;
         send_gesture_to_server();
 
         try {
