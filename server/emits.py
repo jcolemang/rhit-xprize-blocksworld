@@ -20,13 +20,24 @@ def setup_initial_position(sio, rooms_tracker):
 
     def initial_position_handler(sid, data):
         room = rooms_tracker.get_room(sid)
-        with lock:
+
+        def ai_opponent_setup():
+            _starting_game_data[room] = data
+            self_emit(sio, sid, 'unfreeze_start', rooms_tracker)
+
+        def human_opponent_setup():
             if room not in _starting_game_data:
                 _starting_game_data[room] = data
             else:
                 self_emit(sio, sid, 'setInitialPosition',
                           rooms_tracker, _starting_game_data[room])
                 roommate_emit(sio, sid, 'unfreeze_start', rooms_tracker)
+
+        with lock:
+            if data['opponentType'] == 'ai':
+                ai_opponent_setup()
+            elif data['opponentType'] == 'human':
+                human_opponent_setup()
 
     sio.on('setInitialPosition', initial_position_handler)
 

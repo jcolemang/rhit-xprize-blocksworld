@@ -60,11 +60,23 @@ try {
         currentTask: taskID,
         movement_count: actualMove,
         gesture_count: gestureCount,
-        ins : specificIns
+        ins : specificIns,
+        opponentType: getOpponentType()
     });
 } catch (err) {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
+}
+
+function getOpponentType() {
+    let url = window.location.href
+    if (url.indexOf("?type=ai") !== -1) {
+        return "ai";
+    } else if (url.indexOf("?type=human") !== -1) {
+        return "human";
+    } else {
+        return "";
+    }
 }
 
 // try {
