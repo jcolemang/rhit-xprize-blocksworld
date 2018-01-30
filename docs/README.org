@@ -1,0 +1,10 @@
+* Documentation
+Note that many of these images are generated using PlantUML for the
+=*.puml= files.
+** Sequence Diagrams:
+*** Connecting
+[[./connecting.png]]
+*** Gameplay
+[[./gameplay.png]]
+*** Ending
+[[./ending.png]]
