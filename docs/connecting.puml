@@ -1,5 +1,9 @@
 @startuml
 Commander -> CommanderClient: "Loads page"
+CommanderClient -> Server: connect
+Server -> Server: "Accept connection"
+Server -> CommanderClient: freeze_start
+CommanderClient -> Commander: "Freeze controls"
 CommanderClient -> Server: setInitialPosition(c_gameData)
 Server -> Server: <store c_gameData>
 Worker -> WorkerClient: "Loads page"
