@@ -17,39 +17,39 @@ class TestRoomsTracker:
         self.rooms_tracker = RoomsTracker(self.sio_app)
 
     def test_first_add_to_room(self):
-        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_coop_room(123)
 
         assert self.sio_app.enter_room_calls == {"Room0": 1}
 
     def test_two_additions(self):
-        self.rooms_tracker.add_to_room(123)
-        self.rooms_tracker.add_to_room(5)
+        self.rooms_tracker.add_to_coop_room(123)
+        self.rooms_tracker.add_to_coop_room(5)
 
         assert self.sio_app.enter_room_calls == {"Room0": 2}
 
     def test_first_add_returns_true(self):
-        assert self.rooms_tracker.add_to_room(123)
+        assert self.rooms_tracker.add_to_coop_room(123)
 
     def test_second_add_returns_false(self):
-        self.rooms_tracker.add_to_room(123)
-        assert not self.rooms_tracker.add_to_room(5)
+        self.rooms_tracker.add_to_coop_room(123)
+        assert not self.rooms_tracker.add_to_coop_room(5)
 
     def test_third_add_returns_true(self):
-        self.rooms_tracker.add_to_room(123)
-        self.rooms_tracker.add_to_room(5)
-        assert self.rooms_tracker.add_to_room(12)
+        self.rooms_tracker.add_to_coop_room(123)
+        self.rooms_tracker.add_to_coop_room(5)
+        assert self.rooms_tracker.add_to_coop_room(12)
 
     def test_get_existing_room(self):
-        self.rooms_tracker.add_to_room(123)
-        self.rooms_tracker.add_to_room(5)
-        self.rooms_tracker.add_to_room(12)
+        self.rooms_tracker.add_to_coop_room(123)
+        self.rooms_tracker.add_to_coop_room(5)
+        self.rooms_tracker.add_to_coop_room(12)
 
         assert self.rooms_tracker.get_room(123) == "Room0"
         assert self.rooms_tracker.get_room(5) == "Room0"
         assert self.rooms_tracker.get_room(12) == "Room1"
 
     def test_get_nonexisting_room(self):
-        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_coop_room(123)
 
         assert self.rooms_tracker.get_room(5) == None
 
@@ -57,21 +57,21 @@ class TestRoomsTracker:
         assert self.rooms_tracker.get_roommate(123) == None
 
     def test_get_empty_roommate(self):
-        self.rooms_tracker.add_to_room(123)
+        self.rooms_tracker.add_to_coop_room(123)
 
         assert self.rooms_tracker.get_roommate(123) == None
 
     def test_get_one_roommate(self):
-        self.rooms_tracker.add_to_room(123)
-        self.rooms_tracker.add_to_room(5)
+        self.rooms_tracker.add_to_coop_room(123)
+        self.rooms_tracker.add_to_coop_room(5)
 
         assert self.rooms_tracker.get_roommate(123) == 5
         assert self.rooms_tracker.get_roommate(5) == 123
 
     def test_get_multiple_roommates(self):
-        self.rooms_tracker.add_to_room(123)
-        self.rooms_tracker.add_to_room(5)
-        self.rooms_tracker.add_to_room(12)
+        self.rooms_tracker.add_to_coop_room(123)
+        self.rooms_tracker.add_to_coop_room(5)
+        self.rooms_tracker.add_to_coop_room(12)
 
         assert self.rooms_tracker.get_roommate(123) == 5
         assert self.rooms_tracker.get_roommate(5) == 123
@@ -87,8 +87,8 @@ class TestRoomsTracker:
 
             def run(self):
                 for i in range(0, self.count):
-                    self.room_tracker.add_to_room(2*i + self.seed)
-                    self.room_tracker.add_to_room(2*i + 1 + self.seed)
+                    self.room_tracker.add_to_coop_room(2*i + self.seed)
+                    self.room_tracker.add_to_coop_room(2*i + 1 + self.seed)
 
         expected_calls = {}
         for i in range(0, 100):

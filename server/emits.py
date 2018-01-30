@@ -20,14 +20,14 @@ def setup_initial_position(sio, rooms_tracker):
 
     def initial_position_handler(sid, data):
         def ai_opponent_setup():
-            rooms_tracker.add_to_room(sid)
+            rooms_tracker.add_to_singles_room(sid)
             room = rooms_tracker.get_room(sid)
 
             _starting_game_data[room] = data
             self_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
         def human_opponent_setup():
-            rooms_tracker.add_to_room(sid)
+            rooms_tracker.add_to_coop_room(sid)
             room = rooms_tracker.get_room(sid)
 
             if room not in _starting_game_data:

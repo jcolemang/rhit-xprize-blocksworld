@@ -32,26 +32,29 @@ class RoomsTracker:
 
         return roommate_list[0]
 
-    def add_to_room(self, sid):
+    def add_to_singles_room(self, sid):
+        with self.lock:
+            room = self._create_room()
+            self._enter_room(sid, room)
+
+    def add_to_coop_room(self, sid):
         created_room = None
         with self.lock:
             if self.recent_room == None:
-                self._add_to_new_room(sid)
+                self._add_to_new_coop_room(sid)
                 created_room = True
             else:
-                self._add_to_recent_room(sid)
+                self._add_to_recent_coop_room(sid)
                 created_room = False
         return created_room
 
-    def _add_to_new_room(self, sid):
-        room_name = self._make_room_name(self.next_room)
+    def _add_to_new_coop_room(self, sid):
+        room_name = self._create_room()
         self._enter_room(sid, room_name)
-        self.recent_room = self.next_room
-        self.next_room += 1
+        self.recent_room = room_name
 
-    def _add_to_recent_room(self, sid):
-        room_name = self._make_room_name(self.recent_room)
-        self._enter_room(sid, room_name)
+    def _add_to_recent_coop_room(self, sid):
+        self._enter_room(sid, self.recent_room)
         self.recent_room = None
 
     def _enter_room(self, sid, room_name):
@@ -61,6 +64,7 @@ class RoomsTracker:
         roommates = self.roommate_map.setdefault(room_name, [])
         roommates += [sid]
 
-    @staticmethod
-    def _make_room_name(room_num):
-        return "Room" + str(room_num)
+    def _create_room(self):
+        name = "Room" + str(self.next_room)
+        self.next_room += 1
+        return name
