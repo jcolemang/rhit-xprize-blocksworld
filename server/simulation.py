@@ -35,9 +35,7 @@ def start_app(config):
 @sio.on('connect')
 def connection_handler(sid, _):
     if rooms_tracker.add_to_room(sid):
-        sio.emit('freeze_start',
-                 room=rooms_tracker.get_room(sid),
-                 skip_sid=rooms_tracker.get_roommate(sid))
+        emits.self_emit(sio, sid, 'freeze_start', rooms_tracker)
 
 if __name__ == '__main__':
     main()
