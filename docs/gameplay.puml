@@ -4,6 +4,10 @@ Commander -> CommanderClient: "Types message"
 Commander -> CommanderClient: "Press Enter"
 CommanderClient -> Server: receive_gesture_data
 Server -> WorkerClient: update_gesture_data
+CommanderClient -> Server: receive_user_message
+Server -> CommanderClient: update_user_message
+CommanderClient -> Commander: "Display gesture and text"
+Server -> WorkerClient: update_user_message
 WorkerClient -> Worker: "Display gesture and text"
 Worker -> WorkerClient: "Move block"
 WorkerClient -> Server: receive_position
