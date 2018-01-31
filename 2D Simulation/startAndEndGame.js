@@ -53,7 +53,6 @@ function startGame() {
     setMovement();
 
     document.getElementById('buttonStart').disabled = true;
-    socket.emit("receive_user_message", "(The game has started!)");
 }
 
 function endGame() {

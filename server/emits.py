@@ -1,6 +1,7 @@
 import threading
 
 import database as db
+import neural_network_interface as nn
 
 _starting_game_data = dict()
 _voice_connection_data = dict()
@@ -14,6 +15,9 @@ def roommate_emit(sio, sid, event, rooms_tracker, data=None):
 
 def room_emit(sio, sid, event, rooms_tracker, data=None):
     sio.emit(event, data, rooms_tracker.get_room(sid))
+
+def is_coop(data):
+    return data and (data['gameType'] == 'human')
 
 def setup_initial_position(sio, rooms_tracker):
     lock = threading.Lock()
@@ -39,10 +43,10 @@ def setup_initial_position(sio, rooms_tracker):
                 roommate_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
         with lock:
-            if data['opponentType'] == 'ai':
-                ai_opponent_setup()
-            elif data['opponentType'] == 'human':
+            if is_coop(data):
                 human_opponent_setup()
+            else:
+                ai_opponent_setup()
 
     sio.on('setInitialPosition', initial_position_handler)
 
@@ -60,6 +64,8 @@ def setup_echos(sio, rooms_tracker):
 def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
         def update_handler(sid, data=None):
+            if event == 'position':
+                print("Sending 'update_position': " + str(data))
             roommate_emit(sio, sid, "update_" + event, rooms_tracker, data)
 
         sio.on("receive_" + event, update_handler)
@@ -67,11 +73,33 @@ def setup_updates(sio, rooms_tracker):
     update_on_receive('position')
     update_on_receive('flip_block')
     update_on_receive('movement_data')
-    update_on_receive('gesture_data')
+
+# Different effects for Co-Op and AI modes
+def setup_varied_updates(sio, rooms_tracker):
+    gesture = {}
+
+    def gesture_handler(sid, data):
+        if is_coop(data):
+            roommate_emit(sio, sid, 'update_gesture_data', rooms_tracker, data)
+        else:
+            gesture['data'] = data
 
     def user_message_handler(sid, data):
-        room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
+        if is_coop(data):
+            room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
+        else:
+            (position_data, movement_data) = nn.generate_move(sid,
+                                                              gesture['data'],
+                                                              data)
+            print("Sending 'update_position': " + str(position_data))
+            self_emit(sio, sid, 'update_position',
+                      rooms_tracker, position_data)
+            self_emit(sio, sid, 'update_movement_data',
+                      rooms_tracker, movement_data)
+            self_emit(sio, sid, 'Update_score',
+                      rooms_tracker)
 
+    sio.on('receive_gesture_data', gesture_handler)
     sio.on('receive_user_message', user_message_handler)
 
 def setup_reconnected(sio, rooms_tracker):

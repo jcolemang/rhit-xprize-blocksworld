@@ -23,6 +23,7 @@ def setup_emits(config):
     emits.setup_initial_position(sio, rooms_tracker)
     emits.setup_echos(sio, rooms_tracker)
     emits.setup_updates(sio, rooms_tracker)
+    emits.setup_varied_updates(sio, rooms_tracker)
     emits.setup_reconnected(sio, rooms_tracker)
     emits.setup_ending(sio, rooms_tracker)
     emits.setup_database(sio, config)

@@ -61,14 +61,14 @@ try {
         movement_count: actualMove,
         gesture_count: gestureCount,
         ins : specificIns,
-        opponentType: getOpponentType()
+        gameType: getGameType()
     });
 } catch (err) {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
 
-function getOpponentType() {
+function getGameType() {
     let url = window.location.href
     if (url.indexOf("?type=ai") !== -1) {
         return "ai";
@@ -411,7 +411,11 @@ function send_user_message_to_server() {
         send_gesture_to_server();
 
         try {
-            socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+            socket.emit('receive_user_message',
+                        {
+                            text: document.getElementById("txt_instruction").value,
+                            gameType: getGameType()
+                        });
         } catch (err) {
             /* window.location.href = "server_down.html";*/
             redirects.pageDown(err);
@@ -613,7 +617,8 @@ function send_gesture_to_server() {
         socket.emit('receive_gesture_data', {
             gestureCount: gestureCount,
             left: horiz,
-            top: vert
+            top: vert,
+            gameType: getGameType()
         });
     } catch (err) {
         /* window.location.href = "server_down.html";*/
