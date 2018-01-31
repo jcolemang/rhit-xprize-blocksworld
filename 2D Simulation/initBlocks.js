@@ -5,6 +5,9 @@ blockLetters = initLetters(letters, NumBlocks);
 flipLetterArray = initLetters(letters, NumBlocks);
 initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
 writeBlockStyle(blockColors);
+let initialConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
+finalBlocks = getFinalConfiguration(initialConfig);
+
 initInstructions();
 setTaskHeader();
 setIntroduction(1);
