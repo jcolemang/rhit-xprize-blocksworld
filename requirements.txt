@@ -1,0 +1,6 @@
+pytest
+python-socketio
+pylint
+psycopg2
+tornado
+eventlet
