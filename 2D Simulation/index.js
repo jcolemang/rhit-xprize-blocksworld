@@ -69,6 +69,7 @@ var letters = ["A", "B", "C", "D", "E", "F", "G"];
 var color = ['red', 'blue','green','orange','yellow'];
 var blockColors;
 var blockLetters;
+var finalBlocks;
 var initialInfo = [];
 var standard_info = [];
 console.log('Block Colors: ', blockColors);
@@ -78,20 +79,50 @@ var rainbow_select = 0;
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided blocks with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
 var blockintro = "Block instructions:<br>&emsp;Mouse right click: flips block<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag block to another position: moves block to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
 
-function calculateEmax() {
-    window.onload = function() {
-        var width = document.getElementById("#container").style.width;
-        var height = document.getElementById("#container").style.height;
-        Emax = width + height;
-    };
-}
-
 function getBlockStyle(blockColors) {
     let doc = '';
     for (var i = 0; i < NumBlocks ;i++) {
-        doc += "<style> #block" + i + " {width: 3.8%; height: 7.35%; background-color:"+blockColors[i] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>";
+        doc += "<style> #block" + i +
+            " {width: 3.8%; height: 7.35%; background-color:" +
+            blockColors[i] +
+            "; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>";
     }
     return doc;
+}
+
+function getInitialConfiguration(blockColors, flipColors, blockLetters, flipLetters) {
+    let config = [];
+    for (i = 0; i < blockColors.length; i++) {
+        let block = {
+            topLetter: blockLetters[i],
+            bottomLetter: flipLetters[i],
+            topColor: blockColors[i],
+            bottomColor: flipColors[i],
+            blockId: '#block' + i
+        };
+        config.push(block);
+    }
+
+    return config;
+}
+
+function getFinalConfiguration(initialConfiguration) {
+    return initialConfiguration.map(block => {
+        let newBlock = Object.assign({}, block);
+
+        if (Math.random() < 0.5) {
+            let tempColor = newBlock.topColor;
+            let tempLetter = newBlock.topLetter;
+            newBlock.topLetter = newBlock.bottomLetter;
+            newBlock.topColor = newBlock.bottomColor;
+            newBlock.bottomLetter = tempLetter;
+            newBlock.bottomColor = tempColor;
+        }
+
+        newBlock.position = [Math.random() * 100, Math.random() * 100];
+
+        return newBlock;
+    });
 }
 
 function writeBlockStyle(blockColors) {
@@ -337,15 +368,15 @@ function showChosenStuff() {
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
 
-        document.getElementById("showChosen").innerHTML = "<button class=\"buttonLike\" onclick=\"showConstruction(blockColors)\">Show the Construction</button>";
+        document.getElementById("showChosen").innerHTML = "<button class=\"buttonLike\" onclick=\"showConstruction(finalBlocks)\">Show the Construction</button>";
 
     }
 }
 
-function showConstruction(bColors) {
-    let toSet = document.getElementById("container").innerHTML + getBlockStyle(blockColors);
-    console.log(toSet);
+function showConstruction(blocks) {
+    let toSet = document.getElementById("container").cloneNode(true).innerHTML;
     localStorage.setItem("container", toSet);
+    localStorage.setItem('finalBlocks', JSON.stringify(blocks));
     window.open('initial_board.html', 'newwindow', 'width=400, height=175');
     return false;
 }
@@ -371,7 +402,7 @@ function instructiontime() {
     instructiondate = getDateTime();
 }
 
-function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters) {
+function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalBlocks) {
     console.log('Calling setUpInitialPosition');
     console.log('Block colors:', bColors);
     for (let i = 0; i < NumBlocks; i++) {
@@ -400,7 +431,7 @@ function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters) {
     }
 
     console.log('Initial Info:', initialInfo);
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal());
+    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 }
 
 function centroid(x, y) {
@@ -417,7 +448,13 @@ function centroid(x, y) {
     return center;
 }
 
-function scoreCal() {
+function scoreCal(finalBlocks) {
+    let goal_left = finalBlocks.map(block => block.position[0]);
+    let goal_top = finalBlocks.map(block => block.position[1]);
+
+    console.log(goal_left);
+    console.log(end_left);
+
     var centerC = centroid(goal_left, goal_top);
     var centerA = centroid(end_left, end_top);
     var errorX = 0;
