@@ -4,7 +4,7 @@ function startGame() {
     if (taskID == 3) {
         document.getElementById("showChosen").style.visibility = "visible";
         showChosenStuff();
-        setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray);
+        setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
     }
     if (taskID == 2) {
         // searchingwords = localStorage.getItem("Searching words");
@@ -135,7 +135,7 @@ function endGame() {
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: scoreCal(),
+                finalScore: scoreCal(finalBlocks),
                 seconds: seconds
             });
         } catch (err) {
