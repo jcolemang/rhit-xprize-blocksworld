@@ -4,7 +4,7 @@ Note that many of these images are generated using PlantUML for the
 ** Sequence Diagrams:
 *** Connecting
 [[./connecting.png]]
-*** Gameplay
-[[./gameplay.png]]
+*** Co-Op Gameplay
+[[./coop.png]]
 *** Ending
 [[./ending.png]]
