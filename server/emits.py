@@ -76,7 +76,7 @@ def setup_updates(sio, rooms_tracker):
 
 # Different effects for Co-Op and AI modes
 def setup_varied_updates(sio, rooms_tracker):
-    gesture = {}
+    gesture = {'data': None}
 
     def gesture_handler(sid, data):
         if is_coop(data):
@@ -91,6 +91,8 @@ def setup_varied_updates(sio, rooms_tracker):
             (position_data, movement_data) = nn.generate_move(sid,
                                                               gesture['data'],
                                                               data)
+            gesture['data'] = None
+
             print("Sending 'update_position': " + str(position_data))
             self_emit(sio, sid, 'update_position',
                       rooms_tracker, position_data)
