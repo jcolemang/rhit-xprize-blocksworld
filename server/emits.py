@@ -64,8 +64,6 @@ def setup_echos(sio, rooms_tracker):
 def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
         def update_handler(sid, data=None):
-            if event == 'position':
-                print("Sending 'update_position': " + str(data))
             roommate_emit(sio, sid, "update_" + event, rooms_tracker, data)
 
         sio.on("receive_" + event, update_handler)
@@ -93,7 +91,6 @@ def setup_varied_updates(sio, rooms_tracker):
                                                               data)
             gesture['data'] = None
 
-            print("Sending 'update_position': " + str(position_data))
             self_emit(sio, sid, 'update_position',
                       rooms_tracker, position_data)
             self_emit(sio, sid, 'update_movement_data',
