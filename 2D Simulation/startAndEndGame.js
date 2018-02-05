@@ -20,11 +20,9 @@ function startGame() {
     document.getElementById('txt_instruction').disabled = false;
 
     document.getElementById('container').ondblclick = function(e) {
-        gestureCount++;
         var event = e || window.event;
 
         setGestureWithPosition(event.clientX, event.clientY, event);
-        send_gesture_to_server();
     };
 
     try {
@@ -55,7 +53,6 @@ function startGame() {
     setMovement();
 
     document.getElementById('buttonStart').disabled = true;
-    socket.emit("receive_user_message", "(The game has started!)");
 }
 
 function endGame() {

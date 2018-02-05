@@ -57,11 +57,23 @@ try {
         currentTask: taskID,
         movement_count: actualMove,
         gesture_count: gestureCount,
-        ins : specificIns
+        ins : specificIns,
+        gameType: getGameType()
     });
 } catch (err) {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
+}
+
+function getGameType() {
+    let url = window.location.href
+    if (url.indexOf("?type=ai") !== -1) {
+        return "ai";
+    } else if (url.indexOf("?type=human") !== -1) {
+        return "human";
+    } else {
+        return "";
+    }
 }
 
 socket.on('freeze_start', function() {
@@ -381,8 +393,15 @@ socket.on('update_movement_data', function(data) {
 });
 function send_user_message_to_server() {
     if (start_button_pressed) {
+        gestureCount++;
+        send_gesture_to_server();
+
         try {
-            socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+            socket.emit('receive_user_message',
+                        {
+                            text: document.getElementById("txt_instruction").value,
+                            gameType: getGameType()
+                        });
         } catch (err) {
             /* window.location.href = "server_down.html";*/
             redirects.pageDown(err);
@@ -534,7 +553,8 @@ function send_gesture_to_server() {
         socket.emit('receive_gesture_data', {
             gestureCount: gestureCount,
             left: horiz,
-            top: vert
+            top: vert,
+            gameType: getGameType()
         });
     } catch (err) {
         /* window.location.href = "server_down.html";*/

@@ -1,0 +1,17 @@
+@startuml
+Commander -> CommanderClient: "Loads page"
+CommanderClient -> Server: connect
+Server -> Server: "Accept connection"
+Server -> CommanderClient: freeze_start
+CommanderClient -> Commander: "Freeze controls"
+CommanderClient -> Server: setInitialPosition(c_gameData)
+Server -> Server: <store c_gameData>
+Worker -> WorkerClient: "Loads page"
+WorkerClient -> Server: setInitialPosition(w_gameData)
+Server -> WorkerClient: setInitialPosition(c_gameData)
+Server -> CommanderClient: unfreeze_start
+Commander -> CommanderClient: "Push start button"
+CommanderClient -> Server: enable_blocks_for_player_2
+Server -> WorkerClient: enable_blocks_for_player_2
+WorkerClient -> Worker: "Start game"
+@enduml

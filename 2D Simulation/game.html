@@ -101,65 +101,6 @@
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
     <div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; left: 85%; position: absolute; background-color: white; color: black;"></div>
-    <!-- <script type="text/javascript">
-
-         var recognizer = null;
-         function recognize() {
-         //speechRecognization interface is the heart of recognization API
-         window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
-         if (window.speechRecognition == undefined) {
-         alert("Speech Recogniztion API Not Supported");
-         } else {
-         //create a speechRecognization object
-         recognizer = new speechRecognition();
-         //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
-         recognizer.continuous = true;
-         //specify the language of speech. langauge must be in BCP 47 standard.
-         recognizer.lang = "en-US";
-         //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
-         recognizer.interimResults = true;
-         //fired when speech recognization starts listening.
-         recognizer.onstart = function(){
-         console.log("Recogniztion API started");
-         }
-         //fired everytime user stops speaking.
-         recognizer.onresult = function(event){
-         for (var count = event.resultIndex; count < event.results.length; count++) {
-         if (event.results[count].isFinal) {
-         console.log(event.results[count][0].transcript);
-         }
-         }
-         }
-         //fired when recognization is stopped manually or automatically.
-         recognizer.onend = function() {
-         recognizer = null;
-         console.log("Recogniztion API stopped");
-         recognize();
-         }
-         recognizer.start();
-         }
-         }
-         function stopRecog() {
-         if(recognizer != null) {
-         //stop it manually
-         recognizer.stop();
-         console.log("Recognization API stopped");
-         }
-         }
-         </script> -->
-
-    <!-- <script>
-         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-         ga('create', 'UA-57883751-1', 'auto');
-         ga('send', 'pageview');
-         </script> -->
-
-    <!-- <div class = "liveAudio">
-         <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-         </div> -->
 
     <script type="text/javascript">
      page_width = window.innerWidth;
@@ -190,7 +131,6 @@
 
     <script type="text/javascript">
      function timecounter() {
-       /* var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;*/
        var countDownDate = new Date().getTime() + 1000 * 3 * 60 * 1000 + 1000;
        var x = setInterval(function() {
          // Get todays date and time
@@ -225,12 +165,6 @@
      document.getElementById("vertical-line2").style.height = line_height + "px";
     </script>
 
-    <!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
-
-    <!-- <script src="Recorderjs/recorder.js"></script>
-         <script src="jsHtml5AudioRecorder.js"></script>
-         <script src="js/init.js"></script> -->
-
     <script type="text/javascript">
      $("#txt_instruction").keyup(function(event){
        if(event.keyCode == 13){
@@ -239,96 +173,7 @@
      });
     </script>
 
-    <script type="text/javascript">
-     initTaskID();
-     blockColors = initColors(color, NumBlocks);
-     flipColorArray = initColors(color, NumBlocks);
-     blockLetters = initLetters(letters, NumBlocks);
-     flipLetterArray = initLetters(letters, NumBlocks);
-     initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
-     writeBlockStyle(blockColors);
-     let initialConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
-     finalBlocks = getFinalConfiguration(initialConfig);
-
-     initInstructions();
-     setTaskHeader();
-     setIntroduction(1);
-     popUpGameIntro();
-
-     function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
-       // Adds 1 to NumBlocks if the task is matching, ensuring an even
-       // number of blocks to be matched.
-       if (taskID == 1) {
-         if (NumBlocks % 2 != 0) {
-           NumBlocks++;
-         }
-       }
-       var container = document.createElement("div");
-       container.id = "container";
-       container.ondblclick = function(e) {
-         gestureCount++;
-         var event = e || window.event;
-
-         setGestureWithPosition(event.clientX, event.clientY, event);
-         send_gesture_to_server();
-       };
-       container.style.fontSize = "4vmin";
-       document.body.appendChild(container);
-       var position_x = [];
-       var position_y = [];
-       var cur = 0;
-       for (var i = 0; i < NumBlocks; i++) {
-         var color_x = bColors[i];
-         var l = Math.floor(Math.random() * bLetters.length);
-
-         let horizNum = document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4;
-         let horizDenom = document.getElementById('container').getBoundingClientRect().right * 100;
-         var horizontal_percent = horizNum / horizDenom;
-
-         let vertNum = document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4;
-         let vertDenom = document.getElementById('container').getBoundingClientRect().bottom * 100;
-         var vertical_percent = vertNum / vertDenom;
-
-         let tLeft = Math.random() * Math.floor(horizontal_percent);
-         let tTop = Math.random() * Math.floor(vertical_percent);
-
-         if (i < bLetters.length) {
-           l = i;
-         }
-
-         $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
-
-         $("#block" + i).append("<span style=\"color: black\">" + bLetters[l] + "<span>");
-
-         standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + bLetters[l] + " flipletters: " + flipLtrs[l]);
-         goal_top.push(tTop);
-         goal_left.push(tLeft);
-
-         $("#block" + i).data("id", i);
-         $("#block" + i).data("horizontal_percent", tLeft);
-         $("#block" + i).data("vertical_percent", tTop);
-
-         $("#block" + i).bind("contextmenu", function(e) {
-           if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
-             var event = e || window.event;
-             flipBlock('block' + $(this).data("id"), event, bLetters, bColors);
-             send_flip_to_server('block' + $(this).data("id"));
-             if (am_i_player1) {
-               players.push("Human");
-             } else {
-               players.push("Robot");
-             }
-
-             var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-             var flipped_block_letter = blockLetters[$(this).data("id")];
-
-             block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
-           }
-         });
-       }
-     }
-
-    </script>
+    <script type="text/javascript" src="initBlocks.js"></script>
 
     <div id = "disablingDiv">
       <div id = "freeze">
@@ -365,109 +210,14 @@
     <script type="text/javascript">
      function submit() {
        var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
-       // if (document.getElementById("41").checked) {
-       // 	q4 = 1;
-       // } else if (document.getElementById("42").checked) {
-       // 	q4 = 2;
-       // } else if (document.getElementById("43").checked) {
-       // 	q4 = 3;
-       // } else if (document.getElementById("44").checked) {
-       // 	q4 = 4;
-       // } else if (document.getElementById("45").checked) {
-       // 	q4 = 5;
-       // } else if (document.getElementById("46").checked) {
-       // 	q4 = 6;
-       // } else if (document.getElementById("47").checked) {
-       // 	q4 = 7;
-       // }
-
-       // if (document.getElementById("51").checked) {
-       // 	q5 = 1;
-       // } else if (document.getElementById("52").checked) {
-       // 	q5 = 2;
-       // } else if (document.getElementById("53").checked) {
-       // 	q5 = 3;
-       // } else if (document.getElementById("54").checked) {
-       // 	q5 = 4;
-       // } else if (document.getElementById("55").checked) {
-       // 	q5 = 5;
-       // } else if (document.getElementById("56").checked) {
-       // 	q5 = 6;
-       // } else if (document.getElementById("57").checked) {
-       // 	q5 = 7;
-       // }
-
-       // if (document.getElementById("61").checked) {
-       // 	q6 = 1;
-       // } else if (document.getElementById("62").checked) {
-       // 	q6 = 2;
-       // } else if (document.getElementById("63").checked) {
-       // 	q6 = 3;
-       // } else if (document.getElementById("64").checked) {
-       // 	q6 = 4;
-       // } else if (document.getElementById("65").checked) {
-       // 	q6 = 5;
-       // } else if (document.getElementById("66").checked) {
-       // 	q6 = 6;
-       // } else if (document.getElementById("67").checked) {
-       // 	q6 = 7;
-       // }
-
        q1 = document.getElementById("q1").value;
-       // q2 = document.getElementById("q2").value;
-       // q3 = document.getElementById("q3").value;
-
        document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
 
        if (q1 == "") {
          document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // if (q1 == "") {
-         // 	document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question1").style = "width: 680px; font-family:verdana";
-         // 	document.getElementById("q1").innerText = q1;
-         // }
-
-         // if (q2 == "") {
-         // 	document.getElementById("question2").style = "width: 535px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question2").style = "width: 535px; font-family:verdana";
-         // 	document.getElementById("q2").innerText = q2;
-         // }
-
-         // if (q3 == "") {
-         // 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
-         // 	document.getElementById("q3").innerText = q3;
-         // }
-
-         // if (q4 == -1) {
-         // 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
-         // 	document.getElementById("4" + q4).checked = true;
-         // }
-
-         // if (q5 == -1) {
-         // 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
-         // 	document.getElementById("5" + q5).checked = true;
-         // }
-
-         // if (q6 == -1) {
-         // 	document.getElementById("question6").style = "width: 865px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         // } else {
-         // 	document.getElementById("question6").style = "width: 865px; font-family:verdana";
-         // 	document.getElementById("6" + q6).checked = true;
-         // }
-
          document.getElementById("require").style.visibility = "visible";
 
          document.getElementById("q1").innerText = q1;
-         // document.getElementById("q2").innerText = q2;
-         // document.getElementById("q3").innerText = q3;
        } else {
          try {
            socket.emit('send_survey_data_to_server', {
@@ -479,7 +229,6 @@
              q6: q6
            });
          } catch (err) {
-           /* window.location.href = "server_down.html";*/
            redirects.pageDown(err);
          }
          window.location.href = "finalPage.html";
@@ -487,26 +236,5 @@
      }
     </script>
 
-    <!-- 	<iframe id="frmFile1" src="hs1.txt" onload="LoadFile();" style="display: none;"></iframe>
-         <iframe id="frmFile2" src="hs2.txt" onload="LoadFile();" style="display: none;"></iframe>
-         <iframe id="frmFile3" src="hs3.txt" onload="LoadFile();" style="display: none;"></iframe>
-         <iframe id="frmFile4" src="hs4.txt" onload="LoadFile();" style="display: none;"></iframe>
-         <script type="text/javascript">
-         var score = [];
-         function LoadFile() {
-         var oFrame = document.getElementById("frmFile" + taskID);
-         var strRawContents = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
-         while (strRawContents.indexOf("\r") >= 0)
-         strRawContents = strRawContents.replace("\r", "");
-         var arrLines = strRawContents.split("\n");
-         console.log("File " + oFrame.src + " has " + arrLines.length + " lines");
-         for (var i = 0; i < arrLines.length; i++) {
-         var curLine = arrLines[i];
-         score += curLine;
-         console.log("Line #" + (i + 1) + " is: '" + curLine + "'");
-         }
-         }
-         </script>
-       -->
   </body>
 </html>

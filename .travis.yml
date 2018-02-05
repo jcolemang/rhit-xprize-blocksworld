@@ -4,7 +4,9 @@ python:
   - "3.6"
 
 install:
-  - sudo pip install pytest python-socketio
+  - sudo pip install -r requirements.txt
 
 script:
   - sudo python -m pytest .
+  - cd server
+  - pylint -E *.py

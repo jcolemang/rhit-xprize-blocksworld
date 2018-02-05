@@ -1,0 +1,6 @@
+@startuml
+CommanderClient -> Server: end_button_pressed(c_data)
+Server -> WorkerClient: end_game_for_user(c_data)
+WorkerClient -> WorkerClient: <calculate w_data>
+WorkerClient -> Server: send_data_to_server(w_data)
+@enduml

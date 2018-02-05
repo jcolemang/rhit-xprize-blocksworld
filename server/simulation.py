@@ -23,6 +23,7 @@ def setup_emits(config):
     emits.setup_initial_position(sio, rooms_tracker)
     emits.setup_echos(sio, rooms_tracker)
     emits.setup_updates(sio, rooms_tracker)
+    emits.setup_varied_updates(sio, rooms_tracker)
     emits.setup_reconnected(sio, rooms_tracker)
     emits.setup_ending(sio, rooms_tracker)
     emits.setup_database(sio, config)
@@ -31,13 +32,6 @@ def start_app(config):
     app = tornado.web.Application()
     socketApp = socketio.Middleware(sio, app)
     eventlet.wsgi.server(eventlet.listen(('', config['serverPort'])), socketApp)
-
-@sio.on('connect')
-def connection_handler(sid, _):
-    if rooms_tracker.add_to_room(sid):
-        sio.emit('freeze_start',
-                 room=rooms_tracker.get_room(sid),
-                 skip_sid=rooms_tracker.get_roommate(sid))
 
 if __name__ == '__main__':
     main()
