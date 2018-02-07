@@ -63,6 +63,7 @@ var p_top = [], p_left = [];
 var initialScore = -1;
 
 // I am certain that these are necessary as of Sunday, October 29
+var currentConfig;
 var flipColorArray = [];
 var flipLetterArray = [];
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
@@ -176,11 +177,10 @@ function initLetters(possibleLetters, numBlocks) {
     return lets;
 }
 
-function flipBlock(box, event, bLetters, bColors) {
-    console.log('~~~~~~~ Flipping: ', box);
+function flipBlock(box, event, config) {
     if (flip_on) {
-        swapColor(box, bColors);
-        swapLetter(box, bLetters);
+        swapColor(box, config);
+        swapLetter(box, config);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
@@ -195,20 +195,24 @@ function flipBlock(box, event, bLetters, bColors) {
     }
 }
 
-function swapColor(box, boxColors) {
+function swapColor(box, config) {
     var property = document.getElementById(box);
     var currentColor = property.style.backgroundColor;
-    let newColor = flipColorArray[box.substring(5)];
+    let index = box.substring(5);
+    let newColor = config[index].bottomColor;
+
     property.style.backgroundColor = newColor;
-    flipColorArray[box.substring(5)] = currentColor;
-    blockColors[box.substring(5)] = newColor;
+    config[index].topColor = newColor;
+    config[index].bottomColor = currentColor;
 }
 
-function swapLetter(box, bLetters) {
+function swapLetter(box, config) {
     var currentLetter = $('#' + box).find('span').html();
-    $('#' + box).find('span').html(flipLetterArray[box.substring(5)]);
-    flipLetterArray[box.substring(5)] = currentLetter;
-    bLetters[box.substring(5)] = currentLetter;
+    let index = box.substring(5);
+
+    $('#' + box).find('span').html(config[index].bottomLetter);
+    config[index].topLetter = config[index].bottomLetter;
+    config[index].bottomLetter = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {

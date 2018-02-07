@@ -58,6 +58,7 @@ try {
         movement_count: actualMove,
         gesture_count: gestureCount,
         ins : specificIns,
+        configuration: currentConfig,
         gameType: getGameType()
     });
 } catch (err) {
@@ -143,9 +144,9 @@ socket.on('enable_blocks_for_player_2', function(data) {
 
 var z = 1;
 socket.on('update_position', function (data) {
+    var left = Math.max(data.left, 0);
+    var top = Math.max(data.top, 0);
 
-    var left = data.left;
-    var top = data.top;
     var block = data.block_id;
     $("#" + block).css({
         left: left + "%",
@@ -157,7 +158,7 @@ socket.on('update_position', function (data) {
 });
 
 socket.on('update_flip_block', function (block_id) {
-    flipBlock(block_id, null, blockLetters, blockColors);
+    flipBlock(block_id, null, currentConfig);
 });
 
 socket.on('setInitialPosition', function(data) {
@@ -170,6 +171,7 @@ socket.on('setInitialPosition', function(data) {
     var container = document.getElementById("container");
     human_voice = false;
 
+    currentConfig = data.configuration;
     blockColors = data.colors;
     blockLetters = data.letters;
     flipColorArray = data.flipColorArray;
@@ -229,7 +231,7 @@ socket.on('setInitialPosition', function(data) {
         $("#block" + i).bind("contextmenu", function(e) {
             if (taskID != 1) {
                 var event = e || window.event;
-                flipBlock('block' + $(this).data("id"), event, blockLetters, blockColors);
+                flipBlock('block' + $(this).data("id"), event, currentConfig);
                 send_flip_to_server('block' + $(this).data("id"));
                 if (am_i_player1) {
                     players.push("Human");
@@ -371,9 +373,6 @@ function init() {
 // Needs to be fixed to account for new percentage based way of calculating position.
 
 socket.on('Update_score', function(data) {
-    var top = [], left = [];
-    end_left[data.id] = data.tLeft;
-    end_top[data.id] = data.tTop;
 
     document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 });
@@ -388,20 +387,22 @@ function send_movement_to_server() {
 
 }
 socket.on('update_movement_data', function(data) {
+    console.log('updating movement data');
+    console.log(data);
     actualMove = data;
     setMovement();
 });
-function send_user_message_to_server() {
+function send_user_message_to_server(gameConfig) {
     if (start_button_pressed) {
         gestureCount++;
         send_gesture_to_server();
 
         try {
-            socket.emit('receive_user_message',
-                        {
-                            text: document.getElementById("txt_instruction").value,
-                            gameType: getGameType()
-                        });
+            socket.emit('receive_user_message', {
+                text: document.getElementById("txt_instruction").value,
+                gameType: getGameType(),
+                gameState: gameConfig
+            });
         } catch (err) {
             /* window.location.href = "server_down.html";*/
             redirects.pageDown(err);
