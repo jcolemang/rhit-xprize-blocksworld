@@ -4,3 +4,5 @@ pylint
 psycopg2
 tornado
 eventlet
+keras
+numpy
