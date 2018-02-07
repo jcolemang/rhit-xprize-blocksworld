@@ -6,3 +6,5 @@ tornado
 eventlet
 keras
 numpy
+tensorflow
+h5py
