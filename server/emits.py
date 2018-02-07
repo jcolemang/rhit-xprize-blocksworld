@@ -28,6 +28,7 @@ def setup_initial_position(sio, rooms_tracker):
             room = rooms_tracker.get_room(sid)
 
             _starting_game_data[room] = data
+            self_emit(sio, sid, 'freeze_start', rooms_tracker)
             self_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
         def human_opponent_setup():
