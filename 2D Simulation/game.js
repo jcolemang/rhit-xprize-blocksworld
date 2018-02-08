@@ -387,8 +387,6 @@ function send_movement_to_server() {
 
 }
 socket.on('update_movement_data', function(data) {
-    console.log('updating movement data');
-    console.log(data);
     actualMove = data;
     setMovement();
 });
