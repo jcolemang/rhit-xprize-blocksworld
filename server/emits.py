@@ -83,13 +83,16 @@ def setup_varied_updates(sio, rooms_tracker):
         else:
             gesture['data'] = data
 
+    model = nn.NeuralNetworkBlocksworldModel('./model.h5')
     def user_message_handler(sid, data):
         if is_coop(data):
             room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
         else:
-            (position_data, movement_data) = nn.generate_move(sid,
-                                                              gesture['data'],
-                                                              data)
+            (position_data, movement_data) = model.generate_move(
+                sid,
+                gesture['data'],
+                data
+            )
             gesture['data'] = None
 
             self_emit(sio, sid, 'update_position',

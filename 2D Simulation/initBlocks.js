@@ -3,17 +3,24 @@ blockColors = initColors(color, NumBlocks);
 flipColorArray = initColors(color, NumBlocks);
 blockLetters = initLetters(letters, NumBlocks);
 flipLetterArray = initLetters(letters, NumBlocks);
-initBlocks(blockColors, flipColorArray, blockLetters, flipLetterArray);
+currentConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
+
+initBlocks(currentConfig);
 writeBlockStyle(blockColors);
-let initialConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
-finalBlocks = getFinalConfiguration(initialConfig);
+finalBlocks = getFinalConfiguration(currentConfig);
 
 initInstructions();
 setTaskHeader();
 setIntroduction(1);
 popUpGameIntro();
 
-function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
+// function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
+function initBlocks(config) {
+    let bColors = config.map(x => x.topColor);
+    let flipColors = config.map(x => x.bottomColor);
+    let bLetters = config.map(x => x.topLetter);
+    let flipLtrs = config.map(x => x.bottomLetter);
+
     console.log('Calling initBlocks');
     // Adds 1 to NumBlocks if the task is matching, ensuring an even
     // number of blocks to be matched.
