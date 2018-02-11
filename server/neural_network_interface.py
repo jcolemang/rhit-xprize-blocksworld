@@ -1,61 +1,16 @@
 from keras.models import load_model
 import numpy as np
 from itertools import chain
+import sys
 
-_movement_count_dict = {}
+sys.path.append('../rhit-xprize-neural-network')
 
-"""
-~~~~~ This code was copied and pasted from the neural net repo. It should
-      be factored out in both places. ~~~~~
-"""
-
-def color_cat(s):
-    if s.lower() == 'green':
-        return 1
-    elif s.lower() == 'blue':
-        return 2
-    elif s.lower() == 'red':
-        return 3
-    elif s.lower() == 'yellow':
-        return 4
-    elif s.lower() == 'orange':
-        return 4
-    raise RuntimeError('Unrecognized color:', s)
-
-def encode_states(states):
-    for curr_state in states:
-        for block_offset in range(0, len(curr_state), 7):
-            curr_state[block_offset + 1] = \
-                ord(curr_state[block_offset + 1]) - ord('A') + 1
-            curr_state[block_offset + 3] = \
-                ord(curr_state[block_offset + 3]) - ord('A') + 1
-            curr_state[block_offset + 2] = \
-                color_cat(curr_state[block_offset + 2])
-            curr_state[block_offset + 4] = \
-                color_cat(curr_state[block_offset + 4])
-
-    return states
-
-def tokenize_string(s):
-    MAX_LEN = 50
-    SYMBOLS = np.asarray(list('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,1234567890'))
-    TOKENS = dict((c, i) for i, c in enumerate(SYMBOLS))
-    N_SYMBOLS = len(SYMBOLS)
-    ret = np.zeros((MAX_LEN, N_SYMBOLS), dtype=bool)
-    for i, char in enumerate(s):
-        ret[i, TOKENS[char]] = 1
-    return ret
-
-def tokenize(a):
-    return np.array(list(map(lambda s: tokenize_string(s), list(a))))
-
-"""
-~~~~~ End copied and pasted code. ~~~~~
-"""
+import model_runner as runner
+import trainer_core as core
 
 class BlocksworldModel:
     def __init__(self):
-        pass
+        self._movement_count_dict = {}
 
     def generate_move(self, sid, gesture_data, message_data):
         """
@@ -64,11 +19,10 @@ class BlocksworldModel:
         """
         raise NotImplementedError('Subclasses must implement generate_move')
 
-
 class DumbBlocksworldModel(BlocksworldModel):
     def generate_move(self, sid, gesture_data, message_data):
-        movement_ct = _movement_count_dict.setdefault(sid, 0) + 1
-        _movement_count_dict[sid] = movement_ct
+        movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1
+        self._movement_count_dict[sid] = movement_ct
 
         if gesture_data is None:
             gesture_data = {'top': 0,
@@ -80,8 +34,10 @@ class DumbBlocksworldModel(BlocksworldModel):
                 movement_ct)
 
 class NeuralNetworkBlocksworldModel(BlocksworldModel):
-    def __init__(self, h5_path):
-        self.model = load_model(h5_path)
+    def __init__(self, h5_paths):
+        (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
+        self.tokenizer = core.build_tokenizer(core.load_vocabulary())
+        super().__init__()
 
     def convert_state(self, input_state):
         def convert_block(block):
@@ -99,23 +55,78 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
 
 
     def generate_move(self, sid, gesture_data, message_data):
-        movement_ct = _movement_count_dict.setdefault(sid, 0) + 1
+        movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1
+        self._movement_count_dict[sid] = movement_ct
+
         message = message_data['text']
         game_state = message_data['gameState']
 
-        state_input = encode_states(self.convert_state(game_state))
-        words_input = tokenize(message)
+        (flip, color, letter) = self._run_models(message)
 
-        prediction = self.model.predict({
-            'state_input': state_input,
-            'words_input': words_input
-        })
+        block_id = _find_block(game_state, color, letter)
 
-        to_move = np.argmax(prediction[0])
-        move = {
-            'top': gesture_data['top'],
-            'left': gesture_data['left'],
-            'block_id': 'block' + str(to_move)
+        if not block_id:
+            print(str(flip))
+            print(str(color))
+            print(str(letter))
+            return None
+        elif flip[0] == 'Flip':
+            return self._build_flip(sid, block_id)
+        else:
+            return self._build_move(sid, gesture_data, block_id)
+
+    def _run_models(self, text):
+        flip = runner.run_model(self.flip_model, text.upper(), self.tokenizer)
+        flip = runner.translate_flip(flip)
+
+        color = runner.run_model(self.colors_model, text.upper(), self.tokenizer)
+        color = runner.translate_colors(color)
+
+        letter = runner.run_model(self.letters_model, text.upper(), self.tokenizer)
+        letter = runner.translate_letters(letter)
+
+        return (flip, color, letter)
+
+    def _build_flip(self, sid, block_id):
+        return {
+            'type': 'flip',
+            'block_id': block_id,
+            'move_number': self._movement_count_dict[sid]
         }
 
-        return (move, movement_ct)
+    def _build_move(self, sid, gesture_data, block_id):
+        return {
+            'type': 'move',
+            'block_id': block_id,
+            'top': gesture_data['top'],
+            'left': gesture_data['left'],
+            'move_number': self._movement_count_dict[sid]
+        }
+
+def _find_block(game_state, color, letter):
+    correct_color = []
+    correct_letter = []
+
+    for block in game_state:
+        # Note that each of these could be 'None', but this is ignored
+        # and that list will be empty.
+        if block['topColor'].upper() == color[0].upper():
+            correct_color += [block['blockId']]
+        if block['topLetter'].upper() == letter[0].upper():
+            correct_letter += [block['blockId']]
+
+    if len(correct_color) == 0 and len(correct_letter) == 0:
+        return None
+
+    if len(correct_color) == 0:
+        return correct_letter[0]
+
+    if len(correct_letter) == 0:
+        return correct_color[0]
+
+    intersection = list(set(correct_color).intersection(correct_letter))
+
+    if len(intersection) > 0:
+        return intersection[0]
+
+    return correct_color[0]
