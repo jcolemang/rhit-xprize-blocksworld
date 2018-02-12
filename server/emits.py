@@ -75,25 +75,25 @@ def setup_updates(sio, rooms_tracker):
 
 # Different effects for Co-Op and AI modes
 def setup_varied_updates(sio, rooms_tracker):
-    gesture = {'data': None}
+    gesture = {}
 
     def gesture_handler(sid, data):
         if is_coop(data):
             roommate_emit(sio, sid, 'update_gesture_data', rooms_tracker, data)
         else:
-            gesture['data'] = data
+            gesture[sid] = data
 
-    model = nn.NeuralNetworkBlocksworldModel('./model.h5')
+    model = nn.DumbBlocksworldModel()
     def user_message_handler(sid, data):
         if is_coop(data):
             room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
         else:
             (position_data, movement_data) = model.generate_move(
                 sid,
-                gesture['data'],
+                gesture[sid],
                 data
             )
-            gesture['data'] = None
+            gesture[sid] = None
 
             self_emit(sio, sid, 'update_position',
                       rooms_tracker, position_data)
