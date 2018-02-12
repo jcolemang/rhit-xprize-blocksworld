@@ -39,21 +39,6 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
         super().__init__()
 
-    def convert_state(self, input_state):
-        def convert_block(block):
-            return [
-                block['blockId'][6:],
-                block['topLetter'],
-                block['topColor'],
-                block['bottomLetter'],
-                block['bottomColor'],
-                0,
-                0
-            ]
-        block_lists = chain.from_iterable(map(convert_block, input_state))
-        return np.array([list(block_lists)])
-
-
     def generate_move(self, sid, gesture_data, message_data):
         movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1
         self._movement_count_dict[sid] = movement_ct
