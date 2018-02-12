@@ -373,6 +373,9 @@ function init() {
 // Needs to be fixed to account for new percentage based way of calculating position.
 
 socket.on('Update_score', function(data) {
+    var top = [], left = [];
+    end_left[data.id] = data.tLeft;
+    end_top[data.id] = data.tTop;
 
     document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 });

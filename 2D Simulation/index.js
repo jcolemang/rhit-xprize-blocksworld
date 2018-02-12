@@ -456,9 +456,6 @@ function scoreCal(finalBlocks) {
     let goal_left = finalBlocks.map(block => block.position[0]);
     let goal_top = finalBlocks.map(block => block.position[1]);
 
-    console.log(goal_left);
-    console.log(end_left);
-
     var centerC = centroid(goal_left, goal_top);
     var centerA = centroid(end_left, end_top);
     var errorX = 0;
