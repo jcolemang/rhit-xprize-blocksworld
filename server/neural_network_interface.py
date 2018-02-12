@@ -76,13 +76,13 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
             return self._build_move(sid, gesture_data, block_id)
 
     def _run_models(self, text):
-        flip = runner.run_model(self.flip_model, text.upper(), self.tokenizer)
+        flip = runner.run_model(self.flip_model, text, self.tokenizer)
         flip = runner.translate_flip(flip)
 
-        color = runner.run_model(self.colors_model, text.upper(), self.tokenizer)
+        color = runner.run_model(self.colors_model, text, self.tokenizer)
         color = runner.translate_colors(color)
 
-        letter = runner.run_model(self.letters_model, text.upper(), self.tokenizer)
+        letter = runner.run_model(self.letters_model, text, self.tokenizer)
         letter = runner.translate_letters(letter)
 
         return (flip, color, letter)
