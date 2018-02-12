@@ -105,10 +105,13 @@ def setup_varied_updates(sio, rooms_tracker):
 
             gesture['data'] = None
 
+            # Messages to be cleaned up with issue #25
             if move['type'] == 'flip':
+                # Transmit id as 'block<id>'
                 self_emit(sio, sid, 'update_flip_block',
                           rooms_tracker, move['block_id'][1:])
             else:
+                # Transmit id as 'block<id>'
                 self_emit(sio, sid, 'update_position',
                           rooms_tracker, {
                               'top': move['top'],
@@ -117,6 +120,7 @@ def setup_varied_updates(sio, rooms_tracker):
                           })
                 self_emit(sio, sid, 'update_movement_data',
                           rooms_tracker, move['move_number'])
+                # Transmit id as the integer <id>
                 self_emit(sio, sid, 'Update_score',
                           rooms_tracker, {
                               'id': int(move['block_id'][6:]),
