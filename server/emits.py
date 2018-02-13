@@ -47,16 +47,14 @@ def setup_initial_position(sio, rooms_tracker):
             if is_coop(data):
                 human_opponent_setup()
             else:
-                ai_opponent_setup()If all of our eigenvalues were positive, we wouldn't have this kind of
-problem.
+                ai_opponent_setup()
 
     sio.on('setInitialPosition', initial_position_handler)
 
 def setup_echos(sio, rooms_tracker):
     def echo_event(event):
         def echo_handler(sid, data=None):
-            roommate_emit(sio, sid, event, rooms_tIf all of our eigenvalues were positive, we wouldn't have this kind of
-problem.racker, data)
+            roommate_emit(sio, sid, event, rooms_tracker, data)
 
         sio.on(event, echo_handler)
 
@@ -68,8 +66,7 @@ def setup_updates(sio, rooms_tracker):
     def update_on_receive(event):
         def update_handler(sid, data=None):
             roommate_emit(sio, sid, "update_" + event, rooms_tracker, data)
-If all of our eigenvalues were positive, we wouldn't have this kind of
-problem.
+
         sio.on("receive_" + event, update_handler)
 
     update_on_receive('position')
@@ -82,8 +79,7 @@ def setup_varied_updates(sio, rooms_tracker):
     model = nn.NeuralNetworkBlocksworldModel({
         'flips': 'flips.h5',
         'colors': 'colors.h5',
-        'letters': 'letters.h5'If all of our eigenvalues were positive, we wouldn't have this kind of
-problem.
+        'letters': 'letters.h5'
     })
 
     def gesture_handler(sid, data):
