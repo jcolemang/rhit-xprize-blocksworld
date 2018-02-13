@@ -76,6 +76,11 @@ def setup_updates(sio, rooms_tracker):
 # Different effects for Co-Op and AI modes
 def setup_varied_updates(sio, rooms_tracker):
     gesture = {'data': None}
+    model = nn.NeuralNetworkBlocksworldModel({
+        'flips': 'flips.h5',
+        'colors': 'colors.h5',
+        'letters': 'letters.h5'
+    })
 
     def gesture_handler(sid, data):
         if is_coop(data):
@@ -83,24 +88,45 @@ def setup_varied_updates(sio, rooms_tracker):
         else:
             gesture['data'] = data
 
-    model = nn.NeuralNetworkBlocksworldModel('./model.h5')
     def user_message_handler(sid, data):
         if is_coop(data):
             room_emit(sio, sid, 'update_user_message', rooms_tracker, data)
         else:
-            (position_data, movement_data) = model.generate_move(
+            move = model.generate_move(
                 sid,
                 gesture['data'],
                 data
             )
+
+            print("Received move: " + str(move))
+            if not move:
+                print("Failed to find the requested block.")
+                return
+
             gesture['data'] = None
 
-            self_emit(sio, sid, 'update_position',
-                      rooms_tracker, position_data)
-            self_emit(sio, sid, 'update_movement_data',
-                      rooms_tracker, movement_data)
-            self_emit(sio, sid, 'Update_score',
-                      rooms_tracker)
+            # Messages to be cleaned up with issue #25
+            if move['type'] == 'flip':
+                # Transmit id as 'block<id>'
+                self_emit(sio, sid, 'update_flip_block',
+                          rooms_tracker, move['block_id'][1:])
+            else:
+                # Transmit id as 'block<id>'
+                self_emit(sio, sid, 'update_position',
+                          rooms_tracker, {
+                              'top': move['top'],
+                              'left': move['left'],
+                              'block_id': move['block_id'][1:]
+                          })
+                self_emit(sio, sid, 'update_movement_data',
+                          rooms_tracker, move['move_number'])
+                # Transmit id as the integer <id>
+                self_emit(sio, sid, 'Update_score',
+                          rooms_tracker, {
+                              'id': int(move['block_id'][6:]),
+                              'tTop': move['top'],
+                              'tLeft': move['left']
+                          })
 
     sio.on('receive_gesture_data', gesture_handler)
     sio.on('receive_user_message', user_message_handler)
