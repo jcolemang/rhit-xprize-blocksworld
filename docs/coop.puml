@@ -10,13 +10,17 @@ CommanderClient -> Commander: "Display gesture and text"
 Server -> WorkerClient: update_user_message
 WorkerClient -> Worker: "Display gesture and text"
 Worker -> WorkerClient: "Move block"
-WorkerClient -> Server: receive_position
-Server -> CommanderClient: update_position
+WorkerClient -> Server: receive_position({top_pos, left_pos, block_id})
+Server -> CommanderClient: update_position({top_pos, left_pos, block_id})
 CommanderClient -> Commander: "Update block's position"
 Worker -> WorkerClient: "Release block"
-WorkerClient -> Server: receive_movement_data
-Server -> CommanderClient: update_movement_data
+WorkerClient -> Server: receive_movement_data(move_number)
+Server -> CommanderClient: update_movement_data(move_number)
 CommanderClient -> Commander: "Hide gesture"
 WorkerClient -> Server: Update_score
 Server -> CommanderClient: Update_score
+Worker -> WorkerClient: "Flip block"
+WorkerClient -> Server: receive_flip_block(block_id)
+Server -> CommanderClient: update_flip_block(block_id)
+CommanderClient -> Commander: "Flip block"
 @enduml
