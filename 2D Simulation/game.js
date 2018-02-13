@@ -1,4 +1,3 @@
-
 var socket;
 
 try {
@@ -395,8 +394,10 @@ socket.on('update_movement_data', function(data) {
 });
 function send_user_message_to_server(gameConfig) {
     if (start_button_pressed) {
-        gestureCount++;
-        send_gesture_to_server();
+        if (gesture_is_visible()) {
+            gestureCount++;
+            send_gesture_to_server();
+        }
 
         try {
             socket.emit('receive_user_message', {
@@ -410,6 +411,11 @@ function send_user_message_to_server(gameConfig) {
         }
 
     }
+}
+
+function gesture_is_visible() {
+    gestureElement = $('#gestureToggle')
+    return gestureElement.is(':visible')
 }
 
 socket.on('update_user_message', function(message) {
@@ -523,9 +529,9 @@ socket.on('end_game_for_user', function(data) {
 });
 
 function submitRobot() {
-    var q3 = "", q4 = -1, q5 = -1;    
+    var q3 = "", q4 = -1, q5 = -1;
     q3 = document.getElementById("q3").value;
-  
+
     document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
     if (q3 == "") {
         document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";

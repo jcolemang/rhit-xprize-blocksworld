@@ -75,7 +75,7 @@ def setup_updates(sio, rooms_tracker):
 
 # Different effects for Co-Op and AI modes
 def setup_varied_updates(sio, rooms_tracker):
-    gesture = {'data': None}
+    gesture = {}
     model = nn.NeuralNetworkBlocksworldModel({
         'flips': 'flips.h5',
         'colors': 'colors.h5',
@@ -86,7 +86,7 @@ def setup_varied_updates(sio, rooms_tracker):
         if is_coop(data):
             roommate_emit(sio, sid, 'update_gesture_data', rooms_tracker, data)
         else:
-            gesture['data'] = data
+            gesture[sid] = data
 
     def user_message_handler(sid, data):
         if is_coop(data):
@@ -94,16 +94,14 @@ def setup_varied_updates(sio, rooms_tracker):
         else:
             move = model.generate_move(
                 sid,
-                gesture['data'],
+                gesture[sid],
                 data
             )
-
+            gesture[sid] = None
             print("Received move: " + str(move))
             if not move:
                 print("Failed to find the requested block.")
                 return
-
-            gesture['data'] = None
 
             # Messages to be cleaned up with issue #25
             if move['type'] == 'flip':
