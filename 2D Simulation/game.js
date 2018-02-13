@@ -411,8 +411,8 @@ function send_user_message_to_server(gameConfig) {
 }
 
 function gesture_is_visible() {
-    gestureElement = document.getElementById('gestureToggle')
-    return gestureElement.style.visibility === 'visible'
+    gestureElement = $('#gestureToggle')
+    return gestureElement.is(':visible')
 }
 
 socket.on('update_user_message', function(message) {
