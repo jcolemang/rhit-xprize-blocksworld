@@ -1,5 +1,5 @@
 * Rose-Hulman AI XPrize Blocksworld
-https://travis-ci.org/RHIT-XPrize/rhit-xprize-blocksworld.svg?branch=Construction-Only
+[[https://travis-ci.org/RHIT-XPrize/rhit-xprize-blocksworld.svg?branch=Construction-Only]]
 
 This repository hosts the server and client component of Rose-Hulman's
 AI XPrize blocksworld simulator. For more detailed information of the
