@@ -1,7 +1,4 @@
 * Blocksworld Client
-/Disclaimer/: This is [[http://bonkersworld.net/legacy-code][legacy code]] in every sense of the phrase. Edit
-with caution.
-
 ** Usage
 See the server [[../server/README.org][README]] for details.
 ** Implementation

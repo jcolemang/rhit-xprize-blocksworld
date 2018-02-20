@@ -6,8 +6,7 @@ To get started running the server locally, run the
 then run =simulation.py= from this directory.
 
 Open a web browser to =file:///path/to/local/index.html= (don't
-connect to =localhost:8080=, yes, it's dumb). You should now be ready
-to play!
+connect to =localhost:8080=. You should now be ready to play!
 ** PostgreSQL Details
 There are three tables:
 *** IBMDB
