@@ -1,0 +1,26 @@
+* Rose-Hulman AI XPrize Blocksworld
+[[https://travis-ci.org/RHIT-XPrize/rhit-xprize-blocksworld.svg?branch=Construction-Only]]
+
+This repository hosts the server and client component of Rose-Hulman's
+AI XPrize blocksworld simulator. For more detailed information of the
+project as a whole, see [[https://github.com/RHIT-XPrize/rhit-xprize-pipeline][this repo]].
+** Overview
+As both a proof of concept and a minimal domain to experiment with
+different methods, we are using this 2D-Blocksworld game to help train
+the AI for our robot to be more effective.
+
+The game is representative of our planned final domain, in which there
+are two roles: the Commander and the Worker. The objective is to move
+all of the blocks to their proper location, but only the Commander
+knows where the blocks belong, and the Worker is the only one who can
+move the blocks. The Worker role is intended to reflect the role of
+the robot, while the Commander is meant for the human.
+** Organization
+The server code is held in the =server/= folder (see its [[server/README.org][README]] for
+more details on how to use it), the client code is held in =2D
+Simulation/=, and miscellaneous documentation is held in =docs/=.
+
+The =rhit-xprize-neural-network= folder holds a git submodule of our
+neural network repo ([[https://github.com/RHIT-XPrize/rhit-xprize-neural-network][here]]). As such, if you are cloning this repo, use
+=git clone --recursive=. To update to a newer version of the
+submodule, use =git submodule update --remote=.

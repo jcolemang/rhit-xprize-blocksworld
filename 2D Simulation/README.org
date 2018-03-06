@@ -1,10 +1,8 @@
-* Instructions to Run Server Locally for Testing
-1. Install PostgreSQL and Node
-2. Run =node install= in this directory
-3. Run =create-baseline.sql= (the user the database is created under
-   shouldn't matter)
-4. Run the PostgreSQL server
-5. Run =node simulation_app.js=
-6. In a web browser open =file:///path/to/local/index.html= (don't
-   connect to =localhost:8080=)
-7. You're done!
+* Blocksworld Client
+** Usage
+See the server [[../server/README.org][README]] for details.
+** Implementation
+The client makes extensive use of the socket.io library to communicate
+with the server. It is /strongly/ recommended that you look into the
+diagrams stored in the docs folder to get an understanding of how the
+interface works.
