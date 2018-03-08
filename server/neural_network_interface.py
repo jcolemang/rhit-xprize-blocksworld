@@ -35,7 +35,7 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
     def __init__(self, h5_paths):
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
-        super().__init__()
+        BlocksworldModel.__init__(self)
 
     def generate_move(self, sid, gesture_data, message_data):
         movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1
