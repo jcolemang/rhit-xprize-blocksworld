@@ -76,17 +76,40 @@ function getGameType() {
     }
 }
 
+/////////////////////
+// IncorrectButton //
+/////////////////////
+
+function get_incorrect_button() {
+    return $("button#buttonIncorrect");
+}
+
 function setup_incorrect_button() {
-    incorrect_button = $("#buttonIncorrect");
+    let incorrect_button = get_incorrect_button();
 
     if (getGameType() !== "ai") {
         incorrect_button.css({
             visibility: "hidden"
         });
     }
+
+    incorrect_button.prop("disabled", true);
+}
+
+function enable_incorrect_button() {
+    get_incorrect_button().prop("disabled", false);
+}
+
+function handle_incorrect_move() {
+    get_incorrect_button().prop("disabled", true);
 }
 
 setup_incorrect_button();
+
+
+////////////////////////
+// SocketIO callbacks //
+////////////////////////
 
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
@@ -166,10 +189,13 @@ socket.on('update_position', function (data) {
     $("#" + block).css('z-index', ++z);
     $("#" + block).data("horizontal_percent", left);
     $("#" + block).data("vertical_percent", top);
+
+    enable_incorrect_button();
 });
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
+    enable_incorrect_button();
 });
 
 socket.on('setInitialPosition', function(data) {
