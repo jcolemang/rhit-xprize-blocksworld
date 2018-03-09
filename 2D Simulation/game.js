@@ -100,6 +100,10 @@ function enable_incorrect_button() {
     get_incorrect_button().prop("disabled", false);
 }
 
+function disable_incorrect_button() {
+    get_incorrect_button().prop("disabled", true);
+}
+
 function handle_incorrect_move() {
     get_incorrect_button().prop("disabled", true);
 }
@@ -448,6 +452,7 @@ function send_user_message_to_server(gameConfig) {
             redirects.pageDown(err);
         }
 
+        disable_incorrect_button();
     }
 }
 
