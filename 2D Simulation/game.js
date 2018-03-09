@@ -76,6 +76,18 @@ function getGameType() {
     }
 }
 
+function setup_incorrect_button() {
+    incorrect_button = $("#buttonIncorrect");
+
+    if (getGameType() !== "ai") {
+        incorrect_button.css({
+            visibility: "hidden"
+        });
+    }
+}
+
+setup_incorrect_button();
+
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
     var endButton = document.getElementById('buttonEnd');
