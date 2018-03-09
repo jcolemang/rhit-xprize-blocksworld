@@ -3,10 +3,8 @@ import numpy as np
 from itertools import chain
 import sys
 
-sys.path.append('../rhit-xprize-neural-network')
-
-import model_runner as runner
-import trainer_core as core
+from rhit_xprize_neural_network import model_runner as runner
+from rhit_xprize_neural_network import trainer_core as core
 
 class BlocksworldModel:
     def __init__(self):
@@ -37,7 +35,7 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
     def __init__(self, h5_paths):
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
-        super().__init__()
+        BlocksworldModel.__init__(self)
 
     def generate_move(self, sid, gesture_data, message_data):
         movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1

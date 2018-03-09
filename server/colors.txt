@@ -1,1 +1,1 @@
-../rhit-xprize-neural-network/colors.txt
+rhit_xprize_neural_network/colors.txt

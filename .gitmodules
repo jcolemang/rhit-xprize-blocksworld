@@ -1,3 +1,3 @@
-[submodule "neural-network"]
-	path = rhit-xprize-neural-network
-	url = https://github.com/RHIT-XPrize/rhit-xprize-neural-network.git
+[submodule "server/rhit_xprize_neural_network"]
+	path = server/rhit_xprize_neural_network
+	url = https://github.com/RHIT-XPrize/rhit-xprize-neural-network
