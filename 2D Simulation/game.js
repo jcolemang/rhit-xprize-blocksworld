@@ -18,26 +18,9 @@ try {
     redirects.pageDown(err);
 }
 
-// alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
-
-// I think this code needs to be here to make the overall application work.
-// However, if testing on localhost, comment this section out so it
-// doesn't redirect you to the server down page.
-/* if (!socket.connected) {
- *   setTimeout(function() {
- *     if (!socket.connected) {
- *       console.log('Garbage timeout');
- *       redirects.pageDown('socket could not connect');
- *     }
- *   }, 3000);
- * }
- */
-
-var left_array = [];
-var top_array = [];
+let left_array = [];
+let top_array = [];
 for (var i = 0; i < NumBlocks; i++) {
-    // var position = $("#block" + i).position();
-    /* var current_color = document.getElementById("block" + i).style.backgroundColor;*/
     let current_color = blockColors[i];
     let current_letter = blockLetters[i];
     left_array.push($("#block" + i).data("horizontal_percent"));
@@ -88,10 +71,7 @@ socket.on('freeze_start', function() {
     enterButton.disabled = true;
 
     document.getElementById('disablingDiv').style.display = 'block';
-    // document.getElementById('freeze').style.visibility = 'visible';
-
     document.getElementById('txt_instruction').disabled = true;
-
     document.getElementById('container').ondblclick = function(e) {
         // Do nothing;
     };
@@ -143,10 +123,10 @@ socket.on('enable_blocks_for_player_2', function(data) {
 
 var z = 1;
 socket.on('update_position', function (data) {
-    var left = Math.max(data.left, 0);
-    var top = Math.max(data.top, 0);
+    let left = Math.max(data.left, 0);
+    let top = Math.max(data.top, 0);
 
-    var block = data.block_id;
+    let block = data.block_id;
     $("#" + block).css({
         left: left + "%",
         top: top + "%"
@@ -158,6 +138,27 @@ socket.on('update_position', function (data) {
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
+});
+
+socket.on('indicate_impossible_move', function(move) {
+    let color = move['predicted_color'];
+    let letter = move['predicted_letter'];
+    let message = 'I think that this is an impossible move. '
+	+ 'My prediction is that you are trying to move the '
+	+ color + ' '
+	+ letter + '. '
+	+ 'Please check that this move is possible.';
+    alert(message);
+});
+
+socket.on('indicate_ambiguous_move', function(move) {
+    let color = move['predicted_color'] || 'Ambiguous';
+    let letter = move['predicted_letter'] || 'Ambiguous';
+    let message = 'I think that this is an ambiguous move. '
+	+ 'Please try a more specific instruction.\n'
+	+ 'Predicted color: ' + color + '\n'
+	+ 'Predicted letter: ' + letter;
+    alert(message);
 });
 
 socket.on('setInitialPosition', function(data) {
@@ -392,6 +393,7 @@ socket.on('update_movement_data', function(data) {
     actualMove = data;
     setMovement();
 });
+
 function send_user_message_to_server(gameConfig) {
     if (start_button_pressed) {
         if (gesture_is_visible()) {
@@ -406,10 +408,8 @@ function send_user_message_to_server(gameConfig) {
                 gameState: gameConfig
             });
         } catch (err) {
-            /* window.location.href = "server_down.html";*/
             redirects.pageDown(err);
         }
-
     }
 }
 

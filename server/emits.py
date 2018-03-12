@@ -108,6 +108,12 @@ def setup_varied_updates(sio, rooms_tracker):
                 # Transmit id as 'block<id>'
                 self_emit(sio, sid, 'update_flip_block',
                           rooms_tracker, move['block_id'][1:])
+            elif move['type'] == 'impossible':
+                self_emit(sio, sid, 'indicate_impossible_move',
+                          rooms_tracker, move)
+            elif move['type'] == 'ambiguous':
+                self_emit(sio, sid, 'indicate_ambiguous_move',
+                          rooms_tracker, move)
             else:
                 # Transmit id as 'block<id>'
                 self_emit(sio, sid, 'update_position',
