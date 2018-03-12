@@ -6,7 +6,7 @@ import sys
 from rhit_xprize_neural_network import model_runner as runner
 from rhit_xprize_neural_network import trainer_core as core
 
-class BlocksworldModel:
+class BlocksworldModel(object):
     def __init__(self):
         self._movement_count_dict = {}
 
