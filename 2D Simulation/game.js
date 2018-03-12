@@ -389,9 +389,9 @@ function init() {
                 send_movement_to_server();
 
                 socket.emit('Update_score', {
-                    id : $(this).data("id"),
-                    tLeft: $(this).data("horizontal_percent"),
-                    tTop: $(this).data("vertical_percent")
+                    block_id : "block" + $(this).data("id"),
+                    left: $(this).data("horizontal_percent"),
+                    top: $(this).data("vertical_percent")
                 });
 
                 // document.getElementById("scoreBox").innerText = scoreCal();
@@ -436,13 +436,17 @@ function init() {
 
 // Needs to be fixed to account for new percentage based way of calculating position.
 
-socket.on('Update_score', function(data) {
-    var top = [], left = [];
-    end_left[data.id] = data.tLeft;
-    end_top[data.id] = data.tTop;
+function update_score(moveData) {
+    // Expecting block_id of the form: block<id>
+    let id = Number(moveData.block_id.substring(5));
+
+    end_left[id] = Number(moveData.left);
+    end_top[id] = Number(moveData.top);
 
     document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
-});
+}
+
+socket.on('Update_score', update_score);
 
 function send_movement_to_server() {
     try {
