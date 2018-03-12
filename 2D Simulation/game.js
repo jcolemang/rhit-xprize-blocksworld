@@ -1,4 +1,5 @@
 var socket;
+let _undoMove;
 
 try {
     socket = io.connect(config.appAddr);
@@ -96,16 +97,24 @@ function setup_incorrect_button() {
     incorrect_button.prop("disabled", true);
 }
 
-function enable_incorrect_button() {
-    get_incorrect_button().prop("disabled", false);
+function handle_incorrect_move() {
+    disable_incorrect_button();
+    run_undo_move();
 }
 
 function disable_incorrect_button() {
     get_incorrect_button().prop("disabled", true);
 }
 
-function handle_incorrect_move() {
-    get_incorrect_button().prop("disabled", true);
+function enable_incorrect_button() {
+    get_incorrect_button().prop("disabled", false);
+}
+
+function run_undo_move() {
+    if (_undoMove !== undefined) {
+        update_position(_undoMove);
+        _undoMove = undefined;
+    }
 }
 
 setup_incorrect_button();
@@ -181,11 +190,11 @@ socket.on('enable_blocks_for_player_2', function(data) {
 });
 
 var z = 1;
-socket.on('update_position', function (data) {
-    var left = Math.max(data.left, 0);
-    var top = Math.max(data.top, 0);
+function update_position(moveData) {
+    var left = Math.max(moveData.left, 0);
+    var top = Math.max(moveData.top, 0);
 
-    var block = data.block_id;
+    var block = moveData.block_id;
     $("#" + block).css({
         left: left + "%",
         top: top + "%"
@@ -193,9 +202,23 @@ socket.on('update_position', function (data) {
     $("#" + block).css('z-index', ++z);
     $("#" + block).data("horizontal_percent", left);
     $("#" + block).data("vertical_percent", top);
+}
 
+socket.on('update_position', function (moveData) {
+    update_undo_move(moveData);
+    update_position(moveData);
     enable_incorrect_button();
 });
+
+function update_undo_move(moveData) {
+    let block = $("#" + moveData.block_id);
+
+    _undoMove = {
+        block_id: moveData.block_id,
+        left: block.prop("style")["left"].slice(0, -1),
+        top: block.prop("style")["top"].slice(0, -1)
+    };
+}
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
