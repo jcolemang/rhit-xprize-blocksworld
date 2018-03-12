@@ -98,7 +98,7 @@ def setup_varied_updates(sio, rooms_tracker):
                 data
             )
             gesture[sid] = None
-            print("Received move: " + str(move))
+
             if not move:
                 print("Failed to find the requested block.")
                 return
