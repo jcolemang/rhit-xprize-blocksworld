@@ -4,10 +4,11 @@ python:
   - "3.6"
 
 install:
-  - sudo pip3 install -r requirements.txt
+  - sudo pip install -r requirements.txt
 
 script:
   - pylint --version
+  - pylint3 --version
   - cd server
-  - sudo python -m pytest . --ignore=rhit-xprize-neural-network
+  - python -m pytest . --ignore=rhit-xprize-neural-network
   - pylint -E *.py
