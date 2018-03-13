@@ -4,7 +4,8 @@ python:
   - "3.6"
 
 install:
-  - sudo apt remove pylint
+  - sudo apt purge pip2
+  - sudo apt remove python2
   - sudo pip install -r requirements.txt
 
 script:
