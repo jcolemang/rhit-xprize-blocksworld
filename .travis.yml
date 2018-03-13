@@ -8,4 +8,4 @@ install:
 
 script:
   - cd server
-  - python3 -m pytest . --ignore=rhit-xprize-neural-network
+  - sudo python3 -m pytest . --ignore=rhit-xprize-neural-network
