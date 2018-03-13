@@ -7,6 +7,7 @@ install:
   - sudo pip install -r requirements.txt
 
 script:
+  - pylint --version
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - pylint -E *.py
