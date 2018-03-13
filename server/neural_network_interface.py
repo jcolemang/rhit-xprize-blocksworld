@@ -33,7 +33,7 @@ class DumbBlocksworldModel(BlocksworldModel):
 
 class NeuralNetworkBlocksworldModel(BlocksworldModel):
     def __init__(self, h5_paths, ambiguity_threshold=0.3):
-        super(BlocksworldModel, self).__init__()
+        super().__init__()
         self.ambiguity_threshold = ambiguity_threshold
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
@@ -45,20 +45,20 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
         message = message_data['text']
         game_state = message_data['gameState']
 
-        (flip, color, letter) = self._run_models(message)
+        (flip_tup, color_tup, letter_tup) = self._run_models(message)
 
 
-        ambig_letter = letter if letter[1] > self.ambiguity_threshold else ('None', 1)
-        ambig_color = color if color[1] > self.ambiguity_threshold else ('None', 1)
+        ambig_letter = letter_tup if letter_tup[1] > self.ambiguity_threshold else ('None', 1)
+        ambig_color = color_tup if color_tup[1] > self.ambiguity_threshold else ('None', 1)
         candidates = _find_block(game_state, ambig_color[0], ambig_letter[0])
 
         if len(candidates) == 0:
-            return self._build_impossible(letter[0], color[0])
+            return self._build_impossible(letter_tup[0], color_tup[0])
         if len(candidates) > 1:
-            return self._build_ambiguous(letter[0], color[0], candidates)
+            return self._build_ambiguous(letter_tup[0], color_tup[0], candidates)
 
         block_id = candidates[0]
-        if flip[0] == 'Flip':
+        if flip_tup[0] == 'Flip':
             return self._build_flip(sid, block_id)
         else:
             return self._build_move(sid, gesture_data, block_id)
@@ -109,6 +109,9 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
 def _find_block(game_state, color, letter):
     correct_color = []
     correct_letter = []
+
+    if color.upper() == 'NONE' and letter.upper() == 'NONE':
+        return list(map(lambda x: x['blockId'], game_state))
 
     for block in game_state:
         # Note that each of these could be 'None', but this is ignored

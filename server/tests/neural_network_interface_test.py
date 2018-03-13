@@ -23,19 +23,8 @@ def test_find_block_incorrect_color_no_letters():
     ]
 
     result = nni._find_block(game_state, color, letter)
-    assert result == []
+    assert set(result) == set([])
     
-def test_find_block_incorrect_color_no_letters():
-    color = 'green'
-    letter = 'z'
-    game_state = [
-        construct_block('#block1', 'red', 'a', 'green', 'b'),
-        construct_block('#block2', 'beije', 'a', 'yellow', 'c')
-    ]
-
-    result = nni._find_block(game_state, color, letter)
-    assert result == []
-
 def test_find_block_incorrect_colors_one_correct_letter():
     color = 'green'
     letter = 'b'
@@ -45,7 +34,7 @@ def test_find_block_incorrect_colors_one_correct_letter():
     ]
 
     result = nni._find_block(game_state, color, letter)
-    assert result == []
+    assert set(result) == set([])
 
 def test_find_block_one_correct_color_incorrect_letter():
     color = 'red'
@@ -56,7 +45,7 @@ def test_find_block_one_correct_color_incorrect_letter():
     ]
 
     result = nni._find_block(game_state, color, letter)
-    assert result == []
+    assert set(result) == set([])
 
 def test_find_block_one_correct_color_no_letter():
     color = 'red'
@@ -67,7 +56,7 @@ def test_find_block_one_correct_color_no_letter():
     ]
 
     result = nni._find_block(game_state, color, letter)
-    assert result == ['block1']
+    assert set(result) == set(['block1'])
 
 def test_find_block_color_one_correct_letter():
     color = 'none'
@@ -78,4 +67,27 @@ def test_find_block_color_one_correct_letter():
     ]
 
     result = nni._find_block(game_state, color, letter)
-    assert result == ['block2']
+    assert set(result) == set(['block2'])
+
+def test_find_block_color_and_letter_none():
+    color = 'none'
+    letter = 'none'
+    game_state = [
+        construct_block('block1', 'red', 'a', 'blue', 'b'),
+        construct_block('block2', 'purple', 'b', 'blue', 'c')
+    ]
+
+    result = nni._find_block(game_state, color, letter)
+    assert set(result) == set(['block1', 'block2'])
+
+def test_find_block_multiple_accurate():
+    color = 'baydj'
+    letter = 'b'
+    game_state = [
+        construct_block('block1', 'purple', 'c', 'red', 'b'),
+        construct_block('block2', 'baydj', 'b', 'blue', 'b'),
+        construct_block('block3', 'baydj', 'b', 'green', 'c')
+    ]
+
+    result = nni._find_block(game_state, color, letter)
+    assert set(result) == set(['block2', 'block3'])
