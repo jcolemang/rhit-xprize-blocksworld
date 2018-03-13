@@ -9,4 +9,4 @@ install:
 script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
-  - pylint -E *.py
+  - pylint3 -E *.py
