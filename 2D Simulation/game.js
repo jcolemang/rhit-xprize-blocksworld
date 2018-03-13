@@ -113,6 +113,7 @@ function enable_incorrect_button() {
 function run_undo_move() {
     if (_undoMove !== undefined) {
         update_position(_undoMove);
+        update_score(_undoMove);
         _undoMove = undefined;
     }
 }
