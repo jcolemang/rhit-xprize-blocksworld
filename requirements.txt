@@ -1,6 +1,6 @@
 pytest
 python-socketio
-pylint3
+pylint>=2.0
 psycopg2
 tornado==4.5
 eventlet
