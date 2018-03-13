@@ -86,7 +86,9 @@ function initBlocks(config) {
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];
 
-                block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+                movesTracker.add_block_action($(this).data("id"),
+                                              flipped_block_letter,
+                                              flipped_block_color);
             }
         });
     }

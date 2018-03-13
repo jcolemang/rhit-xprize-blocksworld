@@ -250,7 +250,9 @@ socket.on('setInitialPosition', function(data) {
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];
 
-                block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+                movesTracker.add_block_action($(this).data("id"),
+                                              flipped_block_letter,
+                                              flipped_block_color);
             }
         });
     }
@@ -327,7 +329,9 @@ function init() {
                 var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var moved_block_letter = blockLetters[$(this).data("id")];
 
-                block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+                movesTracker.add_block_action($(this).data("id"),
+                                              moved_block_letter,
+                                              moved_block_color);
                 end_left[$(this).data("id")] = $(this).data("horizontal_percent")
                 end_top[$(this).data("id")] = $(this).data("vertical_percent");
 
@@ -445,14 +449,25 @@ socket.on('end_game_for_user', function(data) {
     var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
     for (var i = 0; i < type.length;i++) {
         if (type[i] == "Movement") {
-            actions.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+            actions.push(players[user] + " "
+                         + type[i] + " "
+                         + movesTracker.block_actions[block_count] + " "
+                         + start[counter] + " "
+                         + end[counter] + " "
+                         + interval[counter] + " "
+                         + movement_startpos[x] + " "
+                         + movement_endpos[x]);
             x++; counter++; user++; block_count++;
         } else if (type[i] == "Instructions") {
             actions.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
             y++; counter++;
         } else {
             if (type[i] == "Flip") {
-                actions.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+                actions.push(players[user] + " "
+                             + type[i] + " "
+                             + movesTracker.block_actions[block_count] + " "
+                             + time_GF[z] + " "
+                             + GF_position[z]);
                 block_count++;
             } else {
                 actions.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);

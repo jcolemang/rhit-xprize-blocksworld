@@ -83,14 +83,14 @@ function endGame() {
         var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
         for (var i = 0; i < type.length;i++) {
             if (type[i] == "Movement") {
-                action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+                action.push(players[user]+" "+type[i]+" "+movesTracker.block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
                 x++; counter++; user++; block_count++;
             } else if (type[i] == "Instructions") {
                 action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
                 y++; counter++;
             } else {
                 if (type[i] == "Flip") {
-                    action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+                    action.push(players[user]+" "+type[i]+" "+movesTracker.block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
                     block_count++;
                 } else {
                     action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
