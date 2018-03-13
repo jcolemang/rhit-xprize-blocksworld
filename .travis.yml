@@ -4,12 +4,8 @@ python:
   - "3.6"
 
 install:
-  - sudo apt purge pip2
-  - sudo apt remove python2
   - sudo pip install -r requirements.txt
 
 script:
-  - pylint --version
   - cd server
   - python3 -m pytest . --ignore=rhit-xprize-neural-network
-  - pylint -E *.py
