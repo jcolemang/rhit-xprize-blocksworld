@@ -281,20 +281,18 @@ $(document).ready(function() {
         $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
     });
 });
-var z = 1;
+
 $( init );
 function init() {
     for (var i = 0; i < NumBlocks; i++) {
         $('#block' + i).draggable({containment: '#container', start: function(event, ui) {
             $(this).css('z-index', ++z);
-            // var Startpos = $(this).position();
+
             previous_left[i] = $(this).data("horizontal_percent");
             previous_top[i] = $(this).data("vertical_percent");
             movementstarttime = new Date().getTime();
             movementdate = getDateTime();
         }, stop: function(event, ui) {
-            // var Stoppos = $(this).position();
-
             $("#" + $(this).attr('id')).css({
                 left: $(this).data("horizontal_percent") + "%",
                 top: $(this).data("vertical_percent") + "%"
@@ -332,7 +330,6 @@ function init() {
                 // document.getElementById("scoreBox").innerText = scoreCal();
             }
         }, drag: function(event, ui) {
-            // var coord = $(this).position();
             var block_id = $(this).attr('id');
 
             var rect = document.getElementById('container').getBoundingClientRect();
@@ -424,10 +421,10 @@ socket.on('update_user_message', function(message) {
 
 socket.on('end_game_for_user', function(data) {
 
-    var action = [];
+    var actions = [];
 
     for (var i = 0; i < data.Action.length; i++) {
-        action.push(data.Action[i]);
+        actions.push(data.Action[i]);
     }
 
     isGameEnd = true;
@@ -435,56 +432,56 @@ socket.on('end_game_for_user', function(data) {
     var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
     for (var i = 0; i < type.length;i++) {
         if (type[i] == "Movement") {
-            action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+            actions.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
             x++; counter++; user++; block_count++;
         } else if (type[i] == "Instructions") {
-            action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+            actions.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
             y++; counter++;
         } else {
             if (type[i] == "Flip") {
-                action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+                actions.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
                 block_count++;
             } else {
-                action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+                actions.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
             }
             z++; user++;
         }
     }
 
     var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
-    for (var i = 0; i < action.length; i++) {
-        var start_pos = action[i].indexOf('/') - 2;
+    for (var i = 0; i < actions.length; i++) {
+        var start_pos = actions[i].indexOf('/') - 2;
         var end_pos = start_pos + 10;
-        dateDay.push(parseInt(action[i].substring(0, 2)));
-        dateMonth.push(parseInt(action[i].substring(3, 5)));
-        dateYear.push(parseInt(action[i].substring(6, 10)));
-        start_pos = action[i].indexOf('/', end_pos) - 2;
+        dateDay.push(parseInt(actions[i].substring(0, 2)));
+        dateMonth.push(parseInt(actions[i].substring(3, 5)));
+        dateYear.push(parseInt(actions[i].substring(6, 10)));
+        start_pos = actions[i].indexOf('/', end_pos) - 2;
         end_pos = start_pos + 8;
-        dayTime.push(action[i].substring(start_pos, end_pos));
+        dayTime.push(actions[i].substring(start_pos, end_pos));
     }
 
-    for (var i = 0; i < action.length; i++) {
-        for (var j = i + 1; j < action.length; j++) {
+    for (var i = 0; i < actions.length; i++) {
+        for (var j = i + 1; j < actions.length; j++) {
             if (dateYear[i] > dateYear[j]) {
-                var st = action[i]; action[i] = action[j]; action[j] = st;
+                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
                 st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
                 st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
                 st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
                 st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
             } else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
-                var st = action[i]; action[i] = action[j]; action[j] = st;
+                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
                 st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
                 st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
                 st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
                 st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
             } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
-                var st = action[i]; action[i] = action[j]; action[j] = st;
+                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
                 st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
                 st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
                 st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
                 st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
             } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
-                var st = action[i]; action[i] = action[j]; action[j] = st;
+                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
                 st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
                 st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
                 st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
@@ -507,7 +504,7 @@ socket.on('end_game_for_user', function(data) {
         ie: data.ie,
         p: data.p,
         finalScore: Math.round(data.finalScore),
-        Action: action,
+        Action: actions,
         initialInfo: data.initialInfo,
         standard_info: data.standard_info,
         other: data.other
