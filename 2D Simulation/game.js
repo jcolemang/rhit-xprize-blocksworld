@@ -141,20 +141,29 @@ socket.on('enable_blocks_for_player_2', function(data) {
     }
 });
 
-var z = 1;
-socket.on('update_position', function (data) {
-    var left = Math.max(data.left, 0);
-    var top = Math.max(data.top, 0);
+socket.on('update_position', function (moveData) {
+    update_gui_block(moveData);
+});
 
-    var block = data.block_id;
-    $("#" + block).css({
+function update_gui_block(moveData) {
+    if (this.last_z === undefined) {
+        this.last_z = 1;
+    }
+
+    let left = Math.max(moveData.left, 0);
+    let top = Math.max(moveData.top, 0);
+    let block = $("#" + moveData.block_id);
+
+    block.css({
         left: left + "%",
         top: top + "%"
     });
-    $("#" + block).css('z-index', ++z);
-    $("#" + block).data("horizontal_percent", left);
-    $("#" + block).data("vertical_percent", top);
-});
+
+    block.css('z-index', ++this.last_z);
+
+    block.data("horizontal_percent", left);
+    block.data("vertical_percent", top);
+}
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
@@ -284,9 +293,13 @@ $(document).ready(function() {
 
 $( init );
 function init() {
+    if (this.last_z === undefined) {
+        this.last_z = 0;
+    }
+
     for (var i = 0; i < NumBlocks; i++) {
         $('#block' + i).draggable({containment: '#container', start: function(event, ui) {
-            $(this).css('z-index', ++z);
+            $(this).css('z-index', ++this.last_z);
 
             previous_left[i] = $(this).data("horizontal_percent");
             previous_top[i] = $(this).data("vertical_percent");
