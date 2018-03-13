@@ -35,7 +35,7 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
     def __init__(self, h5_paths, ambiguity_threshold=0.3):
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
-        super().__init__()
+        super(BlocksworldModel, self).__init__()
         self.ambiguity_threshold = ambiguity_threshold
 
     def generate_move(self, sid, gesture_data, message_data):
