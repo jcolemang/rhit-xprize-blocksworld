@@ -6,5 +6,7 @@ Note that many of these images are generated using PlantUML for the
 [[./connecting.png]]
 *** Co-Op Gameplay
 [[./coop.png]]
+*** AI Gameplay
+[[./ai.png]]
 *** Ending
 [[./ending.png]]
