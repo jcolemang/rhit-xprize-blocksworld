@@ -10,4 +10,4 @@ script:
   - python -m pylint --version
   - cd server
   - python -m pytest . --ignore=rhit-xprize-neural-network
-  - pythin -m pylint -E *.py
+  - python -m pylint -E *.py
