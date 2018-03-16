@@ -316,7 +316,7 @@ function init() {
             if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
                 movesTracker.start.push(movementdate);
                 movesTracker.end.push(getDateTime());
-                interval.push(new Date().getTime() - movementstarttime);
+                movesTracker.interval.push(new Date().getTime() - movementstarttime);
                 movesTracker.types.push("Movement");
                 actualMove++;
                 movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
@@ -454,7 +454,7 @@ socket.on('end_game_for_user', function(data) {
                          + movesTracker.block_actions[block_count] + " "
                          + movesTracker.start[counter] + " "
                          + movesTracker.end[counter] + " "
-                         + interval[counter] + " "
+                         + movesTracker.interval[counter] + " "
                          + movement_startpos[x] + " "
                          + movement_endpos[x]);
             x++; counter++; user++; block_count++;
@@ -462,7 +462,7 @@ socket.on('end_game_for_user', function(data) {
             actions.push(movesTracker.types[i] + " "
                          + movesTracker.start[counter] + " "
                          + movesTracker.end[counter] + " "
-                         + interval[counter] + " "
+                         + movesTracker.interval[counter] + " "
                          + instructions[y]);
             y++; counter++;
         } else {

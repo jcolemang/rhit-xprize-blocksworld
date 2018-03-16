@@ -88,7 +88,7 @@ function endGame() {
                             + movesTracker.block_actions[block_count] + " "
                             + movesTracker.start[counter] + " "
                             + movesTracker.end[counter] + " "
-                            + interval[counter] + " "
+                            + movesTracker.interval[counter] + " "
                             + movement_startpos[x] + " "
                             + movement_endpos[x]);
                 x++; counter++; user++; block_count++;
@@ -96,7 +96,7 @@ function endGame() {
                 action.push(movesTracker.types[i] + " "
                             + movesTracker.start[counter] + " "
                             + movesTracker.end[counter] + " "
-                            + interval[counter] + " "
+                            + movesTracker.interval[counter] + " "
                             + instructions[y]);
                 y++; counter++;
             } else {

@@ -341,7 +341,7 @@ function inputlength() {
         movesTracker.end.push(getDateTime());
         movesTracker.start.push(instructiondate);
         movesTracker.add_type("Instructions");
-        interval.push(new Date().getTime() - instructionstarttime);
+        movesTracker.interval.push(new Date().getTime() - instructionstarttime);
         var x = document.getElementById("txt_instruction").value;
         if (x.length != 0) {
             var numToAdd = (x.split(" ").length - 1) + 1;
