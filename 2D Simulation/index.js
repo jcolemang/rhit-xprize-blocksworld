@@ -24,7 +24,6 @@ var oldBlock = "blockNone";
 var start = [];
 var end = [];
 var interval = [];
-var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = [];
@@ -185,7 +184,7 @@ function flipBlock(box, event, config) {
         setMovement();
         if (event != null) {
             GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-            type.push("Flip");
+            movesTracker.add_type("Flip");
             time_GF.push(getDateTime());
             if (taskID == 1) {
                 document.getElementById("block" + box.substring(5)).style.borderColor = "white";
@@ -236,7 +235,7 @@ function setGestureWithPosition(left, top, event) {
     if (event != null) {
         time_GF.push(getDateTime());
         GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
-        type.push("Gesture");
+        movesTracker.add_type("Gesture");
     }
 
 }
@@ -343,7 +342,7 @@ function inputlength() {
     if (start_button_pressed) {
         end.push(getDateTime());
         start.push(instructiondate);
-        type.push("Instructions");
+        movesTracker.add_type("Instructions");
         interval.push(new Date().getTime() - instructionstarttime);
         var x = document.getElementById("txt_instruction").value;
         if (x.length != 0) {

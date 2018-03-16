@@ -81,24 +81,40 @@ function endGame() {
         var action = [];
 
         var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-        for (var i = 0; i < type.length;i++) {
-            if (type[i] == "Movement") {
-                action.push(players[user]+" "+type[i]+" "+movesTracker.block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+        for (var i = 0; i < movesTracker.types.length;i++) {
+            if (movesTracker.types[i] == "Movement") {
+                action.push(players[user] + " "
+                            + movesTracker.types[i] + " "
+                            + movesTracker.block_actions[block_count] + " "
+                            + start[counter] + " "
+                            + end[counter] + " "
+                            + interval[counter] + " "
+                            + movement_startpos[x] + " "
+                            + movement_endpos[x]);
                 x++; counter++; user++; block_count++;
-            } else if (type[i] == "Instructions") {
-                action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+            } else if (movesTracker.types[i] == "Instructions") {
+                action.push(movesTracker.types[i] + " "
+                            + start[counter] + " "
+                            + end[counter] + " "
+                            + interval[counter] + " "
+                            + instructions[y]);
                 y++; counter++;
             } else {
-                if (type[i] == "Flip") {
-                    action.push(players[user]+" "+type[i]+" "+movesTracker.block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+                if (movesTracker.types[i] == "Flip") {
+                    action.push(players[user] + " "
+                                + movesTracker.types[i] + " "
+                                + movesTracker.block_actions[block_count] + " "
+                                + time_GF[z] + " "
+                                + GF_position[z]);
                     block_count++;
                 } else {
-                    action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
+                    action.push(movesTracker.types[i] + " "
+                                + time_GF[z] + " "
+                                + GF_position[z]);
                 }
                 z++; user++;
             }
         }
-        // stopRecog();
 
         calculateBackEndData();
 

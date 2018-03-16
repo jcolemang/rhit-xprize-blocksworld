@@ -317,7 +317,7 @@ function init() {
                 start.push(movementdate);
                 end.push(getDateTime());
                 interval.push(new Date().getTime() - movementstarttime);
-                type.push("Movement");
+                movesTracker.types.push("Movement");
                 actualMove++;
                 movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
                 movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
@@ -447,10 +447,10 @@ socket.on('end_game_for_user', function(data) {
     isGameEnd = true;
 
     var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-    for (var i = 0; i < type.length;i++) {
-        if (type[i] == "Movement") {
+    for (var i = 0; i < movesTracker.types.length;i++) {
+        if (movesTracker.types[i] == "Movement") {
             actions.push(players[user] + " "
-                         + type[i] + " "
+                         + movesTracker.types[i] + " "
                          + movesTracker.block_actions[block_count] + " "
                          + start[counter] + " "
                          + end[counter] + " "
@@ -458,19 +458,22 @@ socket.on('end_game_for_user', function(data) {
                          + movement_startpos[x] + " "
                          + movement_endpos[x]);
             x++; counter++; user++; block_count++;
-        } else if (type[i] == "Instructions") {
-            actions.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+        } else if (movesTracker.types[i] == "Instructions") {
+            actions.push(movesTracker.types[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
             y++; counter++;
         } else {
-            if (type[i] == "Flip") {
+            if (movesTracker.types[i] == "Flip") {
                 actions.push(players[user] + " "
-                             + type[i] + " "
+                             + movesTracker.types[i] + " "
                              + movesTracker.block_actions[block_count] + " "
                              + time_GF[z] + " "
                              + GF_position[z]);
                 block_count++;
             } else {
-                actions.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+                actions.push(players[user] + " "
+                             + movesTracker.types[i] + " "
+                             + time_GF[z] + " "
+                             + GF_position[z]);
             }
             z++; user++;
         }
