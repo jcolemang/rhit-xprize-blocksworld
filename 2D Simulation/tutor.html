@@ -28,10 +28,6 @@
 				}, stop: function(event, ui) {
 					var Stoppos = $(this).position();
 					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
-						start.push(movementdate);
-						end.push(getDateTime());
-						interval.push(new Date().getTime() - movementstarttime);
-						type.push("Movement");
 						actualMove++;
 						document.getElementById("MovementCount").innerText = actualMove;
 						document.getElementById('button5').disabled = false;
