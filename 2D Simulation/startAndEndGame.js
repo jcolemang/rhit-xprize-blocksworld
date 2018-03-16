@@ -104,13 +104,13 @@ function endGame() {
                     action.push(players[user] + " "
                                 + movesTracker.types[i] + " "
                                 + movesTracker.block_actions[block_count] + " "
-                                + time_GF[z] + " "
-                                + GF_position[z]);
+                                + movesTracker.time_GF[z] + " "
+                                + movesTracker.GF_position[z]);
                     block_count++;
                 } else {
                     action.push(movesTracker.types[i] + " "
-                                + time_GF[z] + " "
-                                + GF_position[z]);
+                                + movesTracker.time_GF[z] + " "
+                                + movesTracker.GF_position[z]);
                 }
                 z++; user++;
             }

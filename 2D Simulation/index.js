@@ -37,8 +37,6 @@ var chosenWords, specificIns;
 // var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
-var time_GF = [];
-var GF_position = [];
 var players = [];
 var ending_survey = false;
 var am_i_player1 = true;
@@ -179,9 +177,9 @@ function flipBlock(box, event, config) {
         actualMove++;
         setMovement();
         if (event != null) {
-            GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+            movesTracker.GF_position.push("(" + event.clientX + "," + event.clientY + ")");
             movesTracker.add_type("Flip");
-            time_GF.push(getDateTime());
+            movesTracker.time_GF.push(getDateTime());
             if (taskID == 1) {
                 document.getElementById("block" + box.substring(5)).style.borderColor = "white";
             }
@@ -229,8 +227,8 @@ function setGestureWithPosition(left, top, event) {
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
-        time_GF.push(getDateTime());
-        GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
+        movesTracker.time_GF.push(getDateTime());
+        movesTracker.GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
         movesTracker.add_type("Gesture");
     }
 

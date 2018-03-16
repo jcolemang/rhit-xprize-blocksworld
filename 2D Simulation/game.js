@@ -473,14 +473,14 @@ socket.on('end_game_for_user', function(data) {
                 actions.push(players[user] + " "
                              + movesTracker.types[i] + " "
                              + movesTracker.block_actions[block_count] + " "
-                             + time_GF[z] + " "
-                             + GF_position[z]);
+                             + movesTracker.time_GF[z] + " "
+                             + movesTracker.GF_position[z]);
                 block_count++;
             } else {
                 actions.push(players[user] + " "
                              + movesTracker.types[i] + " "
-                             + time_GF[z] + " "
-                             + GF_position[z]);
+                             + movesTracker.time_GF[z] + " "
+                             + movesTracker.GF_position[z]);
             }
             z++; user++;
         }
