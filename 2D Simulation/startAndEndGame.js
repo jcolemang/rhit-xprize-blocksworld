@@ -70,43 +70,7 @@ function endGame() {
             }
         }
 
-        var action = [];
-
-        var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-        for (var i = 0; i < movesTracker.types.length;i++) {
-            if (movesTracker.types[i] == "Movement") {
-                action.push(movesTracker.players[user] + " "
-                            + movesTracker.types[i] + " "
-                            + movesTracker.block_actions[block_count] + " "
-                            + movesTracker.start[counter] + " "
-                            + movesTracker.end[counter] + " "
-                            + movesTracker.interval[counter] + " "
-                            + movesTracker.movement_startpos[x] + " "
-                            + movesTracker.movement_endpos[x]);
-                x++; counter++; user++; block_count++;
-            } else if (movesTracker.types[i] == "Instructions") {
-                action.push(movesTracker.types[i] + " "
-                            + movesTracker.start[counter] + " "
-                            + movesTracker.end[counter] + " "
-                            + movesTracker.interval[counter] + " "
-                            + movesTracker.instructions[y]);
-                y++; counter++;
-            } else {
-                if (movesTracker.types[i] == "Flip") {
-                    action.push(movesTracker.players[user] + " "
-                                + movesTracker.types[i] + " "
-                                + movesTracker.block_actions[block_count] + " "
-                                + movesTracker.time_GF[z] + " "
-                                + movesTracker.GF_position[z]);
-                    block_count++;
-                } else {
-                    action.push(movesTracker.types[i] + " "
-                                + movesTracker.time_GF[z] + " "
-                                + movesTracker.GF_position[z]);
-                }
-                z++; user++;
-            }
-        }
+        let actions = movesTracker.export_actions();
 
         calculateBackEndData();
 
@@ -135,7 +99,7 @@ function endGame() {
                 te: te,
                 ie: ie,
                 p: p,
-                Action: action,
+                Action: actions,
                 initialInfo: initialInfo,
                 standard_info: standard_info,
                 other: words,

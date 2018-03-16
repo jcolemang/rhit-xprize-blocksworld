@@ -1,72 +1,104 @@
 let movesTracker = new function () {
-    this.start = [];
-    this.end = [];
-    this.types = [];
-    this.interval = [];
-    this.movement_startpos = [];
-    this.movement_endpos = [];
-    this.instructions = [];
-    this.GF_position = [];
-    this.time_GF = [];
-    this.block_actions = [];
-    this.players = [];
-
-    /* Type is one of: {"Flip", "Gesture", "Instructions"} */
-    this.add_type = function (type) {
-        this.types.push(type);
-    }
+    this.actions = [];
 
     this.add_gesture = function (left_pos_percent, top_pos_percent) {
-        this.add_type("Gesture");
+        this.actions.push({
+            end_date: getDateTime(),
+            left_pos: left_pos_percent,
+            top_pos: top_pos_percent,
+            export_func: export_gesture
+        });
+    }
 
-        this.time_GF.push(getDateTime());
-        this.GF_position.push("(" + left_pos_percent + "%,"
-                              + top_pos_percent + "%)");
+    function export_gesture(action) {
+        return "Gesture" + " "
+            + action.end_date + " "
+            + export_position(action.left_pos, action.top_pos);
     }
 
     this.add_instruction = function (start_date, start_time, text) {
-        this.add_type("Instructions");
+        this.actions.push({
+            start_date: start_date,
+            end_date: getDateTime(),
+            interval: new Date().getTime() - start_time,
+            text: text,
+            export_func: export_instruction
+        });
+    }
 
-        this.start.push(start_date);
-        this.end.push(getDateTime());
-        this.interval.push(new Date().getTime() - start_time);
-
-        this.instructions.push(text);
+    function export_instruction(action) {
+        return "Instruction" + " "
+            + action.start_date + " "
+            + action.end_date + " "
+            + action.interval + " "
+            + action.text;
     }
 
     this.add_flip = function (id, letter, color, x_pos, y_pos) {
-        this._add_block_action(id, letter, color);
+        this.actions.push({
+            id: id,
+            letter: letter,
+            color: color,
+            end_date: getDateTime(),
+            left_pos: x_pos,
+            top_pos: y_pos,
+            export_func: export_flip
+        });
+    }
 
-        this.add_type("Flip");
-        this.players.push("Robot");
-
-        this.time_GF.push(getDateTime());
-        this.GF_position.push("(" + x_pos + ","
-                              + y_pos + ")");
+    function export_flip(action) {
+        return "Flip" + " "
+            + export_block_action(action) + " "
+            + action.end_date + " "
+            + export_position(action.left_pos, action.top_pos);
     }
 
     this.add_move = function (id, letter, color,
                               start_date, start_time,
                               orig_left, orig_top,
                               end_left, end_top) {
-        this._add_block_action(id, letter, color);
-
-        this.add_type("Movement");
-        this.players.push("Robot");
-
-        this.start.push(start_date);
-        this.end.push(getDateTime());
-        this.interval.push(new Date().getTime() - start_time);
-
-        this.movement_startpos.push("(" + orig_left + "," + orig_top + ")");
-        this.movement_endpos.push("(" + end_left + "," + end_top + ")");
+        this.actions.push({
+            id: id,
+            letter: letter,
+            color: color,
+            start_date: start_date,
+            end_date: getDateTime(),
+            interval: new Date().getTime() - start_time,
+            left_pos: orig_left,
+            top_pos: orig_top,
+            new_left_pos: end_left,
+            new_top_pos: end_top,
+            export_func: export_move
+        });
     }
 
-    /* Id is of the form: block<id> */
-    this._add_block_action = function (id, letter, color) {
-        this.block_actions.push("Block id: " + id
-                                + " Letter: " + letter
-                                + " Color: " + color);
+    function export_move(action) {
+        return "Movement" + " "
+            + export_block_action(action) + " "
+            + action.start_date + " "
+            + action.end_date + " "
+            + action.interval + " "
+            + export_position(action.left_pos, action.top_pos) + " "
+            + export_position(action.new_left_pos, action.new_top_pos);
     }
 
+    function export_position(left_pos, top_pos) {
+        return "(" + left_pos + "," + top_pos + ")";
+    }
+
+    function export_block_action(action) {
+        return "Block id: " + action.id + " "
+            + "Letter: " + action.letter + " "
+            + "Color: " + action.color;
+    }
+
+    this.export_actions = function () {
+        let action_strs = [];
+
+        for (let action of this.actions) {
+            action_strs.push(action.export_func(action));
+        }
+
+        return action_strs;
+    }
 }

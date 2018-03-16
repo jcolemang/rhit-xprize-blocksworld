@@ -425,7 +425,7 @@ socket.on('update_user_message', function(message) {
 
 socket.on('end_game_for_user', function(data) {
 
-    var actions = [];
+    var actions = movesTracker.export_actions();
 
     for (var i = 0; i < data.Action.length; i++) {
         actions.push(data.Action[i]);
@@ -433,84 +433,7 @@ socket.on('end_game_for_user', function(data) {
 
     isGameEnd = true;
 
-    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-    for (var i = 0; i < movesTracker.types.length;i++) {
-        if (movesTracker.types[i] == "Movement") {
-            actions.push(movesTracker.players[user] + " "
-                         + movesTracker.types[i] + " "
-                         + movesTracker.block_actions[block_count] + " "
-                         + movesTracker.start[counter] + " "
-                         + movesTracker.end[counter] + " "
-                         + movesTracker.interval[counter] + " "
-                         + movesTracker.movement_startpos[x] + " "
-                         + movesTracker.movement_endpos[x]);
-            x++; counter++; user++; block_count++;
-        } else if (movesTracker.types[i] == "Instructions") {
-            actions.push(movesTracker.types[i] + " "
-                         + movesTracker.start[counter] + " "
-                         + movesTracker.end[counter] + " "
-                         + movesTracker.interval[counter] + " "
-                         + movesTracker.instructions[y]);
-            y++; counter++;
-        } else {
-            if (movesTracker.types[i] == "Flip") {
-                actions.push(movesTracker.players[user] + " "
-                             + movesTracker.types[i] + " "
-                             + movesTracker.block_actions[block_count] + " "
-                             + movesTracker.time_GF[z] + " "
-                             + movesTracker.GF_position[z]);
-                block_count++;
-            } else {
-                actions.push(movesTracker.players[user] + " "
-                             + movesTracker.types[i] + " "
-                             + movesTracker.time_GF[z] + " "
-                             + movesTracker.GF_position[z]);
-            }
-            z++; user++;
-        }
-    }
-
-    var dateYear = [], dayTime = [], dateMonth = [], dateDay = [];
-    for (var i = 0; i < actions.length; i++) {
-        var start_pos = actions[i].indexOf('/') - 2;
-        var end_pos = start_pos + 10;
-        dateDay.push(parseInt(actions[i].substring(0, 2)));
-        dateMonth.push(parseInt(actions[i].substring(3, 5)));
-        dateYear.push(parseInt(actions[i].substring(6, 10)));
-        start_pos = actions[i].indexOf('/', end_pos) - 2;
-        end_pos = start_pos + 8;
-        dayTime.push(actions[i].substring(start_pos, end_pos));
-    }
-
-    for (var i = 0; i < actions.length; i++) {
-        for (var j = i + 1; j < actions.length; j++) {
-            if (dateYear[i] > dateYear[j]) {
-                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
-                st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-                st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-                st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-                st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-            } else if (dateYear[i] == dateYear[j] && dateMonth[i] > dateMonth[j]) {
-                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
-                st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-                st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-                st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-                st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-            } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] < dateDay[j]) {
-                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
-                st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-                st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-                st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-                st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-            } else if (dateYear[i] == dateYear[j] && dateMonth[i] == dateMonth[j] && dateDay[i] == dateDay[j] && dayTime[i] > dayTime[j]) {
-                var st = actions[i]; actions[i] = actions[j]; actions[j] = st;
-                st = dateYear[i]; dateYear[i] = dateYear[j]; dateYear[j] = st;
-                st = dateMonth[i]; dateMonth[i] = dateMonth[j]; dateMonth[j] = st;
-                st = dateDay[i]; dateDay[i] = dateDay[j]; dateDay[j] = st;
-                st = dayTime[i]; dayTime[i] = dayTime[j]; dayTime[j] = st;
-            }
-        }
-    }
+    // TODO: Sorting (Issue #43)
 
     socket.emit('send_data_to_server', {
         time: data.time,
