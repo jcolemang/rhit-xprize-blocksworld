@@ -82,7 +82,7 @@ function getGameType() {
 /////////////////////
 
 function get_incorrect_button() {
-    return $("button#buttonIncorrect");
+    return $("#buttonIncorrect");
 }
 
 function setup_incorrect_button() {
