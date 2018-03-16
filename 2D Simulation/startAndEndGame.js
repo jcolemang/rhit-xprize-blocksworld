@@ -89,8 +89,8 @@ function endGame() {
                             + movesTracker.start[counter] + " "
                             + movesTracker.end[counter] + " "
                             + movesTracker.interval[counter] + " "
-                            + movement_startpos[x] + " "
-                            + movement_endpos[x]);
+                            + movesTracker.movement_startpos[x] + " "
+                            + movesTracker.movement_endpos[x]);
                 x++; counter++; user++; block_count++;
             } else if (movesTracker.types[i] == "Instructions") {
                 action.push(movesTracker.types[i] + " "

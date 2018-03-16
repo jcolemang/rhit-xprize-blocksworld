@@ -3,6 +3,8 @@ let movesTracker = new function () {
     this.end = [];
     this.types = [];
     this.interval = [];
+    this.movement_startpos = [];
+    this.movement_endpos = [];
     this.block_actions = [];
 
     /* Type is one of: {"Flip", "Gesture", "Instructions"} */

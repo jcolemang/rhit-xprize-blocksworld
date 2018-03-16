@@ -38,7 +38,6 @@ var chosenWords, specificIns;
 // var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
-var movement_startpos = [], movement_endpos = [];
 var time_GF = [];
 var GF_position = [];
 var players = [];

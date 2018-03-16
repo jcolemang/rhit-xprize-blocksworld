@@ -319,8 +319,11 @@ function init() {
                 movesTracker.interval.push(new Date().getTime() - movementstarttime);
                 movesTracker.types.push("Movement");
                 actualMove++;
-                movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-                movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
+                movesTracker.movement_startpos.push("(" + previous_left[i] + ","
+                                                    + previous_top[i] + ")");
+                movesTracker.movement_endpos
+                    .push("(" + $(this).data("horizontal_percent") + ","
+                          + $(this).data("vertical_percent") + ")");
                 if (am_i_player1) {
                     players.push("Human");
                 } else {
@@ -455,8 +458,8 @@ socket.on('end_game_for_user', function(data) {
                          + movesTracker.start[counter] + " "
                          + movesTracker.end[counter] + " "
                          + movesTracker.interval[counter] + " "
-                         + movement_startpos[x] + " "
-                         + movement_endpos[x]);
+                         + movesTracker.movement_startpos[x] + " "
+                         + movesTracker.movement_endpos[x]);
             x++; counter++; user++; block_count++;
         } else if (movesTracker.types[i] == "Instructions") {
             actions.push(movesTracker.types[i] + " "
