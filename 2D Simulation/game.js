@@ -89,9 +89,7 @@ function setup_incorrect_button() {
     let incorrect_button = get_incorrect_button();
 
     if (getGameType() !== "ai") {
-        incorrect_button.css({
-            visibility: "hidden"
-        });
+        incorrect_button.hide();
     }
 
     incorrect_button.prop("disabled", true);
