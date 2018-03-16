@@ -238,16 +238,15 @@ socket.on('setInitialPosition', function(data) {
 
         $("#block" + i).bind("contextmenu", function(e) {
             if (taskID != 1) {
-                var event = e || window.event;
-                flipBlock('block' + $(this).data("id"), event, currentConfig);
-                send_flip_to_server('block' + $(this).data("id"));
-
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];
 
-                movesTracker.add_block_action($(this).data("id"),
-                                              flipped_block_letter,
-                                              flipped_block_color);
+                var event = e || window.event;
+
+                flipBlock('block' + $(this).data("id"),
+                          flipped_block_letter, flipped_block_color,
+                          event, currentConfig);
+                send_flip_to_server('block' + $(this).data("id"));
             }
         });
     }
@@ -310,16 +309,16 @@ function init() {
 
             if ($(this).data("horizontal_percent") != previous_left[i]
                 || $(this).data("vertical_percent") != previous_top[i]) {
-                movesTracker.add_move(movementdate, movementstarttime,
-                                      previous_left[i], previous_top[i],
-                                      $(this).data("horizontal_percent"), $(this).data("vertical_percent"));
-                actualMove++;
                 var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var moved_block_letter = blockLetters[$(this).data("id")];
 
-                movesTracker.add_block_action($(this).data("id"),
-                                              moved_block_letter,
-                                              moved_block_color);
+                movesTracker.add_move($(this).data("id"),
+                                      moved_block_letter, moved_block_color,
+                                      movementdate, movementstarttime,
+                                      previous_left[i], previous_top[i],
+                                      $(this).data("horizontal_percent"), $(this).data("vertical_percent"));
+                actualMove++;
+
                 end_left[$(this).data("id")] = $(this).data("horizontal_percent")
                 end_top[$(this).data("id")] = $(this).data("vertical_percent");
 

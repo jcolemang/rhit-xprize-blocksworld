@@ -16,13 +16,6 @@ let movesTracker = new function () {
         this.types.push(type);
     }
 
-    /* Id is of the form: block<id> */
-    this.add_block_action = function (id, letter, color) {
-        this.block_actions.push("Block id: " + id
-                                + " Letter: " + letter
-                                + " Color: " + color);
-    }
-
     this.add_gesture = function (left_pos_percent, top_pos_percent) {
         this.add_type("Gesture");
 
@@ -41,20 +34,25 @@ let movesTracker = new function () {
         this.instructions.push(text);
     }
 
-    this.add_flip = function (x_pos, y_pos) {
+    this.add_flip = function (id, letter, color, x_pos, y_pos) {
+        this._add_block_action(id, letter, color);
+
         this.add_type("Flip");
-        this.players.push("Human");
+        this.players.push("Robot");
 
         this.time_GF.push(getDateTime());
         this.GF_position.push("(" + x_pos + ","
                               + y_pos + ")");
     }
 
-    this.add_move = function (start_date, start_time,
+    this.add_move = function (id, letter, color,
+                              start_date, start_time,
                               orig_left, orig_top,
                               end_left, end_top) {
+        this._add_block_action(id, letter, color);
+
         this.add_type("Movement");
-        this.players.push("Human");
+        this.players.push("Robot");
 
         this.start.push(start_date);
         this.end.push(getDateTime());
@@ -63,4 +61,12 @@ let movesTracker = new function () {
         this.movement_startpos.push("(" + orig_left + "," + orig_top + ")");
         this.movement_endpos.push("(" + end_left + "," + end_top + ")");
     }
+
+    /* Id is of the form: block<id> */
+    this._add_block_action = function (id, letter, color) {
+        this.block_actions.push("Block id: " + id
+                                + " Letter: " + letter
+                                + " Color: " + color);
+    }
+
 }
