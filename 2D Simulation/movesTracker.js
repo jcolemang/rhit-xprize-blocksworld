@@ -25,6 +25,7 @@ let movesTracker = new function () {
 
     this.add_gesture = function (left_pos_percent, top_pos_percent) {
         this.add_type("Gesture");
+
         this.time_GF.push(getDateTime());
         this.GF_position.push("(" + left_pos_percent + "%,"
                               + top_pos_percent + "%)");
@@ -32,14 +33,18 @@ let movesTracker = new function () {
 
     this.add_instruction = function (start_date, start_time, text) {
         this.add_type("Instructions");
+
         this.start.push(start_date);
         this.end.push(getDateTime());
         this.interval.push(new Date().getTime() - start_time);
+
         this.instructions.push(text);
     }
 
     this.add_flip = function (x_pos, y_pos) {
         this.add_type("Flip");
+        this.players.push("Human");
+
         this.time_GF.push(getDateTime());
         this.GF_position.push("(" + x_pos + ","
                               + y_pos + ")");
@@ -49,6 +54,7 @@ let movesTracker = new function () {
                               orig_left, orig_top,
                               end_left, end_top) {
         this.add_type("Movement");
+        this.players.push("Human");
 
         this.start.push(start_date);
         this.end.push(getDateTime());

@@ -77,11 +77,6 @@ function initBlocks(config) {
                 var event = e || window.event;
                 flipBlock('block' + $(this).data("id"), event, bLetters, bColors);
                 send_flip_to_server('block' + $(this).data("id"));
-                if (am_i_player1) {
-                    movesTracker.players.push("Human");
-                } else {
-                    movesTracker.players.push("Robot");
-                }
 
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];

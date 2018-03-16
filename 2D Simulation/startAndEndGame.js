@@ -31,7 +31,6 @@ function startGame() {
             p_left: p_left
         });
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
@@ -40,13 +39,6 @@ function startGame() {
         if (taskID == 2) {
             $("#block" + i).draggable("enable");
         }
-
-        /* var flip_or_not = Math.random();*/
-        /* */
-        /* if (flip_or_not < 0.5) {*/
-        /* flipBlock('block' + i, null, blockLetters, blockColors);*/
-        /* send_flip_to_server('block' + i);*/
-        /* }*/
     }
 
     actualMove = 0;

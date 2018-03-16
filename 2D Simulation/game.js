@@ -241,11 +241,6 @@ socket.on('setInitialPosition', function(data) {
                 var event = e || window.event;
                 flipBlock('block' + $(this).data("id"), event, currentConfig);
                 send_flip_to_server('block' + $(this).data("id"));
-                if (am_i_player1) {
-                    movesTracker.players.push("Human");
-                } else {
-                    movesTracker.players.push("Robot");
-                }
 
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];
@@ -319,11 +314,6 @@ function init() {
                                       previous_left[i], previous_top[i],
                                       $(this).data("horizontal_percent"), $(this).data("vertical_percent"));
                 actualMove++;
-                if (am_i_player1) {
-                    movesTracker.players.push("Human");
-                } else {
-                    movesTracker.players.push("Robot");
-                }
                 var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var moved_block_letter = blockLetters[$(this).data("id")];
 
