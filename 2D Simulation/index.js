@@ -168,7 +168,7 @@ function initLetters(possibleLetters, numBlocks) {
     return lets;
 }
 
-function flipBlock(box, event, config) {
+function flipBlock(box, letter, color, event, config) {
     if (flip_on) {
         swapColor(box, config);
         swapLetter(box, config);
@@ -176,9 +176,9 @@ function flipBlock(box, event, config) {
         actualMove++;
         setMovement();
         if (event != null) {
-            movesTracker.add_flip(event.clientX, event.clientY);
+            movesTracker.add_flip(box, letter, color, event.clientX, event.clientY);
             if (taskID == 1) {
-                document.getElementById("block" + box.substring(5)).style.borderColor = "white";
+                document.getElementById(box).style.borderColor = "white";
             }
         }
     }

@@ -166,7 +166,10 @@ function update_gui_block(moveData) {
 }
 
 socket.on('update_flip_block', function (block_id) {
-    flipBlock(block_id, null, currentConfig);
+    var flipped_block_color = document.getElementById(block_id).style.backgroundColor
+    var flipped_block_letter = blockLetters[Number(block_id.substring(5))];
+    flipBlock(block_id, flipped_block_letter, flipped_block_color,
+              null, currentConfig);
 });
 
 socket.on('setInitialPosition', function(data) {
