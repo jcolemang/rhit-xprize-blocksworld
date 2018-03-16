@@ -177,9 +177,7 @@ function flipBlock(box, event, config) {
         actualMove++;
         setMovement();
         if (event != null) {
-            movesTracker.GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-            movesTracker.add_type("Flip");
-            movesTracker.time_GF.push(getDateTime());
+            movesTracker.add_flip(event.clientX, event.clientY);
             if (taskID == 1) {
                 document.getElementById("block" + box.substring(5)).style.borderColor = "white";
             }
@@ -227,11 +225,9 @@ function setGestureWithPosition(left, top, event) {
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
-        movesTracker.time_GF.push(getDateTime());
-        movesTracker.GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
-        movesTracker.add_type("Gesture");
+        movesTracker.add_gesture(gestureElement.style.left,
+                                 gestureElement.style.top);
     }
-
 }
 
 function setMovement() {
@@ -334,16 +330,13 @@ function factorial(x) {
 
 function inputlength() {
     if (start_button_pressed) {
-        movesTracker.end.push(getDateTime());
-        movesTracker.start.push(instructiondate);
-        movesTracker.add_type("Instructions");
-        movesTracker.interval.push(new Date().getTime() - instructionstarttime);
-        var x = document.getElementById("txt_instruction").value;
-        if (x.length != 0) {
-            var numToAdd = (x.split(" ").length - 1) + 1;
+        let text = document.getElementById("txt_instruction").value;
+        if (text.length != 0) {
+            let numToAdd = (text.split(" ").length - 1) + 1;
             NumWords += numToAdd;
         }
-        movesTracker.instructions.push(x);
+
+        movesTracker.add_instruction(instructiondate, instructionstarttime, text);
     }
     document.getElementById("txt_instruction").value = "";
 }

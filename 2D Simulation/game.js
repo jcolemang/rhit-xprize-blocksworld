@@ -313,17 +313,12 @@ function init() {
                 top: $(this).data("vertical_percent") + "%"
             });
 
-            if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
-                movesTracker.start.push(movementdate);
-                movesTracker.end.push(getDateTime());
-                movesTracker.interval.push(new Date().getTime() - movementstarttime);
-                movesTracker.types.push("Movement");
+            if ($(this).data("horizontal_percent") != previous_left[i]
+                || $(this).data("vertical_percent") != previous_top[i]) {
+                movesTracker.add_move(movementdate, movementstarttime,
+                                      previous_left[i], previous_top[i],
+                                      $(this).data("horizontal_percent"), $(this).data("vertical_percent"));
                 actualMove++;
-                movesTracker.movement_startpos.push("(" + previous_left[i] + ","
-                                                    + previous_top[i] + ")");
-                movesTracker.movement_endpos
-                    .push("(" + $(this).data("horizontal_percent") + ","
-                          + $(this).data("vertical_percent") + ")");
                 if (am_i_player1) {
                     players.push("Human");
                 } else {
