@@ -5,6 +5,7 @@ let movesTracker = new function () {
     this.interval = [];
     this.movement_startpos = [];
     this.movement_endpos = [];
+    this.instructions = [];
     this.block_actions = [];
 
     /* Type is one of: {"Flip", "Gesture", "Instructions"} */

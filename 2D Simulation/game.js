@@ -466,7 +466,7 @@ socket.on('end_game_for_user', function(data) {
                          + movesTracker.start[counter] + " "
                          + movesTracker.end[counter] + " "
                          + movesTracker.interval[counter] + " "
-                         + instructions[y]);
+                         + movesTracker.instructions[y]);
             y++; counter++;
         } else {
             if (movesTracker.types[i] == "Flip") {

@@ -24,7 +24,6 @@ var oldBlock = "blockNone";
 var interval = [];
 var instructiondate;
 var instructionstarttime;
-var instructions = [];
 var time = 0;
 var recordTime = 0;
 var selectionflag = 0;
@@ -346,7 +345,7 @@ function inputlength() {
             var numToAdd = (x.split(" ").length - 1) + 1;
             NumWords += numToAdd;
         }
-        instructions.push(x);
+        movesTracker.instructions.push(x);
     }
     document.getElementById("txt_instruction").value = "";
 }
