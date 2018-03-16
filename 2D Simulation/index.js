@@ -37,7 +37,6 @@ var chosenWords, specificIns;
 // var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
-var players = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var goalInfo = [], goal_top = [], goal_left = [];

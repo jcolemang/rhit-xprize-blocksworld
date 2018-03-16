@@ -9,6 +9,7 @@ let movesTracker = new function () {
     this.GF_position = [];
     this.time_GF = [];
     this.block_actions = [];
+    this.players = [];
 
     /* Type is one of: {"Flip", "Gesture", "Instructions"} */
     this.add_type = function (type) {

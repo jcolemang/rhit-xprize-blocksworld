@@ -242,9 +242,9 @@ socket.on('setInitialPosition', function(data) {
                 flipBlock('block' + $(this).data("id"), event, currentConfig);
                 send_flip_to_server('block' + $(this).data("id"));
                 if (am_i_player1) {
-                    players.push("Human");
+                    movesTracker.players.push("Human");
                 } else {
-                    players.push("Robot");
+                    movesTracker.players.push("Robot");
                 }
 
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
@@ -320,9 +320,9 @@ function init() {
                                       $(this).data("horizontal_percent"), $(this).data("vertical_percent"));
                 actualMove++;
                 if (am_i_player1) {
-                    players.push("Human");
+                    movesTracker.players.push("Human");
                 } else {
-                    players.push("Robot");
+                    movesTracker.players.push("Robot");
                 }
                 var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var moved_block_letter = blockLetters[$(this).data("id")];
@@ -447,7 +447,7 @@ socket.on('end_game_for_user', function(data) {
     var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
     for (var i = 0; i < movesTracker.types.length;i++) {
         if (movesTracker.types[i] == "Movement") {
-            actions.push(players[user] + " "
+            actions.push(movesTracker.players[user] + " "
                          + movesTracker.types[i] + " "
                          + movesTracker.block_actions[block_count] + " "
                          + movesTracker.start[counter] + " "
@@ -465,14 +465,14 @@ socket.on('end_game_for_user', function(data) {
             y++; counter++;
         } else {
             if (movesTracker.types[i] == "Flip") {
-                actions.push(players[user] + " "
+                actions.push(movesTracker.players[user] + " "
                              + movesTracker.types[i] + " "
                              + movesTracker.block_actions[block_count] + " "
                              + movesTracker.time_GF[z] + " "
                              + movesTracker.GF_position[z]);
                 block_count++;
             } else {
-                actions.push(players[user] + " "
+                actions.push(movesTracker.players[user] + " "
                              + movesTracker.types[i] + " "
                              + movesTracker.time_GF[z] + " "
                              + movesTracker.GF_position[z]);

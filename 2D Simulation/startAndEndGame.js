@@ -83,7 +83,7 @@ function endGame() {
         var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
         for (var i = 0; i < movesTracker.types.length;i++) {
             if (movesTracker.types[i] == "Movement") {
-                action.push(players[user] + " "
+                action.push(movesTracker.players[user] + " "
                             + movesTracker.types[i] + " "
                             + movesTracker.block_actions[block_count] + " "
                             + movesTracker.start[counter] + " "
@@ -101,7 +101,7 @@ function endGame() {
                 y++; counter++;
             } else {
                 if (movesTracker.types[i] == "Flip") {
-                    action.push(players[user] + " "
+                    action.push(movesTracker.players[user] + " "
                                 + movesTracker.types[i] + " "
                                 + movesTracker.block_actions[block_count] + " "
                                 + movesTracker.time_GF[z] + " "
