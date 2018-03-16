@@ -88,7 +88,7 @@ function get_incorrect_button() {
 function setup_incorrect_button() {
     let incorrect_button = get_incorrect_button();
 
-    if (getGameType() !== "ai") {
+    if (getGameType() === "human") {
         incorrect_button.hide();
     }
 
