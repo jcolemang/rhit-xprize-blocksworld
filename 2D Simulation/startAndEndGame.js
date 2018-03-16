@@ -86,16 +86,16 @@ function endGame() {
                 action.push(players[user] + " "
                             + movesTracker.types[i] + " "
                             + movesTracker.block_actions[block_count] + " "
-                            + start[counter] + " "
-                            + end[counter] + " "
+                            + movesTracker.start[counter] + " "
+                            + movesTracker.end[counter] + " "
                             + interval[counter] + " "
                             + movement_startpos[x] + " "
                             + movement_endpos[x]);
                 x++; counter++; user++; block_count++;
             } else if (movesTracker.types[i] == "Instructions") {
                 action.push(movesTracker.types[i] + " "
-                            + start[counter] + " "
-                            + end[counter] + " "
+                            + movesTracker.start[counter] + " "
+                            + movesTracker.end[counter] + " "
                             + interval[counter] + " "
                             + instructions[y]);
                 y++; counter++;

@@ -1,4 +1,6 @@
 let movesTracker = new function () {
+    this.start = [];
+    this.end = [];
     this.types = [];
     this.block_actions = [];
 

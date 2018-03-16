@@ -21,8 +21,6 @@ var startTime, endTime;
 var startPosMap = {};
 var endPosMap = {};
 var oldBlock = "blockNone";
-var start = [];
-var end = [];
 var interval = [];
 var instructiondate;
 var instructionstarttime;
@@ -340,8 +338,8 @@ function factorial(x) {
 
 function inputlength() {
     if (start_button_pressed) {
-        end.push(getDateTime());
-        start.push(instructiondate);
+        movesTracker.end.push(getDateTime());
+        movesTracker.start.push(instructiondate);
         movesTracker.add_type("Instructions");
         interval.push(new Date().getTime() - instructionstarttime);
         var x = document.getElementById("txt_instruction").value;

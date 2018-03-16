@@ -314,8 +314,8 @@ function init() {
             });
 
             if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
-                start.push(movementdate);
-                end.push(getDateTime());
+                movesTracker.start.push(movementdate);
+                movesTracker.end.push(getDateTime());
                 interval.push(new Date().getTime() - movementstarttime);
                 movesTracker.types.push("Movement");
                 actualMove++;
@@ -452,14 +452,18 @@ socket.on('end_game_for_user', function(data) {
             actions.push(players[user] + " "
                          + movesTracker.types[i] + " "
                          + movesTracker.block_actions[block_count] + " "
-                         + start[counter] + " "
-                         + end[counter] + " "
+                         + movesTracker.start[counter] + " "
+                         + movesTracker.end[counter] + " "
                          + interval[counter] + " "
                          + movement_startpos[x] + " "
                          + movement_endpos[x]);
             x++; counter++; user++; block_count++;
         } else if (movesTracker.types[i] == "Instructions") {
-            actions.push(movesTracker.types[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+            actions.push(movesTracker.types[i] + " "
+                         + movesTracker.start[counter] + " "
+                         + movesTracker.end[counter] + " "
+                         + interval[counter] + " "
+                         + instructions[y]);
             y++; counter++;
         } else {
             if (movesTracker.types[i] == "Flip") {
