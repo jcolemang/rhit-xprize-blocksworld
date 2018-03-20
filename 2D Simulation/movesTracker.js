@@ -54,16 +54,13 @@ let movesTracker = new function () {
     }
 
     this.add_move = function (id, letter, color,
-                              start_date, start_time,
                               orig_left, orig_top,
                               end_left, end_top) {
         this.actions.push({
             id: id,
             letter: letter,
             color: color,
-            start_date: start_date,
             end_date: getDateTime(),
-            interval: new Date().getTime() - start_time,
             left_pos: orig_left,
             top_pos: orig_top,
             new_left_pos: end_left,
@@ -75,9 +72,7 @@ let movesTracker = new function () {
     function export_move(action) {
         return "Movement" + " "
             + export_block_action(action) + " "
-            + action.start_date + " "
             + action.end_date + " "
-            + action.interval + " "
             + export_position(action.left_pos, action.top_pos) + " "
             + export_position(action.new_left_pos, action.new_top_pos);
     }

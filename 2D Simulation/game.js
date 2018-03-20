@@ -154,6 +154,9 @@ function update_gui_block(moveData) {
     let top = Math.max(moveData.top, 0);
     let block = $("#" + moveData.block_id);
 
+    let old_left = block.css('left');
+    let old_top = block.css('top');
+
     block.css({
         left: left + "%",
         top: top + "%"
@@ -163,14 +166,26 @@ function update_gui_block(moveData) {
 
     block.data("horizontal_percent", left);
     block.data("vertical_percent", top);
+
+    movesTracker.add_move(moveData.block_id,
+                          get_block_letter(moveData.block_id),
+                          get_block_color(moveData.block_id),
+                          old_left, old_top,
+                          left, top);
 }
 
 socket.on('update_flip_block', function (block_id) {
-    var flipped_block_color = document.getElementById(block_id).style.backgroundColor
-    var flipped_block_letter = blockLetters[Number(block_id.substring(5))];
-
-    flipBlock(block_id, flipped_block_letter, flipped_block_color, currentConfig);
+    flipBlock(block_id, get_block_letter(block_id),
+              get_block_color(block_id), currentConfig);
 });
+
+function get_block_letter(block_id) {
+    return blockLetters[Number(block_id.substring(5))];
+}
+
+function get_block_color(block_id) {
+    return document.getElementById(block_id).style.backgroundColor;
+}
 
 socket.on('setInitialPosition', function(data) {
     document.getElementById('user1').innerText = "Player 1";
