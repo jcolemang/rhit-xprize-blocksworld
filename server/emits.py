@@ -144,7 +144,6 @@ def setup_ending(sio, rooms_tracker, config):
     def end_button_handler(sid, data):
         room = rooms_tracker.get_room(sid)
         _in_surveys.add(room)
-        print("Received records: " + str(data))
         db.store_game(db_connection, data)
 
     def disconnect_handler(sid):
