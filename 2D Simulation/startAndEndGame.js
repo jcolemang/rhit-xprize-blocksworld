@@ -104,7 +104,7 @@ function endGame() {
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: scoreCal(finalBlocks),
+                finalScore: Math.round(scoreCal(finalBlocks)),
                 seconds: seconds
             });
         } catch (err) {

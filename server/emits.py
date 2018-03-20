@@ -137,13 +137,15 @@ def setup_reconnected(sio, rooms_tracker):
 
     sio.on('human_reconnected', human_reconnected_handler)
 
-def setup_ending(sio, rooms_tracker):
+def setup_ending(sio, rooms_tracker, config):
+    db_connection = db.connect_to_db(config)
     _in_surveys = set()
 
     def end_button_handler(sid, data):
         room = rooms_tracker.get_room(sid)
         _in_surveys.add(room)
-        roommate_emit(sio, sid, 'end_game_for_user', rooms_tracker, data)
+        print("Received records: " + str(data))
+        db.store_game(db_connection, data)
 
     def disconnect_handler(sid):
         room = rooms_tracker.get_room(sid)
@@ -160,17 +162,9 @@ def setup_ending(sio, rooms_tracker):
         if room in _voice_connection_data:
             _voice_connection_data.pop(room)
 
-    sio.on('end_button_pressed', end_button_handler)
-    sio.on('disconnect', disconnect_handler)
-
-def setup_database(sio, config):
-    db_connection = db.connect_to_db(config)
-
-    def store_game_handler(_, data):
-        db.store_game(db_connection, data)
-
     def store_survey_handler(_, data):
         db.store_survey(db_connection, data)
 
-    sio.on('send_data_to_server', store_game_handler)
+    sio.on('end_button_pressed', end_button_handler)
+    sio.on('disconnect', disconnect_handler)
     sio.on('send_survey_data_to_server', store_survey_handler)

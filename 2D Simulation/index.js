@@ -168,18 +168,21 @@ function initLetters(possibleLetters, numBlocks) {
     return lets;
 }
 
-function flipBlock(box, letter, color, event, config) {
+function flipBlock(block_id, letter, color, config) {
     if (flip_on) {
-        swapColor(box, config);
-        swapLetter(box, config);
+        swapColor(block_id, config);
+        swapLetter(block_id, config);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
-        if (event != null) {
-            movesTracker.add_flip(box, letter, color, event.clientX, event.clientY);
-            if (taskID == 1) {
-                document.getElementById(box).style.borderColor = "white";
-            }
+
+        let rect = document.getElementById('container').getBoundingClientRect();
+        let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
+        let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
+
+        movesTracker.add_flip(block_id, letter, color, horiz, vert);
+        if (taskID == 1) {
+            document.getElementById(block_id).style.borderColor = "white";
         }
     }
 }

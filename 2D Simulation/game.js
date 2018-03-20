@@ -168,8 +168,8 @@ function update_gui_block(moveData) {
 socket.on('update_flip_block', function (block_id) {
     var flipped_block_color = document.getElementById(block_id).style.backgroundColor
     var flipped_block_letter = blockLetters[Number(block_id.substring(5))];
-    flipBlock(block_id, flipped_block_letter, flipped_block_color,
-              null, currentConfig);
+
+    flipBlock(block_id, flipped_block_letter, flipped_block_color, currentConfig);
 });
 
 socket.on('setInitialPosition', function(data) {
@@ -424,53 +424,6 @@ function gesture_is_visible() {
 
 socket.on('update_user_message', function(message) {
     document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
-});
-
-socket.on('end_game_for_user', function(data) {
-
-    var actions = movesTracker.export_actions();
-
-    for (var i = 0; i < data.Action.length; i++) {
-        actions.push(data.Action[i]);
-    }
-
-    isGameEnd = true;
-
-    // TODO: Sorting (Issue #43)
-
-    socket.emit('send_data_to_server', {
-        time: data.time,
-        task: data.task,
-        W: data.W,
-        G: data.G,
-        b: data.b,
-        bm: data.bm,
-        br: data.br,
-        pn: data.pn,
-        pp: data.pp,
-        te: data.te,
-        ie: data.ie,
-        p: data.p,
-        finalScore: Math.round(data.finalScore),
-        Action: actions,
-        initialInfo: data.initialInfo,
-        standard_info: data.standard_info,
-        other: data.other
-    });
-
-    alert("You have final score: " + Math.round(data.finalScore));
-
-    ending_survey = true;
-
-    document.body.innerHTML = '';
-    document.documentElement.innerHTML = "";
-
-    document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
-
-    // document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
-    // document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
-    document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
-    document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
 });
 
 function submitRobot() {
