@@ -3,8 +3,8 @@
   <head>
     <title>Blocks World</title>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 
     <script type="text/javascript" src="clientConfig.js"></script>
@@ -68,7 +68,16 @@
         </label>
 
         <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(currentConfig); inputlength()">Enter</button>
-
+        <div class="rightInstruction" style="float: right;">
+          <div class="showChosen"
+               id="showChosen"
+               style="float: left; position: static; margin-right: 5px;">
+            <!-- jQuery inserts HTML here dependent on which task is selected -->
+          </div>
+          <div id="buttonIncorrectDiv" style="float: right;">
+            <button id="buttonIncorrect" onclick="handle_incorrect_move()" style="vertical-align: middle;">Incorrect Move</button>
+          </div>
+        </div>
         <div class = "numofwords" id="numofwords"></div>
 
       </div>
@@ -80,8 +89,7 @@
       <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
       <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
       <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
-      <p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
-      <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana; position: absolute; top: 10%; left: 60%"></div>
+      <p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>      
 
       <script type="text/javascript">
        document.getElementById("gesturecontext").style.visibility = "hidden";
@@ -111,6 +119,7 @@
      $('#instruction').css('font-size', page_height * 0.025 + "px");
      $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
      $('#buttonEnter').css('font-size', page_height * 0.015 + "px");
+     // $('#showChosen').css('font-size', page_height * 0.015 + "px");
      document.getElementById('popup').style.top = "1%";
      document.getElementById('popup').style.right = "0%";
      $('#helper').css('font-size', page_height * 0.02 + "px");
@@ -121,7 +130,6 @@
      document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
      document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
      $('#score').css('font-size', page_height * 0.02 + "px");
-     $('#showChosen').css('font-size', page_height * 0.02 + "px");
      $('#chatBox').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('width', page_width * 0.3 + "px");
