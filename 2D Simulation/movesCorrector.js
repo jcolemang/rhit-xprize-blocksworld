@@ -8,6 +8,7 @@ let movesCorrector = new function () {
         this.disable_incorrect_button();
         run_undo_action();
         display_block_ids();
+        display_flip_explanation();
     }
 
     function run_undo_action() {
@@ -29,6 +30,10 @@ let movesCorrector = new function () {
         for (let i = 0; i < NumBlocks; i++) {
             blocks.set_block_text(i, i);
         }
+    }
+
+    function display_flip_explanation() {
+        alert("Please enter the id number of the block you wanted to flip.");
     }
 
     this.disable_incorrect_button = function () {
