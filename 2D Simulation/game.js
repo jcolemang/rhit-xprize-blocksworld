@@ -1,5 +1,4 @@
 var socket;
-let _undoMove;
 
 try {
     socket = io.connect(config.appAddr);
@@ -76,52 +75,6 @@ function getGameType() {
         return "";
     }
 }
-
-/////////////////////
-// IncorrectButton //
-/////////////////////
-
-function get_incorrect_button() {
-    return $("#buttonIncorrect");
-}
-
-function setup_incorrect_button() {
-    let incorrect_button = get_incorrect_button();
-
-    if (getGameType() === "human") {
-        incorrect_button.hide();
-    }
-
-    incorrect_button.prop("disabled", true);
-}
-
-function handle_incorrect_move() {
-    disable_incorrect_button();
-    run_undo_move();
-}
-
-function disable_incorrect_button() {
-    get_incorrect_button().prop("disabled", true);
-}
-
-function enable_incorrect_button() {
-    get_incorrect_button().prop("disabled", false);
-}
-
-function run_undo_move() {
-    if (_undoMove !== undefined) {
-        update_position(_undoMove);
-        update_score(_undoMove);
-        _undoMove = undefined;
-    }
-}
-
-setup_incorrect_button();
-
-
-////////////////////////
-// SocketIO callbacks //
-////////////////////////
 
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
@@ -208,16 +161,6 @@ socket.on('update_position', function (moveData) {
     update_position(moveData);
     enable_incorrect_button();
 });
-
-function update_undo_move(moveData) {
-    let block = $("#" + moveData.block_id);
-
-    _undoMove = {
-        block_id: moveData.block_id,
-        left: block.prop("style")["left"].slice(0, -1),
-        top: block.prop("style")["top"].slice(0, -1)
-    };
-}
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
