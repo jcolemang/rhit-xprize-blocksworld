@@ -1,5 +1,5 @@
 let movesCorrector = new function () {
-    let undoMove;
+    let undo_move;
     let incorrect_button = $("#buttonIncorrect");
 
     incorrect_button.prop("disabled", true);
@@ -10,10 +10,10 @@ let movesCorrector = new function () {
     }
 
     function run_undo_move() {
-        if (undoMove !== undefined) {
-            update_position(undoMove);
-            update_score(undoMove);
-            undoMove = undefined;
+        if (undo_move !== undefined) {
+            update_position(undo_move);
+            update_score(undo_move);
+            undo_move = undefined;
         }
     }
 
@@ -28,7 +28,7 @@ let movesCorrector = new function () {
     this.update_undo_move = function (moveData) {
         let block = $("#" + moveData.block_id);
 
-        undoMove = {
+        undo_move = {
             block_id: moveData.block_id,
             left: block.prop("style")["left"].slice(0, -1),
             top: block.prop("style")["top"].slice(0, -1)

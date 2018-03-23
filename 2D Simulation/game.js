@@ -226,7 +226,7 @@ socket.on('setInitialPosition', function(data) {
     for (var i = 0; i < NumBlocks; i++) {
         $("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + blockColors[i] + "\"></div>").appendTo(container);
 
-        $("#block" + i).append("<span style=\"color: black\">" + blockLetters[i] + "</span>");
+        blocks.set_block_text(i, blockLetters[i]);
 
         $("#block" + i).data("id", i);
         $("#block" + i).data("horizontal_percent", data.lefts[i]);

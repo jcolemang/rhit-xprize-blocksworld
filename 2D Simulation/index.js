@@ -206,11 +206,12 @@ function swapColor(box, config) {
     config[index].bottomColor = currentColor;
 }
 
-function swapLetter(box, config) {
-    var currentLetter = $('#' + box).find('span').html();
-    let index = box.substring(5);
+function swapLetter(string_id, config) {
+    let index = string_id.substring(5);
+    let currentLetter = blocks.get_block_text(index);
 
-    $('#' + box).find('span').html(config[index].bottomLetter);
+    blocks.set_block_text(index, config[index].bottomLetter);
+
     config[index].topLetter = config[index].bottomLetter;
     config[index].bottomLetter = currentLetter;
 }
