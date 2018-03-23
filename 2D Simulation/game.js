@@ -157,14 +157,14 @@ function update_position(moveData) {
 }
 
 socket.on('update_position', function (moveData) {
-    update_undo_move(moveData);
+    movesCorrector.update_undo_move(moveData);
     update_position(moveData);
-    enable_incorrect_button();
+    movesCorrector.enable_incorrect_button();
 });
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
-    enable_incorrect_button();
+    movesCorrector.enable_incorrect_button();
 });
 
 socket.on('setInitialPosition', function(data) {
@@ -421,7 +421,7 @@ function send_user_message_to_server(gameConfig) {
             redirects.pageDown(err);
         }
 
-        disable_incorrect_button();
+        movesCorrector.disable_incorrect_button();
     }
 }
 
