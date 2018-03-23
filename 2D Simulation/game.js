@@ -163,6 +163,7 @@ socket.on('update_position', function (moveData) {
 });
 
 socket.on('update_flip_block', function (block_id) {
+    movesCorrector.update_undo_flip(block_id);
     flipBlock(block_id, null, currentConfig);
     movesCorrector.enable_incorrect_button();
 });
