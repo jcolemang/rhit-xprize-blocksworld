@@ -1,11 +1,15 @@
 let movesCorrector = new function () {
     let undo_action;
     let incorrect_button = $("#buttonIncorrect");
+    let awaiting_correction = false;
 
     incorrect_button.prop("disabled", true);
 
     this.handle_incorrect_move = function () {
+        awaiting_correction = true;
+
         this.disable_incorrect_button();
+
         run_undo_action();
         display_block_ids();
         display_flip_explanation();
@@ -68,4 +72,25 @@ let movesCorrector = new function () {
             block_id: block_id
         };
     };
+
+    this.handle_message = function (message) {
+        if (!awaiting_correction)
+            return false;
+
+        let id = Number(message);
+
+        if (is_valid_id(id)) {
+            flipBlock("block" + id, null, currentConfig);
+            awaiting_correction = false;
+            hide_block_ids();
+        } else {
+            display_flip_explanation();
+        }
+
+        return true;
+    }
+
+    function is_valid_id(id) {
+        return id % 1 === 0 && id >= 0 && id < NumBlocks;
+    }
 };

@@ -405,7 +405,13 @@ socket.on('update_movement_data', function(data) {
     setMovement();
 });
 function send_user_message_to_server(gameConfig) {
+    let message = document.getElementById("txt_instruction").value;
+
     if (start_button_pressed) {
+        if (movesCorrector.handle_message(message)) {
+            return;
+        }
+
         if (gesture_is_visible()) {
             gestureCount++;
             send_gesture_to_server();
@@ -413,7 +419,7 @@ function send_user_message_to_server(gameConfig) {
 
         try {
             socket.emit('receive_user_message', {
-                text: document.getElementById("txt_instruction").value,
+                text: message,
                 gameType: getGameType(),
                 gameState: gameConfig
             });
