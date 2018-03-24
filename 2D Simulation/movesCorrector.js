@@ -22,11 +22,11 @@ let movesCorrector = new function () {
 
         if (undo_action.type === "move") {
             update_position(undo_action);
+            update_score(undo_action);
         } else if (undo_action.type === "flip") {
             flipBlock(undo_action.block_id, null, currentConfig);
         }
 
-        update_score(undo_action);
         undo_action = undefined;
     }
 
