@@ -56,13 +56,13 @@ let movesCorrector = new function () {
     }
 
     this.update_undo_move = function (moveData) {
-        let block = $("#" + moveData.block_id);
+        let id = Number(moveData.block_id.substring(5));
 
         undo_action = {
             type: "move",
             block_id: moveData.block_id,
-            left: block.prop("style")["left"].slice(0, -1),
-            top: block.prop("style")["top"].slice(0, -1)
+            left: blocks.get_block_left_pos(id),
+            top: blocks.get_block_top_pos(id)
         };
     };
 

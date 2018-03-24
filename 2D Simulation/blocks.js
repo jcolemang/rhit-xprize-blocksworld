@@ -10,4 +10,12 @@ let blocks = new function () {
     this.get_block_text = function (id) {
         return currentConfig[id].topLetter;
     }
+
+    this.get_block_left_pos = function (id) {
+        return get_block(id).prop("style")["left"].slice(0, -1);
+    }
+
+    this.get_block_top_pos = function (id) {
+        return get_block(id).prop("style")["top"].slice(0, -1);
+    }
 };
