@@ -77,9 +77,11 @@ let movesCorrector = new function () {
         if (!awaiting_correction)
             return false;
 
+        message = message.trim();
+
         let id = Number(message);
 
-        if (is_valid_id(id)) {
+        if (message !== "" && is_valid_id(id)) {
             flipBlock("block" + id, null, currentConfig);
             awaiting_correction = false;
             hide_block_ids();
