@@ -98,7 +98,7 @@ def setup_varied_updates(sio, rooms_tracker):
                 data
             )
             gesture[sid] = None
-            print("Received move: " + str(move))
+
             if not move:
                 print("Failed to find the requested block.")
                 return
@@ -116,21 +116,19 @@ def setup_varied_updates(sio, rooms_tracker):
                           rooms_tracker, move)
             else:
                 # Transmit id as 'block<id>'
+                move_data = {
+                    'top': move['top'],
+                    'left': move['left'],
+                    'block_id': move['block_id'][1:]
+                }
+
                 self_emit(sio, sid, 'update_position',
-                          rooms_tracker, {
-                              'top': move['top'],
-                              'left': move['left'],
-                              'block_id': move['block_id'][1:]
-                          })
+                          rooms_tracker, move_data)
                 self_emit(sio, sid, 'update_movement_data',
                           rooms_tracker, move['move_number'])
-                # Transmit id as the integer <id>
+                # Transmit id as 'block<id>'
                 self_emit(sio, sid, 'Update_score',
-                          rooms_tracker, {
-                              'id': int(move['block_id'][6:]),
-                              'tTop': move['top'],
-                              'tLeft': move['left']
-                          })
+                          rooms_tracker, move_data)
 
     sio.on('receive_gesture_data', gesture_handler)
     sio.on('receive_user_message', user_message_handler)

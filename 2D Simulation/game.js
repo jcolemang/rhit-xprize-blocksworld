@@ -1,4 +1,5 @@
 var socket;
+let _undoMove;
 
 try {
     socket = io.connect(config.appAddr);
@@ -58,6 +59,52 @@ function getGameType() {
         return "";
     }
 }
+
+/////////////////////
+// IncorrectButton //
+/////////////////////
+
+function get_incorrect_button() {
+    return $("#buttonIncorrect");
+}
+
+function setup_incorrect_button() {
+    let incorrect_button = get_incorrect_button();
+
+    if (getGameType() === "human") {
+        incorrect_button.hide();
+    }
+
+    incorrect_button.prop("disabled", true);
+}
+
+function handle_incorrect_move() {
+    disable_incorrect_button();
+    run_undo_move();
+}
+
+function disable_incorrect_button() {
+    get_incorrect_button().prop("disabled", true);
+}
+
+function enable_incorrect_button() {
+    get_incorrect_button().prop("disabled", false);
+}
+
+function run_undo_move() {
+    if (_undoMove !== undefined) {
+        update_position(_undoMove);
+        update_score(_undoMove);
+        _undoMove = undefined;
+    }
+}
+
+setup_incorrect_button();
+
+
+////////////////////////
+// SocketIO callbacks //
+////////////////////////
 
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
@@ -122,11 +169,11 @@ socket.on('enable_blocks_for_player_2', function(data) {
 });
 
 var z = 1;
-socket.on('update_position', function (data) {
-    let left = Math.max(data.left, 0);
-    let top = Math.max(data.top, 0);
+function update_position(moveData) {
+    let left = Math.max(moveData.left, 0);
+    let top = Math.max(moveData.top, 0);
 
-    let block = data.block_id;
+    let block = moveData.block_id;
     $("#" + block).css({
         left: left + "%",
         top: top + "%"
@@ -134,20 +181,37 @@ socket.on('update_position', function (data) {
     $("#" + block).css('z-index', ++z);
     $("#" + block).data("horizontal_percent", left);
     $("#" + block).data("vertical_percent", top);
+}
+
+socket.on('update_position', function (moveData) {
+    update_undo_move(moveData);
+    update_position(moveData);
+    enable_incorrect_button();
 });
+
+function update_undo_move(moveData) {
+    let block = $("#" + moveData.block_id);
+
+    _undoMove = {
+        block_id: moveData.block_id,
+        left: block.prop("style")["left"].slice(0, -1),
+        top: block.prop("style")["top"].slice(0, -1)
+    };
+}
 
 socket.on('update_flip_block', function (block_id) {
     flipBlock(block_id, null, currentConfig);
+    enable_incorrect_button();
 });
 
 socket.on('indicate_impossible_move', function(move) {
     let color = move['predicted_color'];
     let letter = move['predicted_letter'];
     let message = 'I think that this is an impossible move. '
-	+ 'My prediction is that you are trying to move the '
-	+ color + ' '
-	+ letter + '. '
-	+ 'Please check that this move is possible.';
+    + 'My prediction is that you are trying to move the '
+    + color + ' '
+    + letter + '. '
+    + 'Please check that this move is possible.';
     alert(message);
 });
 
@@ -155,9 +219,9 @@ socket.on('indicate_ambiguous_move', function(move) {
     let color = move['predicted_color'] || 'Ambiguous';
     let letter = move['predicted_letter'] || 'Ambiguous';
     let message = 'I think that this is an ambiguous move. '
-	+ 'Please try a more specific instruction.\n'
-	+ 'Predicted color: ' + color + '\n'
-	+ 'Predicted letter: ' + letter;
+    + 'Please try a more specific instruction.\n'
+    + 'Predicted color: ' + color + '\n'
+    + 'Predicted letter: ' + letter;
     alert(message);
 });
 
@@ -325,9 +389,9 @@ function init() {
                 send_movement_to_server();
 
                 socket.emit('Update_score', {
-                    id : $(this).data("id"),
-                    tLeft: $(this).data("horizontal_percent"),
-                    tTop: $(this).data("vertical_percent")
+                    block_id : "block" + $(this).data("id"),
+                    left: $(this).data("horizontal_percent"),
+                    top: $(this).data("vertical_percent")
                 });
 
                 // document.getElementById("scoreBox").innerText = scoreCal();
@@ -372,13 +436,17 @@ function init() {
 
 // Needs to be fixed to account for new percentage based way of calculating position.
 
-socket.on('Update_score', function(data) {
-    var top = [], left = [];
-    end_left[data.id] = data.tLeft;
-    end_top[data.id] = data.tTop;
+function update_score(moveData) {
+    // Expecting block_id of the form: block<id>
+    let id = Number(moveData.block_id.substring(5));
+
+    end_left[id] = Number(moveData.left);
+    end_top[id] = Number(moveData.top);
 
     document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
-});
+}
+
+socket.on('Update_score', update_score);
 
 function send_movement_to_server() {
     try {
@@ -410,6 +478,8 @@ function send_user_message_to_server(gameConfig) {
         } catch (err) {
             redirects.pageDown(err);
         }
+
+        disable_incorrect_button();
     }
 }
 
