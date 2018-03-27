@@ -71,6 +71,18 @@ let blocks = new function () {
         currentConfig[id].topLetter = newLetter;
         currentConfig[id].bottomLetter = oldLetter;
     };
+
+    this.display_block_ids = function() {
+        for (let i = 0; i < NumBlocks; i++) {
+            blocks.set_block_text(i, i);
+        }
+    };
+
+    this.display_block_letters = function() {
+        for (let i = 0; i < NumBlocks; i++) {
+            blocks.set_block_text(i, currentConfig[i].topLetter);
+        }
+    };
 };
 
 if (typeof module !== 'undefined'

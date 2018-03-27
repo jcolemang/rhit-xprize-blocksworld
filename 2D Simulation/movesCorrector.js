@@ -2,6 +2,8 @@ let movesCorrector = new function () {
     let undo_action;
     let incorrect_button = $("#buttonIncorrect");
     let awaiting_correction = false;
+    let handling_ambiguity = false;
+    let move;
 
     incorrect_button.prop("disabled", true);
 
@@ -11,7 +13,7 @@ let movesCorrector = new function () {
         this.disable_incorrect_button();
 
         run_undo_action();
-        display_block_ids();
+        blocks.display_block_ids();
         display_flip_explanation();
     }
 
@@ -35,12 +37,6 @@ let movesCorrector = new function () {
         undo_action = undefined;
     }
 
-    function display_block_ids() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, i);
-        }
-    }
-
     function display_flip_explanation() {
         alert("Please enter the id number of the block you wanted to flip.");
     }
@@ -51,14 +47,8 @@ let movesCorrector = new function () {
 
     this.enable_incorrect_button = function () {
         incorrect_button.prop("disabled", false);
-        display_block_letters();
+        blocks.display_block_letters();
     };
-
-    function display_block_letters() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, currentConfig[i].topLetter);
-        }
-    }
 
     this.update_undo_move = function (moveData) {
         let id = Number(moveData.block_id.substring(5));
@@ -78,13 +68,15 @@ let movesCorrector = new function () {
         };
     };
 
+    function convert_message_to_id_num(message) {
+        return Number(message.trim());
+    };
+
     this.handle_message = function (message) {
         if (!awaiting_correction)
             return false;
 
-        message = message.trim();
-
-        let id = Number(message);
+        let id = convert_message_to_id_num(message);
 
         if (message !== "" && is_valid_id(id)) {
             flipBlock("block" + id,
@@ -92,7 +84,7 @@ let movesCorrector = new function () {
                       blocks.get_block_color(id),
                       currentConfig);
             awaiting_correction = false;
-            display_block_letters();
+            blocks.display_block_letters();
         } else {
             display_flip_explanation();
         }
@@ -103,4 +95,32 @@ let movesCorrector = new function () {
     function is_valid_id(id) {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
     }
+
+    this.is_handling_ambiguity = function() {
+        return handling_ambiguity;
+    };
+
+    this.handle_ambiguity = function(currMove) {
+        console.log('handling ambiguity');
+        handling_ambiguity = true;
+        move = currMove;
+        blocks.display_block_ids();
+    };
+
+    this.finish_handling_ambiguity = function(message) {
+        console.log('this should be doing it.');
+        let id = convert_message_to_id_num(message);
+        move.block_id = 'block' + id;
+
+        handling_ambiguity = false;
+        blocks.display_block_letters();
+
+        if (move.type == 'ambiguous_move') {
+            move.type = 'move';
+            update_position(move);
+        } else if (move.type == 'ambiguous_flip') {
+            move.type = 'flip';
+            update_flip_block(move.block_id);
+        }
+    };
 };

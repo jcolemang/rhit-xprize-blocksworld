@@ -108,10 +108,14 @@ socket.on('enable_blocks_for_player_2', function(data) {
 });
 
 socket.on('update_position', function (moveData) {
+    update_position(moveData);
+});
+
+function update_position(moveData) {
     movesCorrector.update_undo_move(moveData);
     update_gui_block(moveData);
     movesCorrector.enable_incorrect_button();
-});
+};
 
 function update_gui_block(moveData) {
     if (this.last_z === undefined) {
@@ -140,33 +144,40 @@ function update_gui_block(moveData) {
 }
 
 socket.on('update_flip_block', function (block_id) {
-    let id = block_id.substring(5);
+    update_flip_block(block_id);
+});
 
+function update_flip_block(block_id) {
+    let id = block_id.substring(5);
     movesCorrector.update_undo_flip(block_id);
     flipBlock(block_id, blocks.get_block_text(id),
               blocks.get_block_color(id), currentConfig);
     movesCorrector.enable_incorrect_button();
-});
+
+};
 
 socket.on('indicate_impossible_move', function(move) {
-    let color = move['predicted_color'];
-    let letter = move['predicted_letter'];
-    let message = 'I think that this is an impossible move. '
-    + 'My prediction is that you are trying to move the '
-    + color + ' '
-    + letter + '. '
-    + 'Please check that this move is possible.';
+    let color = move['predicted_color'] || 'Ambiguous';
+    let letter = move['predicted_letter'] || 'Ambiguous';
+    let message = 'I think that this is an impossible move.\n'
+        + 'Predicted color: ' + color + '\n'
+        + 'Predicted letter: ' + letter;
+
     alert(message);
+
+    movesCorrector.handle_ambiguity();
 });
 
 socket.on('indicate_ambiguous_move', function(move) {
     let color = move['predicted_color'] || 'Ambiguous';
     let letter = move['predicted_letter'] || 'Ambiguous';
     let message = 'I think that this is an ambiguous move. '
-    + 'Please try a more specific instruction.\n'
-    + 'Predicted color: ' + color + '\n'
-    + 'Predicted letter: ' + letter;
+        + 'Please try a more specific instruction.\n'
+        + 'Predicted color: ' + color + '\n'
+        + 'Predicted letter: ' + letter + '\n'
+        + 'Enter the identifier of the intended block.';
     alert(message);
+    movesCorrector.handle_ambiguity(move);
 });
 
 socket.on('setInitialPosition', function(data) {
@@ -309,7 +320,8 @@ function send_movement_to_server() {
         redirects.pageDown(err);
     }
 
-}
+};
+
 socket.on('update_movement_data', function(data) {
     actualMove = data;
     setMovement();
@@ -320,6 +332,9 @@ function send_user_message_to_server(gameConfig) {
 
     if (start_button_pressed) {
         if (movesCorrector.handle_message(message)) {
+            return;
+        } else if (movesCorrector.is_handling_ambiguity()) {
+            movesCorrector.finish_handling_ambiguity(message);
             return;
         }
 

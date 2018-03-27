@@ -55,7 +55,12 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
         if len(candidates) == 0:
             return self._build_impossible(letter_tup[0], color_tup[0])
         if len(candidates) > 1:
-            return self._build_ambiguous(letter_tup[0], color_tup[0], candidates)
+            return self._build_ambiguous(flip_tup[0],
+                                         letter_tup[0],
+                                         color_tup[0],
+                                         candidates,
+                                         gesture_data,
+                                         sid)
 
         block_id = candidates[0]
         if flip_tup[0] == 'Flip':
@@ -82,12 +87,15 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
             'move_number': self._movement_count_dict[sid]
         }
 
-    def _build_ambiguous(self, letter, color, block_candidates):
+    def _build_ambiguous(self, action, letter, color, block_candidates, gesture_data, sid):
         return {
-            'type': 'ambiguous',
+            'type': 'ambiguous_flip' if action == 'Flip' else 'ambiguous_move',
             'predicted_letter': letter if letter != 'None' else False,
             'predicted_color': color if color != 'None' else False,
-            'candidates': block_candidates
+            'candidates': block_candidates,
+            'top': gesture_data['top'],
+            'left': gesture_data['left'],
+            'move_number': self._movement_count_dict[sid]
         }
 
     def _build_impossible(self, letter, color):

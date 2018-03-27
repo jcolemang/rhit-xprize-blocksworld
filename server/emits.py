@@ -58,20 +58,42 @@ def setup_updates(sio, rooms_tracker):
             self_emit(sio, sid, 'indicate_ambiguous_move',
                       rooms_tracker, move)
         else:
-            # Transmit id as 'block<id>'
-            move_data = {
-                'top': move['top'],
-                'left': move['left'],
-                'block_id': move['block_id'][1:]
-            }
+            move = model.generate_move(
+                sid,
+                gesture[sid],
+                data
+            )
+            gesture[sid] = None
 
-            self_emit(sio, sid, 'update_position',
-                      rooms_tracker, move_data)
-            self_emit(sio, sid, 'update_movement_data',
-                      rooms_tracker, move['move_number'])
-            # Transmit id as 'block<id>'
-            self_emit(sio, sid, 'Update_score',
-                      rooms_tracker, move_data)
+            if not move:
+                print("Failed to find the requested block.")
+                return
+
+            # Messages to be cleaned up with issue #25
+            if move['type'] == 'flip':
+                # Transmit id as 'block<id>'
+                self_emit(sio, sid, 'update_flip_block',
+                          rooms_tracker, move['block_id'][1:])
+            elif move['type'] == 'impossible':
+                self_emit(sio, sid, 'indicate_impossible_move',
+                          rooms_tracker, move)
+            elif move['type'] == 'ambiguous_flip' or move['type'] == 'ambiguous_move':
+                self_emit(sio, sid, 'indicate_ambiguous_move', rooms_tracker, move)
+            else:
+                # Transmit id as 'block<id>'
+                move_data = {
+                    'top': move['top'],
+                    'left': move['left'],
+                    'block_id': move['block_id'][1:]
+                }
+
+                self_emit(sio, sid, 'update_position',
+                          rooms_tracker, move_data)
+                self_emit(sio, sid, 'update_movement_data',
+                          rooms_tracker, move['move_number'])
+                # Transmit id as 'block<id>'
+                self_emit(sio, sid, 'Update_score',
+                          rooms_tracker, move_data)
 
     sio.on('receive_gesture_data', gesture_handler)
     sio.on('receive_user_message', user_message_handler)
