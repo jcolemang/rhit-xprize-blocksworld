@@ -57,13 +57,7 @@ function get_incorrect_button() {
 }
 
 function setup_incorrect_button() {
-    let incorrect_button = get_incorrect_button();
-
-    if (getGameType() === "human") {
-        incorrect_button.hide();
-    }
-
-    incorrect_button.prop("disabled", true);
+    get_incorrect_button().prop("disabled", true);
 }
 
 function handle_incorrect_move() {

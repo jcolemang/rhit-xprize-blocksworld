@@ -371,7 +371,7 @@ function showConstruction(blocks) {
     let toSet = document.getElementById("container").cloneNode(true).innerHTML;
     localStorage.setItem("container", toSet);
     localStorage.setItem('finalBlocks', JSON.stringify(blocks));
-    window.open('initial_board.html', 'newwindow', 'width=400, height=175');
+    window.open('solution_board.html', 'newwindow', 'width=400, height=175');
     return false;
 }
 
