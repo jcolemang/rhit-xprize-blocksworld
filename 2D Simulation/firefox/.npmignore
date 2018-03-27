@@ -1,7 +1,0 @@
-dist/
-doc/
-examples/
-jsdoc/
-test/
-.editorconfig
-.travis.yml
