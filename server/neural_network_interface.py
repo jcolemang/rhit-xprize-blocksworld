@@ -6,7 +6,7 @@ import sys
 from rhit_xprize_neural_network import model_runner as runner
 from rhit_xprize_neural_network import trainer_core as core
 
-class BlocksworldModel:
+class BlocksworldModel(object):
     def __init__(self):
         self._movement_count_dict = {}
 
@@ -32,10 +32,11 @@ class DumbBlocksworldModel(BlocksworldModel):
                 movement_ct)
 
 class NeuralNetworkBlocksworldModel(BlocksworldModel):
-    def __init__(self, h5_paths):
+    def __init__(self, h5_paths, ambiguity_threshold=0.3):
+        super().__init__()
+        self.ambiguity_threshold = ambiguity_threshold
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
-        BlocksworldModel.__init__(self)
 
     def generate_move(self, sid, gesture_data, message_data):
         movement_ct = self._movement_count_dict.setdefault(sid, 0) + 1
@@ -44,16 +45,20 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
         message = message_data['text']
         game_state = message_data['gameState']
 
-        (flip, color, letter) = self._run_models(message)
+        (flip_tup, color_tup, letter_tup) = self._run_models(message)
 
-        block_id = _find_block(game_state, color, letter)
 
-        if not block_id:
-            print(str(flip))
-            print(str(color))
-            print(str(letter))
-            return None
-        elif flip[0] == 'Flip':
+        ambig_letter = letter_tup if letter_tup[1] > self.ambiguity_threshold else ('None', 1)
+        ambig_color = color_tup if color_tup[1] > self.ambiguity_threshold else ('None', 1)
+        candidates = _find_block(game_state, ambig_color[0], ambig_letter[0])
+
+        if len(candidates) == 0:
+            return self._build_impossible(letter_tup[0], color_tup[0])
+        if len(candidates) > 1:
+            return self._build_ambiguous(letter_tup[0], color_tup[0], candidates)
+
+        block_id = candidates[0]
+        if flip_tup[0] == 'Flip':
             return self._build_flip(sid, block_id)
         else:
             return self._build_move(sid, gesture_data, block_id)
@@ -77,6 +82,21 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
             'move_number': self._movement_count_dict[sid]
         }
 
+    def _build_ambiguous(self, letter, color, block_candidates):
+        return {
+            'type': 'ambiguous',
+            'predicted_letter': letter if letter != 'None' else False,
+            'predicted_color': color if color != 'None' else False,
+            'candidates': block_candidates
+        }
+
+    def _build_impossible(self, letter, color):
+        return {
+            'type': 'impossible',
+            'predicted_letter': letter if letter != 'None' else False,
+            'predicted_color': color if color != 'None' else False
+        }
+
     def _build_move(self, sid, gesture_data, block_id):
         return {
             'type': 'move',
@@ -90,26 +110,22 @@ def _find_block(game_state, color, letter):
     correct_color = []
     correct_letter = []
 
+    if color.upper() == 'NONE' and letter.upper() == 'NONE':
+        return list(map(lambda x: x['blockId'], game_state))
+
     for block in game_state:
         # Note that each of these could be 'None', but this is ignored
         # and that list will be empty.
-        if block['topColor'].upper() == color[0].upper():
-            correct_color += [block['blockId']]
-        if block['topLetter'].upper() == letter[0].upper():
-            correct_letter += [block['blockId']]
+        if block['topColor'].upper() == color.upper():
+            correct_color.append(block['blockId'])
+        if block['topLetter'].upper() == letter.upper():
+            correct_letter.append(block['blockId'])
 
-    if len(correct_color) == 0 and len(correct_letter) == 0:
-        return None
-
-    if len(correct_color) == 0:
-        return correct_letter[0]
-
-    if len(correct_letter) == 0:
-        return correct_color[0]
+    if color.upper() == 'NONE':
+        return correct_letter
+    elif letter.upper() == 'NONE':
+        return correct_color
 
     intersection = list(set(correct_color).intersection(correct_letter))
+    return intersection
 
-    if len(intersection) > 0:
-        return intersection[0]
-
-    return correct_color[0]
