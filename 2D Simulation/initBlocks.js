@@ -75,18 +75,13 @@ function initBlocks(config) {
         $("#block" + i).bind("contextmenu", function(e) {
             if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
                 var event = e || window.event;
-                flipBlock('block' + $(this).data("id"), event, bLetters, bColors);
-                send_flip_to_server('block' + $(this).data("id"));
-                if (am_i_player1) {
-                    players.push("Human");
-                } else {
-                    players.push("Robot");
-                }
-
                 var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
                 var flipped_block_letter = blockLetters[$(this).data("id")];
 
-                block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+                flipBlock('block' + $(this).data("id"),
+                          flipped_block_letter, flipped_block_color,
+                          event, bLetters, bColors);
+                send_flip_to_server('block' + $(this).data("id"));
             }
         });
     }

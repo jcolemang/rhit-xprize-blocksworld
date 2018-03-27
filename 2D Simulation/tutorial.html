@@ -328,10 +328,6 @@
 				}, stop: function(event, ui) {
 					var Stoppos = $(this).position();
 					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
-						start.push(movementdate);
-						end.push(getDateTime());
-						interval.push(new Date().getTime() - movementstarttime);
-						type.push("Movement");
 						actualMove++;
 						setMovement();
 						send_movement_to_server();
@@ -579,9 +575,6 @@
 		                endPosMap['block'+i] = pos;
 		            }
 		        }
-		    }
-		    for (var i = 0; i < start.length;i++) {
-		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
 		    }
 		    console.log(instructions);
 		    alert('How long you take to finish the task? ' + time/1000 + 's');
