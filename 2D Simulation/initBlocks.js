@@ -62,7 +62,7 @@ function initBlocks(config) {
 
         $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
 
-        $("#block" + i).append("<span style=\"color: black\">" + bLetters[l] + "<span>");
+        $("#block" + i).append("<span style=\"color: black\">" + bLetters[l] + "</span>");
 
         standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + bLetters[l] + " flipletters: " + flipLtrs[l]);
         goal_top.push(tTop);
