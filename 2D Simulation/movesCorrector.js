@@ -46,10 +46,10 @@ let movesCorrector = new function () {
 
     this.enable_incorrect_button = function () {
         incorrect_button.prop("disabled", false);
-        hide_block_ids();
+        display_block_letters();
     };
 
-    function hide_block_ids() {
+    function display_block_letters() {
         for (let i = 0; i < NumBlocks; i++) {
             blocks.set_block_text(i, currentConfig[i].topLetter);
         }
@@ -84,7 +84,7 @@ let movesCorrector = new function () {
         if (message !== "" && is_valid_id(id)) {
             flipBlock("block" + id, null, currentConfig);
             awaiting_correction = false;
-            hide_block_ids();
+            display_block_letters();
         } else {
             display_flip_explanation();
         }
