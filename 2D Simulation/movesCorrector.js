@@ -24,9 +24,11 @@ let movesCorrector = new function () {
             update_gui_block(undo_action);
             update_score(undo_action);
         } else if (undo_action.type === "flip") {
+            let id = undo_action.block_id.substring(5);
+
             flipBlock(undo_action.block_id,
-                      get_block_letter(undo_action.block_id),
-                      get_block_color(undo_action.block_id),
+                      blocks.get_block_text(id),
+                      blocks.get_block_color(id),
                       currentConfig);
         }
 
@@ -86,8 +88,8 @@ let movesCorrector = new function () {
 
         if (message !== "" && is_valid_id(id)) {
             flipBlock("block" + id,
-                      get_block_letter("block" + id),
-                      get_block_color("block" + id),
+                      blocks.get_block_text(id),
+                      blocks.get_block_color(id),
                       currentConfig);
             awaiting_correction = false;
             display_block_letters();

@@ -134,7 +134,9 @@ function update_gui_block(moveData) {
 
     let left = Math.max(moveData.left, 0);
     let top = Math.max(moveData.top, 0);
+
     let block = $("#" + moveData.block_id);
+    let id = moveData.block_id.substring(5);
 
     let old_left = block.css('left');
     let old_top = block.css('top');
@@ -145,26 +147,21 @@ function update_gui_block(moveData) {
     });
 
     movesTracker.add_move(moveData.block_id,
-                          get_block_letter(moveData.block_id),
-                          get_block_color(moveData.block_id),
+                          blocks.get_block_text(id),
+                          blocks.get_block_color(id),
                           old_left, old_top,
                           left, top);
 }
 
 socket.on('update_flip_block', function (block_id) {
+    let id = block_id.substring(5);
+
     movesCorrector.update_undo_flip(block_id);
-    flipBlock(block_id, get_block_letter(block_id),
-              get_block_color(block_id), currentConfig);
+    flipBlock(block_id, blocks.get_block_text(id),
+              blocks.get_block_color(id), currentConfig);
     movesCorrector.enable_incorrect_button();
 });
 
-function get_block_letter(block_id) {
-    return blockLetters[Number(block_id.substring(5))];
-}
-
-function get_block_color(block_id) {
-    return document.getElementById(block_id).style.backgroundColor;
-}
 socket.on('indicate_impossible_move', function(move) {
     let color = move['predicted_color'];
     let letter = move['predicted_letter'];
