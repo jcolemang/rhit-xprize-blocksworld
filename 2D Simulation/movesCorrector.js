@@ -21,10 +21,13 @@ let movesCorrector = new function () {
         }
 
         if (undo_action.type === "move") {
-            update_position(undo_action);
+            update_gui_block(undo_action);
             update_score(undo_action);
         } else if (undo_action.type === "flip") {
-            flipBlock(undo_action.block_id, null, currentConfig);
+            flipBlock(undo_action.block_id,
+                      get_block_letter(undo_action.block_id),
+                      get_block_color(undo_action.block_id),
+                      currentConfig);
         }
 
         undo_action = undefined;
@@ -82,7 +85,10 @@ let movesCorrector = new function () {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
-            flipBlock("block" + id, null, currentConfig);
+            flipBlock("block" + id,
+                      get_block_letter("block" + id),
+                      get_block_color("block" + id),
+                      currentConfig);
             awaiting_correction = false;
             display_block_letters();
         } else {

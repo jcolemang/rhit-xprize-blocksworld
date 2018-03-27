@@ -28,7 +28,6 @@ var oldBlock = "blockNone";
 var start = [];
 var end = [];
 var interval = [];
-var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
@@ -54,7 +53,7 @@ function setIntroduction(num) {
     } else {
         document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions2[taskID];
     }
-    
+
 }
 
 function initInstructions() {
@@ -174,10 +173,6 @@ function factorial(x) {
 }
 
 function inputlength() {
-    end.push(getDateTime());
-    start.push(instructiondate);
-    type.push("Instructions");
-    interval.push(new Date().getTime() - instructionstarttime);
     var x = document.getElementById("txt_instruction").value;
     if (x.length != 0) {
         var numToAdd = (x.split(" ").length - 1) + 1;

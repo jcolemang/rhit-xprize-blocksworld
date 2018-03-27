@@ -31,7 +31,6 @@ function startGame() {
             p_left: p_left
         });
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
@@ -40,13 +39,6 @@ function startGame() {
         if (taskID == 2) {
             $("#block" + i).draggable("enable");
         }
-
-        /* var flip_or_not = Math.random();*/
-        /* */
-        /* if (flip_or_not < 0.5) {*/
-        /* flipBlock('block' + i, null, blockLetters, blockColors);*/
-        /* send_flip_to_server('block' + i);*/
-        /* }*/
     }
 
     actualMove = 0;
@@ -78,27 +70,7 @@ function endGame() {
             }
         }
 
-        var action = [];
-
-        var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
-        for (var i = 0; i < type.length;i++) {
-            if (type[i] == "Movement") {
-                action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-                x++; counter++; user++; block_count++;
-            } else if (type[i] == "Instructions") {
-                action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
-                y++; counter++;
-            } else {
-                if (type[i] == "Flip") {
-                    action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
-                    block_count++;
-                } else {
-                    action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
-                }
-                z++; user++;
-            }
-        }
-        // stopRecog();
+        let actions = movesTracker.export_actions();
 
         calculateBackEndData();
 
@@ -127,12 +99,12 @@ function endGame() {
                 te: te,
                 ie: ie,
                 p: p,
-                Action: action,
+                Action: actions,
                 initialInfo: initialInfo,
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: scoreCal(finalBlocks),
+                finalScore: Math.round(scoreCal(finalBlocks)),
                 seconds: seconds
             });
         } catch (err) {

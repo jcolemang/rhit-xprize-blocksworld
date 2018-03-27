@@ -11,6 +11,7 @@
     <script type="text/javascript" src="redirect.js"></script>
     <script type="text/javascript" src="blocks.js"></script>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="movesTracker.js"></script>
     <script type="text/javascript" src="startAndEndGame.js"></script>
 
     <meta charset="UTF-8">
@@ -68,7 +69,11 @@
           <input id="txt_instruction" type="text" />
         </label>
 
-        <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(currentConfig); inputlength()">Enter</button>
+        <button class="buttonenter"
+                id="buttonEnter"
+                onclick="send_user_message_to_server(currentConfig); inputlength()">
+          Enter
+        </button>
         <div class="rightInstruction" style="float: right;">
           <div class="showChosen"
                id="showChosen"

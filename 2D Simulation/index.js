@@ -21,13 +21,9 @@ var startTime, endTime;
 var startPosMap = {};
 var endPosMap = {};
 var oldBlock = "blockNone";
-var start = [];
-var end = [];
 var interval = [];
-var type = [];
 var instructiondate;
 var instructionstarttime;
-var instructions = [];
 var time = 0;
 var recordTime = 0;
 var selectionflag = 0;
@@ -41,11 +37,6 @@ var chosenWords, specificIns;
 // var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
-var movement_startpos = [], movement_endpos = [];
-var time_GF = [];
-var GF_position = [];
-var players = [];
-var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var goalInfo = [], goal_top = [], goal_left = [];
@@ -177,20 +168,21 @@ function initLetters(possibleLetters, numBlocks) {
     return lets;
 }
 
-function flipBlock(box, event, config) {
+function flipBlock(block_id, letter, color, config) {
     if (flip_on) {
-        swapColor(box, config);
-        swapLetter(box, config);
+        swapColor(block_id, config);
+        swapLetter(block_id, config);
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
-        if (event != null) {
-            GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-            type.push("Flip");
-            time_GF.push(getDateTime());
-            if (taskID == 1) {
-                document.getElementById("block" + box.substring(5)).style.borderColor = "white";
-            }
+
+        let rect = document.getElementById('container').getBoundingClientRect();
+        let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
+        let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
+
+        movesTracker.add_flip(block_id, letter, color, horiz, vert);
+        if (taskID == 1) {
+            document.getElementById(block_id).style.borderColor = "white";
         }
     }
 }
@@ -236,11 +228,9 @@ function setGestureWithPosition(left, top, event) {
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
-        time_GF.push(getDateTime());
-        GF_position.push("(" + gestureElement.style.left + "%," + gestureElement.style.top + "%)");
-        type.push("Gesture");
+        movesTracker.add_gesture(gestureElement.style.left,
+                                 gestureElement.style.top);
     }
-
 }
 
 function setMovement() {
@@ -343,16 +333,13 @@ function factorial(x) {
 
 function inputlength() {
     if (start_button_pressed) {
-        end.push(getDateTime());
-        start.push(instructiondate);
-        type.push("Instructions");
-        interval.push(new Date().getTime() - instructionstarttime);
-        var x = document.getElementById("txt_instruction").value;
-        if (x.length != 0) {
-            var numToAdd = (x.split(" ").length - 1) + 1;
+        let text = document.getElementById("txt_instruction").value;
+        if (text.length != 0) {
+            let numToAdd = (text.split(" ").length - 1) + 1;
             NumWords += numToAdd;
         }
-        instructions.push(x);
+
+        movesTracker.add_instruction(instructiondate, instructionstarttime, text);
     }
     document.getElementById("txt_instruction").value = "";
 }
