@@ -164,8 +164,6 @@ socket.on('indicate_impossible_move', function(move) {
         + 'Predicted letter: ' + letter;
 
     alert(message);
-
-    movesCorrector.handle_ambiguity();
 });
 
 socket.on('indicate_ambiguous_move', function(move) {

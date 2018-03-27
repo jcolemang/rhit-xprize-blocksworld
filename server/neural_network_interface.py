@@ -47,7 +47,6 @@ class NeuralNetworkBlocksworldModel(BlocksworldModel):
 
         (flip_tup, color_tup, letter_tup) = self._run_models(message)
 
-
         ambig_letter = letter_tup if letter_tup[1] > self.ambiguity_threshold else ('None', 1)
         ambig_color = color_tup if color_tup[1] > self.ambiguity_threshold else ('None', 1)
         candidates = _find_block(game_state, ambig_color[0], ambig_letter[0])
