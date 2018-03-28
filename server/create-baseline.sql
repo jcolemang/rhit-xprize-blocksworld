@@ -1,25 +1,14 @@
 
-CREATE TABLE ibmdb (
-  Time varchar(100),
-  Task varchar(100),
-  b varchar(100),
-  W varchar(100),
-  G varchar(100),
-  bm varchar(100),
-  br varchar(100),
-  pn varchar(100),
-  pp varchar(100),
-  te varchar(100),
-  ie varchar(100),
-  p varchar(100),
-  TimeAndLocation varchar(10000),
-  InitialInfo varchar(10000),
-  SearchWords varchar(100),
-  finalScore varchar(100),
-  standard_info varchar(10000)
+CREATE TABLE game (
+  id int PRIMARY KEY,
+  final_score smallint,
+  total_time real
 );
 
 CREATE TABLE human_survey (
+  game_id int REFERENCES game(id),
+  commander_role boolean,
+  worker_role boolean,
   q1 varchar(10000),
   q2 varchar(10000),
   q3 varchar(10000),
@@ -29,7 +18,57 @@ CREATE TABLE human_survey (
 );
 
 CREATE TABLE robot_survey (
+  game_id int REFERENCES game(id),
   q1 varchar(10000),
   q2 varchar(10000),
   q3 varchar(10000)
+);
+
+CREATE TABLE move (
+  id int PRIMARY KEY,
+  game_id int REFERENCES game(id),
+  game_time real,
+  block_id smallint,
+  start_x real,
+  start_y real,
+  end_x real,
+  end_y real
+);
+
+CREATE TABLE flip (
+  id int PRIMARY KEY,
+  game_id int REFERENCES game(id),
+  game_time real,
+  block_id smallint,
+  start_letter char(1),
+  end_letter char(1),
+  start_color varchar(10),
+  end_color varchar(10)
+);
+
+CREATE TABLE command (
+  id int PRIMARY KEY,
+  game_id int REFERENCES game(id),
+  game_time real,
+  text varchar(100)
+);
+
+CREATE TABLE gesture (
+  id int PRIMARY KEY,
+  game_id int REFERENCES game(id),
+  game_time real,
+  x real,
+  y real
+);
+
+CREATE TABLE move_data (
+  move_id int REFERENCES move(id),
+  command_id int REFERENCES command(id),
+  gesture_id int REFERENCES gesture(id)
+);
+
+CREATE TABLE flip_data (
+  flip_id int REFERENCES flip(id),
+  command_id int REFERENCES command(id),
+  gesture_id int REFERENCES gesture(id)
 );
