@@ -2,7 +2,8 @@
 CREATE TABLE game (
   id int PRIMARY KEY,
   final_score smallint,
-  total_time real
+  start_time timestamp, -- e.g., 13:13 2018-04-22
+  total_time real -- e.g., 112.6 seconds
 );
 
 CREATE TABLE human_survey (
