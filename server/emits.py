@@ -10,9 +10,6 @@ def self_emit(sio, sid, event, rooms_tracker, data=None):
     sio.emit(event, data, rooms_tracker.get_room(sid),
              rooms_tracker.get_roommate(sid))
 
-def roommate_emit(sio, sid, event, rooms_tracker, data=None):
-    sio.emit(event, data, rooms_tracker.get_room(sid), skip_sid=sid)
-
 def room_emit(sio, sid, event, rooms_tracker, data=None):
     sio.emit(event, data, rooms_tracker.get_room(sid))
 
@@ -29,28 +26,6 @@ def setup_initial_position(sio, rooms_tracker):
             self_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
     sio.on('setInitialPosition', initial_position_handler)
-
-def setup_echos(sio, rooms_tracker):
-    def echo_event(event):
-        def echo_handler(sid, data=None):
-            roommate_emit(sio, sid, event, rooms_tracker, data)
-
-        sio.on(event, echo_handler)
-
-    echo_event('enable_blocks_for_player_2')
-    echo_event('disable_blocks_for_player_2')
-    echo_event('Update_score')
-
-def setup_updates(sio, rooms_tracker):
-    def update_on_receive(event):
-        def update_handler(sid, data=None):
-            roommate_emit(sio, sid, "update_" + event, rooms_tracker, data)
-
-        sio.on("receive_" + event, update_handler)
-
-    update_on_receive('position')
-    update_on_receive('flip_block')
-    update_on_receive('movement_data')
 
 # Different effects for Co-Op and AI modes
 def setup_varied_updates(sio, rooms_tracker):
@@ -105,14 +80,6 @@ def setup_varied_updates(sio, rooms_tracker):
 
     sio.on('receive_gesture_data', gesture_handler)
     sio.on('receive_user_message', user_message_handler)
-
-def setup_reconnected(sio, rooms_tracker):
-    def human_reconnected_handler(sid):
-        room = rooms_tracker.get_room(sid)
-        roommate_emit(sio, sid, 'alert_human_reconnected', rooms_tracker,
-                      _voice_connection_data[room])
-
-    sio.on('human_reconnected', human_reconnected_handler)
 
 def setup_ending(sio, rooms_tracker, config):
     db_connection = db.connect_to_db(config)
