@@ -37,7 +37,7 @@ let blocks = new function () {
         let oldColor = this.get_block_color(id);
         let newColor = currentConfig[id].bottomColor;
 
-        this.set_block_color(newColor);
+        this.set_block_color(id, newColor);
 
         currentConfig[id].topColor = newColor;
         currentConfig[id].bottomColor = oldColor;
