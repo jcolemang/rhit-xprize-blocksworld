@@ -9,6 +9,7 @@
 
     <script type="text/javascript" src="clientConfig.js"></script>
     <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="blocks.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="movesTracker.js"></script>
     <script type="text/javascript" src="startAndEndGame.js"></script>
@@ -80,7 +81,7 @@
             <!-- jQuery inserts HTML here dependent on which task is selected -->
           </div>
           <div id="buttonIncorrectDiv" style="float: right;">
-            <button id="buttonIncorrect" onclick="handle_incorrect_move()" style="vertical-align: middle;">Incorrect Move</button>
+            <button id="buttonIncorrect" onclick="movesCorrector.handle_incorrect_move()" style="vertical-align: middle;">Incorrect Move</button>
           </div>
         </div>
         <div class = "numofwords" id="numofwords"></div>
@@ -212,7 +213,8 @@
        }
      }
     </script>
-
+    
+    <script type="text/javascript" src="movesCorrector.js"></script>
     <script type="text/javascript" src="game.js"></script>
 
     <script type="text/javascript">
