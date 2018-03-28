@@ -126,7 +126,7 @@ socket.on('unfreeze_start', function() {
 
     document.getElementById('disablingDiv').style.display = "none";
 
-    alert('Another player has joined the game. You may now press the start button to begin.');
+    alert('You have successfully connected to the game server. You may now press the start button to begin.');
 });
 
 socket.on('disable_blocks_for_player_2', function() {
