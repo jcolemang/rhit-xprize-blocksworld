@@ -93,8 +93,6 @@ socket.on('freeze_start', function() {
     var endButton = document.getElementById('buttonEnd');
     var enterButton = document.getElementById('buttonEnter');
 
-    document.getElementById("chatBox").innerHTML = "Please wait while another player attempts to connect to your game.";
-
     startButton.disabled = true;
     endButton.disabled = true;
     enterButton.disabled = true;
@@ -399,10 +397,6 @@ function gesture_is_visible() {
     gestureElement = $('#gestureToggle')
     return gestureElement.is(':visible')
 }
-
-socket.on('update_user_message', function(message) {
-    document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
-});
 
 function submitRobot() {
     var q3 = "", q4 = -1, q5 = -1;
