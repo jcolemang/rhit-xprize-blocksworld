@@ -21,7 +21,7 @@ def get_is_local():
 
 def setup_emits(config):
     emits.setup_initial_position(sio, rooms_tracker)
-    emits.setup_varied_updates(sio, rooms_tracker)
+    emits.setup_updates(sio, rooms_tracker)
     emits.setup_ending(sio, rooms_tracker, config)
 
 def start_app(config):

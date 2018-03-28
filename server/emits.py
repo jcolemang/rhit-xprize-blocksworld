@@ -7,10 +7,6 @@ _starting_game_data = dict()
 _voice_connection_data = dict()
 
 def self_emit(sio, sid, event, rooms_tracker, data=None):
-    sio.emit(event, data, rooms_tracker.get_room(sid),
-             rooms_tracker.get_roommate(sid))
-
-def room_emit(sio, sid, event, rooms_tracker, data=None):
     sio.emit(event, data, rooms_tracker.get_room(sid))
 
 def setup_initial_position(sio, rooms_tracker):
@@ -27,8 +23,7 @@ def setup_initial_position(sio, rooms_tracker):
 
     sio.on('setInitialPosition', initial_position_handler)
 
-# Different effects for Co-Op and AI modes
-def setup_varied_updates(sio, rooms_tracker):
+def setup_updates(sio, rooms_tracker):
     gesture = {}
     model = nn.NeuralNetworkBlocksworldModel({
         'flips': 'flips.h5',
@@ -83,22 +78,14 @@ def setup_varied_updates(sio, rooms_tracker):
 
 def setup_ending(sio, rooms_tracker, config):
     db_connection = db.connect_to_db(config)
-    _in_surveys = set()
 
-    def end_button_handler(sid, data):
-        room = rooms_tracker.get_room(sid)
-        _in_surveys.add(room)
+    def end_button_handler(_, data):
         db.store_game(db_connection, data)
 
     def disconnect_handler(sid):
         room = rooms_tracker.get_room(sid)
         if room in _starting_game_data:
             _starting_game_data.pop(room)
-
-        if room not in _in_surveys:
-            room_emit(sio, sid, 'user_left_game', rooms_tracker)
-        else:
-            _in_surveys.remove(room)
 
         if room in _starting_game_data:
             _starting_game_data.pop(room)
