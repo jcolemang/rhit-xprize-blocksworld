@@ -285,7 +285,7 @@ function setUpVisibility() {
 }
 
 function setTaskHeader() {
-    document.getElementById("taskQ").innerHTML = "Your task is: " + task[taskID] + "." + specificIns;
+    document.getElementById("taskQ").innerHTML = "Blocksworld";
 }
 
 function calculateBackEndData() {
