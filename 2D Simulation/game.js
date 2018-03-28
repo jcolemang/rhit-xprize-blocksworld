@@ -1,5 +1,4 @@
 var socket;
-let _undoMove;
 
 try {
     socket = io.connect(config.appAddr);
@@ -47,46 +46,6 @@ try {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
-
-/////////////////////
-// IncorrectButton //
-/////////////////////
-
-function get_incorrect_button() {
-    return $("#buttonIncorrect");
-}
-
-function setup_incorrect_button() {
-    get_incorrect_button().prop("disabled", true);
-}
-
-function handle_incorrect_move() {
-    disable_incorrect_button();
-    run_undo_move();
-}
-
-function disable_incorrect_button() {
-    get_incorrect_button().prop("disabled", true);
-}
-
-function enable_incorrect_button() {
-    get_incorrect_button().prop("disabled", false);
-}
-
-function run_undo_move() {
-    if (_undoMove !== undefined) {
-        update_gui_block(_undoMove);
-        update_score(_undoMove);
-        _undoMove = undefined;
-    }
-}
-
-setup_incorrect_button();
-
-
-////////////////////////
-// SocketIO callbacks //
-////////////////////////
 
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
@@ -149,9 +108,9 @@ socket.on('enable_blocks_for_player_2', function(data) {
 });
 
 socket.on('update_position', function (moveData) {
-    update_undo_move(moveData);
+    movesCorrector.update_undo_move(moveData);
     update_gui_block(moveData);
-    enable_incorrect_button();
+    movesCorrector.enable_incorrect_button();
 });
 
 function update_gui_block(moveData) {
@@ -161,7 +120,9 @@ function update_gui_block(moveData) {
 
     let left = Math.max(moveData.left, 0);
     let top = Math.max(moveData.top, 0);
+
     let block = $("#" + moveData.block_id);
+    let id = moveData.block_id.substring(5);
 
     let old_left = block.css('left');
     let old_top = block.css('top');
@@ -171,41 +132,22 @@ function update_gui_block(moveData) {
         top: top + "%"
     });
 
-    block.css('z-index', ++this.last_z);
-
-    block.data("horizontal_percent", left);
-    block.data("vertical_percent", top);
-
     movesTracker.add_move(moveData.block_id,
-                          get_block_letter(moveData.block_id),
-                          get_block_color(moveData.block_id),
+                          blocks.get_block_text(id),
+                          blocks.get_block_color(id),
                           old_left, old_top,
                           left, top);
 }
 
-function update_undo_move(moveData) {
-    let block = $("#" + moveData.block_id);
-
-    _undoMove = {
-        block_id: moveData.block_id,
-        left: block.prop("style")["left"].slice(0, -1),
-        top: block.prop("style")["top"].slice(0, -1)
-    };
-}
-
 socket.on('update_flip_block', function (block_id) {
-    flipBlock(block_id, get_block_letter(block_id),
-              get_block_color(block_id), currentConfig);
-    enable_incorrect_button();
+    let id = block_id.substring(5);
+
+    movesCorrector.update_undo_flip(block_id);
+    flipBlock(block_id, blocks.get_block_text(id),
+              blocks.get_block_color(id), currentConfig);
+    movesCorrector.enable_incorrect_button();
 });
 
-function get_block_letter(block_id) {
-    return blockLetters[Number(block_id.substring(5))];
-}
-
-function get_block_color(block_id) {
-    return document.getElementById(block_id).style.backgroundColor;
-}
 socket.on('indicate_impossible_move', function(move) {
     let color = move['predicted_color'];
     let letter = move['predicted_letter'];
@@ -286,7 +228,7 @@ socket.on('setInitialPosition', function(data) {
     for (var i = 0; i < NumBlocks; i++) {
         $("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + blockColors[i] + "\"></div>").appendTo(container);
 
-        $("#block" + i).append("<span style=\"color: black\">" + blockLetters[i] + "</span>");
+        blocks.set_block_text(i, blockLetters[i]);
 
         $("#block" + i).data("id", i);
         $("#block" + i).data("horizontal_percent", data.lefts[i]);
@@ -374,7 +316,13 @@ socket.on('update_movement_data', function(data) {
 });
 
 function send_user_message_to_server(gameConfig) {
+    let message = document.getElementById("txt_instruction").value;
+
     if (start_button_pressed) {
+        if (movesCorrector.handle_message(message)) {
+            return;
+        }
+
         if (gesture_is_visible()) {
             gestureCount++;
             send_gesture_to_server();
@@ -382,14 +330,14 @@ function send_user_message_to_server(gameConfig) {
 
         try {
             socket.emit('receive_user_message', {
-                text: document.getElementById("txt_instruction").value,
+                text: message,
                 gameState: gameConfig
             });
         } catch (err) {
             redirects.pageDown(err);
         }
 
-        disable_incorrect_button();
+        movesCorrector.disable_incorrect_button();
     }
 }
 

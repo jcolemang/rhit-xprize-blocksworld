@@ -170,8 +170,7 @@ function initLetters(possibleLetters, numBlocks) {
 
 function flipBlock(block_id, letter, color, config) {
     if (flip_on) {
-        swapColor(block_id, config);
-        swapLetter(block_id, config);
+        blocks.flip_block(block_id.substring(5))
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
         setMovement();
@@ -185,26 +184,6 @@ function flipBlock(block_id, letter, color, config) {
             document.getElementById(block_id).style.borderColor = "white";
         }
     }
-}
-
-function swapColor(box, config) {
-    var property = document.getElementById(box);
-    var currentColor = property.style.backgroundColor;
-    let index = box.substring(5);
-    let newColor = config[index].bottomColor;
-
-    property.style.backgroundColor = newColor;
-    config[index].topColor = newColor;
-    config[index].bottomColor = currentColor;
-}
-
-function swapLetter(box, config) {
-    var currentLetter = $('#' + box).find('span').html();
-    let index = box.substring(5);
-
-    $('#' + box).find('span').html(config[index].bottomLetter);
-    config[index].topLetter = config[index].bottomLetter;
-    config[index].bottomLetter = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {
