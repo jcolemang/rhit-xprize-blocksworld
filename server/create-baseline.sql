@@ -6,23 +6,21 @@ CREATE TABLE game (
   total_time real -- e.g., 112.6 seconds
 );
 
-CREATE TABLE human_survey (
-  game_id int REFERENCES game(id),
-  commander_role boolean,
-  worker_role boolean,
-  q1 varchar(10000),
-  q2 varchar(10000),
-  q3 varchar(10000),
-  q4 varchar(10000),
-  q5 varchar(10000),
-  q6 varchar(10000)
-);
-
-CREATE TABLE robot_survey (
+CREATE TABLE survey (
   game_id int REFERENCES game(id),
   q1 varchar(10000),
   q2 varchar(10000),
   q3 varchar(10000)
+);
+
+CREATE TABLE block (
+  id int,
+  game_id int REFERENCES game(id),
+  front_color varchar(10),
+  back_color varchar(10),
+  front_letter char(1),
+  back_letter char(1),
+  PRIMARY KEY (id, game_id)
 );
 
 CREATE TABLE move (
@@ -30,6 +28,7 @@ CREATE TABLE move (
   game_id int REFERENCES game(id),
   game_time real,
   block_id smallint,
+  front_facing boolean,
   start_x real,
   start_y real,
   end_x real,
@@ -41,10 +40,9 @@ CREATE TABLE flip (
   game_id int REFERENCES game(id),
   game_time real,
   block_id smallint,
-  start_letter char(1),
-  end_letter char(1),
-  start_color varchar(10),
-  end_color varchar(10)
+  front_facing boolean,
+  x real,
+  y real
 );
 
 CREATE TABLE command (
@@ -65,11 +63,13 @@ CREATE TABLE gesture (
 CREATE TABLE move_data (
   move_id int REFERENCES move(id),
   command_id int REFERENCES command(id),
-  gesture_id int REFERENCES gesture(id)
+  gesture_id int REFERENCES gesture(id),
+  needed_correction boolean
 );
 
 CREATE TABLE flip_data (
   flip_id int REFERENCES flip(id),
   command_id int REFERENCES command(id),
-  gesture_id int REFERENCES gesture(id)
+  gesture_id int REFERENCES gesture(id),
+  needed_correction boolean
 );
