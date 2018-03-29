@@ -13,7 +13,7 @@ let movesCorrector = new function () {
         run_undo_action();
         display_block_ids();
         display_flip_explanation();
-    }
+    };
 
     function run_undo_action() {
         if (undo_action === undefined) {
@@ -98,7 +98,7 @@ let movesCorrector = new function () {
         }
 
         return true;
-    }
+    };
 
     function is_valid_id(id) {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
