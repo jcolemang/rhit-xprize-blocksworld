@@ -1,19 +1,10 @@
 let movesCorrector = new function () {
     let undo_action;
     let incorrect_button = $("#buttonIncorrect");
+    let correctionsModal = $("#correctionsModal");
     let awaiting_correction = false;
 
     incorrect_button.prop("disabled", true);
-
-    this.handle_incorrect_move = function () {
-        awaiting_correction = true;
-
-        this.disable_incorrect_button();
-
-        run_undo_action();
-        display_block_ids();
-        display_flip_explanation();
-    };
 
     function run_undo_action() {
         if (undo_action === undefined) {
@@ -40,6 +31,26 @@ let movesCorrector = new function () {
             blocks.set_block_text(i, i);
         }
     }
+
+    this.show_corrections_modal = function () {
+        correctionsModal.css("display", "block");
+    }
+
+    this.hide_corrections_modal = function () {
+        correctionsModal.css("display", "none");
+    };
+
+    this.correct_flip = function () {
+        this.hide_corrections_modal();
+
+        awaiting_correction = true;
+        this.disable_incorrect_button();
+
+        run_undo_action();
+
+        display_block_ids();
+        display_flip_explanation();
+    };
 
     function display_flip_explanation() {
         alert("Please enter the id number of the block you wanted to flip.");

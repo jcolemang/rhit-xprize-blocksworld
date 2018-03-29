@@ -2,7 +2,7 @@
     width: 70%;
     height: 70%;
     position: absolute;
-    background-image: url(img/parchment.jpg); 
+    background-image: url(img/parchment.jpg);
     top:15%;
     left:10%;
     margin: auto;
@@ -16,11 +16,11 @@
     -webkit-background-size: cover;
      -moz-background-size: cover;
      -o-background-size: cover;
-     background-size: cover; 
+     background-size: cover;
      background-size: 100% 100%;
 
      background-repeat: no-repeat;
-     background-position: center center; 
+     background-position: center center;
 }
 
 .block {
@@ -71,7 +71,7 @@
   }
 
 #gestureCount {
-	width: 50px;
+    width: 50px;
     height: 50px;
     border: #000 solid 4px;
     background: gray;
@@ -183,7 +183,7 @@ div.showChosen {
     height: 80px;
     display: inline-block;
     cursor: pointer;
-    z-index: 200;
+    z-index: 2;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -209,7 +209,7 @@ div.showChosen {
     line-height:1.5;
     cursor: pointer;
     display: table;
-    z-index: 200;
+    z-index: 2;
 }
 
 /* Toggle this class - hide and show the popup */
@@ -247,43 +247,43 @@ div.liveAudio {
 
 #disablingDiv {
     /* Do not display it on entry */
-    display: none; 
- 
+    display: none;
+
     /* Display it on the layer with index 1001.
        Make sure this is the highest z-index value
        used by layers on that page */
     z-index:200;
-    
+
     /* make it cover the whole screen */
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
- 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+
     /* make it white but fully transparent */
-    background-color: black; 
-    opacity:.70; 
-    filter: alpha(opacity=00); 
+    background-color: black;
+    opacity:.70;
+    filter: alpha(opacity=00);
 }
 
 #tutorial1 {
     z-index: 300;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial2 {
     visibility: hidden;
     z-index: 400;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #containerPointer {
@@ -299,83 +299,83 @@ div.liveAudio {
 #tutorial3 {
     visibility: hidden;
     z-index: 500;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial4 {
     visibility: hidden;
     z-index: 600;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial5 {
     visibility: hidden;
     z-index: 650;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial6 {
     visibility: hidden;
     z-index: 700;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial7 {
     visibility: hidden;
     z-index: 750;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #tutorial8 {
     visibility: hidden;
     z-index: 800;
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
-    height: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 #disablingDiv {
     /* Do not display it on entry */
-    display: none; 
- 
+    display: none;
+
     /* Display it on the layer with index 1001.
        Make sure this is the highest z-index value
        used by layers on that page */
     z-index:100;
-    
+
     /* make it cover the whole screen */
-    position: absolute; 
-    top: 0%; 
-    left: 0%; 
-    width: 100%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
     height: 100%;
- 
+
     /* make it white but fully transparent */
-    background-color: black; 
-    opacity:.60; 
-    filter: alpha(opacity=00); 
+    background-color: black;
+    opacity:.60;
+    filter: alpha(opacity=00);
 }
 
 #freeze {
@@ -387,6 +387,6 @@ div.liveAudio {
     font-size:20px;
     z-index: 2001;
     font-family:verdana;
-    opacity:1.00; 
-    filter: alpha(opacity=00); 
+    opacity:1.00;
+    filter: alpha(opacity=00);
 }
