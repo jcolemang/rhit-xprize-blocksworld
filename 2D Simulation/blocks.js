@@ -1,7 +1,12 @@
 /* All references to id's are just a number. No strings allowed! */
 let blocks = new function () {
     function get_block(id) {
-        return $("#block" + id);
+        let block = $("#block" + id);
+
+        if (block.length !== 0)
+            return block;
+        else
+            throw "No block found.";
     }
 
     this.set_block_text = function (id, text) {
@@ -16,11 +21,19 @@ let blocks = new function () {
     };
 
     this.get_block_left_pos = function (id) {
-        return get_block(id).prop("style")["left"].slice(0, -1);
+        try {
+            return get_block(id).prop("style")["left"].replace('%', '');
+        } catch (exception) {
+            return "";
+        }
     };
 
     this.get_block_top_pos = function (id) {
-        return get_block(id).prop("style")["top"].slice(0, -1);
+        try {
+            return get_block(id).prop("style")["top"].replace('%', '');
+        } catch (exception) {
+            return "";
+        }
     };
 
     this.set_block_color = function (id, color) {
@@ -57,7 +70,7 @@ let blocks = new function () {
     };
 };
 
-if (typeof module !== undefined
+if (typeof module !== 'undefined'
     && module.hasOwnProperty('exports')) {
     module.exports = blocks;
 }

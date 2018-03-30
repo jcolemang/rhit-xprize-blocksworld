@@ -1,10 +1,14 @@
 describe("blocks", () => {
     let blocks = require('../blocks.js');
-    let block_object = {};
+    let block_object = {
+        length: 1
+    };
     currentConfig = {};
 
     beforeEach(() => {
-        $ = (id) => block_object;
+        $ = (id) => id === "#block5" ? block_object : {
+            length: 0
+        };
     });
 
     describe("when setting their text", () => {
@@ -39,6 +43,46 @@ describe("blocks", () => {
         describe("when using an invalid id", () => {
             it("should return an empty string", () => {
                 expect(blocks.get_block_text(6)).toEqual("");
+            });
+        });
+    });
+
+    describe("when getting left position", () => {
+        let left_pos = "43.234";
+
+        beforeEach(() => {
+            block_object.prop = (key) => key !== "style" ? {} : {
+                left: left_pos + "%"
+            };
+        });
+
+        it("should return the left style property", () => {
+            expect(blocks.get_block_left_pos(5)).toEqual(left_pos);
+        });
+
+        describe("when using an invalid id", () => {
+            it("should return an empty string", () => {
+                expect(blocks.get_block_left_pos(6)).toEqual("");
+            });
+        });
+    });
+
+    describe("when getting top position", () => {
+        let top_pos = "43.234";
+
+        beforeEach(() => {
+            block_object.prop = (key) => key !== "style" ? {} : {
+                top: top_pos + "%"
+            };
+        });
+
+        it("should return the top style property", () => {
+            expect(blocks.get_block_top_pos(5)).toEqual(top_pos);
+        });
+
+        describe("when using an invalid id", () => {
+            it("should return an empty string", () => {
+                expect(blocks.get_block_top_pos(6)).toEqual("");
             });
         });
     });
