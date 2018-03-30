@@ -9,7 +9,10 @@ let blocks = new function () {
     };
 
     this.get_block_text = function (id) {
-        return currentConfig[id].topLetter;
+        if (currentConfig[id] !== undefined)
+            return currentConfig[id].topLetter;
+        else
+            return "";
     };
 
     this.get_block_left_pos = function (id) {

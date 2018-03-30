@@ -35,5 +35,11 @@ describe("blocks", () => {
         it("should return the current text", () => {
             expect(blocks.get_block_text(5)).toEqual(html_text);
         });
+
+        describe("when using an invalid id", () => {
+            it("should return an empty string", () => {
+                expect(blocks.get_block_text(6)).toEqual("");
+            });
+        });
     });
 });
