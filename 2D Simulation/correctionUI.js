@@ -7,12 +7,6 @@ let correctionUI = new function () {
 
     incorrect_button.prop("disabled", true);
 
-    this.display_block_ids = function () {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, i);
-        }
-    };
-
     this.show_corrections_modal = function () {
         correctionsModal.css("display", "block");
     };
@@ -43,12 +37,6 @@ let correctionUI = new function () {
 
     this.enable_incorrect_button = function () {
         incorrect_button.prop("disabled", false);
-        this.display_block_letters();
+        blocks.display_block_letters();
     };
-
-    this.display_block_letters = function () {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, currentConfig[i].topLetter);
-        }
-    }
 };

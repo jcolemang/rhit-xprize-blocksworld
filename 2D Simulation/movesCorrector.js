@@ -29,7 +29,7 @@ let movesCorrector = new function () {
 
         run_undo_action();
 
-        correctionUI.display_block_ids();
+        blocks.display_block_ids();
     }
 
     this.correct_flip = function () {
@@ -87,7 +87,7 @@ let movesCorrector = new function () {
                       blocks.get_block_color(id),
                       currentConfig);
             awaiting_flip_correction = false;
-            correctionUI.display_block_letters();
+            blocks.display_block_letters();
         } else {
             correctionUI.display_flip_explanation();
         }
@@ -108,9 +108,9 @@ let movesCorrector = new function () {
             hide_gesture();
 
             awaiting_move_correction = false;
-            correctionUI.display_block_letters();
+            blocks.display_block_letters();
         } else {
-            correctionUI.display_flip_explanation();
+            blocks.display_flip_explanation();
         }
     }
 
