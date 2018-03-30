@@ -11,4 +11,4 @@ script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
-  - node node-modules/jasmine/bin/jasmine.js
+  - npx jasmine
