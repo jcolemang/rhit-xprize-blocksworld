@@ -86,4 +86,42 @@ describe("blocks", () => {
             });
         });
     });
+
+    describe("when setting the block color", () => {
+        let background_color = "";
+        let goal_color = "green";
+
+        beforeEach(() => {
+            block_object.css = (key, value) => {
+                if (key === "background-color")
+                    background_color = value;
+            };
+        });
+
+        it("should set the background color", () => {
+            blocks.set_block_color(5, goal_color);
+
+            expect(background_color).toEqual(goal_color);
+        });
+    });
+
+    describe("when getting the block color", () => {
+        let background_color = "orange";
+
+        beforeEach(() => {
+            currentConfig[5] = {
+                topColor: background_color
+            };
+        });
+
+        it("should return the background color", () => {
+            expect(blocks.get_block_color(5)).toEqual(background_color);
+        });
+
+        describe("when using an invalid id", () => {
+            it("should return the empty string", () => {
+                expect(blocks.get_block_color(6)).toEqual("");
+            });
+        });
+    });
 });

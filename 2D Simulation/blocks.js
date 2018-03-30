@@ -41,7 +41,10 @@ let blocks = new function () {
     };
 
     this.get_block_color = function (id) {
-        return currentConfig[id].topColor;
+        if (currentConfig[id] !== undefined)
+            return currentConfig[id].topColor;
+        else
+            return "";
     };
 
     this.flip_block = function (id) {
