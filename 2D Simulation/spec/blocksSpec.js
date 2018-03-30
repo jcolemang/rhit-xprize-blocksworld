@@ -124,4 +124,70 @@ describe("blocks", () => {
             });
         });
     });
+
+    describe("when flipping a block", () => {
+        beforeEach(() => {
+            spyOn(blocks, "_swap_color");
+            spyOn(blocks, "_swap_letter");
+        });
+
+        it("should swap colors", () => {
+            blocks.flip_block(5);
+
+            expect(blocks._swap_color).toHaveBeenCalled();
+        });
+
+        it("should swap colors on the correct block", () => {
+            blocks.flip_block(5);
+
+            expect(blocks._swap_color.calls.argsFor(0)).toEqual([5]);
+        });
+
+        it("should swap letters", () => {
+            blocks.flip_block(5);
+
+            expect(blocks._swap_letter).toHaveBeenCalled();
+        });
+
+        it("should swap letters on the correct block", () => {
+            blocks.flip_block(5);
+
+            expect(blocks._swap_letter.calls.argsFor(0)).toEqual([5]);
+        });
+    });
+
+    describe("when swapping colors", () => {
+        let bottomColor = "orange";
+        let topColor = "red";
+
+        beforeEach(() => {
+            spyOn(blocks, "get_block_color").and.returnValue(topColor);
+            spyOn(blocks, "set_block_color");
+
+            currentConfig[5] = {
+                bottomColor: bottomColor,
+                topColor: topColor
+            };
+        });
+
+        it("should update the block color", () => {
+            blocks._swap_color(5);
+
+            expect(blocks.set_block_color).toHaveBeenCalled();
+        });
+
+        it("should set the block color to the old bottom color", () => {
+            blocks._swap_color(5);
+
+            expect(blocks.set_block_color.calls.argsFor(0))
+                .toEqual([5, bottomColor]);
+        });
+
+        it("should swap the stored block colors", () => {
+            blocks._swap_color(5);
+
+            expect(currentConfig[5].topColor).toEqual(bottomColor);
+            expect(currentConfig[5].bottomColor).toEqual(topColor);
+        });
+    });
 });
