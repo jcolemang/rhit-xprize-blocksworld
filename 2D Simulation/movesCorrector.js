@@ -3,7 +3,9 @@ let movesCorrector = new function () {
     let incorrect_button = $("#buttonIncorrect");
     let correctionsModal = $("#correctionsModal");
     let flipModal = $("#flipModal");
-    let awaiting_correction = false;
+    let moveModal = $("#moveModal");
+    let awaiting_flip_correction = false;
+    let awaiting_move_correction = false;
 
     incorrect_button.prop("disabled", true);
 
@@ -41,15 +43,19 @@ let movesCorrector = new function () {
         correctionsModal.css("display", "none");
     };
 
-    this.correct_flip = function () {
+    this._start_correct_action = function () {
         this.hide_corrections_modal();
-
-        awaiting_correction = true;
         this.disable_incorrect_button();
 
         run_undo_action();
 
         display_block_ids();
+    }
+
+    this.correct_flip = function () {
+        awaiting_flip_correction = true;
+        this._start_correct_action();
+
         display_flip_explanation();
     };
 
@@ -59,7 +65,22 @@ let movesCorrector = new function () {
 
     this.hide_flip_modal = function () {
         flipModal.css("display", "none");
+    };
+
+    this.correct_move = function () {
+        awaiting_move_correction = true;
+        this._start_correct_action();
+
+        display_move_explanation();
+    };
+
+    function display_move_explanation() {
+        moveModal.css("display", "block");
     }
+
+    this.hide_move_modal = function () {
+        moveModal.css("display", "none");
+    };
 
     this.disable_incorrect_button = function () {
         incorrect_button.prop("disabled", true);
@@ -95,11 +116,20 @@ let movesCorrector = new function () {
     };
 
     this.handle_message = function (message) {
-        if (!awaiting_correction)
-            return false;
-
         message = message.trim();
 
+        if (awaiting_flip_correction) {
+            handle_flip_message(message);
+            return true;
+        } else if (awaiting_move_correction) {
+            handle_move_message(message);
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function handle_flip_message(message) {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
@@ -107,14 +137,24 @@ let movesCorrector = new function () {
                       blocks.get_block_text(id),
                       blocks.get_block_color(id),
                       currentConfig);
-            awaiting_correction = false;
+            awaiting_flip_correction = false;
             display_block_letters();
         } else {
             display_flip_explanation();
         }
+    }
 
-        return true;
-    };
+    function handle_move_message(message) {
+        let id = Number(message);
+
+        if (message !== "" && is_valid_id(id)) {
+            // TODO Actually move the block
+            awaiting_move_correction = false;
+            display_block_letters();
+        } else {
+            display_flip_explanation();
+        }
+    }
 
     function is_valid_id(id) {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
