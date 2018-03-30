@@ -5,7 +5,10 @@ python:
 
 install:
   - sudo pip install -r requirements.txt
+  - npm install jasmine
 
 script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
+  - cd ../2D\ Simulation
+  - jasmine
