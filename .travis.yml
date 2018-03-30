@@ -5,12 +5,10 @@ python:
 
 install:
   - npm install jasmine
-  - sudo apt install tree
-  - tree
   - sudo pip install -r requirements.txt
 
 script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
-  - jasmine
+  - node node-dir/jasmine/bin/jasmine.js
