@@ -53,3 +53,8 @@ let blocks = new function () {
         currentConfig[id].bottomLetter = oldLetter;
     };
 };
+
+if (typeof module !== undefined
+    && module.hasOwnProperty('exports')) {
+    module.exports = blocks;
+}
