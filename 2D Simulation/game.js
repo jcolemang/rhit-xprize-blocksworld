@@ -387,18 +387,28 @@ function submitRobot() {
     }
 }
 
+function get_gesture_position() {
+    let rect = document.getElementById('container').getBoundingClientRect();
+    let gesture = $("#gestureToggle");
 
+    return {
+        left: ((gesture.position().left - rect.left) / (rect.right - rect.left - 16)) * 100,
+        top: ((gesture.position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100
+    };
+}
+
+function hide_gesture() {
+    $("#gestureToggle").css("visibility", "hidden");
+}
 
 function send_gesture_to_server() {
-    var rect = document.getElementById('container').getBoundingClientRect();
-    var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
-    var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
+    let gesture_pos = get_gesture_position();
 
     try {
         socket.emit('receive_gesture_data', {
             gestureCount: gestureCount,
-            left: horiz,
-            top: vert,
+            left: gesture_pos.left,
+            top: gesture_pos.top,
             gameType: getGameType()
         });
     } catch (err) {

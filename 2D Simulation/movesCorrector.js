@@ -148,7 +148,15 @@ let movesCorrector = new function () {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
-            // TODO Actually move the block
+            let gesture_pos = get_gesture_position();
+            let move = {
+                left: gesture_pos.left,
+                top: gesture_pos.top,
+                block_id: "block" + id
+            };
+
+            update_gui_block(move);
+            hide_gesture();
             awaiting_move_correction = false;
             display_block_letters();
         } else {
