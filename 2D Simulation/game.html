@@ -208,20 +208,31 @@
           <br>
           <div id="correctionsButtons">
             <button id="flipCorrection"
-                    class="correctionsButton"
+                    class="modalButton"
                     onclick="movesCorrector.correct_flip()">
               Flip
             </button>
             <button id="moveCorrection"
-                    class="correctionsButton">
+                    class="modalButton">
               Move
             </button>
-            <button id="Cancel"
-                    class="correctionsButton cancel"
+            <button class="modalButton"
                     onclick="movesCorrector.hide_corrections_modal()">
               Cancel
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="flipModal" class="modal">
+      <div id="flipModalBackground" class="modal-background">
+        <div id="flipModalContent" class="modal-content">
+          Please enter the id number of the block you wanted to flip.
+          <button class="modalButton"
+                  onclick="movesCorrector.hide_flip_modal()">
+            OK
+          </button>
         </div>
       </div>
     </div>

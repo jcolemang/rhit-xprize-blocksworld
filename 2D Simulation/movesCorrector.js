@@ -2,6 +2,7 @@ let movesCorrector = new function () {
     let undo_action;
     let incorrect_button = $("#buttonIncorrect");
     let correctionsModal = $("#correctionsModal");
+    let flipModal = $("#flipModal");
     let awaiting_correction = false;
 
     incorrect_button.prop("disabled", true);
@@ -53,7 +54,11 @@ let movesCorrector = new function () {
     };
 
     function display_flip_explanation() {
-        alert("Please enter the id number of the block you wanted to flip.");
+        flipModal.css("display", "block");
+    }
+
+    this.hide_flip_modal = function () {
+        flipModal.css("display", "none");
     }
 
     this.disable_incorrect_button = function () {
