@@ -66,7 +66,7 @@ let blocks = new function () {
         let oldLetter = this.get_block_text(id);
         let newLetter = currentConfig[id].bottomLetter;
 
-        this.set_block_text(newLetter);
+        this.set_block_text(id, newLetter);
 
         currentConfig[id].topLetter = newLetter;
         currentConfig[id].bottomLetter = oldLetter;

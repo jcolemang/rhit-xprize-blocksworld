@@ -190,4 +190,39 @@ describe("blocks", () => {
             expect(currentConfig[5].bottomColor).toEqual(topColor);
         });
     });
+
+    describe("when swapping letters", () => {
+        let bottomText = "A";
+        let topText = "B";
+
+        beforeEach(() => {
+            spyOn(blocks, "get_block_text").and.returnValue(topText);
+            spyOn(blocks, "set_block_text");
+
+            currentConfig[5] = {
+                topLetter: topText,
+                bottomLetter: bottomText
+            };
+        });
+
+        it("should update the block text", () => {
+            blocks._swap_letter(5);
+
+            expect(blocks.set_block_text).toHaveBeenCalled();
+        });
+
+        it("should set the block text to the old bottom text", () => {
+            blocks._swap_letter(5);
+
+            expect(blocks.set_block_text.calls.argsFor(0))
+                .toEqual([5, bottomText]);
+        });
+
+        it("should swap the stored block text", () => {
+            blocks._swap_letter(5);
+
+            expect(currentConfig[5].topLetter).toEqual(bottomText);
+            expect(currentConfig[5].bottomLetter).toEqual(topText);
+        });
+    });
 });
