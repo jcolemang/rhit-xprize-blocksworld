@@ -82,7 +82,7 @@
           </div>
           <div id="buttonIncorrectDiv" style="float: right;">
             <button id="buttonIncorrect"
-                    onclick="movesCorrector.show_corrections_modal()"
+                    onclick="correctionUI.show_corrections_modal()"
                     style="vertical-align: middle;">
               Incorrect Move
             </button>
@@ -218,7 +218,7 @@
               Move
             </button>
             <button class="modalButton"
-                    onclick="movesCorrector.hide_corrections_modal()">
+                    onclick="correctionUI.hide_corrections_modal()">
               Cancel
             </button>
           </div>
@@ -233,7 +233,7 @@
           <br>
           <br>
           <button class="modalButton"
-                  onclick="movesCorrector.hide_flip_modal()">
+                  onclick="correctionUI.hide_flip_modal()">
             OK
           </button>
         </div>
@@ -247,7 +247,7 @@
           moved to, then enter the id number of the block.
           <br>
           <button class="modalButton"
-                  onclick="movesCorrector.hide_move_modal()">
+                  onclick="correctionUI.hide_move_modal()">
             OK
           </button>
         </div>
@@ -272,7 +272,8 @@
        }
      }
     </script>
-    
+
+    <script type="text/javascript" src="correctionUI.js"></script>
     <script type="text/javascript" src="movesCorrector.js"></script>
     <script type="text/javascript" src="game.js"></script>
 

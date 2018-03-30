@@ -1,13 +1,7 @@
 let movesCorrector = new function () {
     let undo_action;
-    let incorrect_button = $("#buttonIncorrect");
-    let correctionsModal = $("#correctionsModal");
-    let flipModal = $("#flipModal");
-    let moveModal = $("#moveModal");
     let awaiting_flip_correction = false;
     let awaiting_move_correction = false;
-
-    incorrect_button.prop("disabled", true);
 
     function run_undo_action() {
         if (undo_action === undefined) {
@@ -29,73 +23,28 @@ let movesCorrector = new function () {
         undo_action = undefined;
     }
 
-    function display_block_ids() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, i);
-        }
-    }
-
-    this.show_corrections_modal = function () {
-        correctionsModal.css("display", "block");
-    }
-
-    this.hide_corrections_modal = function () {
-        correctionsModal.css("display", "none");
-    };
-
     this._start_correct_action = function () {
-        this.hide_corrections_modal();
-        this.disable_incorrect_button();
+        correctionUI.hide_corrections_modal();
+        correctionUI.disable_incorrect_button();
 
         run_undo_action();
 
-        display_block_ids();
+        correctionUI.display_block_ids();
     }
 
     this.correct_flip = function () {
         awaiting_flip_correction = true;
         this._start_correct_action();
 
-        display_flip_explanation();
-    };
-
-    function display_flip_explanation() {
-        flipModal.css("display", "block");
-    }
-
-    this.hide_flip_modal = function () {
-        flipModal.css("display", "none");
+        correctionUI.display_flip_explanation();
     };
 
     this.correct_move = function () {
         awaiting_move_correction = true;
         this._start_correct_action();
 
-        display_move_explanation();
+        correctionUI.display_move_explanation();
     };
-
-    function display_move_explanation() {
-        moveModal.css("display", "block");
-    }
-
-    this.hide_move_modal = function () {
-        moveModal.css("display", "none");
-    };
-
-    this.disable_incorrect_button = function () {
-        incorrect_button.prop("disabled", true);
-    };
-
-    this.enable_incorrect_button = function () {
-        incorrect_button.prop("disabled", false);
-        display_block_letters();
-    };
-
-    function display_block_letters() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, currentConfig[i].topLetter);
-        }
-    }
 
     this.update_undo_move = function (moveData) {
         let id = Number(moveData.block_id.substring(5));
@@ -138,9 +87,9 @@ let movesCorrector = new function () {
                       blocks.get_block_color(id),
                       currentConfig);
             awaiting_flip_correction = false;
-            display_block_letters();
+            correctionUI.display_block_letters();
         } else {
-            display_flip_explanation();
+            correctionUI.display_flip_explanation();
         }
     }
 
@@ -157,10 +106,11 @@ let movesCorrector = new function () {
 
             update_gui_block(move);
             hide_gesture();
+
             awaiting_move_correction = false;
-            display_block_letters();
+            correctionUI.display_block_letters();
         } else {
-            display_flip_explanation();
+            correctionUI.display_flip_explanation();
         }
     }
 
