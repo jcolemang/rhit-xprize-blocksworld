@@ -1,7 +1,12 @@
 /* All references to id's are just a number. No strings allowed! */
 let blocks = new function () {
     function get_block(id) {
-        return $("#block" + id);
+        let block = $("#block" + id);
+
+        if (block.length !== 0)
+            return block;
+        else
+            throw "No block found.";
     }
 
     this.set_block_text = function (id, text) {
@@ -9,15 +14,26 @@ let blocks = new function () {
     };
 
     this.get_block_text = function (id) {
-        return currentConfig[id].topLetter;
+        if (currentConfig[id] !== undefined)
+            return currentConfig[id].topLetter;
+        else
+            return "";
     };
 
     this.get_block_left_pos = function (id) {
-        return get_block(id).prop("style")["left"].slice(0, -1);
+        try {
+            return get_block(id).prop("style")["left"].replace('%', '');
+        } catch (exception) {
+            return "";
+        }
     };
 
     this.get_block_top_pos = function (id) {
-        return get_block(id).prop("style")["top"].slice(0, -1);
+        try {
+            return get_block(id).prop("style")["top"].replace('%', '');
+        } catch (exception) {
+            return "";
+        }
     };
 
     this.set_block_color = function (id, color) {
@@ -25,7 +41,10 @@ let blocks = new function () {
     };
 
     this.get_block_color = function (id) {
-        return currentConfig[id].topColor;
+        if (currentConfig[id] !== undefined)
+            return currentConfig[id].topColor;
+        else
+            return "";
     };
 
     this.flip_block = function (id) {
@@ -47,9 +66,14 @@ let blocks = new function () {
         let oldLetter = this.get_block_text(id);
         let newLetter = currentConfig[id].bottomLetter;
 
-        this.set_block_text(newLetter);
+        this.set_block_text(id, newLetter);
 
         currentConfig[id].topLetter = newLetter;
         currentConfig[id].bottomLetter = oldLetter;
     };
 };
+
+if (typeof module !== 'undefined'
+    && module.hasOwnProperty('exports')) {
+    module.exports = blocks;
+}
