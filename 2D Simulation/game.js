@@ -40,31 +40,17 @@ try {
         movement_count: actualMove,
         gesture_count: gestureCount,
         ins : specificIns,
-        configuration: currentConfig,
-        gameType: getGameType()
+        configuration: currentConfig
     });
 } catch (err) {
     /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
 
-function getGameType() {
-    let url = window.location.href
-    if (url.indexOf("?type=ai") !== -1) {
-        return "ai";
-    } else if (url.indexOf("?type=human") !== -1) {
-        return "human";
-    } else {
-        return "";
-    }
-}
-
 socket.on('freeze_start', function() {
     var startButton = document.getElementById('buttonStart');
     var endButton = document.getElementById('buttonEnd');
     var enterButton = document.getElementById('buttonEnter');
-
-    document.getElementById("chatBox").innerHTML = "Please wait while another player attempts to connect to your game.";
 
     startButton.disabled = true;
     endButton.disabled = true;
@@ -99,7 +85,7 @@ socket.on('unfreeze_start', function() {
 
     document.getElementById('disablingDiv').style.display = "none";
 
-    alert('Another player has joined the game. You may now press the start button to begin.');
+    alert('You have successfully connected to the game server. You may now press the start button to begin.');
 });
 
 socket.on('disable_blocks_for_player_2', function() {
@@ -345,7 +331,6 @@ function send_user_message_to_server(gameConfig) {
         try {
             socket.emit('receive_user_message', {
                 text: message,
-                gameType: getGameType(),
                 gameState: gameConfig
             });
         } catch (err) {
@@ -360,10 +345,6 @@ function gesture_is_visible() {
     gestureElement = $('#gestureToggle')
     return gestureElement.is(':visible')
 }
-
-socket.on('update_user_message', function(message) {
-    document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
-});
 
 function submitRobot() {
     var q3 = "", q4 = -1, q5 = -1;
@@ -398,8 +379,7 @@ function send_gesture_to_server() {
         socket.emit('receive_gesture_data', {
             gestureCount: gestureCount,
             left: horiz,
-            top: vert,
-            gameType: getGameType()
+            top: vert
         });
     } catch (err) {
         /* window.location.href = "server_down.html";*/

@@ -27,47 +27,10 @@ class TestSinglesRoomsTracker:
 
         assert self.sio_app.enter_room_calls == {"Room0": 1, "Room1": 1}
 
-class TestCoopRoomsTracker:
-    def setup_method(self):
-        self.sio_app = MockSIOApp()
-        self.rooms_tracker = RoomsTracker(self.sio_app)
-
-    def test_first_add_to_room(self):
-        self.rooms_tracker.add_to_coop_room(123)
-
-        assert self.sio_app.enter_room_calls == {"Room0": 1}
-
-    def test_two_additions(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_coop_room(5)
-
-        assert self.sio_app.enter_room_calls == {"Room0": 2}
-
-    def test_first_add_returns_true(self):
-        assert self.rooms_tracker.add_to_coop_room(123)
-
-    def test_second_add_returns_false(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        assert not self.rooms_tracker.add_to_coop_room(5)
-
-    def test_third_add_returns_true(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_coop_room(5)
-        assert self.rooms_tracker.add_to_coop_room(12)
-
 class TestGetRoomAndRoommates:
     def setup_method(self):
         self.sio_app = MockSIOApp()
         self.rooms_tracker = RoomsTracker(self.sio_app)
-
-    def test_get_existing_coop_room(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_coop_room(5)
-        self.rooms_tracker.add_to_coop_room(12)
-
-        assert self.rooms_tracker.get_room(123) == "Room0"
-        assert self.rooms_tracker.get_room(5) == "Room0"
-        assert self.rooms_tracker.get_room(12) == "Room1"
 
     def test_get_existing_singles_room(self):
         self.rooms_tracker.add_to_singles_room(123)
@@ -77,51 +40,6 @@ class TestGetRoomAndRoommates:
         assert self.rooms_tracker.get_room(123) == "Room0"
         assert self.rooms_tracker.get_room(5) == "Room1"
         assert self.rooms_tracker.get_room(12) == "Room2"
-
-    def test_get_mixed_room(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_singles_room(5)
-        self.rooms_tracker.add_to_coop_room(12)
-
-        assert self.rooms_tracker.get_room(123) == "Room0"
-        assert self.rooms_tracker.get_room(5) == "Room1"
-        assert self.rooms_tracker.get_room(12) == "Room0"
-
-    def test_get_nonexisting_room(self):
-        self.rooms_tracker.add_to_coop_room(123)
-
-        assert self.rooms_tracker.get_room(5) == None
-
-    def test_get_undefined_roommate(self):
-        assert self.rooms_tracker.get_roommate(123) == None
-
-    def test_get_empty_roommate(self):
-        self.rooms_tracker.add_to_coop_room(123)
-
-        assert self.rooms_tracker.get_roommate(123) == None
-
-    def test_get_one_roommate(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_coop_room(5)
-
-        assert self.rooms_tracker.get_roommate(123) == 5
-        assert self.rooms_tracker.get_roommate(5) == 123
-
-    def test_get_singles_roommates(self):
-        self.rooms_tracker.add_to_singles_room(123)
-        self.rooms_tracker.add_to_singles_room(5)
-
-        assert self.rooms_tracker.get_roommate(123) == None
-        assert self.rooms_tracker.get_roommate(5) == None
-
-    def test_get_multiple_roommates(self):
-        self.rooms_tracker.add_to_coop_room(123)
-        self.rooms_tracker.add_to_coop_room(5)
-        self.rooms_tracker.add_to_coop_room(12)
-
-        assert self.rooms_tracker.get_roommate(123) == 5
-        assert self.rooms_tracker.get_roommate(5) == 123
-        assert self.rooms_tracker.get_roommate(12) == None
 
 class TestAsyncAdds:
     def setup_method(self):
@@ -138,14 +56,12 @@ class TestAsyncAdds:
 
             def run(self):
                 for i in range(0, self.count):
-                    self.room_tracker.add_to_coop_room(3*i + self.seed)
-                    self.room_tracker.add_to_singles_room(3*i + 1 + self.seed)
-                    self.room_tracker.add_to_coop_room(3*i + 2 + self.seed)
+                    self.room_tracker.add_to_singles_room(i + self.seed)
 
-        t1 = RoomAdder(30, 0, self.rooms_tracker)
-        t2 = RoomAdder(30, 30, self.rooms_tracker)
-        t3 = RoomAdder(30, 60, self.rooms_tracker)
-        t4 = RoomAdder(30, 90, self.rooms_tracker)
+        t1 = RoomAdder(10, 0, self.rooms_tracker)
+        t2 = RoomAdder(10, 10, self.rooms_tracker)
+        t3 = RoomAdder(10, 20, self.rooms_tracker)
+        t4 = RoomAdder(10, 30, self.rooms_tracker)
 
         t1.start()
         t2.start()
@@ -157,14 +73,9 @@ class TestAsyncAdds:
         t3.join()
         t4.join()
 
-        single_rooms = 0
-        coop_rooms = 0
-        for key, value in self.sio_app.enter_room_calls.items():
-            assert value == 1 or value == 2
-            if value == 1:
-                single_rooms += 1
-            elif value == 2:
-                coop_rooms += 1
+        rooms = 0
+        for _, value in self.sio_app.enter_room_calls.items():
+            assert value == 1
+            rooms += 1
 
-        assert single_rooms == coop_rooms
-        assert single_rooms + coop_rooms == 30 * 4 * 2
+        assert rooms == 40
