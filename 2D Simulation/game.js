@@ -107,9 +107,7 @@ socket.on('enable_blocks_for_player_2', function(data) {
     }
 });
 
-socket.on('update_position', function (moveData) {
-    update_position(moveData);
-});
+socket.on('update_position', update_position);
 
 function update_position(moveData) {
     movesCorrector.update_undo_move(moveData);
@@ -143,9 +141,7 @@ function update_gui_block(moveData) {
                           left, top);
 }
 
-socket.on('update_flip_block', function (block_id) {
-    update_flip_block(block_id);
-});
+socket.on('update_flip_block', update_flip_block);
 
 function update_flip_block(block_id) {
     let id = block_id.substring(5);
@@ -167,14 +163,6 @@ socket.on('indicate_impossible_move', function(move) {
 });
 
 socket.on('indicate_ambiguous_move', function(move) {
-    let color = move['predicted_color'] || 'Ambiguous';
-    let letter = move['predicted_letter'] || 'Ambiguous';
-    let message = 'I think that this is an ambiguous move. '
-        + 'Please try a more specific instruction.\n'
-        + 'Predicted color: ' + color + '\n'
-        + 'Predicted letter: ' + letter + '\n'
-        + 'Enter the identifier of the intended block.';
-    alert(message);
     movesCorrector.handle_ambiguity(move);
 });
 

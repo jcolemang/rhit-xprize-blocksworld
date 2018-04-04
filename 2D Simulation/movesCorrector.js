@@ -37,6 +37,16 @@ let movesCorrector = new function () {
         undo_action = undefined;
     }
 
+    function display_ambiguous_move_explanation(move) {
+        let color = move['predicted_color'] || 'Ambiguous';
+        let letter = move['predicted_letter'] || 'Ambiguous';
+        let message = 'I think that this is an ambiguous move. '
+            + 'Predicted color: ' + color + '\n'
+            + 'Predicted letter: ' + letter + '\n'
+            + 'Enter the identifier of the intended block.';
+        alert(message);
+    };
+
     function display_flip_explanation() {
         alert("Please enter the id number of the block you wanted to flip.");
     }
@@ -101,26 +111,31 @@ let movesCorrector = new function () {
     };
 
     this.handle_ambiguity = function(currMove) {
-        console.log('handling ambiguity');
         handling_ambiguity = true;
         move = currMove;
+        display_ambiguous_move_explanation(move);
         blocks.display_block_ids();
     };
 
     this.finish_handling_ambiguity = function(message) {
-        console.log('this should be doing it.');
         let id = convert_message_to_id_num(message);
-        move.block_id = 'block' + id;
 
-        handling_ambiguity = false;
-        blocks.display_block_letters();
+        if (message !== "" && is_valid_id(id)) {
 
-        if (move.type == 'ambiguous_move') {
-            move.type = 'move';
-            update_position(move);
-        } else if (move.type == 'ambiguous_flip') {
-            move.type = 'flip';
-            update_flip_block(move.block_id);
+            move.block_id = 'block' + id;
+
+            handling_ambiguity = false;
+            blocks.display_block_letters();
+
+            if (move.type == 'ambiguous_move') {
+                move.type = 'move';
+                update_position(move);
+            } else if (move.type == 'ambiguous_flip') {
+                move.type = 'flip';
+                update_flip_block(move.block_id);
+            }
+        } else {
+            display_ambiguous_move_explanation(move);
         }
     };
 };
