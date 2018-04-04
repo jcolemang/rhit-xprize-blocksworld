@@ -25,24 +25,26 @@ CREATE TABLE block (
 
 CREATE TABLE move (
   id int PRIMARY KEY,
-  game_id int REFERENCES game(id),
+  game_id int,
   game_time real,
   block_id smallint,
   front_facing boolean,
   start_x real,
   start_y real,
   end_x real,
-  end_y real
+  end_y real,
+  FOREIGN KEY (block_id, game_id) REFERENCES block (id, game_id)
 );
 
 CREATE TABLE flip (
   id int PRIMARY KEY,
-  game_id int REFERENCES game(id),
+  game_id int,
   game_time real,
   block_id smallint,
   front_facing boolean,
   x real,
-  y real
+  y real,
+  FOREIGN KEY (block_id, game_id) REFERENCES block (id, game_id)
 );
 
 CREATE TABLE command (
