@@ -83,32 +83,32 @@ let movesCorrector = new function () {
     };
 
     this.handle_message = function (message) {
-        if (!awaiting_correction)
-            return false;
+        if (awaiting_correction) {
+            let id = convert_message_to_id_num(message);
 
-        let id = convert_message_to_id_num(message);
+            if (message !== "" && is_valid_id(id)) {
+                flipBlock("block" + id,
+                          blocks.get_block_text(id),
+                          blocks.get_block_color(id),
+                          currentConfig);
+                awaiting_correction = false;
+                blocks.display_block_letters();
+            } else {
+                display_flip_explanation();
+            }
 
-        if (message !== "" && is_valid_id(id)) {
-            flipBlock("block" + id,
-                      blocks.get_block_text(id),
-                      blocks.get_block_color(id),
-                      currentConfig);
-            awaiting_correction = false;
-            blocks.display_block_letters();
-        } else {
-            display_flip_explanation();
+            return true;
+        } else if (handling_ambiguity) {
+            finish_handling_ambiguity(message);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     function is_valid_id(id) {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
     }
-
-    this.is_handling_ambiguity = function() {
-        return handling_ambiguity;
-    };
 
     this.handle_ambiguity = function(currMove) {
         handling_ambiguity = true;
@@ -117,7 +117,7 @@ let movesCorrector = new function () {
         blocks.display_block_ids();
     };
 
-    this.finish_handling_ambiguity = function(message) {
+    function finish_handling_ambiguity(message) {
         let id = convert_message_to_id_num(message);
 
         if (message !== "" && is_valid_id(id)) {

@@ -162,9 +162,7 @@ socket.on('indicate_impossible_move', function(move) {
     alert(message);
 });
 
-socket.on('indicate_ambiguous_move', function(move) {
-    movesCorrector.handle_ambiguity(move);
-});
+socket.on('indicate_ambiguous_move', movesCorrector.handle_ambiguity);
 
 socket.on('setInitialPosition', function(data) {
     document.getElementById('user1').innerText = "Player 1";
@@ -265,6 +263,7 @@ socket.on('setInitialPosition', function(data) {
     };
     setIntroduction(2);
 });
+
 function send_flip_to_server(block_id) {
     try {
         socket.emit('receive_flip_block', block_id);
@@ -274,6 +273,7 @@ function send_flip_to_server(block_id) {
     }
 
 }
+
 $(document).ready(function() {
     $(".draggable").draggable();
 
@@ -318,9 +318,6 @@ function send_user_message_to_server(gameConfig) {
 
     if (start_button_pressed) {
         if (movesCorrector.handle_message(message)) {
-            return;
-        } else if (movesCorrector.is_handling_ambiguity()) {
-            movesCorrector.finish_handling_ambiguity(message);
             return;
         }
 
