@@ -1,19 +1,7 @@
 let movesCorrector = new function () {
     let undo_action;
-    let incorrect_button = $("#buttonIncorrect");
-    let awaiting_correction = false;
-
-    incorrect_button.prop("disabled", true);
-
-    this.handle_incorrect_move = function () {
-        awaiting_correction = true;
-
-        this.disable_incorrect_button();
-
-        run_undo_action();
-        display_block_ids();
-        display_flip_explanation();
-    }
+    let awaiting_flip_correction = false;
+    let awaiting_move_correction = false;
 
     function run_undo_action() {
         if (undo_action === undefined) {
@@ -35,30 +23,28 @@ let movesCorrector = new function () {
         undo_action = undefined;
     }
 
-    function display_block_ids() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, i);
-        }
+    this._start_correct_action = function () {
+        correctionUI.hide_corrections_modal();
+        correctionUI.disable_incorrect_button();
+
+        run_undo_action();
+
+        blocks.display_block_ids();
     }
 
-    function display_flip_explanation() {
-        alert("Please enter the id number of the block you wanted to flip.");
-    }
+    this.correct_flip = function () {
+        awaiting_flip_correction = true;
+        this._start_correct_action();
 
-    this.disable_incorrect_button = function () {
-        incorrect_button.prop("disabled", true);
+        correctionUI.display_flip_explanation();
     };
 
-    this.enable_incorrect_button = function () {
-        incorrect_button.prop("disabled", false);
-        display_block_letters();
-    };
+    this.correct_move = function () {
+        awaiting_move_correction = true;
+        this._start_correct_action();
 
-    function display_block_letters() {
-        for (let i = 0; i < NumBlocks; i++) {
-            blocks.set_block_text(i, currentConfig[i].topLetter);
-        }
-    }
+        correctionUI.display_move_explanation();
+    };
 
     this.update_undo_move = function (moveData) {
         let id = Number(moveData.block_id.substring(5));
@@ -79,11 +65,20 @@ let movesCorrector = new function () {
     };
 
     this.handle_message = function (message) {
-        if (!awaiting_correction)
-            return false;
-
         message = message.trim();
 
+        if (awaiting_flip_correction) {
+            handle_flip_message(message);
+            return true;
+        } else if (awaiting_move_correction) {
+            handle_move_message(message);
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function handle_flip_message(message) {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
@@ -91,13 +86,32 @@ let movesCorrector = new function () {
                       blocks.get_block_text(id),
                       blocks.get_block_color(id),
                       currentConfig);
-            awaiting_correction = false;
-            display_block_letters();
+            awaiting_flip_correction = false;
+            blocks.display_block_letters();
         } else {
-            display_flip_explanation();
+            correctionUI.display_flip_explanation();
         }
+    }
 
-        return true;
+    function handle_move_message(message) {
+        let id = Number(message);
+
+        if (message !== "" && is_valid_id(id)) {
+            let gesture_pos = get_gesture_position();
+            let move = {
+                left: gesture_pos.left,
+                top: gesture_pos.top,
+                block_id: "block" + id
+            };
+
+            update_gui_block(move);
+            hide_gesture();
+
+            awaiting_move_correction = false;
+            blocks.display_block_letters();
+        } else {
+            blocks.display_flip_explanation();
+        }
     }
 
     function is_valid_id(id) {

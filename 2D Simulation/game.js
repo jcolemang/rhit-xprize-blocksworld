@@ -110,7 +110,7 @@ socket.on('enable_blocks_for_player_2', function(data) {
 socket.on('update_position', function (moveData) {
     movesCorrector.update_undo_move(moveData);
     update_gui_block(moveData);
-    movesCorrector.enable_incorrect_button();
+    correctionUI.enable_incorrect_button();
 });
 
 function update_gui_block(moveData) {
@@ -145,7 +145,7 @@ socket.on('update_flip_block', function (block_id) {
     movesCorrector.update_undo_flip(block_id);
     flipBlock(block_id, blocks.get_block_text(id),
               blocks.get_block_color(id), currentConfig);
-    movesCorrector.enable_incorrect_button();
+    correctionUI.enable_incorrect_button();
 });
 
 socket.on('indicate_impossible_move', function(move) {
@@ -337,7 +337,7 @@ function send_user_message_to_server(gameConfig) {
             redirects.pageDown(err);
         }
 
-        movesCorrector.disable_incorrect_button();
+        correctionUI.disable_incorrect_button();
     }
 }
 
@@ -368,18 +368,28 @@ function submitRobot() {
     }
 }
 
+function get_gesture_position() {
+    let rect = document.getElementById('container').getBoundingClientRect();
+    let gesture = $("#gestureToggle");
 
+    return {
+        left: ((gesture.position().left - rect.left) / (rect.right - rect.left - 16)) * 100,
+        top: ((gesture.position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100
+    };
+}
+
+function hide_gesture() {
+    $("#gestureToggle").css("visibility", "hidden");
+}
 
 function send_gesture_to_server() {
-    var rect = document.getElementById('container').getBoundingClientRect();
-    var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
-    var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
+    let gesture_pos = get_gesture_position();
 
     try {
         socket.emit('receive_gesture_data', {
             gestureCount: gestureCount,
-            left: horiz,
-            top: vert
+            left: gesture_pos.left,
+            top: gesture_pos.top
         });
     } catch (err) {
         /* window.location.href = "server_down.html";*/
