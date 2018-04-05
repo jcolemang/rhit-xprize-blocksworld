@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Initial Board State</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <style>
+        body {
+            background: url(img/parchment.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+
+    <!-- <script type="text/javascript" src="index.js"></script> -->
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+    <script>
+     /* writeBlockStyle();*/
+
+        var container = document.createElement('div');
+
+        container.innerHTML = localStorage.getItem("container");
+
+
+     console.log(container.innerHTML);
+        container.style.fontSize = "15px";
+        container.style.fontWeight = 'bold';
+
+        container.id = 'copy_container';
+
+        document.body.appendChild(container);
+
+        let finalBlocks = JSON.parse(localStorage.getItem('finalBlocks'));
+        console.log(finalBlocks);
+        finalBlocks.map(block => {
+          let obj = $(block.blockId);
+          obj.css('left', block.position[0] + '%');
+          obj.css('top', block.position[1] + '%');
+          obj.find('span').html(block.topLetter);
+          obj.css('background-color', block.topColor);
+        });
+    </script>
+</body>
+</html>

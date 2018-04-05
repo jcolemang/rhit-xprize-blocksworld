@@ -145,7 +145,7 @@ function initInstructions() {
 
     introductions1.push("Searching:<br>You and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User1 Instructions:<br>&emsp; Click the “show chosen” button to get the words you and your partner have to search for.<br>&emsp; Your partner doesn’t know what word they need to search for. You need to instruct your partner to be able to do this. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type.<br>&emsp;You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game. Both of you will see the outcomes of any changes either of you make to the table.<br>");
     introductions2.push("Searching:<br>ou and your partner will search for one word each. You can use whatever way you want to represent that you have made your word. It doesn’t matter if you and your partner use different ways to represent this. It should be clear to anyone without talking to you that you have spelled out a word. Click the start button to start game when you are ready to do the task. Further instruction are here below:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also use gestures while speaking or at any time while playing the game so you must pay attention to them, try to understand what those gestures mean and do work accordingly. You have to follow his instructions and try to assist him in the best possible way. Both of you will see the outcomes of any changes either of you make to the table.<br>");
-    introductions1.push("Construction:<br>User1 Instructions:<br>&emsp;1. Click “start” button. <br>&emsp;2. Click the “show the construction” button to see what pattern needs to be made. <br>&emsp;3. Instruct your partner to make pattern by typing in the text box. You can also use gestures. Your partner cannot see the pattern. <br>&emsp;Only your partner can move blocks.<br>&emsp;<br>");
+    introductions1.push("Instructions:<br><ol><li>Click “start” button.</li><li>Click the “show the construction” button to see what pattern needs to be made.</li><li>Instruct the AI to make pattern by typing in the text box and making gestures by double-clicking.</li><li>Press the \"Incorrect Move\" button if the AI does something you don't expect.</li><li>Try to get the highest score you can!</li></ol>");
     introductions2.push("Construction:<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Pay attention to the gestures. Your partner cannot move blocks.<br>");
 }
 
@@ -264,7 +264,7 @@ function setUpVisibility() {
 }
 
 function setTaskHeader() {
-    document.getElementById("taskQ").innerHTML = "Your task is: " + task[taskID] + "." + specificIns;
+    document.getElementById("taskQ").innerHTML = "Blocksworld";
 }
 
 function calculateBackEndData() {
@@ -350,7 +350,7 @@ function showConstruction(blocks) {
     let toSet = document.getElementById("container").cloneNode(true).innerHTML;
     localStorage.setItem("container", toSet);
     localStorage.setItem('finalBlocks', JSON.stringify(blocks));
-    window.open('initial_board.html', 'newwindow', 'width=400, height=175');
+    window.open('solution_board.html', 'newwindow', 'width=400, height=175');
     return false;
 }
 

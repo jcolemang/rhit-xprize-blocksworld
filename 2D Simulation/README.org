@@ -6,3 +6,11 @@ The client makes extensive use of the socket.io library to communicate
 with the server. It is /strongly/ recommended that you look into the
 diagrams stored in the docs folder to get an understanding of how the
 interface works.
+** Tests
+We use [[https://jasmine.github.io/2.9/introduction.html][jasmine]] as our testing framework. The different test specs are
+stored in the =spec/= folder. To get started, type:
+
+#+BEGIN_SRC bash
+  npm install jasmine
+  npx jasmine
+#+END_SRC
