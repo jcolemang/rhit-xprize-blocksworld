@@ -118,3 +118,8 @@ let movesCorrector = new function () {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
     }
 };
+
+if (typeof module !== 'undefined'
+    && module.hasOwnProperty('exports')) {
+    module.exports = movesCorrector;
+}
