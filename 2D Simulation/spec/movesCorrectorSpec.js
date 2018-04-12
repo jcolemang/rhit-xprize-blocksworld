@@ -161,7 +161,6 @@ describe("movesCorrector", () => {
         });
     });
 
-    // TODO test blocks.get_block_text with string inputs
     describe("when intercepting a flip correction", () => {
         beforeEach(() => {
             NumBlocks = 10;

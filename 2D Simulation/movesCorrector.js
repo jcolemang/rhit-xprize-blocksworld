@@ -2,7 +2,7 @@ function MovesCorrector() {
     this._awaiting_flip_correction = false;
     this._awaiting_move_correction = false;
 
-    this._run_undo_action = function () {
+    function run_undo_action() {
         if (undo_action === undefined) {
             return;
         }
@@ -46,7 +46,7 @@ function MovesCorrector() {
     };
 
     this.update_undo_move = function (moveData) {
-        undo_action = _create_undo_move(moveData);
+        undo_action = this._create_undo_move(moveData);
     }
 
     this._create_undo_move = function (moveData) {
