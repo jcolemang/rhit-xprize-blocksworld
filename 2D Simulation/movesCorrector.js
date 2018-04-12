@@ -62,11 +62,15 @@ let movesCorrector = new function () {
     }
 
     this.update_undo_flip = function (block_id) {
-        undo_action = {
+        undo_action = this._create_undo_flip(block_id);
+    };
+
+    this._create_undo_flip = function (block_id) {
+        return {
             type: "flip",
             block_id: block_id
         };
-    };
+    }
 
     this.handle_message = function (message) {
         message = message.trim();

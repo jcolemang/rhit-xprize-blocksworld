@@ -75,4 +75,21 @@ describe("movesCorrector", () => {
             expect(undo_move.block_id).toEqual(moveData.block_id);
         });
     });
+
+    describe("when creating an undo flip", () => {
+        let block_id = 5;
+        let undo_flip = {};
+
+        beforeEach(() => {
+            undo_flip = movesCorrector._create_undo_flip(block_id);
+        });
+
+        it("should create a new flip action", () => {
+            expect(undo_flip.type).toEqual("flip");
+        });
+
+        it("should create an action using the given block id", () => {
+            expect(undo_flip.block_id).toEqual(block_id);
+        });
+    });
 });
