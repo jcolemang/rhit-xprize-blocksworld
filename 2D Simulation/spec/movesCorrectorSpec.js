@@ -20,6 +20,38 @@ describe("movesCorrector", () => {
         movesCorrector = new MovesCorrector();
     });
 
+    describe("when updating the undo action", () => {
+        let undo_move = {
+            data: "My undo move"
+        };
+
+        describe("when it is a move", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_create_undo_move")
+                    .and.returnValue(undo_move);
+
+                movesCorrector.update_undo_move("my move data");
+            });
+
+            it("should update the undo action with the created undo move", () => {
+                expect(movesCorrector._undo_action).toEqual(undo_move);
+            });
+        });
+
+        describe("when it is a flip", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_create_undo_flip")
+                    .and.returnValue(undo_move);
+
+                movesCorrector.update_undo_flip("my move data");
+            });
+
+            it("should update the undo action with the created undo flip", () => {
+                expect(movesCorrector._undo_action).toEqual(undo_move);
+            });
+        });
+    });
+
     describe("when creating an undo move", () => {
         let moveData = {
             block_id: "block5"
