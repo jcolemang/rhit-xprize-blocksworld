@@ -107,4 +107,58 @@ describe("movesCorrector", () => {
             expect(undo_flip.block_id).toEqual(block_id);
         });
     });
+
+    describe("when intercepting a user message", () => {
+        let message = "some user's message";
+
+        describe("when awaiting a flip correction", () => {
+            let result;
+
+            beforeEach(() => {
+                movesCorrector._awaiting_flip_correction = true;
+                spyOn(movesCorrector, "_handle_flip_message");
+
+                result = movesCorrector.handle_message(message);
+            });
+
+            it("should handle the flip message", () => {
+                expect(movesCorrector._handle_flip_message).toHaveBeenCalled();
+            });
+
+            it("should return true", () => {
+                expect(result).toEqual(true);
+            });
+        });
+
+        describe("when awaiting a move correction", () => {
+            let result;
+
+            beforeEach(() => {
+                movesCorrector._awaiting_move_correction = true;
+                spyOn(movesCorrector, "_handle_move_message");
+
+                result = movesCorrector.handle_message(message);
+            });
+
+            it("should handle the flip message", () => {
+                expect(movesCorrector._handle_move_message).toHaveBeenCalled();
+            });
+
+            it("should return true", () => {
+                expect(result).toEqual(true);
+            });
+        });
+
+        describe("when not awaiting any correction", () => {
+            let result;
+
+            beforeEach(() => {
+                result = movesCorrector.handle_message(message);
+            });
+
+            it("should return false", () => {
+                expect(result).toEqual(false);
+            });
+        });
+    });
 });

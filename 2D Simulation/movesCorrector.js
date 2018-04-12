@@ -75,17 +75,17 @@ function MovesCorrector() {
         message = message.trim();
 
         if (this._awaiting_flip_correction) {
-            handle_flip_message(message);
+            this._handle_flip_message(message);
             return true;
         } else if (this._awaiting_move_correction) {
-            handle_move_message(message);
+            this._handle_move_message(message);
             return true;
         } else {
             return false;
         }
     };
 
-    function handle_flip_message(message) {
+    this._handle_flip_message = function (message) {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
@@ -100,7 +100,7 @@ function MovesCorrector() {
         }
     }
 
-    function handle_move_message(message) {
+    this._handle_move_message = function (message) {
         let id = Number(message);
 
         if (message !== "" && is_valid_id(id)) {
