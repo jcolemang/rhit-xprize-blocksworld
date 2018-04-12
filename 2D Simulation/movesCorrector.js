@@ -1,35 +1,7 @@
 function MovesCorrector() {
     this._awaiting_flip_correction = false;
     this._awaiting_move_correction = false;
-
-    function run_undo_action() {
-        if (undo_action === undefined) {
-            return;
-        }
-
-        if (undo_action.type === "move") {
-            update_gui_block(undo_action);
-            update_score(undo_action);
-        } else if (undo_action.type === "flip") {
-            let id = undo_action.block_id.substring(5);
-
-            flipBlock(undo_action.block_id,
-                      blocks.get_block_text(id),
-                      blocks.get_block_color(id),
-                      currentConfig);
-        }
-
-        undo_action = undefined;
-    };
-
-    this._start_correct_action = function () {
-        correctionUI.hide_corrections_modal();
-        correctionUI.disable_incorrect_button();
-
-        run_undo_action();
-
-        blocks.display_block_ids();
-    };
+    this._undo_action = undefined;
 
     this.correct_flip = function () {
         this._awaiting_flip_correction = true;
@@ -45,8 +17,37 @@ function MovesCorrector() {
         correctionUI.display_move_explanation();
     };
 
+    this._start_correct_action = function () {
+        correctionUI.hide_corrections_modal();
+        correctionUI.disable_incorrect_button();
+
+        this._run_undo_action();
+
+        blocks.display_block_ids();
+    };
+
+    this._run_undo_action = function () {
+        if (this._undo_action === undefined) {
+            return;
+        }
+
+        if (this._undo_action.type === "move") {
+            update_gui_block(this._undo_action);
+            update_score(this._undo_action);
+        } else if (this._undo_action.type === "flip") {
+            let id = this._undo_action.block_id.substring(5);
+
+            flipBlock(this._undo_action.block_id,
+                      blocks.get_block_text(id),
+                      blocks.get_block_color(id),
+                      currentConfig);
+        }
+
+        this._undo_action = undefined;
+    };
+
     this.update_undo_move = function (moveData) {
-        undo_action = this._create_undo_move(moveData);
+        this._undo_action = this._create_undo_move(moveData);
     }
 
     this._create_undo_move = function (moveData) {
@@ -61,7 +62,7 @@ function MovesCorrector() {
     }
 
     this.update_undo_flip = function (block_id) {
-        undo_action = this._create_undo_flip(block_id);
+        this._undo_action = this._create_undo_flip(block_id);
     };
 
     this._create_undo_flip = function (block_id) {

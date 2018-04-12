@@ -59,6 +59,81 @@ describe("movesCorrector", () => {
         });
     });
 
+    describe("when running an undo action", () => {
+        describe("when the undo action is undefined", () => {
+            beforeEach(() => {
+                movesCorrector._run_undo_action();
+            });
+
+            it("should not do anything", () => {
+                expect(movesCorrector._undo_action).toBeUndefined();
+            });
+        });
+
+        describe("when the undo action is a flip", () => {
+            let undo_action = {
+                type: "flip",
+                block_id: "block4"
+            };
+
+            let block_text = "A";
+            let block_color = "green";
+
+            beforeEach(() => {
+                flipBlock = jasmine.createSpy("flipBlock");
+                blocks.get_block_text.and.returnValue(block_text);
+                blocks.get_block_color.and.returnValue(block_color);
+
+                movesCorrector._undo_action = undo_action;
+
+                movesCorrector._run_undo_action();
+            });
+
+            it("should flip the block with the stored block id", () => {
+                expect(flipBlock.calls.argsFor(0)[0]).toEqual(undo_action.block_id);
+            });
+
+            it("should flip the block with the current text", () => {
+                expect(flipBlock.calls.argsFor(0)[1]).toEqual(block_text);
+            });
+
+            it("should flip the block with the current color", () => {
+                expect(flipBlock.calls.argsFor(0)[2]).toEqual(block_color);
+            });
+
+            it("should invalidate the stored undo action", () => {
+                expect(movesCorrector._undo_action).toBeUndefined();
+            });
+        });
+
+        describe("when the undo action is a move", () => {
+            let undo_action = {
+                type: "move"
+            };
+
+            beforeEach(() => {
+                update_gui_block = jasmine.createSpy("update_gui_block");
+                update_score = jasmine.createSpy("update_score");
+
+                movesCorrector._undo_action = undo_action;
+
+                movesCorrector._run_undo_action();
+            });
+
+            it("should move the block into its previous position", () => {
+                expect(update_gui_block.calls.argsFor(0)[0]).toEqual(undo_action);
+            });
+
+            it("should update the score", () => {
+                expect(update_score.calls.argsFor(0)[0]).toEqual(undo_action);
+            });
+
+            it("should invalidate the stored undo action", () => {
+                expect(movesCorrector._undo_action).toBeUndefined();
+            });
+        });
+    });
+
     describe("when creating an undo move", () => {
         let moveData = {
             block_id: "block5"
@@ -214,15 +289,15 @@ describe("movesCorrector", () => {
                 movesCorrector._handle_flip_message("4");
             });
 
-            it("should call flipBlock with given id", () => {
+            it("should flip the block with given id", () => {
                 expect(flipBlock.calls.argsFor(0)[0]).toEqual("block4");
             });
 
-            it("should call flipBlock with the current block's actual text", () => {
+            it("should flip the block with the current block's actual text", () => {
                 expect(flipBlock.calls.argsFor(0)[1]).toEqual(block_text);
             });
 
-            it("should call flipBlock with the current block's color", () => {
+            it("should flip the block with the current block's color", () => {
                 expect(flipBlock.calls.argsFor(0)[2]).toEqual(block_color);
             });
 
