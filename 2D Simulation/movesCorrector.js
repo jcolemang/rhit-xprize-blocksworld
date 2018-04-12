@@ -1,9 +1,9 @@
 let movesCorrector = new function () {
-    let undo_action;
+    this._undo_action = undefined;
     let awaiting_flip_correction = false;
     let awaiting_move_correction = false;
 
-    function run_undo_action() {
+    this._run_undo_action = function () {
         if (undo_action === undefined) {
             return;
         }
@@ -20,8 +20,8 @@ let movesCorrector = new function () {
                       currentConfig);
         }
 
-        undo_action = undefined;
-    }
+        this._undo_action = undefined;
+    };
 
     this._start_correct_action = function () {
         correctionUI.hide_corrections_modal();
@@ -30,7 +30,7 @@ let movesCorrector = new function () {
         run_undo_action();
 
         blocks.display_block_ids();
-    }
+    };
 
     this.correct_flip = function () {
         awaiting_flip_correction = true;
@@ -47,15 +47,19 @@ let movesCorrector = new function () {
     };
 
     this.update_undo_move = function (moveData) {
+        undo_action = _create_undo_move(moveData);
+    }
+
+    this._create_undo_move = function (moveData) {
         let id = Number(moveData.block_id.substring(5));
 
-        undo_action = {
+        return {
             type: "move",
             block_id: moveData.block_id,
             left: blocks.get_block_left_pos(id),
             top: blocks.get_block_top_pos(id)
         };
-    };
+    }
 
     this.update_undo_flip = function (block_id) {
         undo_action = {
