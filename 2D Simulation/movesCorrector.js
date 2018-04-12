@@ -1,6 +1,6 @@
-let movesCorrector = new function () {
-    let awaiting_flip_correction = false;
-    let awaiting_move_correction = false;
+function MovesCorrector() {
+    this._awaiting_flip_correction = false;
+    this._awaiting_move_correction = false;
 
     this._run_undo_action = function () {
         if (undo_action === undefined) {
@@ -32,14 +32,14 @@ let movesCorrector = new function () {
     };
 
     this.correct_flip = function () {
-        awaiting_flip_correction = true;
+        this._awaiting_flip_correction = true;
         this._start_correct_action();
 
         correctionUI.display_flip_explanation();
     };
 
     this.correct_move = function () {
-        awaiting_move_correction = true;
+        this._awaiting_move_correction = true;
         this._start_correct_action();
 
         correctionUI.display_move_explanation();
@@ -74,10 +74,10 @@ let movesCorrector = new function () {
     this.handle_message = function (message) {
         message = message.trim();
 
-        if (awaiting_flip_correction) {
+        if (this._awaiting_flip_correction) {
             handle_flip_message(message);
             return true;
-        } else if (awaiting_move_correction) {
+        } else if (this._awaiting_move_correction) {
             handle_move_message(message);
             return true;
         } else {
@@ -93,7 +93,7 @@ let movesCorrector = new function () {
                       blocks.get_block_text(id),
                       blocks.get_block_color(id),
                       currentConfig);
-            awaiting_flip_correction = false;
+            this._awaiting_flip_correction = false;
             blocks.display_block_letters();
         } else {
             correctionUI.display_flip_explanation();
@@ -114,7 +114,7 @@ let movesCorrector = new function () {
             update_gui_block(move);
             hide_gesture();
 
-            awaiting_move_correction = false;
+            this._awaiting_move_correction = false;
             blocks.display_block_letters();
         } else {
             blocks.display_flip_explanation();
@@ -128,5 +128,7 @@ let movesCorrector = new function () {
 
 if (typeof module !== 'undefined'
     && module.hasOwnProperty('exports')) {
-    module.exports = movesCorrector;
+    module.exports = MovesCorrector;
 }
+
+let movesCorrector = new MovesCorrector();

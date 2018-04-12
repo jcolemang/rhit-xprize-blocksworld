@@ -1,5 +1,6 @@
 describe("movesCorrector", () => {
-    let movesCorrector = require('../movesCorrector.js');
+    let MovesCorrector = require('../movesCorrector.js');
+    let movesCorrector = {};
 
     correctionUI = {
         display_flip_explanation: () => undefined,
@@ -10,6 +11,10 @@ describe("movesCorrector", () => {
         get_block_left_pos: (id) => undefined,
         get_block_top_pos: (id) => undefined
     };
+
+    beforeEach(() => {
+        movesCorrector = new MovesCorrector();
+    });
 
     describe("when correcting a flip", () => {
         beforeEach(() => {
@@ -25,6 +30,11 @@ describe("movesCorrector", () => {
 
         it("should display flip explanation", () => {
             expect(correctionUI.display_flip_explanation).toHaveBeenCalled();
+        });
+
+        it("should await a flip correction", () => {
+            expect(movesCorrector._awaiting_flip_correction).toEqual(true);
+            expect(movesCorrector._awaiting_move_correction).toEqual(false);
         });
     });
 
@@ -42,6 +52,11 @@ describe("movesCorrector", () => {
 
         it("should display move explanation", () => {
             expect(correctionUI.display_move_explanation).toHaveBeenCalled();
+        });
+
+        it("should await a move correction", () => {
+            expect(movesCorrector._awaiting_flip_correction).toEqual(false);
+            expect(movesCorrector._awaiting_move_correction).toEqual(true);
         });
     });
 
