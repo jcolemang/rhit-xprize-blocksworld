@@ -4,14 +4,17 @@ describe("movesCorrector", () => {
 
     correctionUI = jasmine.createSpyObj("correctionUI",
                                         ["display_flip_explanation",
-                                         "display_move_explanation"]);
+                                         "display_move_explanation",
+                                         "disable_incorrect_button",
+                                         "hide_corrections_modal"]);
 
     blocks = jasmine.createSpyObj("blocks",
                                   ["get_block_top_pos",
                                    "get_block_left_pos",
                                    "get_block_text",
                                    "get_block_color",
-                                   "display_block_letters"]);
+                                   "display_block_letters",
+                                   "display_block_ids"]);
 
     beforeEach(() => {
         movesCorrector = new MovesCorrector();
@@ -56,6 +59,30 @@ describe("movesCorrector", () => {
         it("should await a move correction", () => {
             expect(movesCorrector._awaiting_flip_correction).toEqual(false);
             expect(movesCorrector._awaiting_move_correction).toEqual(true);
+        });
+    });
+
+    describe("when starting to correct an action", () => {
+        beforeEach(() => {
+            spyOn(movesCorrector, "_run_undo_action");
+
+            movesCorrector._start_correct_action();
+        });
+
+        it("should hide the corrections modal", () => {
+            expect(correctionUI.hide_corrections_modal).toHaveBeenCalled();
+        });
+
+        it("should disable the incorrect move button", () => {
+            expect(correctionUI.disable_incorrect_button).toHaveBeenCalled();
+        });
+
+        it("should run the stored undo action", () => {
+            expect(movesCorrector._run_undo_action).toHaveBeenCalled();
+        });
+
+        it("should display block ids", () => {
+            expect(blocks.display_block_ids).toHaveBeenCalled();
         });
     });
 
