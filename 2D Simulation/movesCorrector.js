@@ -117,7 +117,7 @@ function MovesCorrector() {
             this._awaiting_move_correction = false;
             blocks.display_block_letters();
         } else {
-            blocks.display_flip_explanation();
+            correctionUI.display_move_explanation();
         }
     }
 

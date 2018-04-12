@@ -162,7 +162,7 @@ describe("movesCorrector", () => {
     });
 
     // TODO test blocks.get_block_text with string inputs
-    describe("when intercepting a flip message", () => {
+    describe("when intercepting a flip correction", () => {
         beforeEach(() => {
             NumBlocks = 10;
             movesCorrector._awaiting_flip_correction = true;
@@ -233,6 +233,86 @@ describe("movesCorrector", () => {
 
             it("should display block letters", () => {
                 expect(blocks.display_block_letters).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe("when intercepting a move correction", () => {
+        beforeEach(() => {
+            NumBlocks = 10;
+            movesCorrector._awaiting_move_correction = true;
+        });
+
+        describe("when given an invalid id", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_is_valid_id").and.returnValue(false);
+
+                movesCorrector._handle_move_message("not a valid number")
+            });
+
+            it("should display an explanation", () => {
+                expect(correctionUI.display_move_explanation).toHaveBeenCalled();
+            });
+
+            it("should continue awaiting a move correction", () => {
+                expect(movesCorrector._awaiting_move_correction).toEqual(true);
+            });
+        });
+
+        describe("when given an empty string", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_is_valid_id").and.returnValue(false);
+
+                movesCorrector._handle_move_message("")
+            });
+
+            it("should display an explanation", () => {
+                expect(correctionUI.display_move_explanation).toHaveBeenCalled();
+            });
+
+            it("should continue awaiting a move correction", () => {
+                expect(movesCorrector._awaiting_move_correction).toEqual(true);
+            });
+        });
+
+        describe("when given a valid id", () => {
+            let gesture_pos = {
+                left: 100,
+                top: 52
+            };
+
+            beforeEach(() => {
+                get_gesture_position = jasmine.createSpy("get_gesture_position");
+                get_gesture_position.and.returnValue(gesture_pos);
+
+                update_gui_block = jasmine.createSpy("update_gui_block");
+                hide_gesture = jasmine.createSpy("hide_gesture");
+
+                movesCorrector._handle_move_message("4");
+            });
+
+            it("should stop awaiting a move correction", () => {
+                expect(movesCorrector._awaiting_move_correction).toEqual(false);
+            });
+
+            it("should display block letters", () => {
+                expect(blocks.display_block_letters).toHaveBeenCalled();
+            });
+
+            it("should move the block with the given id", () => {
+                expect(update_gui_block.calls.argsFor(0)[0].block_id)
+                    .toEqual("block4");
+            });
+
+            it("should move the block to the gesture position", () => {
+                expect(update_gui_block.calls.argsFor(0)[0].top)
+                    .toEqual(gesture_pos.top);
+                expect(update_gui_block.calls.argsFor(0)[0].left)
+                    .toEqual(gesture_pos.left);
+            });
+
+            it("should hide the last gesture", () => {
+                expect(hide_gesture).toHaveBeenCalled();
             });
         });
     });
