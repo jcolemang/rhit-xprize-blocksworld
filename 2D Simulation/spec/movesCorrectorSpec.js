@@ -2,15 +2,16 @@ describe("movesCorrector", () => {
     let MovesCorrector = require('../movesCorrector.js');
     let movesCorrector = {};
 
-    correctionUI = {
-        display_flip_explanation: () => undefined,
-        display_move_explanation: () => undefined
-    };
+    correctionUI = jasmine.createSpyObj("correctionUI",
+                                        ["display_flip_explanation",
+                                         "display_move_explanation"]);
 
-    blocks = {
-        get_block_left_pos: (id) => undefined,
-        get_block_top_pos: (id) => undefined
-    };
+    blocks = jasmine.createSpyObj("blocks",
+                                  ["get_block_top_pos",
+                                   "get_block_left_pos",
+                                   "get_block_text",
+                                   "get_block_color",
+                                   "display_block_letters"]);
 
     beforeEach(() => {
         movesCorrector = new MovesCorrector();
@@ -19,7 +20,6 @@ describe("movesCorrector", () => {
     describe("when correcting a flip", () => {
         beforeEach(() => {
             spyOn(movesCorrector, "_start_correct_action");
-            spyOn(correctionUI, "display_flip_explanation");
 
             movesCorrector.correct_flip();
         });
@@ -41,7 +41,6 @@ describe("movesCorrector", () => {
     describe("when correcting a move", () => {
         beforeEach(() => {
             spyOn(movesCorrector, "_start_correct_action");
-            spyOn(correctionUI, "display_move_explanation");
 
             movesCorrector.correct_move();
         });
@@ -71,8 +70,8 @@ describe("movesCorrector", () => {
         let undo_move = {};
 
         beforeEach(() => {
-            spyOn(blocks, "get_block_left_pos").and.returnValue(left_pos);
-            spyOn(blocks, "get_block_top_pos").and.returnValue(top_pos);
+            blocks.get_block_left_pos.and.returnValue(left_pos);
+            blocks.get_block_top_pos.and.returnValue(top_pos);
 
             undo_move = movesCorrector._create_undo_move(moveData);
         });
@@ -158,6 +157,82 @@ describe("movesCorrector", () => {
 
             it("should return false", () => {
                 expect(result).toEqual(false);
+            });
+        });
+    });
+
+    // TODO test blocks.get_block_text with string inputs
+    describe("when intercepting a flip message", () => {
+        beforeEach(() => {
+            NumBlocks = 10;
+            movesCorrector._awaiting_flip_correction = true;
+        });
+
+        describe("when given an invalid id", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_is_valid_id").and.returnValue(false);
+
+                movesCorrector._handle_flip_message("not a valid number");
+            });
+
+            it("should display an explanation", () => {
+                expect(correctionUI.display_flip_explanation).toHaveBeenCalled();
+            });
+
+            it("should continue awaiting a flip correction", () => {
+                expect(movesCorrector._awaiting_flip_correction).toEqual(true);
+            });
+        });
+
+        describe("when given an empty string", () => {
+            beforeEach(() => {
+                spyOn(movesCorrector, "_is_valid_id").and.returnValue(false);
+
+                movesCorrector._handle_flip_message("");
+            });
+
+            it("should display an explanation", () => {
+                expect(correctionUI.display_flip_explanation).toHaveBeenCalled();
+            });
+
+            it("should continue awaiting a flip correction", () => {
+                expect(movesCorrector._awaiting_flip_correction).toEqual(true);
+            });
+        });
+
+        describe("when given a valid id", () => {
+            let block_text = "A";
+            let block_color = "green";
+
+            beforeEach(() => {
+                flipBlock = jasmine.createSpy("flipBlock");
+
+                blocks.get_block_text.and.returnValue(block_text);
+                blocks.get_block_color.and.returnValue(block_color);
+
+                spyOn(movesCorrector, "_is_valid_id").and.returnValue(true);
+
+                movesCorrector._handle_flip_message("4");
+            });
+
+            it("should call flipBlock with given id", () => {
+                expect(flipBlock.calls.argsFor(0)[0]).toEqual("block4");
+            });
+
+            it("should call flipBlock with the current block's actual text", () => {
+                expect(flipBlock.calls.argsFor(0)[1]).toEqual(block_text);
+            });
+
+            it("should call flipBlock with the current block's color", () => {
+                expect(flipBlock.calls.argsFor(0)[2]).toEqual(block_color);
+            });
+
+            it("should stop awaiting a flip correction", () => {
+                expect(movesCorrector._awaiting_flip_correction).toEqual(false);
+            });
+
+            it("should display block letters", () => {
+                expect(blocks.display_block_letters).toHaveBeenCalled();
             });
         });
     });

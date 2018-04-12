@@ -88,7 +88,7 @@ function MovesCorrector() {
     this._handle_flip_message = function (message) {
         let id = Number(message);
 
-        if (message !== "" && is_valid_id(id)) {
+        if (message !== "" && this._is_valid_id(id)) {
             flipBlock("block" + id,
                       blocks.get_block_text(id),
                       blocks.get_block_color(id),
@@ -103,7 +103,7 @@ function MovesCorrector() {
     this._handle_move_message = function (message) {
         let id = Number(message);
 
-        if (message !== "" && is_valid_id(id)) {
+        if (message !== "" && this._is_valid_id(id)) {
             let gesture_pos = get_gesture_position();
             let move = {
                 left: gesture_pos.left,
@@ -121,7 +121,7 @@ function MovesCorrector() {
         }
     }
 
-    function is_valid_id(id) {
+    this._is_valid_id = function (id) {
         return id % 1 === 0 && id >= 0 && id < NumBlocks;
     }
 };
