@@ -1,5 +1,4 @@
 let movesCorrector = new function () {
-    this._undo_action = undefined;
     let awaiting_flip_correction = false;
     let awaiting_move_correction = false;
 
@@ -20,7 +19,7 @@ let movesCorrector = new function () {
                       currentConfig);
         }
 
-        this._undo_action = undefined;
+        undo_action = undefined;
     };
 
     this._start_correct_action = function () {
