@@ -3,6 +3,32 @@ function MovesCorrector() {
     this._awaiting_move_correction = false;
     this._undo_action = undefined;
 
+    this.update_undo_move = function (moveData) {
+        this._undo_action = this._create_undo_move(moveData);
+    }
+
+    this._create_undo_move = function (moveData) {
+        let id = Number(moveData.block_id.substring(5));
+
+        return {
+            type: "move",
+            block_id: moveData.block_id,
+            left: blocks.get_block_left_pos(id),
+            top: blocks.get_block_top_pos(id)
+        };
+    }
+
+    this.update_undo_flip = function (block_id) {
+        this._undo_action = this._create_undo_flip(block_id);
+    };
+
+    this._create_undo_flip = function (block_id) {
+        return {
+            type: "flip",
+            block_id: block_id
+        };
+    }
+
     this.correct_flip = function () {
         this._awaiting_flip_correction = true;
         this._start_correct_action();
@@ -45,32 +71,6 @@ function MovesCorrector() {
 
         this._undo_action = undefined;
     };
-
-    this.update_undo_move = function (moveData) {
-        this._undo_action = this._create_undo_move(moveData);
-    }
-
-    this._create_undo_move = function (moveData) {
-        let id = Number(moveData.block_id.substring(5));
-
-        return {
-            type: "move",
-            block_id: moveData.block_id,
-            left: blocks.get_block_left_pos(id),
-            top: blocks.get_block_top_pos(id)
-        };
-    }
-
-    this.update_undo_flip = function (block_id) {
-        this._undo_action = this._create_undo_flip(block_id);
-    };
-
-    this._create_undo_flip = function (block_id) {
-        return {
-            type: "flip",
-            block_id: block_id
-        };
-    }
 
     this.handle_message = function (message) {
         message = message.trim();
