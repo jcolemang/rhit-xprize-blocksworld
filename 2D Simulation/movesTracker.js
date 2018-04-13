@@ -79,6 +79,7 @@ function _Move(id, letter, color, orig_left, orig_top, end_left, end_top) {
     this.id = id;
     this.letter = letter;
     this.color = color;
+    this.end_date = getDateTime();
     this.left_pos = orig_left;
     this.top_pos = orig_top;
     this.new_left_pos = end_left;

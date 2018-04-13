@@ -91,4 +91,34 @@ describe("movesTracker", () => {
                                    + " (" + left + "," + top + ")");
         });
     });
+
+    describe("when exporting moves", () => {
+        let id = 5;
+        let letter = "A";
+        let color = "green";
+        let current_date = "<now>";
+        let left = 41;
+        let top = 32;
+        let end_left = 67;
+        let end_top = 35;
+
+        let string;
+
+        beforeEach(() => {
+            getDateTime.and.returnValue(current_date);
+
+            let move = new _Move(id, letter, color, left, top,
+                                 end_left, end_top);
+            string = move.export_to_string();
+        });
+
+        it("should have the proper formatting", () => {
+            expect(string).toEqual("Movement Block id: " + id
+                                   + " Letter: " + letter
+                                   + " Color: " + color
+                                   + " " + current_date
+                                   + " (" + left + "," + top + ")"
+                                   + " ("+ end_left + "," + end_top +")");
+        });
+    });
 });
