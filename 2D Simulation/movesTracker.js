@@ -47,7 +47,7 @@ function _Gesture(left_pos_percent, top_pos_percent) {
 function _Instruction(start_date, start_time, text) {
     this.start_date = start_date;
     this.end_date = getDateTime();
-    this.interval = new Date().getTime - start_time;
+    this.interval = new Date().getTime() - start_time;
     this.text = text;
 
     this.export_to_string = function () {
