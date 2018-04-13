@@ -65,4 +65,30 @@ describe("movesTracker", () => {
                                    + text);
         });
     });
+
+    describe("when exporting flips", () => {
+        let id = 5;
+        let letter = "A";
+        let color = "green";
+        let current_date = "<now>";
+        let left = 41;
+        let top = 32;
+
+        let string;
+
+        beforeEach(() => {
+            getDateTime.and.returnValue(current_date);
+
+            let flip = new _Flip(id, letter, color, left, top);
+            string = flip.export_to_string();
+        });
+
+        it("should have the proper formatting", () => {
+            expect(string).toEqual("Flip Block id: " + id
+                                   + " Letter: " + letter
+                                   + " Color: " + color
+                                   + " " + current_date
+                                   + " (" + left + "," + top + ")");
+        });
+    });
 });
