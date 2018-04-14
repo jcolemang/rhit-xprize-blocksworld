@@ -86,24 +86,6 @@ function writeBlockStyle(blockColors) {
     }
 }
 
-function initColors(possibleColors, numBlocks) {
-    let cs = [];
-    for (var i = 0; i < numBlocks; i++) {
-        x = Math.floor(Math.random() * possibleColors.length);
-        cs.push(possibleColors[x]);
-    }
-    return cs;
-}
-
-function initLetters(possibleLetters, numBlocks) {
-    let lets = [];
-    for (var i = 0; i < numBlocks; i++) {
-        y = Math.floor(Math.random() * possibleLetters.length);
-        lets.push(letters[y]);
-    }
-    return lets;
-}
-
 function flipBlock(block_id, letter, color, config) {
     blocks.flip_block(block_id.substring(5));
     document.getElementById("gestureToggle").style.visibility = "hidden";

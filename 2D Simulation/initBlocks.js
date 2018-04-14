@@ -1,8 +1,26 @@
+function makeColorsArray(possibleColors, numBlocks) {
+    let colors = [];
+    for (let i = 0; i < numBlocks; i++) {
+        rand = Math.floor(Math.random() * possibleColors.length);
+        colors.push(possibleColors[rand]);
+    }
+    return colors;
+}
+
+function makeLettersArray(possibleLetters, numBlocks) {
+    let letters = [];
+    for (var i = 0; i < numBlocks; i++) {
+        y = Math.floor(Math.random() * possibleLetters.length);
+        letters.push(possibleLetters[y]);
+    }
+    return letters;
+}
+
 initTaskID();
-blockColors = initColors(color, NumBlocks);
-flipColorArray = initColors(color, NumBlocks);
-blockLetters = initLetters(letters, NumBlocks);
-flipLetterArray = initLetters(letters, NumBlocks);
+blockColors = makeColorsArray(color, NumBlocks);
+flipColorArray = makeColorsArray(color, NumBlocks);
+blockLetters = makeLettersArray(letters, NumBlocks);
+flipLetterArray = makeLettersArray(letters, NumBlocks);
 currentConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
 
 initBlocks(currentConfig);
