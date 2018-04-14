@@ -2,8 +2,7 @@ var page_width = 0;
 var page_height = 0;
 var random_multiplier = 10;
 var random_addition = 4;
-var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
-var Max_Num_Blocks = random_multiplier + random_addition;
+var NumBlocks = 5;
 var gestureCount = 0;
 var NumWords = 0;
 var n1 = 1; var n2 = 1;
@@ -183,7 +182,6 @@ function setMovement() {
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
-    NumBlocks = 5;
     // blockColors = initBackgroundColors(NumBlocks, color);
     n1 = 5;
     n2 = 5;
