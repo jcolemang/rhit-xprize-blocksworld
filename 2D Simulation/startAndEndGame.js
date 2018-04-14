@@ -43,7 +43,7 @@ function endGame() {
 
         calculateBackEndData();
 
-        var words = "Construction: Rainbow" + rainbow_select + ".png";
+        var words = "Construction: Rainbow0.png";
 
         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 

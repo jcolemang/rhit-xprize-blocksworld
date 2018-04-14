@@ -32,8 +32,6 @@ var initialInfo = [];
 var standard_info = [];
 console.log('Block Colors: ', blockColors);
 
-var rainbow_select = 0;
-
 function getInitialConfiguration(blockColors, flipColors, blockLetters, flipLetters) {
     let config = [];
     for (i = 0; i < blockColors.length; i++) {
