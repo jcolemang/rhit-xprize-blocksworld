@@ -142,17 +142,6 @@ function setGestureWithPosition(left, top, event) {
 
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
-
-    setUpVisibility();
-}
-
-function setUpVisibility() {
-    document.getElementById('user1').style.visibility = "hidden";
-    document.getElementById('user2').style.visibility = "hidden";
-    document.getElementById('vertical-line').style.visibility = "hidden";
-    document.getElementById('vertical-line2').style.visibility = "hidden";
-    document.getElementById('user3').style.visibility = "hidden";
-    document.getElementById('user4').style.visibility = "hidden";
 }
 
 function setTaskHeader() {
