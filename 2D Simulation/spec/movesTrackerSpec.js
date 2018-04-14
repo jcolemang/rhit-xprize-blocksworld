@@ -122,6 +122,211 @@ describe("movesTracker", () => {
         });
     });
 
+    describe("when adding a gesture", () => {
+        let left = 5;
+        let top = 23;
+
+        describe("when there are currently no other stored actions", () => {
+            beforeEach(() => {
+                movesTracker.add_gesture(left, top);
+            });
+
+            it("should store the new gesture", () => {
+                expect(movesTracker.actions.length).toEqual(1);
+            });
+
+            it("should create a new gesture with the given parameters", () => {
+                expect(movesTracker.actions[0].left_pos).toEqual(left);
+                expect(movesTracker.actions[0].top_pos).toEqual(top);
+            });
+        });
+
+        describe("when there are already stored actions", () => {
+            let mock_action = {
+                id: "Fake action"
+            };
+
+            beforeEach(() => {
+                movesTracker.actions = [mock_action];
+
+                movesTracker.add_gesture(left, top);
+            });
+
+            it("should keep all actions and add the new gesture", () => {
+                expect(movesTracker.actions.length).toEqual(2);
+            });
+
+            it("should keep add the new gesture to the end of the list", () => {
+                expect(movesTracker.actions[0]).toEqual(mock_action);
+            });
+
+            it("should create a new gesture with the given parameters", () => {
+                expect(movesTracker.actions[1].left_pos).toEqual(left);
+                expect(movesTracker.actions[1].top_pos).toEqual(top);
+            });
+        });
+    });
+
+    describe("when adding an instruction", () => {
+        let start_date = "<then>";
+        let start_time = 100;
+        let text = "my text";
+
+        describe("when there are currently no other stored actions", () => {
+            beforeEach(() => {
+                movesTracker.add_instruction(start_date, start_time, text);
+            });
+
+            it("should store the new instruction", () => {
+                expect(movesTracker.actions.length).toEqual(1);
+            });
+
+            it("should create a new instruction with the given parameters", () => {
+                expect(movesTracker.actions[0].start_date).toEqual(start_date);
+                expect(movesTracker.actions[0].text).toEqual(text);
+            });
+        });
+
+        describe("when there are already stored actions", () => {
+            let mock_action = {
+                id: "Fake action"
+            };
+
+            beforeEach(() => {
+                movesTracker.actions = [mock_action];
+
+                movesTracker.add_instruction(start_date, start_time, text);
+            });
+
+            it("should keep all actions and add the new gesture", () => {
+                expect(movesTracker.actions.length).toEqual(2);
+            });
+
+            it("should keep add the new gesture to the end of the list", () => {
+                expect(movesTracker.actions[0]).toEqual(mock_action);
+            });
+
+            it("should create a new gesture with the given parameters", () => {
+                expect(movesTracker.actions[1].start_date).toEqual(start_date);
+                expect(movesTracker.actions[1].text).toEqual(text);
+            });
+        });
+    });
+
+    describe("when adding a flip", () => {
+        let id = "block5";
+        let letter = "A";
+        let color = "green";
+        let x = 51;
+        let y = 22;
+
+        describe("when there are currently no other stored actions", () => {
+            beforeEach(() => {
+                movesTracker.add_flip(id, letter, color, x, y);
+            });
+
+            it("should store the new instruction", () => {
+                expect(movesTracker.actions.length).toEqual(1);
+            });
+
+            it("should create a new instruction with the given parameters", () => {
+                expect(movesTracker.actions[0].id).toEqual(id);
+                expect(movesTracker.actions[0].letter).toEqual(letter);
+                expect(movesTracker.actions[0].color).toEqual(color);
+                expect(movesTracker.actions[0].left_pos).toEqual(x);
+                expect(movesTracker.actions[0].top_pos).toEqual(y);
+            });
+        });
+
+        describe("when there are already stored actions", () => {
+            let mock_action = {
+                id: "Fake action"
+            };
+
+            beforeEach(() => {
+                movesTracker.actions = [mock_action];
+
+                movesTracker.add_flip(id, letter, color, x, y);
+            });
+
+            it("should keep all actions and add the new gesture", () => {
+                expect(movesTracker.actions.length).toEqual(2);
+            });
+
+            it("should keep add the new gesture to the end of the list", () => {
+                expect(movesTracker.actions[0]).toEqual(mock_action);
+            });
+
+            it("should create a new gesture with the given parameters", () => {
+                expect(movesTracker.actions[1].id).toEqual(id);
+                expect(movesTracker.actions[1].letter).toEqual(letter);
+                expect(movesTracker.actions[1].color).toEqual(color);
+                expect(movesTracker.actions[1].left_pos).toEqual(x);
+                expect(movesTracker.actions[1].top_pos).toEqual(y);
+            });
+        });
+    });
+
+    describe("when adding a move", () => {
+        let id = "block5";
+        let letter = "A";
+        let color = "green";
+        let init_x = 51;
+        let init_y = 22;
+        let end_x = 51;
+        let end_y = 22;
+
+        describe("when there are currently no other stored actions", () => {
+            beforeEach(() => {
+                movesTracker.add_move(id, letter, color, init_x, init_y, end_x, end_y);
+            });
+
+            it("should store the new instruction", () => {
+                expect(movesTracker.actions.length).toEqual(1);
+            });
+
+            it("should create a new instruction with the given parameters", () => {
+                expect(movesTracker.actions[0].id).toEqual(id);
+                expect(movesTracker.actions[0].letter).toEqual(letter);
+                expect(movesTracker.actions[0].color).toEqual(color);
+                expect(movesTracker.actions[0].left_pos).toEqual(init_x);
+                expect(movesTracker.actions[0].top_pos).toEqual(init_y);
+                expect(movesTracker.actions[0].new_left_pos).toEqual(end_x);
+                expect(movesTracker.actions[0].new_top_pos).toEqual(end_y);
+            });
+        });
+
+        describe("when there are already stored actions", () => {
+            let mock_action = {
+                id: "Fake action"
+            };
+
+            beforeEach(() => {
+                movesTracker.actions = [mock_action];
+
+                movesTracker.add_move(id, letter, color, init_x, init_y, end_x, end_y);
+            });
+
+            it("should keep all actions and add the new gesture", () => {
+                expect(movesTracker.actions.length).toEqual(2);
+            });
+
+            it("should keep add the new gesture to the end of the list", () => {
+                expect(movesTracker.actions[0]).toEqual(mock_action);
+            });
+
+            it("should create a new gesture with the given parameters", () => {
+                expect(movesTracker.actions[1].id).toEqual(id);
+                expect(movesTracker.actions[1].letter).toEqual(letter);
+                expect(movesTracker.actions[1].color).toEqual(color);
+                expect(movesTracker.actions[1].left_pos).toEqual(init_x);
+                expect(movesTracker.actions[1].top_pos).toEqual(init_y);
+                expect(movesTracker.actions[1].new_left_pos).toEqual(end_x);
+                expect(movesTracker.actions[1].new_top_pos).toEqual(end_y);
+            });
+        });
+    });
+
     describe("when exporting all actions", () => {
         describe("when there are no actions to export", () => {
             it("should return an empty list", () => {
