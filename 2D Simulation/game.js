@@ -220,7 +220,6 @@ socket.on('setInitialPosition', function(data) {
     }
 
     setTaskHeader();
-    setIntroduction();
 
     while(container.firstChild) {
         container.removeChild(container.firstChild);
@@ -266,7 +265,6 @@ socket.on('setInitialPosition', function(data) {
     document.getElementById("container").ondblclick = function(e) {
         e.preventDefault();
     };
-    setIntroduction(2);
 });
 function send_flip_to_server(block_id) {
     try {

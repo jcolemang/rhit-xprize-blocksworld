@@ -9,9 +9,7 @@ initBlocks(currentConfig);
 writeBlockStyle(blockColors);
 finalBlocks = getFinalConfiguration(currentConfig);
 
-initInstructions();
 setTaskHeader();
-setIntroduction(1);
 popUpGameIntro();
 
 // function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
