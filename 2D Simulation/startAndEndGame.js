@@ -4,7 +4,7 @@ function startGame() {
     start_button_pressed = true;
     timecounter();
     document.getElementById("showChosen").style.visibility = "visible";
-    setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
+    setUpInitialPosition(currentConfig, finalBlocks);
     document.getElementById("buttonEnd").disabled = false;
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;

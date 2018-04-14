@@ -21,59 +21,17 @@ var initialScore = -1;
 
 // I am certain that these are necessary as of Sunday, October 29
 var currentConfig;
-var flipColorArray = [];
-var flipLetterArray = [];
-var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var color = ['red', 'blue','green','orange','yellow'];
-var blockColors;
-var blockLetters;
 var finalBlocks;
 var initialInfo = [];
 var standard_info = [];
-console.log('Block Colors: ', blockColors);
 
-function getInitialConfiguration(blockColors, flipColors, blockLetters, flipLetters) {
-    let config = [];
-    for (i = 0; i < blockColors.length; i++) {
-        let block = {
-            topLetter: blockLetters[i],
-            bottomLetter: flipLetters[i],
-            topColor: blockColors[i],
-            bottomColor: flipColors[i],
-            blockId: '#block' + i
-        };
-        config.push(block);
-    }
-
-    return config;
-}
-
-function getFinalConfiguration(initialConfiguration) {
-    return initialConfiguration.map(block => {
-        let newBlock = Object.assign({}, block);
-
-        if (Math.random() < 0.5) {
-            let tempColor = newBlock.topColor;
-            let tempLetter = newBlock.topLetter;
-            newBlock.topLetter = newBlock.bottomLetter;
-            newBlock.topColor = newBlock.bottomColor;
-            newBlock.bottomLetter = tempLetter;
-            newBlock.bottomColor = tempColor;
-        }
-
-        newBlock.position = [Math.random() * 100, Math.random() * 100];
-
-        return newBlock;
-    });
-}
-
-function writeBlockStyle(blockColors) {
-    for (let i = 0; i < NumBlocks; i++) {
+function writeBlockStyles(config) {
+    for (let i = 0; i < config.length; i++) {
         let block = $("#block" + i);
         block.css({
             width: "3.8%",
             height: "7.35%",
-            backgroundColor: blockColors[i],
+            backgroundColor: config[i].topColor,
             border: "#000 solid 4px",
             position: "absolute",
             zIndex: 1,
@@ -208,10 +166,8 @@ function instructiontime() {
     instructiondate = getDateTime();
 }
 
-function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalBlocks) {
-    console.log('Calling setUpInitialPosition');
-    console.log('Block colors:', bColors);
-    for (let i = 0; i < NumBlocks; i++) {
+function setUpInitialPosition(currentConfig, finalBlocks) {
+    for (let i = 0; i < currentConfig.length; i++) {
         var tLeft = 0;
         var tTop = 0;
 
@@ -226,9 +182,9 @@ function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalB
 
         initialInfo.push("block:" + i + " " +
                          "initial position: (" + tLeft + "%, " + tTop + "%) " +
-                         "color: " + bColors[i] +
-                         " letters: " + bLetters[i] +
-                         " flipletters: " + flipLetters[i]);
+                         "color: " + currentConfig[i].topColor +
+                         " letters: " + currentConfig[i].topLetter +
+                         " flipletters: " + currentConfig[i].bottomLetter);
         document.getElementById("block" + i).style.top = tTop+"%";
         document.getElementById("block" + i).style.left = tLeft+"%";
     }

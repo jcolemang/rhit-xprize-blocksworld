@@ -1,3 +1,24 @@
+function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {
+    let topColors = makeColorsArray(possibleColors, numBlocks);
+    let bottomColors = makeColorsArray(possibleColors, numBlocks);
+    let topLetters = makeLettersArray(possibleLetters, numBlocks);
+    let bottomLetters = makeLettersArray(possibleLetters, numBlocks);
+
+    let config = [];
+    for (i = 0; i < numBlocks; i++) {
+        let block = {
+            topLetter: topLetters[i],
+            bottomLetter: bottomLetters[i],
+            topColor: topColors[i],
+            bottomColor: bottomColors[i],
+            blockId: '#block' + i
+        };
+        config.push(block);
+    }
+
+    return config;
+}
+
 function makeColorsArray(possibleColors, numBlocks) {
     let colors = [];
     for (let i = 0; i < numBlocks; i++) {
@@ -16,15 +37,33 @@ function makeLettersArray(possibleLetters, numBlocks) {
     return letters;
 }
 
+function getFinalConfiguration(initialConfiguration) {
+    return initialConfiguration.map(block => {
+        let newBlock = Object.assign({}, block);
+
+        if (Math.random() < 0.5) {
+            let tempColor = newBlock.topColor;
+            let tempLetter = newBlock.topLetter;
+            newBlock.topLetter = newBlock.bottomLetter;
+            newBlock.topColor = newBlock.bottomColor;
+            newBlock.bottomLetter = tempLetter;
+            newBlock.bottomColor = tempColor;
+        }
+
+        newBlock.position = [Math.random() * 100, Math.random() * 100];
+
+        return newBlock;
+    });
+}
+
+let possibleLetters = ["A", "B", "C", "D", "E", "F", "G"];
+let possibleColors = ['red', 'blue','green','orange','yellow'];
+
 initTaskID();
-blockColors = makeColorsArray(color, NumBlocks);
-flipColorArray = makeColorsArray(color, NumBlocks);
-blockLetters = makeLettersArray(letters, NumBlocks);
-flipLetterArray = makeLettersArray(letters, NumBlocks);
-currentConfig = getInitialConfiguration(blockColors, flipColorArray, blockLetters, flipLetterArray);
+currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
 
 initBlocks(currentConfig);
-writeBlockStyle(blockColors);
+writeBlockStyles(currentConfig);
 finalBlocks = getFinalConfiguration(currentConfig);
 
 setTaskHeader();
