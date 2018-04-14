@@ -80,3 +80,30 @@ function endGame() {
         document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
     }
 }
+
+
+function submit() {
+    var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
+    q1 = document.getElementById("q1").value;
+
+    if (q1 == "") {
+        document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+        document.getElementById("require").style.visibility = "visible";
+
+        document.getElementById("q1").innerText = q1;
+    } else {
+        try {
+            socket.emit('send_survey_data_to_server', {
+                q1: q1,
+                q2: q2,
+                q3: q3,
+                q4: q4,
+                q5: q5,
+                q6: q6
+            });
+        } catch (err) {
+            redirects.pageDown(err);
+        }
+        window.location.href = "finalPage.html";
+    }
+}
