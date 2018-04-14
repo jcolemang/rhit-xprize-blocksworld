@@ -38,10 +38,7 @@ describe("movesTracker", () => {
 
     describe("when exporting instructions", () => {
         // getDateTime returns a string, therefore:
-        let start_date = "<then>";
         let current_date = "<now>";
-        let start_time = 122;
-        let current_time = 142;
         let text = "Hello world!";
 
         let string;
@@ -49,19 +46,13 @@ describe("movesTracker", () => {
         beforeEach(() => {
             getDateTime.and.returnValue(current_date);
 
-            Date = jasmine.createSpy(Date);
-            Date.and.returnValue({
-                getTime: () => current_time
-            });
-
-            let instruction = new _Instruction(start_date, start_time, text);
+            let instruction = new _Instruction(text);
             string = instruction.export_to_string();
         });
 
         it("should have the proper formating", () => {
-            expect(string).toEqual("Instruction " + start_date + " "
+            expect(string).toEqual("Instruction "
                                    + current_date + " "
-                                   + (current_time - start_time) + " "
                                    + text);
         });
     });
@@ -168,13 +159,11 @@ describe("movesTracker", () => {
     });
 
     describe("when adding an instruction", () => {
-        let start_date = "<then>";
-        let start_time = 100;
         let text = "my text";
 
         describe("when there are currently no other stored actions", () => {
             beforeEach(() => {
-                movesTracker.add_instruction(start_date, start_time, text);
+                movesTracker.add_instruction(text);
             });
 
             it("should store the new instruction", () => {
@@ -182,7 +171,6 @@ describe("movesTracker", () => {
             });
 
             it("should create a new instruction with the given parameters", () => {
-                expect(movesTracker.actions[0].start_date).toEqual(start_date);
                 expect(movesTracker.actions[0].text).toEqual(text);
             });
         });
@@ -195,7 +183,7 @@ describe("movesTracker", () => {
             beforeEach(() => {
                 movesTracker.actions = [mock_action];
 
-                movesTracker.add_instruction(start_date, start_time, text);
+                movesTracker.add_instruction(text);
             });
 
             it("should keep all actions and add the new gesture", () => {
@@ -207,7 +195,6 @@ describe("movesTracker", () => {
             });
 
             it("should create a new gesture with the given parameters", () => {
-                expect(movesTracker.actions[1].start_date).toEqual(start_date);
                 expect(movesTracker.actions[1].text).toEqual(text);
             });
         });
@@ -350,6 +337,59 @@ describe("movesTracker", () => {
             it("should export all stored actions in the correct order", () => {
                 expect(exported_actions).toEqual([5, 4, 3, 2, 1, 0]);
             });
+        });
+    });
+
+    describe("when adding and exporting actions", () => {
+        let gesture_data = {
+            left: 51,
+            top: 52,
+            time: "<g now>"
+        };
+        let flip_data = {
+            id: "block5",
+            letter: "A",
+            color: "green",
+            x: 39,
+            y: 55,
+            time: "<f now>"
+        };
+        let instruction_data = {
+            text: "sample",
+            time: "<i now>"
+        };
+
+        let exported_gesture;
+        let exported_flip;
+        let exported_instruction;
+
+        beforeEach(() => {
+            getDateTime.and.returnValues(gesture_data.time,
+                                         flip_data.time,
+                                         instruction_data.time);
+
+            movesTracker.add_gesture(gesture_data.left, gesture_data.top);
+            movesTracker.add_flip(flip_data.id, flip_data.letter, flip_data.color,
+                                    flip_data.x, flip_data.y);
+            movesTracker.add_instruction(instruction_data.text);
+
+            [exported_gesture, exported_flip, exported_instruction]
+                = movesTracker.export_actions();
+        });
+
+        it("should export all actions correctly", () => {
+            expect(exported_gesture).toEqual("Gesture " + gesture_data.time
+                                             + " (" + gesture_data.left + ","
+                                             + gesture_data.top + ")");
+            expect(exported_flip).toEqual("Flip Block id: " + flip_data.id
+                                          + " Letter: " + flip_data.letter
+                                          + " Color: " + flip_data.color + " "
+                                          + flip_data.time
+                                          + " (" + flip_data.x + ","
+                                          + flip_data.y + ")");
+            expect(exported_instruction).toEqual("Instruction "
+                                                 + instruction_data.time
+                                                 + " " + instruction_data.text);
         });
     });
 });

@@ -5,8 +5,8 @@ function MovesTracker() {
         this.actions.push(new _Gesture(left_pos_percent, top_pos_percent));
     }
 
-    this.add_instruction = function (start_date, start_time, text) {
-        this.actions.push(new _Instruction(start_date, start_time, text));
+    this.add_instruction = function (text) {
+        this.actions.push(new _Instruction(text));
     }
 
     this.add_flip = function (id, letter, color, x_pos, y_pos) {
@@ -44,17 +44,13 @@ function _Gesture(left_pos_percent, top_pos_percent) {
     };
 }
 
-function _Instruction(start_date, start_time, text) {
-    this.start_date = start_date;
+function _Instruction(text) {
     this.end_date = getDateTime();
-    this.interval = new Date().getTime() - start_time;
     this.text = text;
 
     this.export_to_string = function () {
         return "Instruction" + " "
-            + this.start_date + " "
             + this.end_date + " "
-            + this.interval + " "
             + this.text;
     };
 }

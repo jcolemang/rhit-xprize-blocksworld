@@ -22,8 +22,6 @@ var startPosMap = {};
 var endPosMap = {};
 var oldBlock = "blockNone";
 var interval = [];
-var instructiondate;
-var instructionstarttime;
 var time = 0;
 var recordTime = 0;
 var selectionflag = 0;
@@ -317,7 +315,7 @@ function inputlength() {
             NumWords += numToAdd;
         }
 
-        movesTracker.add_instruction(instructiondate, instructionstarttime, text);
+        movesTracker.add_instruction(text);
     }
     document.getElementById("txt_instruction").value = "";
 }
@@ -368,11 +366,6 @@ function getDateTime() {
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     return month + "/" + day + "/" + year + " " + hour + ":" + min + ":" + sec;
-}
-
-function instructiontime() {
-    instructionstarttime = new Date().getTime();
-    instructiondate = getDateTime();
 }
 
 function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalBlocks) {
