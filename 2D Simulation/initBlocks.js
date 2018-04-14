@@ -59,14 +59,12 @@ function getFinalConfiguration(initialConfiguration) {
 let possibleLetters = ["A", "B", "C", "D", "E", "F", "G"];
 let possibleColors = ['red', 'blue','green','orange','yellow'];
 
-initTaskID();
 currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
 
 initBlocks(currentConfig);
 writeBlockStyles(currentConfig);
 finalBlocks = getFinalConfiguration(currentConfig);
 
-setTaskHeader();
 popUpGameIntro();
 
 function initBlocks(config) {

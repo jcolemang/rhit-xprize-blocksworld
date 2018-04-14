@@ -56,7 +56,7 @@
                   Instruct the AI to make pattern by typing in the text box and making gestures by double-clicking.
                 </li>
                 <li>
-                  Press the \"Incorrect Move\" button if the AI does something you don't expect.
+                  Press the "Incorrect Move" button if the AI does something you don't expect.
                 </li>
                 <li>
                   Try to get the highest score you can!
@@ -72,23 +72,22 @@
       </div>
     </div>
 
-    <div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
-    <div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
-
-    <p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-    <p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
-
-    <p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-    <p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
-
     <div class = "gadgetWrapper">
-      <small><small><small>
-        <p class = "taskQ" id = "taskQ" style = "font-size: 30px; position: absolute; top: 0px; left: 0% "></p>
-      </small></small></small>
+      <small>
+        <small>
+          <small>
+            <p class="taskQ"
+               id="taskQ"
+               style="font-size: 30px; position: absolute; top: 0px; left: 0%">
+              Blocksworld
+            </p>
+          </small>
+        </small>
+      </small>
 
       <div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana; position: absolute; top: 9%">
         <label>
-          Enter instructions	:
+          Enter instructions:
           <input id="txt_instruction" type="text" />
         </label>
 
@@ -197,8 +196,6 @@
      page_width = window.innerWidth;
      page_height = window.innerHeight;
      var line_height = Math.floor(page_height * 0.7) + 5;
-     document.getElementById("vertical-line").style.height = line_height + "px";
-     document.getElementById("vertical-line2").style.height = line_height + "px";
     </script>
 
     <script type="text/javascript">
@@ -210,12 +207,6 @@
     </script>
 
     <script type="text/javascript" src="initBlocks.js"></script>
-
-    <div id = "disablingDiv">
-      <div id = "freeze">
-        We are currently waiting for another user to join so that we can connect you. Please be patient.
-      </div>
-    </div>
 
     <link rel="stylesheet" type="text/css" href="modals.css">
     <div id="correctionsModal" class="modal">
@@ -280,35 +271,5 @@
      document.getElementById("buttonEnd").disabled = true;
      document.getElementById("buttonEnter").disabled = true;
     </script>
-
-    <script type="text/javascript">
-     function submit() {
-       var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
-       q1 = document.getElementById("q1").value;
-       document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
-
-       if (q1 == "") {
-         document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         document.getElementById("require").style.visibility = "visible";
-
-         document.getElementById("q1").innerText = q1;
-       } else {
-         try {
-           socket.emit('send_survey_data_to_server', {
-             q1: q1,
-             q2: q2,
-             q3: q3,
-             q4: q4,
-             q5: q5,
-             q6: q6
-           });
-         } catch (err) {
-           redirects.pageDown(err);
-         }
-         window.location.href = "finalPage.html";
-       }
-     }
-    </script>
-
   </body>
 </html>
