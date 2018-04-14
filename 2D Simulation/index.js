@@ -37,7 +37,6 @@ var end_left = [];
 var origin_end_left = [];
 var origin_end_top = [];
 var Emax;
-var p_top = [], p_left = [];
 var initialScore = -1;
 
 // I am certain that these are necessary as of Sunday, October 29
@@ -257,9 +256,6 @@ function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalB
 
         tLeft = Math.random() * Math.floor(horizontal_percent);
         tTop = Math.random() * Math.floor(vertical_percent);
-
-        p_left.push(tLeft);
-        p_top.push(tTop);
 
         end_left.push(tLeft);
         end_top.push(tTop);

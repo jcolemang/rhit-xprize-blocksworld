@@ -15,15 +15,6 @@ function startGame() {
         setGestureWithPosition(event.clientX, event.clientY, event);
     };
 
-    try {
-        socket.emit("enable_blocks_for_player_2", {
-            p_top: p_top,
-            p_left: p_left
-        });
-    } catch (err) {
-        redirects.pageDown(err);
-    }
-
     actualMove = 0;
     hide_gesture();
 
