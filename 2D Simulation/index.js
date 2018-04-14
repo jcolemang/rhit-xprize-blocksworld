@@ -151,8 +151,6 @@ function flipBlock(block_id, letter, color, config) {
 }
 
 function setGestureWithPosition(left, top, event) {
-    var property = document.getElementById('gestureCount');
-    property.innerText = gestureCount;
     var gestureElement = document.getElementById('gestureToggle');
 
     var rect = document.getElementById('container').getBoundingClientRect();
