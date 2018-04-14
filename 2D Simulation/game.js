@@ -36,7 +36,6 @@ try {
         flipColorArray: flipColorArray,
         letters: blockLetters,
         flipLetterArray: flipLetterArray,
-        currentTask: taskID,
         movement_count: actualMove,
         gesture_count: gestureCount,
         ins : specificIns,
@@ -186,38 +185,17 @@ socket.on('setInitialPosition', function(data) {
     flipLetterArray = data.flipLetterArray;
 
     NumBlocks = data.numBlocks;
-    taskID = data.currentTask;
     actualMove = data.movement_count;
     gestureCount = data.gesture_count;
     specificIns = " Wait for instructions.";
 
-    if (taskID == 1) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
+    document.getElementById('user1').style.visibility = "hidden";
+    document.getElementById('user2').style.visibility = "hidden";
 
-        document.getElementById('vertical-line').style.visibility = "visible";
-        document.getElementById('vertical-line2').style.visibility = "visible";
-        document.getElementById('user3').style.visibility = "visible";
-        document.getElementById('user4').style.visibility = "visible";
-    }
-    if (taskID == 2 || taskID == 0) {
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-    }
-    if (taskID == 3) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-    }
+    document.getElementById('vertical-line').style.visibility = "hidden";
+    document.getElementById('vertical-line2').style.visibility = "hidden";
+    document.getElementById('user3').style.visibility = "hidden";
+    document.getElementById('user4').style.visibility = "hidden";
 
     setTaskHeader();
 
@@ -236,17 +214,15 @@ socket.on('setInitialPosition', function(data) {
         document.getElementById('block' + i).style.visibility = "hidden";
 
         $("#block" + i).bind("contextmenu", function(e) {
-            if (taskID != 1) {
-                var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-                var flipped_block_letter = blockLetters[$(this).data("id")];
+            var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
+            var flipped_block_letter = blockLetters[$(this).data("id")];
 
-                var event = e || window.event;
+            var event = e || window.event;
 
-                flipBlock('block' + $(this).data("id"),
-                          flipped_block_letter, flipped_block_color,
-                          event, currentConfig);
-                send_flip_to_server('block' + $(this).data("id"));
-            }
+            flipBlock('block' + $(this).data("id"),
+                      flipped_block_letter, flipped_block_color,
+                      event, currentConfig);
+            send_flip_to_server('block' + $(this).data("id"));
         });
     }
 

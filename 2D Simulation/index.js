@@ -12,7 +12,6 @@ var w1 = 0.1, w2 = 0.5;
 var previous_top = [];var previous_left = [];
 var x;
 var y;
-var taskID = 0;
 var br; var bm; var pn; var pp; var p; var te; var ie;
 var startTime, endTime;
 var startPosMap = {};
@@ -148,9 +147,6 @@ function flipBlock(block_id, letter, color, config) {
         let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
 
         movesTracker.add_flip(block_id, letter, color, horiz, vert);
-        if (taskID == 1) {
-            document.getElementById(block_id).style.borderColor = "white";
-        }
     }
 }
 
@@ -187,9 +183,6 @@ function setMovement() {
 
 
 function initTaskID() {
-    // taskID = Math.floor(Math.random()*4);
-    taskID = 3;
-
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
     NumBlocks = 5;
@@ -236,40 +229,13 @@ function setTaskHeader() {
 }
 
 function calculateBackEndData() {
-    if (taskID == 0) {
-        bm = NumBlocks;
-        br = NumBlocks;
-        pn = 1;
-        pp = 10;
-        te = (br - actualMove)/(br - bm);
-        ie = (w1 * NumWords + w2 * gestureCount)/bm;
-        p = te/ie;
-    } else if (taskID == 1) {
-        bm = NumBlocks;
-        br = 1.5 * 2 * NumBlocks;
-        pn = 2;
-        pp = 20;
-        te = (br - actualMove)/(br - bm);
-        ie = (w1 * NumWords + w2 * gestureCount)/bm;
-        p = te/ie;
-    } else if (taskID == 2) {
-        bm = n1 + n2;
-        br = (n1 + n2) * (NumBlocks + 1) / 2;
-        pn = 1;
-        pp = 10;
-        te = (br - actualMove)/(br - bm);
-        ie = (w1 * NumWords + w2 * gestureCount)/bm;
-        p = te/ie;
-    } else if (taskID == 3) {
-        bm = n1 + n2;
-        br = n1 + factorial(n2 + 1)/Math.pow(2, n2);
-        pn = 2;
-        pp = 20;
-        te = (br - actualMove)/(br - bm);
-        ie = (w1 * NumWords + w2 * gestureCount)/bm;
-        p = te/ie;
-    }
-    // return "Bm" + bm + " Br" + br + " Pn" + pn + " P*" + pp + " TE" + te + " IE" + ie + " P" + p;
+    bm = n1 + n2;
+    br = n1 + factorial(n2 + 1)/Math.pow(2, n2);
+    pn = 2;
+    pp = 20;
+    te = (br - actualMove)/(br - bm);
+    ie = (w1 * NumWords + w2 * gestureCount)/bm;
+    p = te/ie;
 }
 
 function factorial(x) {
@@ -298,20 +264,6 @@ function movement() {
 function popUpGameIntro() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
-}
-
-function showChosenStuff() {
-    if (taskID == 2) {
-        localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
-    } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML =
-            "<button class=\"buttonLike\""
-            + "style=\"vertical-align: middle;\""
-            + "onclick=\"showConstruction(finalBlocks)\">"
-            + "Show the Construction"
-            + "</button>";
-    }
 }
 
 function showConstruction(blocks) {

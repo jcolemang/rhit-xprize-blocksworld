@@ -1,16 +1,8 @@
 function startGame() {
     start_button_pressed = true;
     timecounter();
-    if (taskID == 3) {
-        document.getElementById("showChosen").style.visibility = "visible";
-        showChosenStuff();
-        setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
-    }
-    if (taskID == 2) {
-        // searchingwords = localStorage.getItem("Searching words");
-        document.getElementById("showChosen").style.visibility = "visible";
-        showChosenStuff();
-    }
+    document.getElementById("showChosen").style.visibility = "visible";
+    setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
     startTime = new Date().getTime();
     // startPeer(1);
     // startRecording();
@@ -36,9 +28,6 @@ function startGame() {
 
     for (var i = 0; i < NumBlocks; i++) {
         flip_on = true;
-        if (taskID == 2) {
-            $("#block" + i).draggable("enable");
-        }
     }
 
     actualMove = 0;
@@ -75,13 +64,8 @@ function endGame() {
         calculateBackEndData();
 
         var words = "";
-        if (taskID == 2) {
-            words = "Searching Words: User1: " + initialWords1[chosenWords] + " User2: " + initialWords2[chosenWords];
-        }
 
-        if (taskID == 3) {
-            words = "Construction: Rainbow" + rainbow_select + ".png";
-        }
+        words = "Construction: Rainbow" + rainbow_select + ".png";
 
         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 
