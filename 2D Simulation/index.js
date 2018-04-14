@@ -34,17 +34,6 @@ console.log('Block Colors: ', blockColors);
 
 var rainbow_select = 0;
 
-function getBlockStyle(blockColors) {
-    let doc = '';
-    for (var i = 0; i < NumBlocks ;i++) {
-        doc += "<style> #block" + i +
-            " {width: 3.8%; height: 7.35%; background-color:" +
-            blockColors[i] +
-            "; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>";
-    }
-    return doc;
-}
-
 function getInitialConfiguration(blockColors, flipColors, blockLetters, flipLetters) {
     let config = [];
     for (i = 0; i < blockColors.length; i++) {
@@ -81,7 +70,22 @@ function getFinalConfiguration(initialConfiguration) {
 }
 
 function writeBlockStyle(blockColors) {
-    document.write(getBlockStyle(blockColors));
+    for (let i = 0; i < NumBlocks; i++) {
+        let block = $("#block" + i);
+        block.css({
+            width: "3.8%",
+            height: "7.35%",
+            backgroundColor: blockColors[i],
+            border: "#000 solid 4px",
+            position: "absolute",
+            zIndex: 1,
+            textAlign: "center",
+            verticalAlign: "middle",
+            lineHeight: "7.35%",
+            fontFamily: "'Corben', Georgia, Times, Serif",
+            cursor: "default"
+        });
+    }
 }
 
 function initColors(possibleColors, numBlocks) {
