@@ -5,7 +5,7 @@ var random_addition = 4;
 var NumBlocks = 5;
 var gestureCount = 0;
 var NumWords = 0;
-var n1 = 1; var n2 = 1;
+var n1 = 5; var n2 = 5;
 var actualMove = 0;
 var w1 = 0.1, w2 = 0.5;
 var previous_top = [];var previous_left = [];
@@ -178,9 +178,6 @@ function setMovement() {
 
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
-
-    n1 = 5;
-    n2 = 5;
 
     specificIns = "";
 
