@@ -31,7 +31,7 @@ function startGame() {
     }
 
     actualMove = 0;
-    setMovement();
+    hide_gesture();
 
     document.getElementById('buttonStart').disabled = true;
 }

@@ -165,7 +165,7 @@ function send_movement_to_server() {
 }
 socket.on('update_movement_data', function(data) {
     actualMove = data;
-    setMovement();
+    hide_gesture();
 });
 
 function send_user_message_to_server(gameConfig) {

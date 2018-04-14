@@ -136,7 +136,7 @@ function flipBlock(block_id, letter, color, config) {
         blocks.flip_block(block_id.substring(5))
         document.getElementById("gestureToggle").style.visibility = "hidden";
         actualMove++;
-        setMovement();
+        hide_gesture();
 
         let rect = document.getElementById('container').getBoundingClientRect();
         let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
@@ -168,11 +168,6 @@ function setGestureWithPosition(left, top, event) {
                                  gestureElement.style.top);
     }
 }
-
-function setMovement() {
-    document.getElementById("gestureToggle").style.visibility = "hidden";
-}
-
 
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
