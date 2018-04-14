@@ -182,34 +182,13 @@ function setMovement() {
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
 
-    // blockColors = initBackgroundColors(NumBlocks, color);
     n1 = 5;
     n2 = 5;
 
-    // let curLetters = [];
-    // let flipLetters = [];
-    // for (let i = 0; i < NumBlocks; i++) {
-    //     curLetters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-    //     flipLetterArray.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
-    // }
     specificIns = "";
 
-    // for (let i = 0; i < letters.length; i ++) {
-    //     cur_letters.push(letters[i]);
-    // }
     setUpVisibility();
 }
-
-// function initBackgroundColors(num, options) {
-//     console.log('Initializing background colors');
-//     let colors = [];
-//     for (let i = 0; i < num; i++) {
-//         colors.push(options[Math.floor(Math.random() * options.length)]);
-//     }
-//     console.log('Initialized with ', colors);
-//     return colors;
-// }
-
 
 function setUpVisibility() {
     document.getElementById('user1').style.visibility = "hidden";
