@@ -24,10 +24,6 @@ function startGame() {
         redirects.pageDown(err);
     }
 
-    for (var i = 0; i < NumBlocks; i++) {
-        flip_on = true;
-    }
-
     actualMove = 0;
     hide_gesture();
 

@@ -21,7 +21,6 @@ var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
 var human_voice = true;
-var flip_on = true;
 var start_button_pressed = false;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
@@ -128,18 +127,16 @@ function initLetters(possibleLetters, numBlocks) {
 }
 
 function flipBlock(block_id, letter, color, config) {
-    if (flip_on) {
-        blocks.flip_block(block_id.substring(5))
-        document.getElementById("gestureToggle").style.visibility = "hidden";
-        actualMove++;
-        hide_gesture();
+    blocks.flip_block(block_id.substring(5))
+    document.getElementById("gestureToggle").style.visibility = "hidden";
+    actualMove++;
+    hide_gesture();
 
-        let rect = document.getElementById('container').getBoundingClientRect();
-        let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
-        let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
+    let rect = document.getElementById('container').getBoundingClientRect();
+    let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
+    let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
 
-        movesTracker.add_flip(block_id, letter, color, horiz, vert);
-    }
+    movesTracker.add_flip(block_id, letter, color, horiz, vert);
 }
 
 function setGestureWithPosition(left, top, event) {
