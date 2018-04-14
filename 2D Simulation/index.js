@@ -23,7 +23,7 @@ var searchingwords = "!";
 var human_voice = true;
 var start_button_pressed = false;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
-var chosenWords, specificIns;
+var chosenWords;
 // var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
 var setupColor = [], setupNum = [], copyNum = [];
@@ -127,7 +127,7 @@ function initLetters(possibleLetters, numBlocks) {
 }
 
 function flipBlock(block_id, letter, color, config) {
-    blocks.flip_block(block_id.substring(5))
+    blocks.flip_block(block_id.substring(5));
     document.getElementById("gestureToggle").style.visibility = "hidden";
     actualMove++;
     hide_gesture();
@@ -164,8 +164,6 @@ function setGestureWithPosition(left, top, event) {
 
 function initTaskID() {
     random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
-
-    specificIns = "";
 
     setUpVisibility();
 }

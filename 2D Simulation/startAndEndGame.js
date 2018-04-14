@@ -62,7 +62,7 @@ function endGame() {
         try {
             socket.emit('end_button_pressed', {
                 time: time,
-                task: "Construction " + specificIns,
+                task: "Construction",
                 W: NumWords,
                 G: gestureCount,
                 b: actualMove,
