@@ -1,4 +1,3 @@
-initTaskID();
 blockColors = initColors(color, NumBlocks);
 flipColorArray = initColors(color, NumBlocks);
 blockLetters = initLetters(letters, NumBlocks);

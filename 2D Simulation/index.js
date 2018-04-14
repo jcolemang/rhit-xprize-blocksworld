@@ -140,10 +140,6 @@ function setGestureWithPosition(left, top, event) {
     }
 }
 
-function initTaskID() {
-    random_x = Math.floor(page_width * 0.7 / 50) - 1; random_y = Math.floor(page_height * 0.7 / 50) - 1;
-}
-
 function setTaskHeader() {
     document.getElementById("taskQ").innerHTML = "Blocksworld";
 }
