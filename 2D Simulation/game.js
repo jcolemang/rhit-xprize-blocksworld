@@ -37,12 +37,10 @@ try {
         letters: blockLetters,
         flipLetterArray: flipLetterArray,
         movement_count: actualMove,
-        gesture_count: gestureCount,
         ins : specificIns,
         configuration: currentConfig
     });
 } catch (err) {
-    /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
 
@@ -287,7 +285,6 @@ function send_gesture_to_server() {
 
     try {
         socket.emit('receive_gesture_data', {
-            gestureCount: gestureCount,
             left: gesture_pos.left,
             top: gesture_pos.top
         });
@@ -297,10 +294,7 @@ function send_gesture_to_server() {
     }
 
 }
-socket.on('update_gesture_data', function(data) {
-    gestureCount = data.gestureCount;
-    setGestureWithPosition(data.left, data.top, null);
-});
+
 socket.on('user_left_game', function() {
     window.location.href = "finalPage.html";
 });
