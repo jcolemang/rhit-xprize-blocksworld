@@ -38,7 +38,6 @@ socket.on('freeze_start', function() {
     endButton.disabled = true;
     enterButton.disabled = true;
 
-    document.getElementById('disablingDiv').style.display = 'block';
     document.getElementById('txt_instruction').disabled = true;
     document.getElementById('container').ondblclick = function(e) {
         // Do nothing;
@@ -54,12 +53,8 @@ socket.on('unfreeze_start', function() {
         redirects.pageDown(err);
     }
 
-    document.getElementById("disablingDiv").style.display = 'none';
-
     var startButton = document.getElementById('buttonStart');
     startButton.disabled = false;
-
-    document.getElementById('disablingDiv').style.display = "none";
 
     alert('You have successfully connected to the game server. You may now press the start button to begin.');
 });
