@@ -184,9 +184,7 @@
          // Output the result in an element with id="demo"
          if (minutes < 0) {
            clearInterval(x);
-           if (am_i_player1) {
-             endGame();
-           }
+           endGame();
          } else if (isGameEnd != true) {
            document.getElementById("timer").innerHTML = "Time: " + minutes + " minutes " + seconds + " seconds";
          }
