@@ -121,4 +121,30 @@ describe("movesTracker", () => {
                                    + " ("+ end_left + "," + end_top +")");
         });
     });
+
+    describe("when exporting all actions", () => {
+        describe("when there are no actions to export", () => {
+            it("should return an empty list", () => {
+                expect(movesTracker.export_actions()).toEqual([]);
+            });
+        });
+
+        describe("when there are some actions to export", () => {
+            let exported_actions;
+
+            beforeEach(() => {
+                for (let i = 5; i >= 0; i--) {
+                    movesTracker.actions.push({
+                        export_to_string: () => i
+                    });
+                }
+
+                exported_actions = movesTracker.export_actions();
+            });
+
+            it("should export all stored actions in the correct order", () => {
+                expect(exported_actions).toEqual([5, 4, 3, 2, 1, 0]);
+            });
+        });
+    });
 });
