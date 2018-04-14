@@ -16,7 +16,6 @@ var oldBlock = "blockNone";
 var interval = [];
 var instructiondate;
 var instructionstarttime;
-var time = 0;
 var recordTime = 0;
 var selectionflag = 0;
 var RainbowPath = "!";

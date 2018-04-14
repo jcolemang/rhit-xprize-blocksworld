@@ -38,7 +38,7 @@ function endGame() {
     if (start_button_pressed) {
         let endTime = new Date().getTime();
         // stopRecording();
-        time = endTime - _startTime;
+        let time = endTime - _startTime;
         time = time / 1000; // Convert to seconds.
         isGameEnd = true;
 
