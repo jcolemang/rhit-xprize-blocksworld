@@ -170,8 +170,6 @@ function setGestureWithPosition(left, top, event) {
 }
 
 function setMovement() {
-    var property = document.getElementById('MovementCount');
-    property.innerText = actualMove;
     document.getElementById("gestureToggle").style.visibility = "hidden";
 }
 
