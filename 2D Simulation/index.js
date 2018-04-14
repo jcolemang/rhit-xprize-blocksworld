@@ -12,8 +12,6 @@ var previous_top = [];var previous_left = [];
 var x;
 var y;
 var br; var bm; var pn; var pp; var p; var te; var ie;
-var startPosMap = {};
-var endPosMap = {};
 var oldBlock = "blockNone";
 var interval = [];
 var instructiondate;

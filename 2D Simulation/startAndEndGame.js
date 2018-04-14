@@ -50,10 +50,6 @@ function endGame() {
             if(blockid) {
                 end_top.push($("#block" + i).data("vertical_percent"));
                 end_left.push($("#block" + i).data("horizontal_percent"));
-                if(NumBlocks >= Object.keys(endPosMap).length){
-                    var pos = blockid.style;
-                    endPosMap['block'+i] = pos;
-                }
             }
         }
 
