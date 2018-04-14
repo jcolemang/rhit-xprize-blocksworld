@@ -28,18 +28,7 @@ for (var i = 0; i < NumBlocks; i++) {
 }
 
 try {
-    socket.emit('setInitialPosition', {
-        numBlocks: NumBlocks,
-        lefts: left_array,
-        tops: top_array,
-        colors: blockColors,
-        flipColorArray: flipColorArray,
-        letters: blockLetters,
-        flipLetterArray: flipLetterArray,
-        movement_count: actualMove,
-        ins : specificIns,
-        configuration: currentConfig
-    });
+    socket.emit('setInitialPosition');
 } catch (err) {
     redirects.pageDown(err);
 }

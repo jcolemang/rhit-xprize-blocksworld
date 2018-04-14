@@ -11,7 +11,7 @@ def self_emit(sio, sid, event, rooms_tracker, data=None):
 def setup_initial_position(sio, rooms_tracker):
     lock = threading.Lock()
 
-    def initial_position_handler(sid, _):
+    def initial_position_handler(sid):
         with lock:
             rooms_tracker.add_to_singles_room(sid)
 
