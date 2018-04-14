@@ -37,7 +37,6 @@ var end_left = [];
 var origin_end_left = [];
 var origin_end_top = [];
 var Emax;
-var isGameEnd = false;
 var p_top = [], p_left = [];
 var initialScore = -1;
 

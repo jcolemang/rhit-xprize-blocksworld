@@ -36,7 +36,6 @@ function endGame() {
         // stopRecording();
         let time = endTime - _startTime;
         time = time / 1000; // Convert to seconds.
-        isGameEnd = true;
 
         var minutes = Math.floor(time / 60);
         var seconds = time - (minutes * 60);
