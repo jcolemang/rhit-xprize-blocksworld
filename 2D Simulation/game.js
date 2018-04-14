@@ -4,15 +4,11 @@ try {
     socket = io.connect(config.appAddr);
 
     socket.on('connect_failed', function() {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown('connect_failed');
     });
 
     socket.on('disconnect', function() {
-        if (!ending_survey) {
-            /* window.location.href = "server_down.html";*/
-            redirects.pageDown('disconnect');
-        }
+        redirects.pageDown('disconnect');
     });
 } catch (err) {
     redirects.pageDown(err);

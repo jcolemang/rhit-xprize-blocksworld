@@ -86,10 +86,6 @@ function endGame() {
             redirects.pageDown(err);
         }
 
-        ending_survey = true;
-
-
-
         document.body.innerHTML = '';
         document.documentElement.innerHTML = "";
         document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	<p id = \"question1\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any.</p>	<textarea id = \"q1\" rows=\"4\" cols=\"50\"></textarea><br>";
