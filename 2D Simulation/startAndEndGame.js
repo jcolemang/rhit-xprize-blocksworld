@@ -1,12 +1,10 @@
+let _startTime = new Date().getTime();
+
 function startGame() {
     start_button_pressed = true;
     timecounter();
     document.getElementById("showChosen").style.visibility = "visible";
     setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
-    startTime = new Date().getTime();
-    // startPeer(1);
-    // startRecording();
-    // recognize();
     document.getElementById("buttonEnd").disabled = false;
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;
@@ -38,9 +36,9 @@ function startGame() {
 
 function endGame() {
     if (start_button_pressed) {
-        endTime = new Date().getTime();
+        let endTime = new Date().getTime();
         // stopRecording();
-        time = endTime - startTime;
+        time = endTime - _startTime;
         time = time / 1000; // Convert to seconds.
         isGameEnd = true;
 
