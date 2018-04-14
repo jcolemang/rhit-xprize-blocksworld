@@ -58,12 +58,6 @@ socket.on('freeze_start', function() {
     document.getElementById('container').ondblclick = function(e) {
         // Do nothing;
     };
-
-    for (var i = 0; i < NumBlocks; i++) {
-        flip_on = false;
-
-        $("#block" + i).draggable("disable");
-    }
 });
 
 socket.on('unfreeze_start', function() {
@@ -83,25 +77,6 @@ socket.on('unfreeze_start', function() {
     document.getElementById('disablingDiv').style.display = "none";
 
     alert('You have successfully connected to the game server. You may now press the start button to begin.');
-});
-
-socket.on('disable_blocks_for_player_2', function() {
-    for (var i = 0; i < NumBlocks; i++) {
-        flip_on = false;
-        $("#block" + i).draggable("disable");
-    }
-});
-
-socket.on('enable_blocks_for_player_2', function(data) {
-    timecounter();
-    for (var i = 0; i < NumBlocks; i++) {
-        document.getElementById('block' + i).style.top = data.p_top[i]+"%";
-        document.getElementById('block' + i).style.left = data.p_left[i]+"%";
-        document.getElementById('block' + i).style.visibility = "visible";
-        flip_on = true;
-
-        $("#block" + i).draggable("enable");
-    }
 });
 
 socket.on('update_position', function (moveData) {
@@ -175,15 +150,6 @@ function send_flip_to_server(block_id) {
     }
 
 }
-$(document).ready(function() {
-    $(".draggable").draggable();
-
-    $('.draggable').each(function(el){
-        // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
-        // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
-        $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
-    });
-});
 
 // Needs to be fixed to account for new percentage based way of calculating position.
 
