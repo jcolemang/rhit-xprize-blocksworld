@@ -8,7 +8,6 @@ initBlocks(currentConfig);
 writeBlockStyle(blockColors);
 finalBlocks = getFinalConfiguration(currentConfig);
 
-setTaskHeader();
 popUpGameIntro();
 
 function initBlocks(config) {

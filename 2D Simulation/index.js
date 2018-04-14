@@ -140,10 +140,6 @@ function setGestureWithPosition(left, top, event) {
     }
 }
 
-function setTaskHeader() {
-    document.getElementById("taskQ").innerHTML = "Blocksworld";
-}
-
 function calculateBackEndData() {
     bm = n1 + n2;
     br = n1 + factorial(n2 + 1)/Math.pow(2, n2);
