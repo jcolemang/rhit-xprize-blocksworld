@@ -17,22 +17,17 @@ function initAll() {
 function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {
     let topColors = makeColorsArray(possibleColors, numBlocks);
     let bottomColors = makeColorsArray(possibleColors, numBlocks);
+
     let topLetters = makeLettersArray(possibleLetters, numBlocks);
     let bottomLetters = makeLettersArray(possibleLetters, numBlocks);
 
-    let config = [];
-    for (i = 0; i < numBlocks; i++) {
-        let block = {
-            topLetter: topLetters[i],
-            bottomLetter: bottomLetters[i],
-            topColor: topColors[i],
-            bottomColor: bottomColors[i],
-            blockId: '#block' + i
-        };
-        config.push(block);
-    }
+    let leftPositions = makeLeftPositions(numBlocks);
+    let topPositions = makeTopPositions(numBlocks);
 
-    return config;
+    return generateBlocks(topColors, bottomColors,
+                          topLetters, bottomLetters,
+                          leftPositions, topPositions,
+                          numBlocks);
 }
 
 function makeColorsArray(possibleColors, numBlocks) {
@@ -51,6 +46,55 @@ function makeLettersArray(possibleLetters, numBlocks) {
         letters.push(possibleLetters[y]);
     }
     return letters;
+}
+
+function makeLeftPositions(numBlocks) {
+    let containerRect = document.getElementById('container').getBoundingClientRect()
+
+    let horizNum = containerRect.right - 50 - 8 - 4 - 4;
+    let horizDenom = containerRect.right * 100;
+
+    let left_positions = [];
+    for (let i = 0; i < numBlocks; i++) {
+        left_positions.push(Math.random() * Math.floor(horizNum / horizDenom));
+    }
+
+    return left_positions;
+}
+
+function makeTopPositions(numBlocks) {
+    let containerRect = document.getElementById('container').getBoundingClientRect();
+
+    let vertNum = containerRect.bottom - 50 - 8 - 4 - 4;
+    let vertDenom = containerRect.bottom * 100;
+
+    let top_positions = [];
+    for (let i = 0; i < numBlocks; i++) {
+        top_positions.push(Math.random() * Math.floor(vertNum / vertDenom));
+    }
+
+    return top_positions;
+}
+
+function generateBlocks(topColors, bottomColors,
+                        topLetters, bottomLetters,
+                        leftPositions, topPositions,
+                        numBlocks) {
+    let blocks = [];
+    for (i = 0; i < numBlocks; i++) {
+        let block = {
+            topLetter: topLetters[i],
+            bottomLetter: bottomLetters[i],
+            topColor: topColors[i],
+            bottomColor: bottomColors[i],
+            left: leftPositions[i],
+            top: topPositions[i],
+            id: i
+        };
+        blocks.push(block);
+    }
+
+    return blocks;
 }
 
 function getFinalConfiguration(initialConfiguration) {
@@ -79,45 +123,29 @@ function isFixed() {
 }
 
 function initBlocks(config) {
-    let topColors = config.map(x => x.topColor);
-    let bottomColors = config.map(x => x.bottomColor);
-    let topLetters = config.map(x => x.topLetter);
-    let bottomLetters = config.map(x => x.bottomLetter);
+    for (let block of config) {
+        addBlockToContainer(block);
+        blocks.set_block_text(block.id, block.topLetter);
 
-    var position_x = [];
-    var position_y = [];
-    var cur = 0;
-    for (var i = 0; i < NumBlocks; i++) {
-        var color_x = topColors[i];
-        var l = Math.floor(Math.random() * topLetters.length);
-
-        let horizNum = document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4;
-        let horizDenom = document.getElementById('container').getBoundingClientRect().right * 100;
-        var horizontal_percent = horizNum / horizDenom;
-
-        let vertNum = document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4;
-        let vertDenom = document.getElementById('container').getBoundingClientRect().bottom * 100;
-        var vertical_percent = vertNum / vertDenom;
-
-        let tLeft = Math.random() * Math.floor(horizontal_percent);
-        let tTop = Math.random() * Math.floor(vertical_percent);
-
-        if (i < topLetters.length) {
-            l = i;
-        }
-
-        $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
-
-        blocks.set_block_text(i, topLetters[l]);
-
-        standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + topLetters[l] + " flipletters: " + bottomLetters[l]);
-        goal_top.push(tTop);
-        goal_left.push(tLeft);
+        standard_info.push("block:" + block.id + " "
+                           + "standard position: (" + block.left + "%, " + block.top + "%) "
+                           + "color: " + block.color
+                           + " letters: " + block.topLetter
+                           + " flipletters: " + block.bottomLetter);
+        goal_top.push(block.top);
+        goal_left.push(block.left);
 
         $("#block" + i).data("id", i);
-        $("#block" + i).data("horizontal_percent", tLeft);
-        $("#block" + i).data("vertical_percent", tTop);
+        $("#block" + i).data("horizontal_percent", block.left);
+        $("#block" + i).data("vertical_percent", block.top);
     }
+}
+
+function addBlockToContainer(block) {
+    $("#container").append('<div class="block" id="block' + block.id + '" '
+                           + 'style="left: ' + block.left + '%; '
+                           + 'top: ' + block.top + '%; '
+                           + 'background-color: ' + block.topColor + '"></div>');
 }
 
 initAll();
