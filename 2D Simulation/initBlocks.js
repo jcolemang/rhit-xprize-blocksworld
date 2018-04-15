@@ -1,3 +1,19 @@
+function initAll() {
+    let possibleLetters = ["A", "B", "C", "D", "E", "F", "G"];
+    let possibleColors = ['red', 'blue','green','orange','yellow'];
+
+    if (!isFixed()) {
+        currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
+        finalBlocks = getFinalConfiguration(currentConfig);
+    } else {
+    }
+
+    initBlocks(currentConfig);
+    writeBlockStyles(currentConfig);
+
+    popUpGameIntro();
+}
+
 function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {
     let topColors = makeColorsArray(possibleColors, numBlocks);
     let bottomColors = makeColorsArray(possibleColors, numBlocks);
@@ -56,38 +72,24 @@ function getFinalConfiguration(initialConfiguration) {
     });
 }
 
-let possibleLetters = ["A", "B", "C", "D", "E", "F", "G"];
-let possibleColors = ['red', 'blue','green','orange','yellow'];
+function isFixed() {
+    let url = window.location.href;
 
-currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
-
-initBlocks(currentConfig);
-writeBlockStyles(currentConfig);
-finalBlocks = getFinalConfiguration(currentConfig);
-
-popUpGameIntro();
+    return url.indexOf("?config=fixed") !== -1;
+}
 
 function initBlocks(config) {
-    let bColors = config.map(x => x.topColor);
-    let flipColors = config.map(x => x.bottomColor);
-    let bLetters = config.map(x => x.topLetter);
-    let flipLtrs = config.map(x => x.bottomLetter);
+    let topColors = config.map(x => x.topColor);
+    let bottomColors = config.map(x => x.bottomColor);
+    let topLetters = config.map(x => x.topLetter);
+    let bottomLetters = config.map(x => x.bottomLetter);
 
-    var container = document.createElement("div");
-    container.id = "container";
-    container.ondblclick = function(e) {
-        var event = e || window.event;
-
-        setGestureWithPosition(event.clientX, event.clientY, event);
-    };
-    container.style.fontSize = "4vmin";
-    document.body.appendChild(container);
     var position_x = [];
     var position_y = [];
     var cur = 0;
     for (var i = 0; i < NumBlocks; i++) {
-        var color_x = bColors[i];
-        var l = Math.floor(Math.random() * bLetters.length);
+        var color_x = topColors[i];
+        var l = Math.floor(Math.random() * topLetters.length);
 
         let horizNum = document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4;
         let horizDenom = document.getElementById('container').getBoundingClientRect().right * 100;
@@ -100,15 +102,15 @@ function initBlocks(config) {
         let tLeft = Math.random() * Math.floor(horizontal_percent);
         let tTop = Math.random() * Math.floor(vertical_percent);
 
-        if (i < bLetters.length) {
+        if (i < topLetters.length) {
             l = i;
         }
 
         $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
 
-        blocks.set_block_text(i, bLetters[l]);
+        blocks.set_block_text(i, topLetters[l]);
 
-        standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + bLetters[l] + " flipletters: " + flipLtrs[l]);
+        standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + topLetters[l] + " flipletters: " + bottomLetters[l]);
         goal_top.push(tTop);
         goal_left.push(tLeft);
 
@@ -117,3 +119,5 @@ function initBlocks(config) {
         $("#block" + i).data("vertical_percent", tTop);
     }
 }
+
+initAll();
