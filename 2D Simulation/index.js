@@ -146,33 +146,6 @@ function instructiontime() {
     instructiondate = getDateTime();
 }
 
-function setUpInitialPosition(currentConfig, finalBlocks) {
-    for (let i = 0; i < currentConfig.length; i++) {
-        var tLeft = 0;
-        var tTop = 0;
-
-        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
-
-        tLeft = Math.random() * Math.floor(horizontal_percent);
-        tTop = Math.random() * Math.floor(vertical_percent);
-
-        end_left.push(tLeft);
-        end_top.push(tTop);
-
-        initialInfo.push("block:" + i + " " +
-                         "initial position: (" + tLeft + "%, " + tTop + "%) " +
-                         "color: " + currentConfig[i].topColor +
-                         " letters: " + currentConfig[i].topLetter +
-                         " flipletters: " + currentConfig[i].bottomLetter);
-        document.getElementById("block" + i).style.top = tTop+"%";
-        document.getElementById("block" + i).style.left = tLeft+"%";
-    }
-
-    console.log('Initial Info:', initialInfo);
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
-}
-
 function centroid(x, y) {
     var centerX = 0, centerY = 0;
     for (var i = 0; i < x.length; i++) {
