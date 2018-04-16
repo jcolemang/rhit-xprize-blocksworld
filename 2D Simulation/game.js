@@ -14,13 +14,6 @@ try {
     redirects.pageDown(err);
 }
 
-let left_array = [];
-let top_array = [];
-for (var i = 0; i < NumBlocks; i++) {
-    left_array.push($("#block" + i).data("horizontal_percent"));
-    top_array.push($("#block" + i).data("vertical_percent"));
-}
-
 try {
     socket.emit('setInitialPosition');
 } catch (err) {

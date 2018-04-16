@@ -133,8 +133,6 @@ function initBlocks(config) {
                            + "color: " + block.color
                            + " letters: " + block.topLetter
                            + " flipletters: " + block.bottomLetter);
-        goal_top.push(block.top);
-        goal_left.push(block.left);
 
         $("#block" + i).data("id", i);
         $("#block" + i).data("horizontal_percent", block.left);

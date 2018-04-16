@@ -14,7 +14,6 @@ var br; var bm; var pn; var pp; var p; var te; var ie;
 var instructiondate;
 var instructionstarttime;
 var start_button_pressed = false;
-var goal_top = [], goal_left = [];
 var end_top = [];
 var end_left = [];
 var initialScore = -1;
