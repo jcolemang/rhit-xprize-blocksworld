@@ -6,6 +6,7 @@ function initAll() {
         currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
         finalBlocks = getFinalConfiguration(currentConfig);
     } else {
+        // Debug mode (Issue #61)
     }
 
     initBlocks(currentConfig);
