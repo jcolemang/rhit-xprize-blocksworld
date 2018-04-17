@@ -9,7 +9,7 @@ services:
 install:
   - npm install jasmine
   - npm install protractor
-  - pip install -r requirements.txt --user
+  - sudo pip install -r requirements.txt
 
 before_script:
   - psql -f server/create-baseline.sql -U postgres
