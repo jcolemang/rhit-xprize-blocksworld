@@ -7,7 +7,7 @@ install:
   - npm install jasmine
   - npm install protractor
   - sudo pip install -r requirements.txt
-  - webdriver-manager update
+  - ./nodemodules/protractor/bin/webdriver-manager update
   
 beforescript:
   - "export DISPLAY=:99.0"
