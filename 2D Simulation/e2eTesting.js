@@ -1,13 +1,22 @@
-describe('Blocksworld', () => {
+describe("Blocksworld", () => {
     let EC = protractor.ExpectedConditions;
-    let timeout = 10000;
+    let long_timeout = 5000;
+    let short_timeout = 1000;
 
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
-        browser.get('http://localhost:8000/game.html');
+        browser.get("http://localhost:8000/game.html");
     });
 
-    it('should alert the user they have connected', () => {
-        expect(browser.wait(EC.alertIsPresent(), timeout)).toEqual(true);
+    afterEach(() => browser.refresh());
+
+    it("should activate the start button", () => {
+        let startButton = element(by.id('buttonStart'));
+
+        browser.wait(EC.elementToBeClickable(startButton), short_timeout);
+    });
+
+    it("should have the correct window title", () => {
+        expect(browser.getTitle()).toEqual('Blocks World');
     });
 });
