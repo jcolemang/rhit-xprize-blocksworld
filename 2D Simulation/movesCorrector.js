@@ -1,7 +1,7 @@
 function MovesCorrector() {
     this._awaiting_flip_correction = false;
     this._awaiting_move_correction = false;
-    this._undo_action = undefined;
+    this._undo_action = null;
 
     this.update_undo_move = function (moveData) {
         this._undo_action = this._create_undo_move(moveData);
@@ -53,7 +53,7 @@ function MovesCorrector() {
     };
 
     this._run_undo_action = function () {
-        if (this._undo_action === undefined) {
+        if (this._undo_action === null) {
             return;
         }
 
@@ -69,7 +69,7 @@ function MovesCorrector() {
                       currentConfig);
         }
 
-        this._undo_action = undefined;
+        this._undo_action = null;
     };
 
     this.handle_message = function (message) {

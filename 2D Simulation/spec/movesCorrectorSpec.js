@@ -167,13 +167,13 @@ describe("movesCorrector", () => {
     });
 
     describe("when running an undo action", () => {
-        describe("when the undo action is undefined", () => {
+        describe("when the undo action is null", () => {
             beforeEach(() => {
                 movesCorrector._run_undo_action();
             });
 
             it("should not do anything", () => {
-                expect(movesCorrector._undo_action).toBeUndefined();
+                expect(movesCorrector._undo_action).toBeNull();
             });
         });
 
@@ -209,7 +209,7 @@ describe("movesCorrector", () => {
             });
 
             it("should invalidate the stored undo action", () => {
-                expect(movesCorrector._undo_action).toBeUndefined();
+                expect(movesCorrector._undo_action).toBeNull();
             });
         });
 
@@ -236,7 +236,7 @@ describe("movesCorrector", () => {
             });
 
             it("should invalidate the stored undo action", () => {
-                expect(movesCorrector._undo_action).toBeUndefined();
+                expect(movesCorrector._undo_action).toBeNull();
             });
         });
     });
