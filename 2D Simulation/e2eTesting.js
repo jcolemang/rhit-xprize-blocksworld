@@ -1,8 +1,13 @@
-describe('Protractor Demo App', function() {
-    it('should have a title', function() {
+describe('Blocksworld', () => {
+    let EC = protractor.ExpectedConditions;
+    let timeout = 3000;
+
+    beforeEach(() => {
         browser.waitForAngularEnabled(false);
         browser.get('http://localhost:8000/game.html');
+    });
 
-        expect(browser.getTitle()).toEqual('Blocks World');
+    it('should alert the user they have connected', () => {
+        expect(browser.wait(EC.alertIsPresent(), timeout)).toEqual(true);
     });
 });
