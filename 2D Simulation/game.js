@@ -4,15 +4,11 @@ try {
     socket = io.connect(config.appAddr);
 
     socket.on('connect_failed', function() {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown('connect_failed');
     });
 
     socket.on('disconnect', function() {
-        if (!ending_survey) {
-            /* window.location.href = "server_down.html";*/
-            redirects.pageDown('disconnect');
-        }
+        redirects.pageDown('disconnect');
     });
 } catch (err) {
     redirects.pageDown(err);
@@ -28,22 +24,8 @@ for (var i = 0; i < NumBlocks; i++) {
 }
 
 try {
-    socket.emit('setInitialPosition', {
-        numBlocks: NumBlocks,
-        lefts: left_array,
-        tops: top_array,
-        colors: blockColors,
-        flipColorArray: flipColorArray,
-        letters: blockLetters,
-        flipLetterArray: flipLetterArray,
-        currentTask: taskID,
-        movement_count: actualMove,
-        gesture_count: gestureCount,
-        ins : specificIns,
-        configuration: currentConfig
-    });
+    socket.emit('setInitialPosition');
 } catch (err) {
-    /* window.location.href = "server_down.html";*/
     redirects.pageDown(err);
 }
 
@@ -56,17 +38,10 @@ socket.on('freeze_start', function() {
     endButton.disabled = true;
     enterButton.disabled = true;
 
-    document.getElementById('disablingDiv').style.display = 'block';
     document.getElementById('txt_instruction').disabled = true;
     document.getElementById('container').ondblclick = function(e) {
         // Do nothing;
     };
-
-    for (var i = 0; i < NumBlocks; i++) {
-        flip_on = false;
-
-        $("#block" + i).draggable("disable");
-    }
 });
 
 socket.on('unfreeze_start', function() {
@@ -78,33 +53,10 @@ socket.on('unfreeze_start', function() {
         redirects.pageDown(err);
     }
 
-    document.getElementById("disablingDiv").style.display = 'none';
-
     var startButton = document.getElementById('buttonStart');
     startButton.disabled = false;
 
-    document.getElementById('disablingDiv').style.display = "none";
-
     alert('You have successfully connected to the game server. You may now press the start button to begin.');
-});
-
-socket.on('disable_blocks_for_player_2', function() {
-    for (var i = 0; i < NumBlocks; i++) {
-        flip_on = false;
-        $("#block" + i).draggable("disable");
-    }
-});
-
-socket.on('enable_blocks_for_player_2', function(data) {
-    timecounter();
-    for (var i = 0; i < NumBlocks; i++) {
-        document.getElementById('block' + i).style.top = data.p_top[i]+"%";
-        document.getElementById('block' + i).style.left = data.p_left[i]+"%";
-        document.getElementById('block' + i).style.visibility = "visible";
-        flip_on = true;
-
-        $("#block" + i).draggable("enable");
-    }
 });
 
 socket.on('update_position', function (moveData) {
@@ -169,105 +121,6 @@ socket.on('indicate_ambiguous_move', function(move) {
     alert(message);
 });
 
-socket.on('setInitialPosition', function(data) {
-    document.getElementById('user1').innerText = "Player 1";
-    document.getElementById('user2').innerText = "Player 2 (You)";
-    document.getElementById('user3').innerText = "Player 1";
-    document.getElementById('user4').innerText = "Player 2 (You)";
-    am_i_player1 = false;
-
-    var container = document.getElementById("container");
-    human_voice = false;
-
-    currentConfig = data.configuration;
-    blockColors = data.colors;
-    blockLetters = data.letters;
-    flipColorArray = data.flipColorArray;
-    flipLetterArray = data.flipLetterArray;
-
-    NumBlocks = data.numBlocks;
-    taskID = data.currentTask;
-    actualMove = data.movement_count;
-    gestureCount = data.gesture_count;
-    specificIns = " Wait for instructions.";
-
-    if (taskID == 1) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-
-        document.getElementById('vertical-line').style.visibility = "visible";
-        document.getElementById('vertical-line2').style.visibility = "visible";
-        document.getElementById('user3').style.visibility = "visible";
-        document.getElementById('user4').style.visibility = "visible";
-    }
-    if (taskID == 2 || taskID == 0) {
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-    }
-    if (taskID == 3) {
-        document.getElementById('user1').style.visibility = "hidden";
-        document.getElementById('user2').style.visibility = "hidden";
-
-        document.getElementById('vertical-line').style.visibility = "hidden";
-        document.getElementById('vertical-line2').style.visibility = "hidden";
-        document.getElementById('user3').style.visibility = "hidden";
-        document.getElementById('user4').style.visibility = "hidden";
-    }
-
-    setTaskHeader();
-    setIntroduction();
-
-    while(container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-    for (var i = 0; i < NumBlocks; i++) {
-        $("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + blockColors[i] + "\"></div>").appendTo(container);
-
-        blocks.set_block_text(i, blockLetters[i]);
-
-        $("#block" + i).data("id", i);
-        $("#block" + i).data("horizontal_percent", data.lefts[i]);
-        $("#block" + i).data("vertical_percent", data.tops[i]);
-
-        document.getElementById('block' + i).style.visibility = "hidden";
-
-        $("#block" + i).bind("contextmenu", function(e) {
-            if (taskID != 1) {
-                var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-                var flipped_block_letter = blockLetters[$(this).data("id")];
-
-                var event = e || window.event;
-
-                flipBlock('block' + $(this).data("id"),
-                          flipped_block_letter, flipped_block_color,
-                          event, currentConfig);
-                send_flip_to_server('block' + $(this).data("id"));
-            }
-        });
-    }
-
-
-
-    $( init );
-    for (var i = 0; i < NumBlocks; i++) {
-        $("#block" + i).draggable("enable");
-        document.getElementById("block" + i).style.visibility = "hidden";
-    }
-    document.getElementById("instruction").style.visibility = "hidden";
-    document.getElementById("buttonStart").style.visibility = "hidden";
-    document.getElementById("buttonEnd").style.visibility = "hidden";
-    document.getElementById("referenceLink").style.visibility = "hidden";
-    document.getElementById("showChosen").style.visibility = "hidden";
-    document.getElementById("container").ondblclick = function(e) {
-        e.preventDefault();
-    };
-    setIntroduction(2);
-});
 function send_flip_to_server(block_id) {
     try {
         socket.emit('receive_flip_block', block_id);
@@ -277,15 +130,6 @@ function send_flip_to_server(block_id) {
     }
 
 }
-$(document).ready(function() {
-    $(".draggable").draggable();
-
-    $('.draggable').each(function(el){
-        // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
-        // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
-        $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
-    });
-});
 
 // Needs to be fixed to account for new percentage based way of calculating position.
 
@@ -312,7 +156,7 @@ function send_movement_to_server() {
 }
 socket.on('update_movement_data', function(data) {
     actualMove = data;
-    setMovement();
+    hide_gesture();
 });
 
 function send_user_message_to_server(gameConfig) {
@@ -387,7 +231,6 @@ function send_gesture_to_server() {
 
     try {
         socket.emit('receive_gesture_data', {
-            gestureCount: gestureCount,
             left: gesture_pos.left,
             top: gesture_pos.top
         });
@@ -397,10 +240,7 @@ function send_gesture_to_server() {
     }
 
 }
-socket.on('update_gesture_data', function(data) {
-    gestureCount = data.gestureCount;
-    setGestureWithPosition(data.left, data.top, null);
-});
+
 socket.on('user_left_game', function() {
     window.location.href = "finalPage.html";
 });
