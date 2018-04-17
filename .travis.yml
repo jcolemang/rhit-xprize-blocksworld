@@ -12,6 +12,8 @@ install:
   - sudo pip install -r requirements.txt
 
 before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   - psql -f server/create-baseline.sql -U postgres
   - node_modules/protractor/bin/webdriver-manager update --standalone --chrome
   - node_modules/protractor/bin/webdriver-manager start &
@@ -25,4 +27,4 @@ script:
   - npx jasmine
   - python -m http.server &
   - sleep 5
-  - xvfb-run npx protractor conf.js
+  - npx protractor conf.js
