@@ -13,7 +13,7 @@ install:
 
 before_script:
   - psql -f server/create-baseline.sql -U postgres
-  - node_modules/protractor/bin/webdriver-manager update --standalone --firefox
+  - node_modules/protractor/bin/webdriver-manager update --standalone --chrome
   - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
 
