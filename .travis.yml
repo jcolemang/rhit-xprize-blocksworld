@@ -9,13 +9,12 @@ install:
   - npx webdriver-manager update
   - sudo pip install -r requirements.txt  
   
-before_script:
+script:
   - "export DISPLAY=:99.0"
-  - sh -e /etc/init.d/xvfb start
+  - sh -e /etc/init.d/xvfb start  
   - nohup bash -c "npx webdriver-manager start 2>&1 &"
   - sleep 5
   
-script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
