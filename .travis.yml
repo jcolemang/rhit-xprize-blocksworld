@@ -6,12 +6,12 @@ python:
 install:
   - npm install jasmine
   - npm install protractor
-  - npx webdriver-manager update
   - sudo pip install -r requirements.txt  
   
 script:
   - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start  
+  - sh -e /etc/init.d/xvfb start
+  - npx webdriver-manager update
   - npx webdriver-manager start &
   - sleep 5
   
