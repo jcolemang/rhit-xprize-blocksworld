@@ -7,14 +7,15 @@ install:
   - npm install jasmine
   - npm install protractor
   - sudo pip install -r requirements.txt  
-  
-script:
+
+before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - node_modules/protractor/bin/webdriver-manager update --standalone --firefox
   - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
-  
+
+script:
   - cd server
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
