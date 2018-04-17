@@ -12,7 +12,7 @@ install:
   - sudo pip install -r requirements.txt  
 
 before_script:
-  - psql create-baseline.sql -U postgres
+  - psql server/create-baseline.sql -U postgres
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - node_modules/protractor/bin/webdriver-manager update --standalone --firefox
