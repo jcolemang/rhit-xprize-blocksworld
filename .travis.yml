@@ -20,4 +20,6 @@ script:
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
   - npx jasmine
+  - python -m SimpleHTTPServer &
+  - sleep 5
   - npx protractor conf.js
