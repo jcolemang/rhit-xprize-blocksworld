@@ -1,6 +1,6 @@
 describe('Blocksworld', () => {
     let EC = protractor.ExpectedConditions;
-    let timeout = 3000;
+    let timeout = 10000;
 
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
