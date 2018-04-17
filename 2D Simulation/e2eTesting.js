@@ -1,7 +1,8 @@
 describe('Protractor Demo App', function() {
     it('should have a title', function() {
-        browser.get('http://juliemr.github.io/protractor-demo/');
+        browser.waitForAngularEnabled(false);
+        browser.get('http://localhost:8000/game.html');
 
-        expect(browser.getTitle()).toEqual('Super Calculator');
+        expect(browser.getTitle()).toEqual('Blocks World');
     });
 });
