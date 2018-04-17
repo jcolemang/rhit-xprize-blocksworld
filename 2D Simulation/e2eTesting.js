@@ -13,7 +13,7 @@ describe("Blocksworld", () => {
     it("should activate the start button", () => {
         let startButton = element(by.id('buttonStart'));
 
-        browser.wait(EC.elementToBeClickable(startButton), short_timeout);
+        expect(startButton.isEnabled()).toEqual(true);
     });
 
     it("should have the correct window title", () => {
