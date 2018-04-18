@@ -6,6 +6,7 @@ python:
 install:
   - npm install jasmine
   - sudo pip install -r requirements.txt
+  - sudo apt install geckodriver
 
 script:
   - cd server
