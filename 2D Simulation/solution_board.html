@@ -41,7 +41,7 @@
         let finalBlocks = JSON.parse(localStorage.getItem('finalBlocks'));
         console.log(finalBlocks);
         finalBlocks.map(block => {
-          let obj = $(block.blockId);
+          let obj = $("#block" + block.id);
           obj.css('left', block.position[0] + '%');
           obj.css('top', block.position[1] + '%');
           obj.find('span').html(block.topLetter);
