@@ -12,13 +12,9 @@ def connect_to_db(config):
 def store_game(db_connection, game_data):
     cursor = db_connection.cursor()
 
-    # columns_str = ("Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, " +
-    #                "TimeAndLocation, InitialInfo, SearchWords, finalScore, standard_info")
-    # values_str =  n_values_str(17)
     game_id = str(uuid.uuid4())
     game_query= "INSERT INTO game(id, final_score, start_time, total_time) VALUES(" + n_values_str(4) + ")"
 
-    print(game_data['initialInfo'])
 
     game_values = (game_id,
                    game_data['finalScore'],
@@ -26,44 +22,76 @@ def store_game(db_connection, game_data):
                    game_data['time'])
     cursor.execute(game_query, game_values)
 
+    block_fronts = {}
     for block in game_data['initialInfo']:
+        block_id = block['id']
+        front_color = block['color']
+        front_letter = block['letter']
+        block_fronts[block_id] = (front_color, front_letter)
+
         block_query = "INSERT INTO block(id, game_id, front_color, back_color, front_letter, back_letter) VALUES( " + n_values_str(6) + ")"
-        block_values = (block['id'],
+        block_values = (block_id,
                         game_id,
-                        block['color'],
+                        front_color,
                         block['flipColor'],
-                        block['letter'],
+                        front_letter,
                         block['flipLetter'])
         cursor.execute(block_query, block_values)
+
+    for action in game_data['actions']:
+        action_type = action['type']
+        if action_type == 'gesture':
+            gesture_id = str(uuid.uuid4())
+            gesture_query = "INSERT INTO gesture(id, game_id, game_time, x, y) VALUES(" + n_values_str(5) + ")"
+            gesture_values = (gesture_id,
+                              game_id,
+                              action['time'],
+                              action['left_pos'],
+                              action['top_pos'])
+            cursor.execute(gesture_query, gesture_values)
+        elif action_type == 'command':
+            command_id = str(uuid.uuid4())
+            command_query = "INSERT INTO command(id, game_id, game_time, text) VALUES(" + n_values_str(4) + ")"
+            command_values = (command_id,
+                              game_id,
+                              action['time'],
+                              action['text'])
+            cursor.execute(command_query, command_values)
+        elif action_type == 'flip':
+            block_id = action['id']
+            flip_id = str(uuid.uuid4())
+            flip_query = "INSERT INTO flip(id, game_id, game_time, block_id, front_facing, x, y) VALUES(" + n_values_str(7) + ")"
+            flip_values = (flip_id,
+                           game_id,
+                           action['time'],
+                           block_id,
+                           block_fronts[block_id] == (action['color'], action['letter']),
+                           action['left_pos'],
+                           action['top_pos'])
+            cursor.execute(flip_query, flip_values)
+        elif action_type == 'movement':
+            block_id = action['id']
+            move_id = str(uuid.uuid4())
+            move_query = "INSERT INTO move(id, game_id, game_time, block_id, front_facing, start_x, start_y, end_x, end_y) VALUES(" + n_values_str(9) + ")"
+            move_values = (move_id,
+                           game_id,
+                           action['time'],
+                           block_id,
+                           block_fronts[block_id] == (action['color'], action['letter']),
+                           action['left_pos'],
+                           action['top_pos'],
+                           action['new_left_pos'],
+                           action['new_top_pos'])
+            cursor.execute(move_query, move_values)
 
 
     db_connection.commit()
 
+
 def store_survey(db_connection, survey_data):
-    pass
-    # cursor = db_connection.cursor()
-
-    # table_str = None
-    # columns_str = None
-    # values_str = None
-    # values_tuple = None
-
-    # if 'q4' in survey_data:
-    #     table_str = 'human_survey'
-    #     columns_str = 'q1, q2, q3, q4, q5, q6'
-    #     values_str = n_values_str(6)
-    #     values_tuple = (survey_data['q1'], survey_data['q2'], survey_data['q3'],
-    #                     survey_data['q4'], survey_data['q5'], survey_data['q6'])
-    # else:
-    #     table_str = 'robot_survey'
-    #     columns_str = 'q1, q2, q3'
-    #     values_str = n_values_str(3)
-    #     values_tuple = (survey_data['q1'], survey_data['q2'], survey_data['q3'])
-
-    # query_str = "INSERT INTO {0}({1}) values({2})".format(table_str, columns_str, values_str)
-
-    # cursor.execute(query_str, values_tuple)
-    # db_connection.commit()
+    cursor = db_connection.cursor()
+    cursor.execute("INSERT INTO survey(q1) values(%s)", (survey_data['q1'],))
+    db_connection.commit()
 
 def n_values_str(num_values):
     return "".join(["%s, " for _ in range(num_values - 1)] + ["%s"])

@@ -76,6 +76,7 @@ function update_gui_block(moveData) {
     });
 
     movesTracker.add_move(moveData.block_id,
+                          instructionstarttime,
                           blocks.get_block_text(id),
                           blocks.get_block_color(id),
                           old_left, old_top,

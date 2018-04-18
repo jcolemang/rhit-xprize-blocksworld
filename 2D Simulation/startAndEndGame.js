@@ -92,7 +92,7 @@ function endGame() {
                 te: te,
                 ie: ie,
                 p: p,
-                Action: actions,
+                actions: actions,
                 initialInfo: initialInfo,
                 standard_info: standard_info,
                 other: words,
