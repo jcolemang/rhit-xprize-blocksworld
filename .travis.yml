@@ -10,7 +10,7 @@ install:
   - tar -xvzf geckodriver-v0.11.1-linux64.tar.gz
   - rm geckodriver-v0.11.1-linux64.tar.gz
   - chmod +x geckodriver
-  - cp geckodriver /usr/local/bin/
+  - sudo cp geckodriver /usr/local/bin/
 
 script:
   - cd server
