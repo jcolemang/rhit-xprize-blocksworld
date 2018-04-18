@@ -1,10 +1,10 @@
 import psycopg2 as pg
 
 def connect_to_db(config):
-    connection = pg.connect(database=config['dbName'],
+    connection = pg.connect(dbname=config['dbName'],
                             user=config['dbUser'],
                             host=config['dbHost'],
-                            password='')
+                            port=config['dbPort'])
     return connection
 
 def store_game(db_connection, game_data):
