@@ -31,4 +31,4 @@ script:
   - npx jasmine
   - python -m http.server &
   - sleep 5
-  - npx protractor conf.js
+  - sudo npx protractor conf.js
