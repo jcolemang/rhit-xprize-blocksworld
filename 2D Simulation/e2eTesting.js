@@ -1,5 +1,6 @@
 describe("Blocksworld", () => {
     it("should have a title", () => {
+        browser.waitForAngularEnabled(false);
         browser.get("http://localhost:8000/game.html?config=fixed");
 
         expect(true).toEqual(true);
