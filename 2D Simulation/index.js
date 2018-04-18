@@ -11,8 +11,6 @@ var w1 = 0.1, w2 = 0.5;
 var x;
 var y;
 var br; var bm; var pn; var pp; var p; var te; var ie;
-var instructiondate;
-var instructionstarttime;
 var start_button_pressed = false;
 var end_top = [];
 var end_left = [];
@@ -102,7 +100,7 @@ function inputlength() {
             NumWords += numToAdd;
         }
 
-        movesTracker.add_instruction(instructiondate, instructionstarttime, text);
+        movesTracker.add_instruction(text);
     }
     document.getElementById("txt_instruction").value = "";
 }
@@ -141,10 +139,6 @@ function getDateTime() {
     return month + "/" + day + "/" + year + " " + hour + ":" + min + ":" + sec;
 }
 
-function instructiontime() {
-    instructionstarttime = new Date().getTime();
-    instructiondate = getDateTime();
-}
 
 function centroid(x, y) {
     var centerX = 0, centerY = 0;
