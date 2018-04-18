@@ -9,3 +9,5 @@ numpy
 tensorflow
 h5py
 pandas
+uuid
+datetime
