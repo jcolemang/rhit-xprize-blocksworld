@@ -9,6 +9,7 @@
 
     <script type="text/javascript" src="clientConfig.js"></script>
     <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="blocks.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="movesTracker.js"></script>
     <script type="text/javascript" src="startAndEndGame.js"></script>
@@ -42,29 +43,51 @@
     <div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
       <div style="text-align:center">
         <div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
-          <span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana"></span>
-          <p id = "helper" class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+            <span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+              Instructions:<br>
+              <ol>
+                <li>
+                  Click “start” button.
+                </li>
+                <li>
+                  Click the “show the construction” button to see what pattern needs to be made.
+                </li>
+                <li>
+                  Instruct the AI to make pattern by typing in the text box and making gestures by double-clicking.
+                </li>
+                <li>
+                  Press the "Incorrect Move" button if the AI does something you don't expect.
+                </li>
+                <li>
+                  Try to get the highest score you can!
+                </li>
+              </ol>
+            </span>
+            <p id="helper"
+               class="helper"
+               style="font-size:12px; font-family:verdana">
+              (click again to close it)
+            </p>
         </div>
       </div>
     </div>
 
-    <div id ="vertical-line" style="background-color: black; width: 5px; height:70%; position: absolute; left: 33.33%; top: 15%; z-index: 200;"> </div>
-    <div id ="vertical-line2" style="background-color: black; width: 5px; height:70%; position: absolute; left: 56.66%; top: 15%; z-index: 200;"> </div>
-
-    <p id ="user1" style="position: absolute; left: 20%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-    <p id ="user2" style="position: absolute; left: 60%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
-
-    <p id ="user3" style="position: absolute; left: 18%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 1 (You) </p>
-    <p id ="user4" style="position: absolute; left: 67%; top: 15%; z-index: 2;font-size:18px; font-family:verdana"> Player 2 </p>
-
     <div class = "gadgetWrapper">
-      <small><small><small>
-        <p class = "taskQ" id = "taskQ" style = "font-size: 30px; position: absolute; top: 0px; left: 0% "></p>
-      </small></small></small>
+      <small>
+        <small>
+          <small>
+            <p class="taskQ"
+               id="taskQ"
+               style="font-size: 30px; position: absolute; top: 0px; left: 0%">
+              Blocksworld
+            </p>
+          </small>
+        </small>
+      </small>
 
       <div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana; position: absolute; top: 9%">
         <label>
-          Enter instructions	:
+          Enter instructions:
           <input id="txt_instruction" type="text" />
         </label>
 
@@ -77,10 +100,18 @@
           <div class="showChosen"
                id="showChosen"
                style="float: left; position: static; margin-right: 5px;">
-            <!-- jQuery inserts HTML here dependent on which task is selected -->
+            <button class="buttonLike"
+                    style="vertical-align: middle;"
+                    onclick="showConstruction(finalBlocks)">
+              Show the Construction
+            </button>
           </div>
           <div id="buttonIncorrectDiv" style="float: right;">
-            <button id="buttonIncorrect" onclick="handle_incorrect_move()" style="vertical-align: middle;">Incorrect Move</button>
+            <button id="buttonIncorrect"
+                    onclick="correctionUI.show_corrections_modal()"
+                    style="vertical-align: middle;">
+              Incorrect Move
+            </button>
           </div>
         </div>
         <div class = "numofwords" id="numofwords"></div>
@@ -92,15 +123,11 @@
 
       <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
       <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
-      <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
       <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
-      <p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>      
 
       <script type="text/javascript">
        document.getElementById("gesturecontext").style.visibility = "hidden";
        document.getElementById("movementcontext").style.visibility = "hidden";
-       document.getElementById("gestureCount").style.visibility = "hidden";
-       document.getElementById("MovementCount").style.visibility = "hidden";
       </script>
 
       <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
@@ -112,8 +139,6 @@
     </div>
 
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
-
-    <div id = "chatBox" style="height:30%; width:10%;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; left: 85%; position: absolute; background-color: white; color: black;"></div>
 
     <script type="text/javascript">
      page_width = window.innerWidth;
@@ -135,7 +160,6 @@
      document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
      document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
      $('#score').css('font-size', page_height * 0.02 + "px");
-     $('#chatBox').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('width', page_width * 0.3 + "px");
      $('#myPopup').css('height', page_height * 0.5 + "px");
@@ -159,10 +183,8 @@
          // Output the result in an element with id="demo"
          if (minutes < 0) {
            clearInterval(x);
-           if (am_i_player1) {
-             endGame();
-           }
-         } else if (isGameEnd != true) {
+           endGame();
+         } else {
            document.getElementById("timer").innerHTML = "Time: " + minutes + " minutes " + seconds + " seconds";
          }
 
@@ -174,8 +196,6 @@
      page_width = window.innerWidth;
      page_height = window.innerHeight;
      var line_height = Math.floor(page_height * 0.7) + 5;
-     document.getElementById("vertical-line").style.height = line_height + "px";
-     document.getElementById("vertical-line2").style.height = line_height + "px";
     </script>
 
     <script type="text/javascript">
@@ -188,66 +208,68 @@
 
     <script type="text/javascript" src="initBlocks.js"></script>
 
-    <div id = "disablingDiv">
-      <div id = "freeze">
-        We are currently waiting for another user to join so that we can connect you. Please be patient.
+    <link rel="stylesheet" type="text/css" href="modals.css">
+    <div id="correctionsModal" class="modal">
+      <div id="correctionsModalBackground" class="modal-background">
+        <div id="correctionsModalContent" class="modal-content">
+          Which type of move were you intending to make?
+          <br>
+          <br>
+          <div id="correctionsButtons">
+            <button id="flipCorrection"
+                    class="modalButton"
+                    onclick="movesCorrector.correct_flip()">
+              Flip
+            </button>
+            <button id="moveCorrection"
+                    class="modalButton"
+                    onclick="movesCorrector.correct_move()">
+              Move
+            </button>
+            <button class="modalButton"
+                    onclick="correctionUI.hide_corrections_modal()">
+              Cancel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <script type="text/javascript">
-     for (var i = 0; i < NumBlocks; i++) {
-       $("#block" + i).draggable({
-       });
-     }
-    </script>
+    <div id="flipModal" class="modal">
+      <div id="flipModalBackground" class="modal-background">
+        <div id="flipModalContent" class="modal-content">
+          Please enter the id number of the block you wanted to flip.
+          <br>
+          <br>
+          <button class="modalButton"
+                  onclick="correctionUI.hide_flip_modal()">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <script type="text/javascript">
-     for (var i = 0; i < NumBlocks; i++) {
-       var blockid = document.getElementById('block'+i);
-       if(blockid) {
-         if(NumBlocks >= Object.keys(startPosMap).length){
-           var pos = blockid.style;
-           startPosMap['block'+i] = pos;
-         }
-       }
-     }
-    </script>
+    <div id="moveModal" class="modal">
+      <div id="moveModalBackground" class="modal-background">
+        <div id="moveModalContent" class="modal-content">
+          Please double click on the point where you wanted the block
+          moved to, then enter the id number of the block.
+          <br>
+          <button class="modalButton"
+                  onclick="correctionUI.hide_move_modal()">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
 
+    <script type="text/javascript" src="correctionUI.js"></script>
+    <script type="text/javascript" src="movesCorrector.js"></script>
     <script type="text/javascript" src="game.js"></script>
 
     <script type="text/javascript">
      document.getElementById("buttonEnd").disabled = true;
      document.getElementById("buttonEnter").disabled = true;
     </script>
-
-    <script type="text/javascript">
-     function submit() {
-       var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
-       q1 = document.getElementById("q1").value;
-       document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
-
-       if (q1 == "") {
-         document.getElementById("question1").style = "width: 680px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-         document.getElementById("require").style.visibility = "visible";
-
-         document.getElementById("q1").innerText = q1;
-       } else {
-         try {
-           socket.emit('send_survey_data_to_server', {
-             q1: q1,
-             q2: q2,
-             q3: q3,
-             q4: q4,
-             q5: q5,
-             q6: q6
-           });
-         } catch (err) {
-           redirects.pageDown(err);
-         }
-         window.location.href = "finalPage.html";
-       }
-     }
-    </script>
-
   </body>
 </html>

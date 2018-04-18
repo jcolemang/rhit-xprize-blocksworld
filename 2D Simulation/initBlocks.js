@@ -1,4 +1,3 @@
-initTaskID();
 blockColors = initColors(color, NumBlocks);
 flipColorArray = initColors(color, NumBlocks);
 blockLetters = initLetters(letters, NumBlocks);
@@ -9,26 +8,14 @@ initBlocks(currentConfig);
 writeBlockStyle(blockColors);
 finalBlocks = getFinalConfiguration(currentConfig);
 
-initInstructions();
-setTaskHeader();
-setIntroduction(1);
 popUpGameIntro();
 
-// function initBlocks(bColors, flipColors, bLetters, flipLtrs) {
 function initBlocks(config) {
     let bColors = config.map(x => x.topColor);
     let flipColors = config.map(x => x.bottomColor);
     let bLetters = config.map(x => x.topLetter);
     let flipLtrs = config.map(x => x.bottomLetter);
 
-    console.log('Calling initBlocks');
-    // Adds 1 to NumBlocks if the task is matching, ensuring an even
-    // number of blocks to be matched.
-    if (taskID == 1) {
-        if (NumBlocks % 2 != 0) {
-            NumBlocks++;
-        }
-    }
     var container = document.createElement("div");
     container.id = "container";
     container.ondblclick = function(e) {
@@ -62,7 +49,7 @@ function initBlocks(config) {
 
         $("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color_x + "\"></div>");
 
-        $("#block" + i).append("<span style=\"color: black\">" + bLetters[l] + "</span>");
+        blocks.set_block_text(i, bLetters[l]);
 
         standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color_x + " letters: " + bLetters[l] + " flipletters: " + flipLtrs[l]);
         goal_top.push(tTop);
@@ -71,18 +58,5 @@ function initBlocks(config) {
         $("#block" + i).data("id", i);
         $("#block" + i).data("horizontal_percent", tLeft);
         $("#block" + i).data("vertical_percent", tTop);
-
-        $("#block" + i).bind("contextmenu", function(e) {
-            if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
-                var event = e || window.event;
-                var flipped_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
-                var flipped_block_letter = blockLetters[$(this).data("id")];
-
-                flipBlock('block' + $(this).data("id"),
-                          flipped_block_letter, flipped_block_color,
-                          event, bLetters, bColors);
-                send_flip_to_server('block' + $(this).data("id"));
-            }
-        });
     }
 }
