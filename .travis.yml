@@ -19,6 +19,5 @@ script:
   - npx jasmine
   - cd ../server/
   - python simulation &
-  - sleep 60
   - cd ../e2e-tests/
   - sudo python -m pytest .
