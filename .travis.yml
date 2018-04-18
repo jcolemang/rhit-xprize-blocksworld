@@ -18,6 +18,6 @@ script:
   - cd ../2D\ Simulation
   - npx jasmine
   - cd ../server/
-  - python simulation.py &
+  - sudo python simulation.py &
   - cd ../e2e-tests/
   - sudo python -m pytest .
