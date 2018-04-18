@@ -26,7 +26,8 @@ before_script:
 script:
   - cd server
   - python -m pytest . --ignore=rhit-xprize-neural-network
-  - python simulation.py
+  - python simulation.py &
+  - sleep 5
   - cd ../2D\ Simulation
   - npx jasmine
   - python -m http.server &
