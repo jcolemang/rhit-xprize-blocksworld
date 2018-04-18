@@ -14,66 +14,23 @@ var br; var bm; var pn; var pp; var p; var te; var ie;
 var instructiondate;
 var instructionstarttime;
 var start_button_pressed = false;
-var goal_top = [], goal_left = [];
 var end_top = [];
 var end_left = [];
 var initialScore = -1;
 
 // I am certain that these are necessary as of Sunday, October 29
 var currentConfig;
-var flipColorArray = [];
-var flipLetterArray = [];
-var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var color = ['red', 'blue','green','orange','yellow'];
-var blockColors;
-var blockLetters;
 var finalBlocks;
 var initialInfo = [];
 var standard_info = [];
-console.log('Block Colors: ', blockColors);
 
-function getInitialConfiguration(blockColors, flipColors, blockLetters, flipLetters) {
-    let config = [];
-    for (i = 0; i < blockColors.length; i++) {
-        let block = {
-            topLetter: blockLetters[i],
-            bottomLetter: flipLetters[i],
-            topColor: blockColors[i],
-            bottomColor: flipColors[i],
-            blockId: '#block' + i
-        };
-        config.push(block);
-    }
-
-    return config;
-}
-
-function getFinalConfiguration(initialConfiguration) {
-    return initialConfiguration.map(block => {
-        let newBlock = Object.assign({}, block);
-
-        if (Math.random() < 0.5) {
-            let tempColor = newBlock.topColor;
-            let tempLetter = newBlock.topLetter;
-            newBlock.topLetter = newBlock.bottomLetter;
-            newBlock.topColor = newBlock.bottomColor;
-            newBlock.bottomLetter = tempLetter;
-            newBlock.bottomColor = tempColor;
-        }
-
-        newBlock.position = [Math.random() * 100, Math.random() * 100];
-
-        return newBlock;
-    });
-}
-
-function writeBlockStyle(blockColors) {
-    for (let i = 0; i < NumBlocks; i++) {
+function writeBlockStyles(config) {
+    for (let i = 0; i < config.length; i++) {
         let block = $("#block" + i);
         block.css({
             width: "3.8%",
             height: "7.35%",
-            backgroundColor: blockColors[i],
+            backgroundColor: config[i].topColor,
             border: "#000 solid 4px",
             position: "absolute",
             zIndex: 1,
@@ -84,24 +41,6 @@ function writeBlockStyle(blockColors) {
             cursor: "default"
         });
     }
-}
-
-function initColors(possibleColors, numBlocks) {
-    let cs = [];
-    for (var i = 0; i < numBlocks; i++) {
-        x = Math.floor(Math.random() * possibleColors.length);
-        cs.push(possibleColors[x]);
-    }
-    return cs;
-}
-
-function initLetters(possibleLetters, numBlocks) {
-    let lets = [];
-    for (var i = 0; i < numBlocks; i++) {
-        y = Math.floor(Math.random() * possibleLetters.length);
-        lets.push(letters[y]);
-    }
-    return lets;
 }
 
 function flipBlock(block_id, letter, color, config) {
@@ -205,35 +144,6 @@ function getDateTime() {
 function instructiontime() {
     instructionstarttime = new Date().getTime();
     instructiondate = getDateTime();
-}
-
-function setUpInitialPosition(bColors, flipColors, bLetters, flipLetters, finalBlocks) {
-    console.log('Calling setUpInitialPosition');
-    console.log('Block colors:', bColors);
-    for (let i = 0; i < NumBlocks; i++) {
-        var tLeft = 0;
-        var tTop = 0;
-
-        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
-
-        tLeft = Math.random() * Math.floor(horizontal_percent);
-        tTop = Math.random() * Math.floor(vertical_percent);
-
-        end_left.push(tLeft);
-        end_top.push(tTop);
-
-        initialInfo.push("block:" + i + " " +
-                         "initial position: (" + tLeft + "%, " + tTop + "%) " +
-                         "color: " + bColors[i] +
-                         " letters: " + bLetters[i] +
-                         " flipletters: " + flipLetters[i]);
-        document.getElementById("block" + i).style.top = tTop+"%";
-        document.getElementById("block" + i).style.left = tLeft+"%";
-    }
-
-    console.log('Initial Info:', initialInfo);
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 }
 
 function centroid(x, y) {

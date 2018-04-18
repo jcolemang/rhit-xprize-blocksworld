@@ -47,7 +47,7 @@ def setup_updates(sio, rooms_tracker):
         if move['type'] == 'flip':
             # Transmit id as 'block<id>'
             self_emit(sio, sid, 'update_flip_block',
-                      rooms_tracker, move['block_id'][1:])
+                      rooms_tracker, 'block' + str(move['block_id']))
         elif move['type'] == 'impossible':
             self_emit(sio, sid, 'indicate_impossible_move',
                       rooms_tracker, move)
@@ -59,7 +59,7 @@ def setup_updates(sio, rooms_tracker):
             move_data = {
                 'top': move['top'],
                 'left': move['left'],
-                'block_id': move['block_id'][1:]
+                'block_id': 'block' + str(move['block_id'])
             }
 
             self_emit(sio, sid, 'update_position',

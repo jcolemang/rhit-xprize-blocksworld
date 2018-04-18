@@ -4,7 +4,7 @@ function startGame() {
     start_button_pressed = true;
     timecounter();
     document.getElementById("showChosen").style.visibility = "visible";
-    setUpInitialPosition(blockColors, flipColorArray, blockLetters, flipLetterArray, finalBlocks);
+    setUpInitialPosition(currentConfig, finalBlocks);
     document.getElementById("buttonEnd").disabled = false;
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;
@@ -19,6 +19,32 @@ function startGame() {
     hide_gesture();
 
     document.getElementById('buttonStart').disabled = true;
+}
+
+function setUpInitialPosition(currentConfig, finalBlocks) {
+    for (let i = 0; i < currentConfig.length; i++) {
+        var tLeft = 0;
+        var tTop = 0;
+
+        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+
+        tLeft = Math.random() * Math.floor(horizontal_percent);
+        tTop = Math.random() * Math.floor(vertical_percent);
+
+        end_left.push(tLeft);
+        end_top.push(tTop);
+
+        initialInfo.push("block:" + i + " " +
+                         "initial position: (" + tLeft + "%, " + tTop + "%) " +
+                         "color: " + currentConfig[i].topColor +
+                         " letters: " + currentConfig[i].topLetter +
+                         " flipletters: " + currentConfig[i].bottomLetter);
+        document.getElementById("block" + i).style.top = tTop+"%";
+        document.getElementById("block" + i).style.left = tLeft+"%";
+    }
+
+    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 }
 
 function endGame() {
@@ -81,7 +107,6 @@ function endGame() {
         document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submit()\">Submit</button>";
     }
 }
-
 
 function submit() {
     var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
