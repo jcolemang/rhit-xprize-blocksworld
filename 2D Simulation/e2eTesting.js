@@ -27,7 +27,8 @@ describe("Blocksworld", () => {
         });
 
         it("should have the correct window title", () => {
-            expect(browser.getTitle()).toEqual('Blocks World');
+            browser.wait(EC.titleIs('Connected'), long_timeout);
+            expect(browser.getTitle()).toEqual('Connected');
         });
     });
 
