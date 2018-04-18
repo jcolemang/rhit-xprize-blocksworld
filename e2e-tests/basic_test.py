@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import pytest
+import time
 import os
 
 @pytest.fixture
@@ -23,6 +24,7 @@ def file_path():
 class TestBasic:
     def test_url(self, driver, file_path):
         driver.get(file_path)
+        time.sleep(5)
         alert = driver.switch_to.alert
         alert.accept()
         print(driver.title)
