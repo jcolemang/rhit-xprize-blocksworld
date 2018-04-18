@@ -30,5 +30,6 @@ script:
   - npx jasmine
   - python -m http.server &
   - sleep 5
+  - psql -c '\l'
   - echo > /dev/tcp/localhost/8080
   - npx protractor conf.js
