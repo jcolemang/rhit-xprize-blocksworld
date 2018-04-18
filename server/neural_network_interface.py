@@ -111,15 +111,15 @@ def _find_block(game_state, color, letter):
     correct_letter = []
 
     if color.upper() == 'NONE' and letter.upper() == 'NONE':
-        return list(map(lambda x: x['blockId'], game_state))
+        return list(map(lambda x: x['id'], game_state))
 
     for block in game_state:
         # Note that each of these could be 'None', but this is ignored
         # and that list will be empty.
         if block['topColor'].upper() == color.upper():
-            correct_color.append(block['blockId'])
+            correct_color.append(block['id'])
         if block['topLetter'].upper() == letter.upper():
-            correct_letter.append(block['blockId'])
+            correct_letter.append(block['id'])
 
     if color.upper() == 'NONE':
         return correct_letter
@@ -128,4 +128,3 @@ def _find_block(game_state, color, letter):
 
     intersection = list(set(correct_color).intersection(correct_letter))
     return intersection
-
