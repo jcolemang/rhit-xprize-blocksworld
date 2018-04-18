@@ -15,4 +15,4 @@ script:
   - cd ../server/
   - python simulation &
   - cd ../e2e-tests/
-  - python -m pytest .
+  - sudo python -m pytest .
