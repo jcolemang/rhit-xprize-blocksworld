@@ -1,4 +1,3 @@
-
 import neural_network_interface as nni
 
 def construct_block(blockId,
@@ -7,12 +6,12 @@ def construct_block(blockId,
                     bottomColor,
                     bottomLetter):
     return {
-        'blockId': blockId,
+        'id': blockId,
         'topColor': topColor,
         'bottomColor': bottomColor,
         'topLetter': topLetter,
         'bottomLetter': bottomLetter
-    }   
+    }
 
 def test_find_block_incorrect_color_no_letters():
     color = 'green'
@@ -24,7 +23,7 @@ def test_find_block_incorrect_color_no_letters():
 
     result = nni._find_block(game_state, color, letter)
     assert set(result) == set([])
-    
+
 def test_find_block_incorrect_colors_one_correct_letter():
     color = 'green'
     letter = 'b'

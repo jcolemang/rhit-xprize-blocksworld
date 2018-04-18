@@ -3,7 +3,6 @@ import threading
 import database as db
 import neural_network_interface as nn
 
-_starting_game_data = dict()
 _voice_connection_data = dict()
 
 def self_emit(sio, sid, event, rooms_tracker, data=None):
@@ -12,12 +11,10 @@ def self_emit(sio, sid, event, rooms_tracker, data=None):
 def setup_initial_position(sio, rooms_tracker):
     lock = threading.Lock()
 
-    def initial_position_handler(sid, data):
+    def initial_position_handler(sid):
         with lock:
             rooms_tracker.add_to_singles_room(sid)
-            room = rooms_tracker.get_room(sid)
 
-            _starting_game_data[room] = data
             self_emit(sio, sid, 'freeze_start', rooms_tracker)
             self_emit(sio, sid, 'unfreeze_start', rooms_tracker)
 
@@ -50,7 +47,7 @@ def setup_updates(sio, rooms_tracker):
         if move['type'] == 'flip':
             # Transmit id as 'block<id>'
             self_emit(sio, sid, 'update_flip_block',
-                      rooms_tracker, move['block_id'][1:])
+                      rooms_tracker, 'block' + str(move['block_id']))
         elif move['type'] == 'impossible':
             self_emit(sio, sid, 'indicate_impossible_move',
                       rooms_tracker, move)
@@ -61,7 +58,7 @@ def setup_updates(sio, rooms_tracker):
             move_data = {
                 'top': move['top'],
                 'left': move['left'],
-                'block_id': move['block_id'][1:]
+                'block_id': 'block' + str(move['block_id'])
             }
 
             self_emit(sio, sid, 'update_position',
@@ -83,11 +80,7 @@ def setup_ending(sio, rooms_tracker, config):
 
     def disconnect_handler(sid):
         room = rooms_tracker.get_room(sid)
-        if room in _starting_game_data:
-            _starting_game_data.pop(room)
 
-        if room in _starting_game_data:
-            _starting_game_data.pop(room)
         if room in _voice_connection_data:
             _voice_connection_data.pop(room)
 
