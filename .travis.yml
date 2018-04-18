@@ -12,3 +12,7 @@ script:
   - sudo python -m pytest . --ignore=rhit-xprize-neural-network
   - cd ../2D\ Simulation
   - npx jasmine
+  - cd ../server/
+  - python simulation &
+  - cd ../e2e-tests/
+  - python -m pytest .
