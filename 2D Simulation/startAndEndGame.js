@@ -49,6 +49,7 @@ function endGame() {
 
         try {
             socket.emit('end_button_pressed', {
+                startTime: _startTime,
                 time: time,
                 task: "Construction",
                 W: NumWords,
