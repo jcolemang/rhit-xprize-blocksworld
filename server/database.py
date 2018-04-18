@@ -16,21 +16,27 @@ def store_game(db_connection, game_data):
     #                "TimeAndLocation, InitialInfo, SearchWords, finalScore, standard_info")
     # values_str =  n_values_str(17)
     game_id = str(uuid.uuid4())
-    game_query= "INSERT INTO game(id, final_score, start_time, total_time) values(" + n_values_str(4) + ")"
+    game_query= "INSERT INTO game(id, final_score, start_time, total_time) VALUES(" + n_values_str(4) + ")"
 
-    print(game_data['Action'])
+    print(game_data['initialInfo'])
 
     game_values = (game_id,
                    game_data['finalScore'],
                    dt.datetime.fromtimestamp(int(game_data['startTime']) / 1e3),
                    game_data['time'])
-    # values_tuple = (game_data['time'], game_data['task'], game_data['b'], game_data['W'],
-    #                 game_data['G'], game_data['bm'], game_data['br'], game_data['pn'],
-    #                 game_data['pp'], game_data['te'], game_data['ie'], game_data['p'],
-    #                 game_data['Action'], game_data['initialInfo'], game_data['other'],
-    #                 game_data['finalScore'], game_data['standard_info'])
-
     cursor.execute(game_query, game_values)
+
+    for block in game_data['initialInfo']:
+        block_query = "INSERT INTO block(id, game_id, front_color, back_color, front_letter, back_letter) VALUES( " + n_values_str(6) + ")"
+        block_values = (block['id'],
+                        game_id,
+                        block['color'],
+                        block['flipColor'],
+                        block['letter'],
+                        block['flipLetter'])
+        cursor.execute(block_query, block_values)
+
+
     db_connection.commit()
 
 def store_survey(db_connection, survey_data):

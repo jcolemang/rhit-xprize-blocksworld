@@ -35,14 +35,17 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
         end_left.push(tLeft);
         end_top.push(tTop);
 
-        initialInfo.push("block:" + i + " " +
-                         "initial position: (" + tLeft + "%, " + tTop + "%) " +
-                         "color: " + currentConfig[i].topColor +
-                         " letters: " + currentConfig[i].topLetter +
-                         " flipletters: " + currentConfig[i].bottomLetter);
+        initialInfo.push({id: i,
+                          initial_x: tLeft,
+                          initial_y: tTop,
+                          color: currentConfig[i].topColor,
+                          letter: currentConfig[i].topLetter,
+                          flipLetter: currentConfig[i].bottomLetter,
+                          flipColor: currentConfig[i].bottomColor
+                         });
         document.getElementById("block" + i).style.top = tTop+"%";
         document.getElementById("block" + i).style.left = tLeft+"%";
-    }
+                        }
 
     document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
 }
@@ -72,6 +75,7 @@ function endGame() {
         var words = "Construction: Rainbow0.png";
 
         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
+        console.log(initialInfo);
 
         try {
             socket.emit('end_button_pressed', {
