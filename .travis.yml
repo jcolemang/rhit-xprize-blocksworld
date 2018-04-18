@@ -1,5 +1,4 @@
 language: python
-sudo: enabled
 python:
   - "3.6"
 
@@ -9,7 +8,7 @@ services:
 install:
   - npm install jasmine
   - npm install protractor
-  - sudo pip install -r requirements.txt
+  - pip install -r requirements.txt
 
   - cd 2D\ Simulation
   - npm install
@@ -25,10 +24,10 @@ before_script:
 
 script:
   - cd server
-  - sudo python -m pytest . --ignore=rhit-xprize-neural-network
-  - sudo python simulation.py &
+  - python -m pytest . --ignore=rhit-xprize-neural-network
+  - python simulation.py &
   - cd ../2D\ Simulation
   - npx jasmine
   - python -m http.server &
   - sleep 5
-  - sudo npx protractor conf.js
+  - npx protractor conf.js
