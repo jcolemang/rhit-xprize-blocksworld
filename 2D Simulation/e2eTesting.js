@@ -8,7 +8,7 @@ describe("Blocksworld", () => {
 
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
-        browser.get("http://localhost:8000/game.html?config=fixed");
+        browser.get("http://localhost:8002/game.html?config=fixed");
         browser.sleep(short_timeout);
 
         startButton = element(by.id('buttonStart'));

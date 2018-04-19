@@ -6,8 +6,8 @@ services:
   - postgresql
 
 install:
-  - npm install -g jasmine
-  - npm install -g protractor
+  - npm install jasmine
+  - npm install protractor
   - pip install -r requirements.txt
 
   - cd 2D\ Simulation
@@ -19,9 +19,9 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - createdb
   - psql -f server/create-baseline.sql -U postgres
-  - npx webdriver-manager update --standalone
-  - npx webdriver-manager status
-  - npx webdriver-manager start &
+  - node_modules/protractor/bin/webdriver-manager update --standalone
+  - node_modules/protractor/bin/webdriver-manager status
+  - node_modules/protractor/bin/webdriver-manager start --detach &
   - sleep 5
 
 script:
@@ -34,6 +34,6 @@ script:
   - python -m http.server &
   - sleep 10
   - echo > /dev/tcp/localhost/8080
-  - npx protractor conf.js
+  - node_modules/protractor/bin/protractor protractor conf.js
   - sleep 10
   - echo > /dev/tcp/localhost/8080
