@@ -21,7 +21,7 @@ before_script:
   - psql -f server/create-baseline.sql -U postgres
   - node_modules/protractor/bin/webdriver-manager update --standalone
   - node_modules/protractor/bin/webdriver-manager status
-  - node_modules/protractor/bin/webdriver-manager start &
+  - node_modules/protractor/bin/webdriver-manager start --detach &
   - sleep 5
 
 script:
