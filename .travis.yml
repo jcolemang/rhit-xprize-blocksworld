@@ -6,12 +6,12 @@ services:
   - postgresql
 
 install:
-  - npm install jasmine
-  - npm install protractor
+  - npm install -g jasmine
+  - npm install -g protractor
   - pip install -r requirements.txt
 
   - cd 2D\ Simulation
-  - npm install -g
+  - npm install
   - cd ..
 
 before_script:
