@@ -12,7 +12,7 @@ describe("Blocksworld", () => {
         browser.sleep(short_timeout);
 
         startButton = element(by.id('buttonStart'));
-        // endButton = element(by.id('buttonEnd'));
+        endButton = element(by.id('buttonEnd'));
     });
 
     describe("before starting the game", () => {
@@ -20,7 +20,7 @@ describe("Blocksworld", () => {
             expect(startButton.isEnabled()).toEqual(true);
         });
 
-        xit("should have the correct window title", () => {
+        it("should have the correct window title", () => {
             browser.wait(EC.titleIs('Connected'), long_timeout);
             expect(browser.getTitle()).toEqual('Connected');
         });
