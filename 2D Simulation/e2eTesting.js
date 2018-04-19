@@ -15,8 +15,13 @@ describe("Blocksworld", () => {
         endButton = element(by.id('buttonEnd'));
     });
 
+    afterEach(() => {
+        browser.refresh();
+        browser.sleep(short_timeout);
+    });
+
     describe("before starting the game", () => {
-        xit("should activate the start button", () => {
+        it("should activate the start button", () => {
             expect(startButton.isEnabled()).toEqual(true);
         });
 
