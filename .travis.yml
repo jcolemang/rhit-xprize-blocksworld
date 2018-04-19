@@ -35,7 +35,7 @@ script:
   - cd ../2D\ Simulation
   - npx jasmine
   - python -m http.server &
-  - sleep 5
+  - sleep 10
   - echo > /dev/tcp/localhost/8080
   - npx protractor conf.js
   - sleep 10
