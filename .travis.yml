@@ -34,3 +34,4 @@ script:
   - sleep 5
   - echo > /dev/tcp/localhost/8080
   - npx protractor conf.js
+  - echo > /dev/tcp/localhost/8080
