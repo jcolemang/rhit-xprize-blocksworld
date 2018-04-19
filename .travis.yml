@@ -5,10 +5,6 @@ python:
 services:
   - postgresql
 
-cache:
-  - pip
-  - npm
-
 install:
   - npm install jasmine
   - npm install protractor
