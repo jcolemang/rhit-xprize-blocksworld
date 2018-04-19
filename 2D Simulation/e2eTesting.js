@@ -9,10 +9,10 @@ describe("Blocksworld", () => {
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
         browser.get("http://localhost:8000/game.html?config=fixed");
-        browser.sleep(short_timeout);
+        // browser.sleep(short_timeout);
 
-        startButton = element(by.id('buttonStart'));
-        endButton = element(by.id('buttonEnd'));
+        // startButton = element(by.id('buttonStart'));
+        // endButton = element(by.id('buttonEnd'));
     });
 
     describe("before starting the game", () => {
