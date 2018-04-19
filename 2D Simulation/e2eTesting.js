@@ -31,7 +31,7 @@ describe("Blocksworld", () => {
         });
     });
 
-    describe("after starting the game", () => {
+    xdescribe("after starting the game", () => {
         beforeEach((done) => {
             startButton.click().then(done);
         });
