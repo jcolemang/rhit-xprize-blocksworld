@@ -4,6 +4,7 @@ exports.config = {
     specs: ['e2eTesting.js'],
     baseUrl: 'http://localhost:8000',
     capabilities: {
-        browserName: 'firefox'
+        browserName: 'firefox',
+        marionette: true
     }
 }
