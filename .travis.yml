@@ -20,7 +20,9 @@ before_script:
   - createdb
   - psql -f server/create-baseline.sql -U postgres
   - npx webdriver-manager update
-  - npx webdriver-manager start &
+  - npx webdriver-manager update --standalone
+  - npx webdriver-manager status
+  - npx webdriver-manager start --detach
   - sleep 5
 
 script:
