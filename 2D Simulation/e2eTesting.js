@@ -9,16 +9,15 @@ describe("Blocksworld", () => {
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
         browser.get("http://localhost:8000/game.html?config=fixed");
-        // browser.sleep(short_timeout);
+        browser.sleep(short_timeout);
 
-        // startButton = element(by.id('buttonStart'));
+        startButton = element(by.id('buttonStart'));
         // endButton = element(by.id('buttonEnd'));
     });
 
     describe("before starting the game", () => {
         it("should activate the start button", () => {
-            // expect(startButton.isEnabled()).toEqual(true);
-            expect(true).toEqual(true);
+            expect(startButton.isEnabled()).toEqual(true);
         });
 
         xit("should have the correct window title", () => {
