@@ -31,17 +31,17 @@ describe("Blocksworld", () => {
         });
     });
 
-    xdescribe("after starting the game", () => {
-        beforeEach((done) => {
-            startButton.click().then(done);
-        });
+    // describe("after starting the game", () => {
+    //     beforeEach((done) => {
+    //         startButton.click().then(done);
+    //     });
 
-        it("should deactivate the start button", () => {
-            expect(startButton.isEnabled()).toEqual(false);
-        });
+    //     it("should deactivate the start button", () => {
+    //         expect(startButton.isEnabled()).toEqual(false);
+    //     });
 
-        it("should activate the end button", () => {
-            expect(endButton.isEnabled()).toEqual(true);
-        });
-    });
+    //     it("should activate the end button", () => {
+    //         expect(endButton.isEnabled()).toEqual(true);
+    //     });
+    // });
 });
