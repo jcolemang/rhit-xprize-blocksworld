@@ -23,7 +23,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - createdb
   - psql -f server/create-baseline.sql -U postgres
-  - node_modules/protractor/bin/webdriver-manager update --standalone
   - node_modules/protractor/bin/webdriver-manager status
   - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
