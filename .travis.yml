@@ -10,8 +10,6 @@ services:
   - postgresql
 
 install:
-  - npm install jasmine
-  - npm install protractor
   - pip install -r requirements.txt
 
   - cd 2D\ Simulation
@@ -36,7 +34,4 @@ script:
   - npx jasmine
   - python -m http.server &
   - sleep 10
-  - echo > /dev/tcp/localhost/8080
   - npx protractor conf.js
-  - sleep 10
-  - echo > /dev/tcp/localhost/8080
