@@ -47,8 +47,7 @@ socket.on('unfreeze_start', function() {
     var startButton = document.getElementById('buttonStart');
     startButton.disabled = false;
 
-    // alert('You have successfully connected to the game server. You may now press the start button to begin.');
-    document.title = 'Connected';
+    alert('You have successfully connected to the game server. You may now press the start button to begin.');
 });
 
 socket.on('update_position', function (moveData) {

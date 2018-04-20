@@ -9,7 +9,6 @@ describe("Blocksworld", () => {
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
         browser.get("http://localhost:8000/game.html?config=fixed");
-        browser.sleep(short_timeout);
 
         startButton = element(by.id('buttonStart'));
         endButton = element(by.id('buttonEnd'));
@@ -20,28 +19,35 @@ describe("Blocksworld", () => {
         browser.sleep(short_timeout);
     });
 
-    describe("before starting the game", () => {
-        it("should activate the start button", () => {
-            expect(startButton.isEnabled()).toEqual(true);
-        });
-
-        it("should have the correct window title", () => {
-            browser.wait(EC.titleIs('Connected'), long_timeout);
-            expect(browser.getTitle()).toEqual('Connected');
-        });
+    it("should have a connected alert opened", () => {
+        expect(browser.wait(EC.alertIsPresent(), long_timeout)).toEqual(true);
+        browser.switchTo().alert().dismiss();
     });
 
-    describe("after starting the game", () => {
-        beforeEach((done) => {
-            startButton.click().then(done);
+    describe("after closing the connected alert", () => {
+        beforeEach(() => {
+            browser.wait(EC.alertIsPresent(), long_timeout);
+            browser.switchTo().alert().dismiss();
         });
 
-        it("should deactivate the start button", () => {
-            expect(startButton.isEnabled()).toEqual(false);
+        describe("before starting the game", () => {
+            it("should activate the start button", () => {
+                expect(startButton.isEnabled()).toEqual(true);
+            });
         });
 
-        it("should activate the end button", () => {
-            expect(endButton.isEnabled()).toEqual(true);
+        describe("after starting the game", () => {
+            beforeEach((done) => {
+                startButton.click().then(done);
+            });
+
+            it("should deactivate the start button", () => {
+                expect(startButton.isEnabled()).toEqual(false);
+            });
+
+            it("should activate the end button", () => {
+                expect(endButton.isEnabled()).toEqual(true);
+            });
         });
     });
 });
