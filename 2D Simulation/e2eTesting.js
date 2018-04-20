@@ -21,6 +21,8 @@ describe("Blocksworld", () => {
 
     it("should have a connected alert opened", () => {
         expect(browser.wait(EC.alertIsPresent(), long_timeout)).toEqual(true);
+
+        // You can't safely end with the alert open
         browser.switchTo().alert().dismiss();
     });
 
