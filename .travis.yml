@@ -36,7 +36,7 @@ before_script:
   # driver back into cache.
 
   - node_modules/protractor/bin/webdriver-manager status
-  - node_modules/protractor/bin/webdriver-manager start &
+  - node_modules/protractor/bin/webdriver-manager start --versions.gecko=v0.20.1 &
   - sleep 5
 
 script:
