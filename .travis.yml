@@ -35,8 +35,12 @@ before_script:
   # deleted, put the update line back for a run or two just to put the
   # driver back into cache.
 
+  # Similarly, we need to touch the (already existing) file to ensure
+  # it's date of creation was withing the last hour so as not to ping
+  # GitHub (https://github.com/angular/webdriver-manager/issues/270).
+  - touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json
   - node_modules/protractor/bin/webdriver-manager status
-  - node_modules/protractor/bin/webdriver-manager start --versions.gecko=v0.20.1 &
+  - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
 
 script:
