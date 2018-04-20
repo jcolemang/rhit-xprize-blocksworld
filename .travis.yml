@@ -25,7 +25,7 @@ before_script:
 
   # Normally, we'd call:
 
-  # node_modules/protractor/bin/webdriver-manager update --standalone
+  - node_modules/protractor/bin/webdriver-manager update --standalone
 
   # here, but the geckodriver (the one that is used by Firefox) gets
   # pulled directly from GitHub on each build, and eventually we hit
