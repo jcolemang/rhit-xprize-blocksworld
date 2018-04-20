@@ -8,7 +8,7 @@ describe("Blocksworld", () => {
 
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
-        browser.get("http://localhost:8002/game.html?config=fixed");
+        browser.get("http://localhost:8000/game.html?config=fixed");
         browser.sleep(short_timeout);
 
         startButton = element(by.id('buttonStart'));
@@ -31,17 +31,17 @@ describe("Blocksworld", () => {
         });
     });
 
-    // describe("after starting the game", () => {
-    //     beforeEach((done) => {
-    //         startButton.click().then(done);
-    //     });
+    describe("after starting the game", () => {
+        beforeEach((done) => {
+            startButton.click().then(done);
+        });
 
-    //     it("should deactivate the start button", () => {
-    //         expect(startButton.isEnabled()).toEqual(false);
-    //     });
+        it("should deactivate the start button", () => {
+            expect(startButton.isEnabled()).toEqual(false);
+        });
 
-    //     it("should activate the end button", () => {
-    //         expect(endButton.isEnabled()).toEqual(true);
-    //     });
-    // });
+        it("should activate the end button", () => {
+            expect(endButton.isEnabled()).toEqual(true);
+        });
+    });
 });
