@@ -2,6 +2,8 @@ language: python
 python:
   - "3.6"
 
+cache: npm
+
 services:
   - postgresql
 
@@ -21,9 +23,7 @@ before_script:
   - psql -f server/create-baseline.sql -U postgres
   - node_modules/protractor/bin/webdriver-manager update --standalone
   - node_modules/protractor/bin/webdriver-manager status
-  - node_modules/protractor/bin/webdriver-manager start --detach &
-  - node_modules/protractor/bin/webdriver-manager version
-  - npx webdriver-manager version
+  - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
 
 script:
