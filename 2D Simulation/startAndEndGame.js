@@ -107,7 +107,6 @@ function endGame() {
     }
 }
 
-
 function submit() {
     var q1 = "", q2 = "", q3 = "", q4 = -1, q5 = -1, q6 = -1;
     q1 = document.getElementById("q1").value;
