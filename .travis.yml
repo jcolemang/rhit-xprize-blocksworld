@@ -24,9 +24,9 @@ before_script:
   - psql -f server/create-baseline.sql -U postgres
 
   # Normally, we'd call:
-    
+
   # node_modules/protractor/bin/webdriver-manager update --standalone
-  
+
   # here, but the geckodriver (the one that is used by Firefox) gets
   # pulled directly from GitHub on each build, and eventually we hit
   # the rate limit. As such, it is currently set up on travis to cache
@@ -34,24 +34,20 @@ before_script:
   # between builds. IF the cache is ever corrupted, out of date, or
   # deleted, put the update line back for a run or two just to put the
   # driver back into cache.
-  
+
   - node_modules/protractor/bin/webdriver-manager status
-  - nohup node_modules/protractor/bin/webdriver-manager start &> webdriver-manager.log
+  - node_modules/protractor/bin/webdriver-manager start > /dev/null &
   - sleep 5
 
 script:
   - cd server
   - python -m pytest . --ignore=rhit-xprize-neural-network
-  - nohup python simulation.py &> simulation.log
+  - python simulation.py > /dev/null &
   - sleep 10
 
   - cd ../2D\ Simulation
   - npx jasmine
-  - nohup python -m http.server &> server.log
+  - python -m http.server > /dev/null &
   - sleep 10
 
   - npx protractor conf.js
-
-  - cat webdriver-manager.log
-  - cat simulation.log
-  - cat server.log
