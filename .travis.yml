@@ -24,22 +24,16 @@ before_script:
   - psql -f server/create-baseline.sql -U postgres
   - npm install protractor
 
-  # Normally, we'd call:
-
-  # - node_modules/protractor/bin/webdriver-manager update --standalone
-
-  # here, but the geckodriver (the one that is used by Firefox) gets
-  # pulled directly from GitHub on each build, and eventually we hit
-  # the rate limit. As such, it is currently set up on travis to cache
-  # the node_modules folder (see above) where the driver can live in
-  # between builds. IF the cache is ever corrupted, out of date, or
-  # deleted, put the update line back for a run or two just to put the
-  # driver back into cache.
-
-  # Similarly, we need to touch the (already existing) file to ensure
-  # it's date of creation was withing the last hour so as not to ping
-  # GitHub (https://github.com/angular/webdriver-manager/issues/270).
-  - touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json
+  # The geckodriver (the one that is used by Firefox) gets pulled
+  # directly from GitHub on each build, and eventually we hit the rate
+  # limit. As such, it is currently set up on travis to cache the
+  # node_modules folder (see above) where the driver can live in
+  # between builds. After an initial download we need to touch the
+  # (already existing) file to ensure it's date of creation was
+  # withing the last hour so as not to ping GitHub
+  # (https://github.com/angular/webdriver-manager/issues/270). Otherwise,
+  # we run the update and get a fresh copy.
+  - touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json || node_modules/protractor/bin/webdriver-manager update --standalone
   - node_modules/protractor/bin/webdriver-manager status
   - node_modules/protractor/bin/webdriver-manager start &
   - sleep 5
