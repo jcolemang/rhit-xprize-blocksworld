@@ -1,8 +1,8 @@
-let correctionUI = new function () {
-    let incorrect_button = $("#buttonIncorrect");
-    let correctionsModal = $("#correctionsModal");
-    let flipModal = $("#flipModal");
-    let moveModal = $("#moveModal");
+const correctionUI = new function () {
+    const incorrect_button = $("#buttonIncorrect");
+    const correctionsModal = $("#correctionsModal");
+    const flipModal = $("#flipModal");
+    const moveModal = $("#moveModal");
 
     incorrect_button.prop("disabled", true);
 
