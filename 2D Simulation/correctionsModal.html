@@ -1,0 +1,25 @@
+<div id="correctionsModal" class="modal">
+  <div id="correctionsModalBackground" class="modal-background">
+    <div id="correctionsModalContent" class="modal-content">
+      Which type of move were you intending to make?
+      <br>
+      <br>
+      <div id="correctionsButtons">
+        <button id="flipCorrection"
+                class="modalButton"
+                onclick="movesCorrector.correct_flip()">
+          Flip
+        </button>
+        <button id="moveCorrection"
+                class="modalButton"
+                onclick="movesCorrector.correct_move()">
+          Move
+        </button>
+        <button class="modalButton"
+                onclick="correctionUI.hide_corrections_modal()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

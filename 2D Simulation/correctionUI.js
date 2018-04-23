@@ -1,36 +1,47 @@
 const correctionUI = new function () {
     const incorrect_button = $("#buttonIncorrect");
-    const correctionsModal = $("#correctionsModal");
-    const flipModal = $("#flipModal");
-    const moveModal = $("#moveModal");
+    const correctionsModalURL = 'correctionsModal.html'
+    const flipModalURL = 'flipModal.html';
+    const moveModalURL = 'moveModal.html';
 
     incorrect_button.prop("disabled", true);
 
-    function openStickyModal(modalSelector) {
-        modalSelector.modal({
-            escapeClose: false,
-            clickClose: false,
-            showClose: false
+    function openStickyModal(modalURL) {
+        $.ajax({
+            url: modalURL,
+            dataType: 'html',
+            success: (html) => {
+                $(html).appendTo('body').modal({
+                    escapeClose: false,
+                    clickClose: false,
+                    showClose: false
+                });
+            }
         });
     }
 
+    function closeModal() {
+        $.modal.close();
+        $('.modal').remove();
+    }
+
     this.show_corrections_modal = function () {
-        openStickyModal(correctionsModal);
+        openStickyModal(correctionsModalURL);
     };
 
-    this.hide_corrections_modal = $.modal.close;
+    this.hide_corrections_modal = closeModal;
 
     this.display_flip_explanation = function () {
-        openStickyModal(flipModal);
+        openStickyModal(flipModalURL);
     };
 
-    this.hide_flip_modal = $.modal.close;
+    this.hide_flip_modal = closeModal;
 
     this.display_move_explanation = function () {
-        openStickyModal(moveModal);
+        openStickyModal(moveModalURL);
     };
 
-    this.hide_move_modal = $.modal.close;
+    this.hide_move_modal = closeModal;
 
     this.disable_incorrect_button = function () {
         incorrect_button.prop("disabled", true);
