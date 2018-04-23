@@ -1,8 +1,8 @@
 const correctionUI = new function () {
     const incorrect_button = $("#buttonIncorrect");
-    const correctionsModalURL = 'correctionsModal.html'
-    const flipModalURL = 'flipModal.html';
-    const moveModalURL = 'moveModal.html';
+    const correctionsModalURL = 'corrections/correctionsModal.html'
+    const flipModalURL = 'corrections/flipModal.html';
+    const moveModalURL = 'corrections/moveModal.html';
 
     incorrect_button.prop("disabled", true);
 
