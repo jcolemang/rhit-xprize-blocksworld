@@ -1,13 +1,23 @@
+function openModal(modalURL) {
+    _openModal(modalURL, {
+        showClose: false
+    });
+}
+
 function openStickyModal(modalURL) {
+    _openModal(modalURL, {
+        escapeClose: false,
+        clickClose: false,
+        showClose: false
+    });
+}
+
+function _openModal(modalURL, modalArgs) {
     $.ajax({
         url: modalURL,
         dataType: 'html',
         success: (html) => {
-            $(html).appendTo('body').modal({
-                escapeClose: false,
-                clickClose: false,
-                showClose: false
-            });
+            $(html).appendTo('body').modal(modalArgs);
         }
     });
 }
