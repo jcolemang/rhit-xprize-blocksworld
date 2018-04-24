@@ -1,7 +1,7 @@
 describe("Blocksworld", () => {
     let EC = protractor.ExpectedConditions;
     let long_timeout = 5000;
-    let short_timeout = long_timeout;//500;
+    let short_timeout = 500;
 
     let modal;
     let startButton;
@@ -18,7 +18,7 @@ describe("Blocksworld", () => {
 
     afterEach(() => {
         browser.refresh();
-        browser.sleep(long_timeout);
+        browser.sleep(short_timeout);
     });
 
     it("should have a connected modal opened", () => {
