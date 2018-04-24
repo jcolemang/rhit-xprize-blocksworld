@@ -91,27 +91,6 @@ socket.on('update_flip_block', function (block_id) {
     correctionUI.enable_incorrect_button();
 });
 
-socket.on('indicate_impossible_move', function(move) {
-    let color = move['predicted_color'];
-    let letter = move['predicted_letter'];
-    let message = 'I think that this is an impossible move. '
-    + 'My prediction is that you are trying to move the '
-    + color + ' '
-    + letter + '. '
-    + 'Please check that this move is possible.';
-    alert(message);
-});
-
-socket.on('indicate_ambiguous_move', function(move) {
-    let color = move['predicted_color'] || 'Ambiguous';
-    let letter = move['predicted_letter'] || 'Ambiguous';
-    let message = 'I think that this is an ambiguous move. '
-    + 'Please try a more specific instruction.\n'
-    + 'Predicted color: ' + color + '\n'
-    + 'Predicted letter: ' + letter;
-    alert(message);
-});
-
 function send_flip_to_server(block_id) {
     try {
         socket.emit('receive_flip_block', block_id);
@@ -235,5 +214,3 @@ function send_gesture_to_server() {
 socket.on('user_left_game', function() {
     window.location.href = "finalPage.html";
 });
-// Opens the popup window for communication between clients.
-// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
