@@ -40,7 +40,6 @@ socket.on('unfreeze_start', function() {
     try {
         socket.emit('disable_blocks_for_player_2');
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
@@ -116,7 +115,6 @@ function send_flip_to_server(block_id) {
     try {
         socket.emit('receive_flip_block', block_id);
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
@@ -140,7 +138,6 @@ function send_movement_to_server() {
     try {
         socket.emit('receive_movement_data', actualMove);
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
@@ -196,7 +193,6 @@ function submitRobot() {
                 q3: q3
             });
         } catch (err) {
-            /* window.location.href = "server_down.html";*/
             redirects.pageDown(err);
         }
         window.location.href = "finalPage.html";
@@ -226,7 +222,6 @@ function send_gesture_to_server() {
             top: gesture_pos.top
         });
     } catch (err) {
-        /* window.location.href = "server_down.html";*/
         redirects.pageDown(err);
     }
 
