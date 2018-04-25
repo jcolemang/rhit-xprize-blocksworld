@@ -146,5 +146,3 @@ function addBlockToContainer(block) {
                            + 'top: ' + block.top + '%; '
                            + 'background-color: ' + block.topColor + '"></div>');
 }
-
-initAll();

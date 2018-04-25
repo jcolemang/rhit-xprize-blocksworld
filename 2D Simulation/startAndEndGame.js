@@ -1,6 +1,8 @@
 let _startTime = new Date().getTime();
 
 function startGame() {
+    initAll();
+
     start_button_pressed = true;
     timecounter();
     document.getElementById("showChosen").style.visibility = "visible";
