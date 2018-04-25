@@ -16,11 +16,6 @@ describe("Blocksworld", () => {
         endButton = element(by.id('buttonEnd'));
     });
 
-    afterEach(() => {
-        browser.refresh();
-        browser.sleep(short_timeout);
-    });
-
     it("should have a connected modal opened", () => {
         expect(browser.wait(EC.presenceOf(modal), long_timeout)).toEqual(true);
     });
