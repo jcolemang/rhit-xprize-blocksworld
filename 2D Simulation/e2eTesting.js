@@ -14,11 +14,6 @@ describe("Blocksworld", () => {
         endButton = element(by.id('buttonEnd'));
     });
 
-    afterEach(() => {
-        browser.refresh();
-        browser.sleep(short_timeout);
-    });
-
     it("should have a connected alert opened", () => {
         expect(browser.wait(EC.alertIsPresent(), long_timeout)).toEqual(true);
 
