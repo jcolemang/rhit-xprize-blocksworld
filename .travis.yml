@@ -40,7 +40,6 @@ before_script:
 
 script:
   - cd server
-  - python --version
   - python -m pytest . --ignore=rhit-xprize-neural-network
   - python simulation.py &
   - sleep 10
