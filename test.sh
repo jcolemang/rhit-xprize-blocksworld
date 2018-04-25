@@ -2,21 +2,21 @@
 
 PYTHON="python3"
 
-function server_tests() {
+function server_tests {
     cd server
 
     $PYTHON -m pytest . --ignore=rhit-xprize-neural-network
     return $?
 }
 
-function client_tests() {
+function client_tests {
     cd ../2D\ Simulation
 
     npx jasmine
     return $?
 }
 
-function gui_tests() {
+function gui_tests {
     node_modules/protractor/bin/webdriver-manager start &
     WEBDRIVER_PID=$!
 
