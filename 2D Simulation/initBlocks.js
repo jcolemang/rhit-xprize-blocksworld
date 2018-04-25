@@ -6,7 +6,26 @@ function initAll() {
         currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
         finalBlocks = getFinalConfiguration(currentConfig);
     } else {
-        // Debug mode (Issue #61)
+        currentConfig = [{
+            topLetter: 'A',
+            bottomLetter: 'B',
+            topColor: 'red',
+            bottomColor: 'green',
+            left: 50,
+            top: 40,
+            id: 0
+        }];
+
+        finalBlocks = [{
+            topLetter: 'B',
+            bottomLetter: 'A',
+            topColor: 'green',
+            bottomColor: 'red',
+            left: 50,
+            top: 40,
+            id: 0,
+            position: [10, 20]
+        }];
     }
 
     initBlocks(currentConfig);
@@ -124,7 +143,8 @@ function isFixed() {
 }
 
 function initBlocks(config) {
-    for (let block of config) {
+    for (let i = 0; i < config.length; i++) {
+        let block = config[i];
         addBlockToContainer(block);
         blocks.set_block_text(block.id, block.topLetter);
 
