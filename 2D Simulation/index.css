@@ -94,8 +94,7 @@ div.numofwords {
     display: inline;
 }
 
-button.buttonEnd {
-    background-image: url(img/startbutton.png);
+button#buttonEnd {
     position: absolute;
     top: 70%;
     left: 2%;
@@ -103,8 +102,7 @@ button.buttonEnd {
     height: 5%;
 }
 
-button.buttonStart {
-    background-image: url(img/startbutton.png);
+button#buttonStart {
     position: absolute;
     top: 50%;
     left: 2%;

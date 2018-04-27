@@ -20,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="buttons.css">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
@@ -94,7 +95,7 @@
           <input id="txt_instruction" type="text" />
         </label>
 
-        <button class="buttonenter"
+        <button class="button"
                 id="buttonEnter"
                 onclick="send_user_message_to_server(currentConfig); inputlength()">
           Enter
@@ -103,14 +104,15 @@
           <div class="showChosen"
                id="showChosen"
                style="float: left; position: static; margin-right: 5px;">
-            <button class="buttonLike"
+            <button class="button"
                     style="vertical-align: middle;"
                     onclick="showConstruction(finalBlocks)">
               Show the Construction
             </button>
           </div>
           <div id="buttonIncorrectDiv" style="float: right;">
-            <button id="buttonIncorrect"
+            <button class="button buttonReject"
+                    id="buttonIncorrect"
                     onclick="correctionUI.show_corrections_modal()"
                     style="vertical-align: middle;">
               Incorrect Move
@@ -122,9 +124,17 @@
       </div>
 
       <div class = "gestureToggle" id="gestureToggle"></div>
-      <button class = "buttonStart" id="buttonStart" onclick="startGame()" >Start</button>
+      <button class="button"
+              id="buttonStart"
+              onclick="startGame()">
+        Start
+      </button>
 
-      <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
+      <button class="button buttonReject"
+              id="buttonEnd"
+              onclick="endGame();">
+        End
+      </button>
       <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
       <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
 
