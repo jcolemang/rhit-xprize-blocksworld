@@ -3,17 +3,31 @@ body {
 }
 
 .button {
-    background-color: #4CAF50;
+    background-color: rgb(76, 175, 80);
     color: white;
-    border: none;
-    border-radius: 8px;
+    border: 2px solid rgb(57, 131, 60);
+    border-radius: 6px;
+    transition-duration: 0.4s;
 }
 
-.buttonReject {
-    background-color: #F44336;
+.button:hover {
+    background-color: rgb(57, 131, 60);
 }
 
 .button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    background-color: rgba(76, 175, 80, 0.4);
+    border: 2px solid rgb(64, 64, 64);
+}
+
+.buttonReject {
+    background-color: rgb(244, 67, 54);
+    border: 2px solid rgb(183, 50, 41);
+}
+
+.buttonReject:hover {
+    background-color: rgb(183, 50, 41);
+}
+
+.buttonReject:disabled {
+    background-color: rgba(244, 67, 54, 0.4);
 }
