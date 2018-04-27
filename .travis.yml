@@ -33,9 +33,9 @@ before_script:
   # withing the last hour so as not to ping GitHub
   # (https://github.com/angular/webdriver-manager/issues/270). Otherwise,
   # we run the update and get a fresh copy.
-  - touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json || node_modules/protractor/bin/webdriver-manager update --standalone
+  - touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json || node_modules/protractor/bin/webdriver-manager update --chrome false --standalone true --versions.gecko v0.20.1
   - node_modules/protractor/bin/webdriver-manager status
-  - node_modules/protractor/bin/webdriver-manager start &
+  - node_modules/protractor/bin/webdriver-manager start --versions.gecko v0.20.1 &
   - sleep 5
 
 script:
