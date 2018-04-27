@@ -1,0 +1,19 @@
+body {
+    background: repeating-linear-gradient(#202020, #303030 20px);
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.buttonReject {
+    background-color: #F44336;
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
