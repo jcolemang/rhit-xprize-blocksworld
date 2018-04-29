@@ -91,18 +91,6 @@ a.buttonLike {
   border-left: 1px solid #CCCCCC;
 }
 
-p.gesture {
-    position: absolute;
-    top: 130px;
-    left: 30px;
-}
-
-p.movement {
-    position: absolute;
-    top: 260px;
-    left: 25px;
-}
-
 div.referenceLink {
     position: absolute;
     left: 60%;
