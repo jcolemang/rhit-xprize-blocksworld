@@ -62,10 +62,6 @@ div.instruction {
     width: 80%;
 }
 
-div.numofwords {
-    display: inline;
-}
-
 button#buttonEnd {
     position: absolute;
     top: 70%;
