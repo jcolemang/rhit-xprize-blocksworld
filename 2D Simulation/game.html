@@ -65,83 +65,80 @@
       </div>
     </div>
 
-    <div class = "gadgetWrapper">
+    <small>
       <small>
         <small>
-          <small>
-            <p class="taskQ"
-               id="taskQ"
-               style="font-size: 30px; position: absolute; top: 0px; left: 0%">
-              Blocksworld
-            </p>
-          </small>
+          <p class="taskQ"
+             id="taskQ"
+             style="font-size: 30px; position: absolute; top: 0px; left: 0%">
+            Blocksworld
+          </p>
         </small>
       </small>
-
-      <div class="instruction"
-           id="instruction"
-           style="font-family:verdana; position: absolute; top: 9%">
-        <label>
-          Enter instructions:
-          <input id="txt_instruction" type="text" />
-        </label>
-
-        <button class="button"
-                id="buttonEnter"
-                onclick="send_user_message_to_server(currentConfig); inputlength()">
-          Enter
-        </button>
-        <div class="rightInstruction" style="float: right;">
-          <div class="showChosen"
-               id="showChosen"
-               style="float: left; position: static; margin-right: 5px;">
-            <button class="button"
-                    style="vertical-align: middle;"
-                    onclick="showConstruction(finalBlocks)">
-              Show the Construction
-            </button>
-          </div>
-          <div id="buttonIncorrectDiv" style="float: right;">
-            <button class="button buttonReject"
-                    id="buttonIncorrect"
-                    onclick="correctionUI.show_corrections_modal()"
-                    style="vertical-align: middle;">
-              Incorrect Move
-            </button>
-          </div>
-        </div>
-        <div class = "numofwords" id="numofwords"></div>
-
-      </div>
-
-      <div class = "gestureToggle" id="gestureToggle"></div>
+    </small>
+    
+    <div class="instruction"
+         id="instruction"
+         style="font-family:verdana; position: absolute; top: 9%">
+      <label>
+        Enter instructions:
+        <input id="txt_instruction" type="text" />
+      </label>
+      
       <button class="button"
-              id="buttonStart"
-              onclick="startGame()">
-        Start
+              id="buttonEnter"
+              onclick="send_user_message_to_server(currentConfig); inputlength()">
+        Enter
       </button>
-
-      <button class="button buttonReject"
-              id="buttonEnd"
-              onclick="endGame();">
-        End
-      </button>
-      <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
-      <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
-
-      <script type="text/javascript">
-       document.getElementById("gesturecontext").style.visibility = "hidden";
-       document.getElementById("movementcontext").style.visibility = "hidden";
-      </script>
-
-      <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
-      <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
-        Score
+      <div class="rightInstruction" style="float: right;">
+        <div class="showChosen"
+             id="showChosen"
+             style="float: left; position: static; margin-right: 5px;">
+          <button class="button"
+                  style="vertical-align: middle;"
+                  onclick="showConstruction(finalBlocks)">
+            Show the Construction
+          </button>
+        </div>
+        <div id="buttonIncorrectDiv" style="float: right;">
+          <button class="button buttonReject"
+                  id="buttonIncorrect"
+                  onclick="correctionUI.show_corrections_modal()"
+                  style="vertical-align: middle;">
+            Incorrect Move
+          </button>
+        </div>
       </div>
-      <div id="scoreBox"></div>
-
+      <div class = "numofwords" id="numofwords"></div>
+      
     </div>
-
+    
+    <div class = "gestureToggle" id="gestureToggle"></div>
+    <button class="button"
+            id="buttonStart"
+            onclick="startGame()">
+      Start
+    </button>
+    
+    <button class="button buttonReject"
+            id="buttonEnd"
+            onclick="endGame();">
+      End
+    </button>
+    <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
+    <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
+    
+    <script type="text/javascript">
+      document.getElementById("gesturecontext").style.visibility = "hidden";
+      document.getElementById("movementcontext").style.visibility = "hidden";
+    </script>
+    
+    <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
+    <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
+      Score
+    </div>
+    <div id="scoreBox"></div>
+    
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
     <script type="text/javascript">
