@@ -7,7 +7,7 @@
     left:10%;
     margin: auto;
     z-index: 1;
-    border:#000 solid 8px;
+    border: #000 solid 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -26,7 +26,7 @@
 .block {
     width: 3.8%;
     height: 7.35%;
-    border: #000 solid 4px;
+    border: #000 solid 2px;
     cursor: move;
     position: absolute;
     z-index: 1;

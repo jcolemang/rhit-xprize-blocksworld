@@ -29,7 +29,6 @@ function writeBlockStyles(config) {
             width: "3.8%",
             height: "7.35%",
             backgroundColor: config[i].topColor,
-            border: "#000 solid 4px",
             position: "absolute",
             zIndex: 1,
             textAlign: "center",
