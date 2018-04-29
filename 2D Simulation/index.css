@@ -45,10 +45,13 @@ div.fixed {
     right: 100px;
 }
 
-p.taskQ {
-    position: relative;
-    top:0px;
+#taskQ {
+    position: absolute;
+    top: 0px;
+    left: 0%;
     text-align: left;
+
+    font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
