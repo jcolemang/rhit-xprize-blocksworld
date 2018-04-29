@@ -2,6 +2,47 @@ body {
     background: #F5F5DC;
 }
 
+#scoreBox {
+    text-align: center;
+    font-size: 24px;
+
+    border: #000 solid 4px;
+
+    background-color: #BEBEBE;
+
+    position: absolute;
+    top: 20%;
+    left: 85%;
+
+    width: 10%;
+    height: 15%;
+}
+
+#container {
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    background-image: url(img/parchment.jpg);
+    top:15%;
+    left:10%;
+    margin: auto;
+    z-index: 1;
+    border: #000 solid 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-size: 100% 100%;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 .button {
     background-color: rgb(76, 175, 80);
     color: white;
