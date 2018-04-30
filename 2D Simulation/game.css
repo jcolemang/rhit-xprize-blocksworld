@@ -6,16 +6,16 @@ body {
     text-align: center;
     font-size: 24px;
 
-    border: #000 solid 4px;
+    border: #BEBEBE solid 4px;
 
-    background-color: #BEBEBE;
+    background-color: #DEDEDE;
 
     position: absolute;
     top: 20%;
     left: 85%;
 
-    width: 10%;
-    height: 15%;
+    width: 50px;
+    padding: 10px 0px;
 }
 
 #container {
