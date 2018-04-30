@@ -2,19 +2,24 @@ body {
     background: #F5F5DC;
 }
 
-#scoreBox {
+#scoreDiv {
+    font-size: 2vw;
+    font-family:verdana;
+
     text-align: center;
-    font-size: 24px;
-
-    border: #BEBEBE solid 4px;
-
-    background-color: #DEDEDE;
 
     position: absolute;
-    top: 20%;
-    left: 85%;
+    top: 15%;
+    left: 85%
+}
 
-    width: 50px;
+#scoreBox {
+    font-size: 3vw;
+
+    border: #BEBEBE solid 4px;
+    background-color: #DEDEDE;
+
+    width: 7vw;
     padding: 10px 0px;
 }
 
@@ -27,7 +32,7 @@ body {
     left:10%;
     margin: auto;
     z-index: 1;
-    border: #000 solid 4px;
+    border: #5E5E5E solid 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
