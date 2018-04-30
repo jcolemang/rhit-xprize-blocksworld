@@ -17,6 +17,7 @@ body {
     font-size: 3vw;
 
     border: #BEBEBE solid 4px;
+    border-radius: 2px;
     background-color: #DEDEDE;
 
     width: 7vw;
@@ -39,6 +40,7 @@ body {
     font-family: verdana;
 
     border: #BEBEBE solid 4px;
+    border-radius: 2px;
     background-color: #DEDEDE;
 
     width: 7vw;
@@ -47,14 +49,15 @@ body {
 
 #container {
     width: 70%;
-    height: 70%;
+    padding-bottom: 33%; /* Maintain Aspect Ratio */
+
     position: absolute;
+    top: 15%;
+    left: 10%;
+
+    font-size: 4vmin;
+
     background-image: url(img/parchment.jpg);
-    top:15%;
-    left:10%;
-    margin: auto;
-    z-index: 1;
-    border: #5E5E5E solid 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -68,6 +71,11 @@ body {
 
     background-repeat: no-repeat;
     background-position: center center;
+
+    z-index: 1;
+
+    border: #5E5E5E solid 4px;
+    border-radius: 2px;
 }
 
 #taskQ {
