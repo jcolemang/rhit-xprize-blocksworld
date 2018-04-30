@@ -66,16 +66,12 @@ button#buttonEnd {
     position: absolute;
     top: 70%;
     left: 2%;
-    width: 5%;
-    height: 5%;
 }
 
 button#buttonStart {
     position: absolute;
     top: 50%;
     left: 2%;
-    width: 5%;
-    height: 5%;
 }
 
 

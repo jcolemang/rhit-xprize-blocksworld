@@ -51,9 +51,17 @@ body {
 .button {
     background-color: rgb(76, 175, 80);
     color: white;
+
     border: 3px solid rgb(57, 131, 60);
     border-radius: 6px;
-    transition-duration: 0.4s;
+
+    font-size: 1.2vw;
+    text-align: center;
+
+    width: 6vw;
+    height: 3vw;
+
+    transition: background-color 0.4s;
 }
 
 .button:hover {
@@ -78,4 +86,12 @@ body {
 
 .buttonReject:disabled {
     background-color: rgba(244, 67, 54, 0.4);
+}
+
+#buttonIncorrect {
+    width: 12vw;
+}
+
+#buttonConstruction {
+    width: 15vw;
 }

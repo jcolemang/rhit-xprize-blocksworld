@@ -86,10 +86,11 @@
         <div class="showChosen"
              id="showChosen"
              style="float: left; position: static; margin-right: 5px;">
-          <button class="button"
+          <button id="buttonConstruction"
+                  class="button"
                   style="vertical-align: middle;"
-                  onclick="showConstruction(finalBlocks)">
-            Show the Construction
+            onclick="showConstruction(finalBlocks)">
+            Show Construction
           </button>
         </div>
         <div id="buttonIncorrectDiv" style="float: right;">
@@ -132,17 +133,9 @@
      $('#timer').css('font-size', page_height * 0.025 + "px");
      $('#instruction').css('font-size', page_height * 0.025 + "px");
      $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
-     $('#buttonEnter').css('font-size', page_height * 0.015 + "px");
-     // $('#showChosen').css('font-size', page_height * 0.015 + "px");
      document.getElementById('popup').style.top = "1%";
      document.getElementById('popup').style.right = "0%";
      $('#helper').css('font-size', page_height * 0.02 + "px");
-     $('#buttonStart').css('font-size', page_height * 0.02 + "px");
-     document.getElementById("buttonStart").style.width = page_width * 0.05 + "px";
-     document.getElementById("buttonStart").style.height = page_height * 0.05 + "px";
-     $('#buttonEnd').css('font-size', page_height * 0.02 + "px");
-     document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
-     document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
      $('#myPopup').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('width', page_width * 0.3 + "px");
      $('#myPopup').css('height', page_height * 0.5 + "px");
