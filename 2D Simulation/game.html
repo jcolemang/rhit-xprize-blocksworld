@@ -70,10 +70,9 @@
     </p>
     
     <div class="instruction"
-         id="instruction"
-         style="font-family:verdana; position: absolute; top: 9%">
+         id="instruction">
       <label>
-        Enter instructions:
+        Instructions:
         <input id="txt_instruction" type="text" />
       </label>
       
@@ -117,7 +116,10 @@
       End
     </button>
 
-    <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
+    <div id="timerDiv">
+      Time:
+      <div id="timer">3:00</div>
+    </div>
     <div id="scoreDiv">
       Score
       <div id="scoreBox">0</div>
@@ -128,11 +130,7 @@
     <script type="text/javascript">
      page_width = window.innerWidth;
      page_height = window.innerHeight;
-     $("#taskQ").css('font-size', page_height * 0.04 + "px");
-     $('#popup').css('font-size', page_height * 0.025 + "px");
-     $('#timer').css('font-size', page_height * 0.025 + "px");
-     $('#instruction').css('font-size', page_height * 0.025 + "px");
-     $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
+     $('#popup').css('font-size', page_height * 0.025 + "px");     
      document.getElementById('popup').style.top = "1%";
      document.getElementById('popup').style.right = "0%";
      $('#helper').css('font-size', page_height * 0.02 + "px");
@@ -142,31 +140,7 @@
     </script>
 
 
-    <script type="text/javascript">
-     function timecounter() {
-       var countDownDate = new Date().getTime() + 1000 * 3 * 60 * 1000 + 1000;
-       var x = setInterval(function() {
-         // Get todays date and time
-         var now = new Date().getTime();
-
-         // Find the distance between now an the count down date
-         var distance = countDownDate - now;
-
-         // Time calculations for days, hours, minutes and seconds
-         var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
-         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-         // Output the result in an element with id="demo"
-         if (minutes < 0) {
-           clearInterval(x);
-           endGame();
-         } else {
-           document.getElementById("timer").innerHTML = "Time: " + minutes + " minutes " + seconds + " seconds";
-         }
-
-       }, 1000);
-     }
-    </script>
+    <script type="text/javascript" src="timer.js"></script>
 
     <script type="text/javascript">
      page_width = window.innerWidth;
