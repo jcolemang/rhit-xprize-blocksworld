@@ -36,7 +36,7 @@ function Gesture() {
         let new_pos = this._absolute_to_main_coords(left, top);
 
         this._set_percent_position(new_pos);
-        this._update_game_coords(new_pos);
+        this._update_game_coords(left, top);
 
         movesTracker.add_gesture(this._game_position.left,
                                  this._game_position.top);
@@ -66,14 +66,13 @@ function Gesture() {
         this._get_gesture().css("top", percent_pos.top + "%");
     };
 
-    this._update_game_coords = function (main_pos) {
+    this._update_game_coords = function (left, top) {
         let container = this._get_container();
         let container_pos = container.offset();
-        let abs_pos = this._get_absolute_position();
 
         let abs_container_pos = {
-            left: abs_pos.left - container_pos.left,
-            top: abs_pos.top - container_pos.top
+            left: left - container_pos.left,
+            top: top - container_pos.top
         };
 
         let normalized_container_pos = {
@@ -85,10 +84,6 @@ function Gesture() {
             left: normalized_container_pos.left * 100,
             top: normalized_container_pos.top * 100
         };
-    };
-
-    this._get_absolute_position = function () {
-        return this._get_gesture().offset();
     };
 }
 
