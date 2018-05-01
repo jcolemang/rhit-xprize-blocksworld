@@ -16,6 +16,10 @@ describe("movesCorrector", () => {
                                    "display_block_letters",
                                    "display_block_ids"]);
 
+    gesture = jasmine.createSpyObj("gesture",
+                                   ["get_position",
+                                    "hide"]);
+
     beforeEach(() => {
         movesCorrector = new MovesCorrector();
     });
@@ -415,11 +419,9 @@ describe("movesCorrector", () => {
             };
 
             beforeEach(() => {
-                get_gesture_position = jasmine.createSpy("get_gesture_position");
-                get_gesture_position.and.returnValue(gesture_pos);
+                gesture.get_position.and.returnValue(gesture_pos);
 
                 update_gui_block = jasmine.createSpy("update_gui_block");
-                hide_gesture = jasmine.createSpy("hide_gesture");
 
                 movesCorrector._handle_move_message("4");
             });
@@ -445,7 +447,7 @@ describe("movesCorrector", () => {
             });
 
             it("should hide the last gesture", () => {
-                expect(hide_gesture).toHaveBeenCalled();
+                expect(gesture.hide).toHaveBeenCalled();
             });
         });
     });

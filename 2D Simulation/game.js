@@ -144,7 +144,7 @@ function send_movement_to_server() {
 }
 socket.on('update_movement_data', function(data) {
     actualMove = data;
-    hide_gesture();
+    gesture.hide();
 });
 
 function send_user_message_to_server(gameConfig) {
@@ -155,7 +155,7 @@ function send_user_message_to_server(gameConfig) {
             return;
         }
 
-        if (gesture_is_visible()) {
+        if (gesture.is_visible()) {
             gestureCount++;
             send_gesture_to_server();
         }
@@ -171,11 +171,6 @@ function send_user_message_to_server(gameConfig) {
 
         correctionUI.disable_incorrect_button();
     }
-}
-
-function gesture_is_visible() {
-    gestureElement = $('#gestureToggle')
-    return gestureElement.is(':visible')
 }
 
 function submitRobot() {
@@ -199,22 +194,8 @@ function submitRobot() {
     }
 }
 
-function get_gesture_position() {
-    let rect = document.getElementById('container').getBoundingClientRect();
-    let gesture = $("#gestureToggle");
-
-    return {
-        left: ((gesture.position().left - rect.left) / (rect.right - rect.left - 16)) * 100,
-        top: ((gesture.position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100
-    };
-}
-
-function hide_gesture() {
-    $("#gestureToggle").css("visibility", "hidden");
-}
-
 function send_gesture_to_server() {
-    let gesture_pos = get_gesture_position();
+    let gesture_pos = gesture.get_position();
 
     try {
         socket.emit('receive_gesture_data', {

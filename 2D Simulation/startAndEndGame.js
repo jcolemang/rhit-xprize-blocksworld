@@ -12,11 +12,11 @@ function startGame() {
     document.getElementById('container').ondblclick = function(e) {
         var event = e || window.event;
 
-        setGestureWithPosition(event.clientX, event.clientY, event);
+        gesture.set_position_from_event(event.clientX, event.clientY, event);
     };
 
     actualMove = 0;
-    hide_gesture();
+    gesture.hide();
 
     document.getElementById('buttonStart').disabled = true;
 }
