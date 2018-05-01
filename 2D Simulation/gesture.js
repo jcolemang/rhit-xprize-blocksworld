@@ -52,8 +52,8 @@ function Gesture() {
 
         let parent_pos = parent.offset();
 
-        let normalized_left = (left - parent_pos.left) / $(parent).width();
-        let normalized_top = (top - parent_pos.top) / $(parent).height();
+        let normalized_left = (left - parent_pos.left) / parent.width();
+        let normalized_top = (top - parent_pos.top) / parent.height();
 
         return {
             left: normalized_left * 100,
@@ -90,6 +90,11 @@ function Gesture() {
     this._get_absolute_position = function () {
         return this._get_gesture().offset();
     };
+}
+
+if (typeof module !== 'undefined'
+    && module.hasOwnProperty('exports')) {
+    module.exports = Gesture;
 }
 
 let gesture = new Gesture();
