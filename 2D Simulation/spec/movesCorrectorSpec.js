@@ -17,7 +17,7 @@ describe("movesCorrector", () => {
                                    "display_block_ids"]);
 
     gesture = jasmine.createSpyObj("gesture",
-                                   ["get_position",
+                                   ["get_game_position",
                                     "hide"]);
 
     beforeEach(() => {
@@ -419,7 +419,7 @@ describe("movesCorrector", () => {
             };
 
             beforeEach(() => {
-                gesture.get_position.and.returnValue(gesture_pos);
+                gesture.get_game_position.and.returnValue(gesture_pos);
 
                 update_gui_block = jasmine.createSpy("update_gui_block");
 

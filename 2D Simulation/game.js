@@ -195,7 +195,7 @@ function submitRobot() {
 }
 
 function send_gesture_to_server() {
-    let gesture_pos = gesture.get_position();
+    let gesture_pos = gesture.get_game_position();
 
     try {
         socket.emit('receive_gesture_data', {
