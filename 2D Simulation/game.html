@@ -30,9 +30,6 @@
   </head>
 
   <body oncontextmenu="return false;">
-    <div id="container">
-      <!-- Holds the play field. Initialized in initBlocks(). -->
-    </div>
     <div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
       <div style="text-align:center">
         <div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana">Introduction of the game
@@ -102,27 +99,42 @@
         </div>
       </div>
     </div>
-    
-    <div class = "gestureToggle" id="gestureToggle"></div>
-    <button class="button"
-            id="buttonStart"
-            onclick="startGame()">
-      Start
-    </button>
-    
-    <button class="button buttonReject"
-            id="buttonEnd"
-            onclick="endGame();">
-      End
-    </button>
 
-    <div id="timerDiv">
-      Time:
-      <div id="timer">3:00</div>
-    </div>
-    <div id="scoreDiv">
-      Score
-      <div id="scoreBox">0</div>
+    <div id="main">
+      <div id="container">
+        <!-- Holds the play field. Initialized in initBlocks(). -->
+      </div>
+      <div class = "gestureToggle" id="gestureToggle"></div>
+
+      <div id="startStopButtons">
+        <div id="buttonStartDiv">
+          <button class="button"
+                  id="buttonStart"
+                  onclick="startGame()">
+            Start
+          </button>
+        </div>
+
+        <div id="buttonEndDiv">
+          <button class="button buttonReject"
+                  id="buttonEnd"
+                  onclick="endGame();">
+            End
+          </button>
+        </div>
+      </div>
+
+      <div id="infoBoxes">
+        <div id="timerDiv">
+          Time:
+          <div id="timer">3:00</div>
+        </div>
+
+        <div id="scoreDiv">
+          Score
+          <div id="scoreBox">0</div>
+        </div>
+      </div>
     </div>
     
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>

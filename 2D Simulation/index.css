@@ -45,35 +45,12 @@ div.fixed {
     right: 100px;
 }
 
-#taskQ {
-    position: absolute;
-    top: 0px;
-    left: 0%;
-    text-align: left;
-
-    font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 div.instruction {
     position: relative;
     top: -12px;
     left: 0px;
     width: 80%;
 }
-
-button#buttonEnd {
-    position: absolute;
-    top: 70%;
-    left: 2%;
-}
-
-button#buttonStart {
-    position: absolute;
-    top: 50%;
-    left: 2%;
-}
-
 
 a.buttonLike {
   font: Arial;

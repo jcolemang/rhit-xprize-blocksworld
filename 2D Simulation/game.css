@@ -2,15 +2,16 @@ body {
     background: #F5F5DC;
 }
 
+#infoBoxes {
+    position: absolute;
+    right: 7%;
+}
+
 #scoreDiv {
     font-size: 2vw;
     font-family:verdana;
 
     text-align: center;
-
-    position: absolute;
-    top: 15%;
-    left: 85%
 }
 
 #scoreBox {
@@ -25,14 +26,13 @@ body {
 }
 
 #timerDiv {
+    padding-top: 3vw;
+    padding-bottom: 5vw;
+
     font-size: 2vw;
     font-family:verdana;
 
     text-align: center;
-
-    position: absolute;
-    top: 45%;
-    left: 85%
 }
 
 #timer {
@@ -48,11 +48,11 @@ body {
 }
 
 #container {
-    width: 70%;
-    padding-bottom: 33%; /* Maintain Aspect Ratio */
+    width: 65vw;
+    height: 36vw; /* 16:9 aspect ratio 65:36 */
 
     position: absolute;
-    top: 15%;
+    top: 0%;
     left: 10%;
 
     font-size: 2vw;
@@ -80,14 +80,33 @@ body {
 
 #taskQ {
     font-size: 6vh;
-    margin: 1vh 0 0 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+
+    margin: 1vh 0 3vh 0;
 }
 
 #instruction {
     font-family: verdana;
     font-size: 2vw;
+}
+
+#main {
+    position: relative;
+    height: 36vw; /* same as container height */
+}
+
+#startStopButtons {
     position: absolute;
-    top: 9%;
+    left: 2%;
+}
+
+#buttonStartDiv {
+    margin-top: 14vw;
+}
+
+#buttonEndDiv {
+    margin-top: 8vw;
 }
 
 #txt_instruction {
