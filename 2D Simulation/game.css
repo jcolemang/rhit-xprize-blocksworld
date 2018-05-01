@@ -113,6 +113,17 @@ body {
     width: 20vw;
 }
 
+#gestureToggle {
+    width: 1vw;
+    height: 1vw;
+    background-color: black;
+    position: absolute;
+    visibility: hidden;
+    z-index: 5;
+    vertical-align: middle;
+    line-height: 2.12%;
+}
+
 .button {
     background-color: rgb(76, 175, 80);
     color: white;

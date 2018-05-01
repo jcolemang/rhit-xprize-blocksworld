@@ -25,20 +25,6 @@
     width: 200px;
 }
 
-#gestureToggle {
-    width: 1.08%;
-    height: 2.12%;
-    background-color: black;
-    cursor: move;
-    position: absolute;
-    visibility: hidden;
-    left: auto;
-    top: auto;
-    z-index: 5;
-    vertical-align: middle;
-    line-height: 2.12%;
-  }
-
 div.fixed {
     position: fixed;
     bottom: 0px;
