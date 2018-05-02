@@ -1,7 +1,7 @@
 /* uses global variables: NumBlocks */
 
-function Scoring() {
-    this.initialScore = null;
+function Scoring(blocks, NumBlocks) {
+    this._initialScore = null;
 
     this.calc_score = function (finalBlocks) {
         let error = this._calc_total_error(finalBlocks);
@@ -11,29 +11,30 @@ function Scoring() {
     }
 
     this._calc_total_error = function (goal_positions) {
-        let curr_centroid = this._make_current_centroid();
+        let block_list = this._make_block_list();
+
+        let curr_centroid = this._centroid(block_list);
         let goal_centroid = this._centroid(goal_positions);
 
         let error = 0;
         for (let i = 0; i < NumBlocks; i++) {
-            let curr_block = blocks.get_block_pos(i);
             let goal_block = goal_positions[i];
 
-            error += this._calc_error(curr_block, goal_block,
+            error += this._calc_error(block_list[i], goal_block,
                                       curr_centroid, goal_centroid);
         }
 
         return error;
     };
 
-    this._make_current_centroid = function () {
+    this._make_block_list = function () {
         let block_list = [];
 
         for (let i = 0; i < NumBlocks; i++) {
             block_list.push(blocks.get_block_pos(i));
         }
 
-        return this._centroid(block_list);
+        return block_list;
     }
 
     this._calc_error = function (curr_block, goal_block, curr_centroid, goal_centroid) {
@@ -45,18 +46,18 @@ function Scoring() {
         return error_x + error_y;
     }
 
-    this._centroid = function (blocks) {
+    this._centroid = function (block_list) {
         let centerX = 0;
         let centerY = 0;
 
-        for (var i = 0; i < blocks.length; i++) {
-            centerX += blocks[i].left;
-            centerY += blocks[i].top;
+        for (var i = 0; i < block_list.length; i++) {
+            centerX += block_list[i].left;
+            centerY += block_list[i].top;
         }
 
         return {
-            left: centerX /= blocks.length,
-            top: centerY /= blocks.length
+            left: centerX /= block_list.length,
+            top: centerY /= block_list.length
         };
     }
 
@@ -70,9 +71,9 @@ function Scoring() {
     }
 
     this._update_initial_score = function (raw_score) {
-        if (this.initialScore !== null) {
-            raw_score = 100 / (100 - this.initialScore)
-                * (raw_score - this.initialScore);
+        if (this._initialScore !== null) {
+            raw_score = 100 / (100 - this._initialScore)
+                * (raw_score - this._initialScore);
 
             if (raw_score < 0) {
                 raw_score = 0;
@@ -80,7 +81,7 @@ function Scoring() {
 
             return raw_score;
         } else {
-            this.initialScore = raw_score;
+            this._initialScore = raw_score;
 
             return 0;
         }
