@@ -18,13 +18,10 @@ function initAll() {
 
         finalBlocks = [{
             topLetter: 'B',
-            bottomLetter: 'A',
             topColor: 'green',
-            bottomColor: 'red',
-            left: 50,
-            top: 40,
-            id: 0,
-            position: [10, 20]
+            left: 10,
+            top: 20,
+            id: 0
         }];
     }
 
@@ -119,20 +116,14 @@ function generateBlocks(topColors, bottomColors,
 
 function getFinalConfiguration(initialConfiguration) {
     return initialConfiguration.map(block => {
-        let newBlock = Object.assign({}, block);
-
-        if (Math.random() < 0.5) {
-            let tempColor = newBlock.topColor;
-            let tempLetter = newBlock.topLetter;
-            newBlock.topLetter = newBlock.bottomLetter;
-            newBlock.topColor = newBlock.bottomColor;
-            newBlock.bottomLetter = tempLetter;
-            newBlock.bottomColor = tempColor;
-        }
-
-        newBlock.position = [Math.random() * 100, Math.random() * 100];
-
-        return newBlock;
+        let flip = Math.random() < 0.5;
+        return {
+            id: block.id,
+            top: Math.random() * 100,
+            left: Math.random() * 100,
+            topColor: flip ? block.topColor : block.bottomColor,
+            topLetter: flip ? block.topLetter : block.bottomLetter
+        };
     });
 }
 
