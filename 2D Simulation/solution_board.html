@@ -36,7 +36,6 @@
         document.body.appendChild(container);
 
         let finalBlocks = JSON.parse(localStorage.getItem('finalBlocks'));
-        console.log(finalBlocks);
         finalBlocks.map(block => {
           let obj = $("#block" + block.id);
           obj.css('left', block.left + '%');

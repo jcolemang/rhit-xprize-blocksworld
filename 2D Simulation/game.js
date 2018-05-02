@@ -127,7 +127,7 @@ function update_score(moveData) {
     let id = Number(moveData.block_id.substring(5));
 
     document.getElementById('scoreBox').innerText
-        = Math.round(scoring.calc_score(finalBlocks));
+        = Math.round(scoring.calc_score());
 }
 
 socket.on('Update_score', update_score);

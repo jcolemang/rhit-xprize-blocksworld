@@ -32,7 +32,7 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
     }
 
     document.getElementById('scoreBox').innerText
-        = Math.round(scoring.calc_score(finalBlocks));
+        = Math.round(scoring.calc_score());
 }
 
 function endGame() {
@@ -72,7 +72,7 @@ function endGame() {
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: Math.round(scoring.calc_score(finalBlocks)),
+                finalScore: Math.round(scoring.calc_score()),
                 seconds: seconds
             });
         } catch (err) {
