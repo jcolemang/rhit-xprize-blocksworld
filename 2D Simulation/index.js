@@ -12,8 +12,6 @@ var x;
 var y;
 var br; var bm; var pn; var pp; var p; var te; var ie;
 var start_button_pressed = false;
-var end_top = [];
-var end_left = [];
 
 var currentConfig;
 var finalBlocks;

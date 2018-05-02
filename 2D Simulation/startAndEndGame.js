@@ -23,9 +23,6 @@ function startGame() {
 
 function setUpInitialPosition(currentConfig, finalBlocks) {
     for (let i = 0; i < currentConfig.length; i++) {
-        end_left.push(currentConfig[i].left);
-        end_top.push(currentConfig[i].top);
-
         initialInfo.push("block:" + i + " " +
                          "initial position: (" + currentConfig[i].left + "%, "
                          + currentConfig[i].top + "%) " +
@@ -47,14 +44,6 @@ function endGame() {
 
         var minutes = Math.floor(time / 60);
         var seconds = time - (minutes * 60);
-
-        for (var i = 0; i < NumBlocks; i++) {
-            var blockid = document.getElementById('block'+i);
-            if(blockid) {
-                end_top.push($("#block" + i).data("vertical_percent"));
-                end_left.push($("#block" + i).data("horizontal_percent"));
-            }
-        }
 
         let actions = movesTracker.export_actions();
 
