@@ -61,12 +61,10 @@ function Scoring() {
     }
 
     this._calc_score = function (error) {
-        let container = $("#container");
-
-        let width = container.width();
-        let height = container.height();
-
-        let Emax = (height + width - 50) * 5;
+        // the 100's correspond with the width and height (since we're
+        // using percentages); besides that I'm not sure where the
+        // numbers come from
+        let Emax = (100 + 100 - 50) * 5;
 
         return  ((Emax - error) / Emax) * 100;
     }
