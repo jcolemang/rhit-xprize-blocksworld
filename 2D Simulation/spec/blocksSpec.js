@@ -87,6 +87,32 @@ describe("blocks", () => {
         });
     });
 
+    describe("when getting the full position", () => {
+        let left = 59.24;
+        let top = 60.75;
+
+        let position;
+
+        beforeEach(() => {
+            spyOn(blocks, "get_block_left_pos").and.returnValue(left);
+            spyOn(blocks, "get_block_top_pos").and.returnValue(top);
+
+            position = blocks.get_block_pos(5);
+        });
+
+        it("should return the correct position", () => {
+            expect(position).toEqual({
+                left: left,
+                top: top
+            });
+        });
+
+        it("should check the position of the correct block", () => {
+            expect(blocks.get_block_left_pos.calls.argsFor(0)[0]).toEqual(5);
+            expect(blocks.get_block_top_pos.calls.argsFor(0)[0]).toEqual(5);
+        });
+    });
+
     describe("when setting the block color", () => {
         let background_color = "";
         let goal_color = "green";
