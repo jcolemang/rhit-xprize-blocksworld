@@ -14,9 +14,7 @@ var br; var bm; var pn; var pp; var p; var te; var ie;
 var start_button_pressed = false;
 var end_top = [];
 var end_left = [];
-var initialScore = -1;
 
-// I am certain that these are necessary as of Sunday, October 29
 var currentConfig;
 var finalBlocks;
 var initialInfo = [];
@@ -137,51 +135,4 @@ function getDateTime() {
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     return month + "/" + day + "/" + year + " " + hour + ":" + min + ":" + sec;
-}
-
-
-function centroid(x, y) {
-    var centerX = 0, centerY = 0;
-    for (var i = 0; i < x.length; i++) {
-        centerX += x[i];
-        centerY += y[i];
-    }
-    centerX /= x.length;
-    centerY /= y.length;
-    var center = [];
-    center.push(centerX);
-    center.push(centerY);
-    return center;
-}
-
-function scoreCal(finalBlocks) {
-    let goal_left = finalBlocks.map(block => block.left);
-    let goal_top = finalBlocks.map(block => block.top);
-
-    var centerC = centroid(goal_left, goal_top);
-    var centerA = centroid(end_left, end_top);
-    var errorX = 0;
-    var errorY = 0;
-    for (var index = 0; index < NumBlocks; index++) {
-        errorX = errorX + Math.abs((end_left[index] - centerA[0]) - (goal_left[index] - centerC[0]));
-        errorY = errorY + Math.abs((end_top[index] - centerA[1]) - (goal_top[index] - centerC[1]));
-    }
-
-    var totalError = errorY + errorX;
-    var width = $("#container").width();
-    var height = $("#container").height();
-
-    var Emax = (height + width - 50) * 5;
-    var score = ((Emax - totalError) / Emax) * 100;
-
-    if (initialScore != -1) {
-        score = 100 / (100 - initialScore) * (score - initialScore);
-        if (score < 0) {
-            score = 0;
-        }
-        return score;
-    } else {
-        initialScore = score;
-        return 0;
-    }
 }

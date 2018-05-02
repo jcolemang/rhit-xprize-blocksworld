@@ -44,7 +44,8 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
         document.getElementById("block" + i).style.left = tLeft+"%";
     }
 
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
+    document.getElementById('scoreBox').innerText
+        = Math.round(scoring.calc_score(finalBlocks));
 }
 
 function endGame() {
@@ -92,7 +93,7 @@ function endGame() {
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: Math.round(scoreCal(finalBlocks)),
+                finalScore: Math.round(scoring.calc_score(finalBlocks)),
                 seconds: seconds
             });
         } catch (err) {

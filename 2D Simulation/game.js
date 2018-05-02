@@ -129,7 +129,8 @@ function update_score(moveData) {
     end_left[id] = Number(moveData.left);
     end_top[id] = Number(moveData.top);
 
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
+    document.getElementById('scoreBox').innerText
+        = Math.round(scoring.calc_score(finalBlocks));
 }
 
 socket.on('Update_score', update_score);
