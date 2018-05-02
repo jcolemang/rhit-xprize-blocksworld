@@ -1,21 +1,23 @@
-function Scoring(blocks, NumBlocks) {
+function Scoring(blocks, num_blocks, goal_positions) {
+    let goal_centroid; /* defined at the bottom */
+
     this._initialScore = null;
 
-    this.calc_score = function (finalBlocks) {
-        let error = this._calc_total_error(finalBlocks);
+    this.calc_score = function () {
+        let error = this._calc_total_error();
         let raw_score = this._calc_score(error);
 
         return this._update_initial_score(raw_score);
     }
 
-    this._calc_total_error = function (goal_positions) {
+    this._calc_total_error = function () {
         let block_list = this._make_block_list();
 
         let curr_centroid = this._centroid(block_list);
         let goal_centroid = this._centroid(goal_positions);
 
         let error = 0;
-        for (let i = 0; i < NumBlocks; i++) {
+        for (let i = 0; i < num_blocks; i++) {
             let goal_block = goal_positions[i];
 
             error += this._calc_error(block_list[i], goal_block,
@@ -28,14 +30,14 @@ function Scoring(blocks, NumBlocks) {
     this._make_block_list = function () {
         let block_list = [];
 
-        for (let i = 0; i < NumBlocks; i++) {
+        for (let i = 0; i < num_blocks; i++) {
             block_list.push(blocks.get_block_pos(i));
         }
 
         return block_list;
     }
 
-    this._calc_error = function (curr_block, goal_block, curr_centroid, goal_centroid) {
+    this._calc_error = function (curr_block, goal_block, curr_centroid) {
         let error_x = Math.abs((curr_block.left - curr_centroid.left) -
                                (goal_block.left - goal_centroid.left));
         let error_y = Math.abs((curr_block.top - curr_centroid.top) -
@@ -83,7 +85,9 @@ function Scoring(blocks, NumBlocks) {
 
             return 0;
         }
-    }
+    };
+
+    goal_centroid = this._centroid(goal_positions);
 }
 
 let scoring;
@@ -92,5 +96,5 @@ if (typeof module !== 'undefined'
     && module.hasOwnProperty('exports')) {
     module.exports = Scoring;
 } else {
-    scoring = new Scoring(blocks, NumBlocks);
+    scoring = new Scoring(blocks, NumBlocks, finalBlocks);
 }

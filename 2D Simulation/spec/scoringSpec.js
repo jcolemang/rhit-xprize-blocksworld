@@ -4,30 +4,28 @@ describe("scoring", () => {
 
     let blocks = jasmine.createSpyObj("blocks", ["get_block_pos"]);
 
+    let goal_config = [{
+        left: 20,
+        top: 20
+    }, {
+        left: 30,
+        top: 10
+    }, {
+        left: 10,
+        top: 30
+    }];
+
     let result;
 
     beforeEach(() => {
-        scoring = new Scoring(blocks, 3);
+        scoring = new Scoring(blocks, 3, goal_config);
     });
 
     describe("when setting the initial score", () => {
-        let currentConfig = [{
-            left: 10,
-            top: 30
-        }, {
-            left: 20,
-            top: 20
-        }, {
-            left: 30,
-            top: 10
-        }];
-
-        beforeEach(() => {
-            blocks.get_block_pos.and.returnValues(...currentConfig);
-        });
-
         describe("when the blocks are perfectly matched", () => {
             beforeEach(() => {
+                blocks.get_block_pos.and.returnValues(...goal_config);
+
                 result = scoring.calc_score(currentConfig);
             });
 
@@ -41,18 +39,20 @@ describe("scoring", () => {
         });
 
         describe("when the centroids match", () => {
-            let goal_config = [{
+            let current_config = [{
+                left: 45,
+                top: 55
+            }, {
                 left: 20,
-                top: 20
-            }, {
-                left: 30,
-                top: 10
-            }, {
-                left: 10,
                 top: 30
+            }, {
+                left: 20,
+                top: 50
             }];
 
             beforeEach(() => {
+                blocks.get_block_pos.and.returnValues(...current_config);
+
                 result = scoring.calc_score(goal_config);
             });
 
@@ -61,12 +61,12 @@ describe("scoring", () => {
             });
 
             it("should store the correct score in initialScore", () => {
-                expect(scoring._initialScore).toBeCloseTo(89.33);
+                expect(scoring._initialScore).toBeCloseTo(92.44);
             });
         });
 
         describe("when the centroids don't match", () => {
-            let goal_config = [{
+            let current_config = [{
                 left: 40,
                 top: 40
             }, {
@@ -78,6 +78,8 @@ describe("scoring", () => {
             }];
 
             beforeEach(() => {
+                blocks.get_block_pos.and.returnValues(...current_config);
+
                 result = scoring.calc_score(goal_config);
             });
 
@@ -86,7 +88,7 @@ describe("scoring", () => {
             });
 
             it("should store the correct score in initialScore", () => {
-                expect(scoring._initialScore).toBeCloseTo(88.44);
+                expect(scoring._initialScore).toBeCloseTo(92.89);
             });
         });
     });
@@ -138,7 +140,7 @@ describe("scoring", () => {
         });
 
         it("should calculate the adjusted score", () => {
-            expect(result).toBeCloseTo(75);
+            expect(result).toBeCloseTo(25);
         });
 
         it("should leave the initial score the same", () => {
