@@ -1,5 +1,3 @@
-/* uses global variables: NumBlocks */
-
 function Scoring(blocks, NumBlocks) {
     this._initialScore = null;
 
@@ -88,4 +86,11 @@ function Scoring(blocks, NumBlocks) {
     }
 }
 
-let scoring = new Scoring();
+let scoring;
+
+if (typeof module !== 'undefined'
+    && module.hasOwnProperty('exports')) {
+    module.exports = Scoring;
+} else {
+    scoring = new Scoring(blocks, NumBlocks);
+}
