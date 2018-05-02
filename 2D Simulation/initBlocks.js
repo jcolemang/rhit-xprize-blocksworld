@@ -38,8 +38,8 @@ function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {
     let topLetters = makeLettersArray(possibleLetters, numBlocks);
     let bottomLetters = makeLettersArray(possibleLetters, numBlocks);
 
-    let leftPositions = makeLeftPositions(numBlocks);
-    let topPositions = makeTopPositions(numBlocks);
+    let leftPositions = makePositions(numBlocks);
+    let topPositions = makePositions(numBlocks);
 
     return generateBlocks(topColors, bottomColors,
                           topLetters, bottomLetters,
@@ -65,32 +65,13 @@ function makeLettersArray(possibleLetters, numBlocks) {
     return letters;
 }
 
-function makeLeftPositions(numBlocks) {
-    let containerRect = document.getElementById('container').getBoundingClientRect()
-
-    let horizNum = containerRect.right - 50 - 8 - 4 - 4;
-    let horizDenom = containerRect.right * 100;
-
-    let left_positions = [];
+function makePositions(numBlocks) {
+    let positions = [];
     for (let i = 0; i < numBlocks; i++) {
-        left_positions.push(Math.random() * Math.floor(horizNum / horizDenom));
+        positions.push(Math.random() * 100);
     }
 
-    return left_positions;
-}
-
-function makeTopPositions(numBlocks) {
-    let containerRect = document.getElementById('container').getBoundingClientRect();
-
-    let vertNum = containerRect.bottom - 50 - 8 - 4 - 4;
-    let vertDenom = containerRect.bottom * 100;
-
-    let top_positions = [];
-    for (let i = 0; i < numBlocks; i++) {
-        top_positions.push(Math.random() * Math.floor(vertNum / vertDenom));
-    }
-
-    return top_positions;
+    return positions;
 }
 
 function generateBlocks(topColors, bottomColors,
