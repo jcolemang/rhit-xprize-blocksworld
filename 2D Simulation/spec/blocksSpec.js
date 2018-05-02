@@ -48,7 +48,7 @@ describe("blocks", () => {
     });
 
     describe("when getting left position", () => {
-        let left_pos = "43.234";
+        let left_pos = 43.234;
 
         beforeEach(() => {
             block_object.prop = (key) => key !== "style" ? {} : {
@@ -61,14 +61,14 @@ describe("blocks", () => {
         });
 
         describe("when using an invalid id", () => {
-            it("should return an empty string", () => {
-                expect(blocks.get_block_left_pos(6)).toEqual("");
+            it("should return undefined", () => {
+                expect(blocks.get_block_left_pos(6)).toBeUndefined();
             });
         });
     });
 
     describe("when getting top position", () => {
-        let top_pos = "43.234";
+        let top_pos = 43.234;
 
         beforeEach(() => {
             block_object.prop = (key) => key !== "style" ? {} : {
@@ -81,8 +81,8 @@ describe("blocks", () => {
         });
 
         describe("when using an invalid id", () => {
-            it("should return an empty string", () => {
-                expect(blocks.get_block_top_pos(6)).toEqual("");
+            it("should return undefined", () => {
+                expect(blocks.get_block_top_pos(6)).toBeUndefined();
             });
         });
     });
