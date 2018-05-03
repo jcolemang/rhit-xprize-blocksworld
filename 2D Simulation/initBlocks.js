@@ -173,7 +173,8 @@ function initGhostBlocks(goal_config) {
 }
 
 function addGhostBlockToContainer(block) {
-    $("#container").append('<div class="block" id="ghost_block' + block.id +'" '
+    $("#container").append('<div class="block ghost_block" id="ghost_block'
+                           + block.id +'" '
                            + 'style="left: ' + block.position[0] + '%; '
                            + 'top: ' + block.position[1] + '%; '
                            + 'background-color: ' + block.topColor + '; '
