@@ -7,6 +7,14 @@ function loadFixedInitConfig() {
         left: 50,
         top: 40,
         id: 0
+    }, {
+        topLetter: 'A',
+        bottomLetter: 'C',
+        topColor: 'yellow',
+        bottomColor: 'blue',
+        left: 30,
+        top: 70,
+        id: 1
     }];
 }
 
@@ -17,5 +25,11 @@ function loadFixedGoalConfig() {
         left: 10,
         top: 20,
         id: 0
+    }, {
+        topLetter: 'A',
+        topColor: 'yellow',
+        left: 70,
+        top: 40,
+        id: 1
     }];
 }

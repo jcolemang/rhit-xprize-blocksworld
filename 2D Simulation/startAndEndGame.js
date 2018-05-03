@@ -31,6 +31,7 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
                          " flipletters: " + currentConfig[i].bottomLetter);
     }
 
+    scoring.set_initial_score();
     document.getElementById('scoreBox').innerText
         = Math.round(scoring.calc_score());
 }

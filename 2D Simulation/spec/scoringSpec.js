@@ -21,16 +21,18 @@ describe("scoring", () => {
         scoring = new Scoring(blocks, 3, goal_config);
     });
 
+    describe("before setting the initial score", () => {
+        it("should throw an error when calculating the score", () => {
+            expect(scoring.calc_score).toThrow();
+        });
+    });
+
     describe("when setting the initial score", () => {
         describe("when the blocks are perfectly matched", () => {
             beforeEach(() => {
                 blocks.get_block_pos.and.returnValues(...goal_config);
 
-                result = scoring.calc_score(currentConfig);
-            });
-
-            it("should return a score of 0", () => {
-                expect(result).toEqual(0);
+                scoring.set_initial_score();
             });
 
             it("should store an initial score of 100", () => {
@@ -53,11 +55,7 @@ describe("scoring", () => {
             beforeEach(() => {
                 blocks.get_block_pos.and.returnValues(...current_config);
 
-                result = scoring.calc_score(goal_config);
-            });
-
-            it("should return a score of zero", () => {
-                expect(result).toEqual(0);
+                scoring.set_initial_score();
             });
 
             it("should store the correct score in initialScore", () => {
@@ -80,15 +78,30 @@ describe("scoring", () => {
             beforeEach(() => {
                 blocks.get_block_pos.and.returnValues(...current_config);
 
-                result = scoring.calc_score(goal_config);
-            });
-
-            it("should return a score of zero", () => {
-                expect(result).toEqual(0);
+                scoring.set_initial_score();
             });
 
             it("should store the correct score in initialScore", () => {
                 expect(scoring._initialScore).toBeCloseTo(92.89);
+            });
+        });
+
+        describe("when setting the initial score twice", () => {
+            let current_config = [{
+                left: 40,
+                top: 40
+            }, {
+                left: 30,
+                top: 10
+            }, {
+                left: 10,
+                top: 30
+            }];
+
+            it("should throw an error", () => {
+                blocks.get_block_pos.and.returnValues(...current_config);
+                scoring.set_initial_score();
+                expect(scoring.set_initial_score).toThrow();
             });
         });
     });
@@ -133,10 +146,10 @@ describe("scoring", () => {
             let full_config = init_config.concat(current_config);
             blocks.get_block_pos.and.returnValues(...full_config);
 
-            scoring.calc_score(goal_config);
+            scoring.set_initial_score();
             initial_initialScore = scoring._initialScore;
 
-            result = scoring.calc_score(goal_config);
+            result = scoring.calc_score();
         });
 
         it("should calculate the adjusted score", () => {

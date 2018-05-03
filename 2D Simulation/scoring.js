@@ -3,11 +3,22 @@ function Scoring(blocks, num_blocks, goal_positions) {
 
     this._initialScore = null;
 
+    this.set_initial_score = function () {
+        if (this._initialScore !== null)
+            throw "initialScore already set!";
+
+        let error = this._calc_total_error();
+        this._initialScore = this._calc_score(error);
+    }
+
     this.calc_score = function () {
+        if (this._initialScore === null)
+            throw "initialScore not set!";
+
         let error = this._calc_total_error();
         let raw_score = this._calc_score(error);
 
-        return this._update_initial_score(raw_score);
+        return this._relative_to_initial_score(raw_score);
     }
 
     this._calc_total_error = function () {
@@ -70,21 +81,15 @@ function Scoring(blocks, num_blocks, goal_positions) {
         return  ((Emax - error) / Emax) * 100;
     }
 
-    this._update_initial_score = function (raw_score) {
-        if (this._initialScore !== null) {
-            raw_score = 100 / (100 - this._initialScore)
-                * (raw_score - this._initialScore);
+    this._relative_to_initial_score = function (raw_score) {
+        raw_score = 100 / (100 - this._initialScore)
+            * (raw_score - this._initialScore);
 
-            if (raw_score < 0) {
-                raw_score = 0;
-            }
-
-            return raw_score;
-        } else {
-            this._initialScore = raw_score;
-
-            return 0;
+        if (raw_score < 0) {
+            raw_score = 0;
         }
+
+        return raw_score;
     };
 
     goal_centroid = this._centroid(goal_positions);
