@@ -33,7 +33,7 @@ class DumbBlocksworldModel(BlocksworldModel):
 
 class NeuralNetworkBlocksworldModel(BlocksworldModel):
     def __init__(self, h5_paths, ambiguity_threshold=0.3):
-        super(NeuralNetworkBlocksworldModel, self).__init__()
+        super().__init__()
         self.ambiguity_threshold = ambiguity_threshold
         (self.flip_model, self.colors_model, self.letters_model) = runner.load_models(h5_paths)
         self.tokenizer = core.build_tokenizer(core.load_vocabulary())
