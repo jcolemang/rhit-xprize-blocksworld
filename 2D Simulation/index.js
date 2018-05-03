@@ -121,8 +121,10 @@ function toggle_construction() {
 
     if (this.is_visible) {
         $('.ghost_block').css('visibility', 'hidden');
+        $('#constructionToggle').text('Show Construction');
     } else {
         $('.ghost_block').css('visibility', 'visible');
+        $('#constructionToggle').text('Hide Construction');
     }
 
     this.is_visible = !this.is_visible;
