@@ -29,6 +29,7 @@ function initAll() {
     }
 
     initBlocks(currentConfig);
+    initGhostBlocks(finalBlocks);
     writeBlockStyles(currentConfig);
 
     popUpGameIntro();
@@ -165,6 +166,21 @@ function addBlockToContainer(block) {
                            + 'style="left: ' + block.left + '%; '
                            + 'top: ' + block.top + '%; '
                            + 'background-color: ' + block.topColor + '"></div>');
+}
+
+function initGhostBlocks(goal_config) {
+    goal_config.map(addGhostBlockToContainer);
+}
+
+function addGhostBlockToContainer(block) {
+    $("#container").append('<div class="block" id="ghost_block' + block.id +'" '
+                           + 'style="left: ' + block.position[0] + '%; '
+                           + 'top: ' + block.position[1] + '%; '
+                           + 'background-color: ' + block.topColor + '; '
+                           + 'opacity: 0.3; '
+                           + 'visibility: visible;">'
+                           + '<span style="color: black">'
+                           + block.topLetter + '</span></div>');
 }
 
 initAll();
