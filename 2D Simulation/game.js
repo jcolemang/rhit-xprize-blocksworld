@@ -105,10 +105,8 @@ function update_score(moveData) {
     // Expecting block_id of the form: block<id>
     let id = Number(moveData.block_id.substring(5));
 
-    end_left[id] = Number(moveData.left);
-    end_top[id] = Number(moveData.top);
-
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
+    document.getElementById('scoreBox').innerText
+        = Math.round(scoring.calc_score());
 }
 
 socket.on('Update_score', update_score);

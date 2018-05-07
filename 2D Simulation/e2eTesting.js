@@ -6,6 +6,7 @@ describe("Blocksworld", () => {
     let modal;
     let startButton;
     let endButton;
+    let scoreBox;
 
     beforeEach(() => {
         browser.waitForAngularEnabled(false);
@@ -14,6 +15,7 @@ describe("Blocksworld", () => {
         modal = element(by.className('modal'));
         startButton = element(by.id('buttonStart'));
         endButton = element(by.id('buttonEnd'));
+        scoreBox = element(by.id('scoreBox'));
     });
 
     it("should have a connected modal opened", () => {
@@ -49,6 +51,10 @@ describe("Blocksworld", () => {
 
             it("should activate the end button", () => {
                 expect(endButton.isEnabled()).toEqual(true);
+            });
+
+            it("should have a score of zero", () => {
+                expect(scoreBox.getText()).toEqual("0");
             });
         });
     });

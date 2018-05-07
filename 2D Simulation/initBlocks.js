@@ -6,26 +6,10 @@ function initAll() {
         currentConfig = getInitialConfiguration(possibleColors, possibleLetters, NumBlocks);
         finalBlocks = getFinalConfiguration(currentConfig);
     } else {
-        currentConfig = [{
-            topLetter: 'A',
-            bottomLetter: 'B',
-            topColor: 'red',
-            bottomColor: 'green',
-            left: 50,
-            top: 40,
-            id: 0
-        }];
+        currentConfig = loadFixedInitConfig();
+        finalBlocks = loadFixedGoalConfig();
 
-        finalBlocks = [{
-            topLetter: 'B',
-            bottomLetter: 'A',
-            topColor: 'green',
-            bottomColor: 'red',
-            left: 50,
-            top: 40,
-            id: 0,
-            position: [10, 20]
-        }];
+        NumBlocks = currentConfig.length;
     }
 
     initBlocks(currentConfig);
@@ -39,8 +23,8 @@ function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {
     let topLetters = makeLettersArray(possibleLetters, numBlocks);
     let bottomLetters = makeLettersArray(possibleLetters, numBlocks);
 
-    let leftPositions = makeLeftPositions(numBlocks);
-    let topPositions = makeTopPositions(numBlocks);
+    let leftPositions = makePositions(numBlocks);
+    let topPositions = makePositions(numBlocks);
 
     return generateBlocks(topColors, bottomColors,
                           topLetters, bottomLetters,
@@ -66,32 +50,13 @@ function makeLettersArray(possibleLetters, numBlocks) {
     return letters;
 }
 
-function makeLeftPositions(numBlocks) {
-    let containerRect = document.getElementById('container').getBoundingClientRect()
-
-    let horizNum = containerRect.right - 50 - 8 - 4 - 4;
-    let horizDenom = containerRect.right * 100;
-
-    let left_positions = [];
+function makePositions(numBlocks) {
+    let positions = [];
     for (let i = 0; i < numBlocks; i++) {
-        left_positions.push(Math.random() * Math.floor(horizNum / horizDenom));
+        positions.push(Math.random() * 100);
     }
 
-    return left_positions;
-}
-
-function makeTopPositions(numBlocks) {
-    let containerRect = document.getElementById('container').getBoundingClientRect();
-
-    let vertNum = containerRect.bottom - 50 - 8 - 4 - 4;
-    let vertDenom = containerRect.bottom * 100;
-
-    let top_positions = [];
-    for (let i = 0; i < numBlocks; i++) {
-        top_positions.push(Math.random() * Math.floor(vertNum / vertDenom));
-    }
-
-    return top_positions;
+    return positions;
 }
 
 function generateBlocks(topColors, bottomColors,
@@ -117,20 +82,14 @@ function generateBlocks(topColors, bottomColors,
 
 function getFinalConfiguration(initialConfiguration) {
     return initialConfiguration.map(block => {
-        let newBlock = Object.assign({}, block);
-
-        if (Math.random() < 0.5) {
-            let tempColor = newBlock.topColor;
-            let tempLetter = newBlock.topLetter;
-            newBlock.topLetter = newBlock.bottomLetter;
-            newBlock.topColor = newBlock.bottomColor;
-            newBlock.bottomLetter = tempLetter;
-            newBlock.bottomColor = tempColor;
-        }
-
-        newBlock.position = [Math.random() * 100, Math.random() * 100];
-
-        return newBlock;
+        let flip = Math.random() < 0.5;
+        return {
+            id: block.id,
+            top: Math.random() * 100,
+            left: Math.random() * 100,
+            topColor: flip ? block.topColor : block.bottomColor,
+            topLetter: flip ? block.topLetter : block.bottomLetter
+        };
     });
 }
 

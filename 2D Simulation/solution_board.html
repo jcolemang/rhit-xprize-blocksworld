@@ -16,9 +16,7 @@
         }
     </style>
 
-    <!-- <script type="text/javascript" src="index.js"></script> -->
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.js"></script>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
@@ -30,7 +28,6 @@
         container.innerHTML = localStorage.getItem("container");
 
 
-     console.log(container.innerHTML);
         container.style.fontSize = "15px";
         container.style.fontWeight = 'bold';
 
@@ -39,11 +36,10 @@
         document.body.appendChild(container);
 
         let finalBlocks = JSON.parse(localStorage.getItem('finalBlocks'));
-        console.log(finalBlocks);
         finalBlocks.map(block => {
           let obj = $("#block" + block.id);
-          obj.css('left', block.position[0] + '%');
-          obj.css('top', block.position[1] + '%');
+          obj.css('left', block.left + '%');
+          obj.css('top', block.top + '%');
           obj.find('span').html(block.topLetter);
           obj.css('background-color', block.topColor);
         });
