@@ -3,6 +3,7 @@ describe("Blocksworld", () => {
     let long_timeout = 5000;
     let short_timeout = 500;
 
+    let modal;
     let startButton;
     let endButton;
 
@@ -10,21 +11,25 @@ describe("Blocksworld", () => {
         browser.waitForAngularEnabled(false);
         browser.get("http://localhost:8000/game.html?config=fixed");
 
+        modal = element(by.className('modal'));
         startButton = element(by.id('buttonStart'));
         endButton = element(by.id('buttonEnd'));
     });
 
-    it("should have a connected alert opened", () => {
-        expect(browser.wait(EC.alertIsPresent(), long_timeout)).toEqual(true);
-
-        // You can't safely end with the alert open
-        browser.switchTo().alert().dismiss();
+    it("should have a connected modal opened", () => {
+        expect(browser.wait(EC.presenceOf(modal), long_timeout)).toEqual(true);
     });
 
-    describe("after closing the connected alert", () => {
+    describe("after closing the connected modal", () => {
         beforeEach(() => {
-            browser.wait(EC.alertIsPresent(), long_timeout);
-            browser.switchTo().alert().dismiss();
+            let closeModalButton = element(by.id('closeModalButton'));
+            browser.wait(EC.presenceOf(closeModalButton), long_timeout);
+            closeModalButton.click();
+        });
+
+        it("should hide the modal", () => {
+            expect(browser.wait(EC.not(EC.presenceOf(modal)), short_timeout))
+                .toEqual(true);
         });
 
         describe("before starting the game", () => {
