@@ -22,7 +22,7 @@ function timecounter() {
     }, 1000);
 }
 
-function padTens(num, length) {
+function padTens(num) {
     if (num >= 10)
         return "" + num;
     else
