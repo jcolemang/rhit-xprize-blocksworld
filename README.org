@@ -24,3 +24,17 @@ The =rhit-xprize-neural-network= folder holds a git submodule of our
 neural network repo ([[https://github.com/RHIT-XPrize/rhit-xprize-neural-network][here]]). As such, if you are cloning this repo, use
 =git clone --recursive=. To update to a newer version of the
 submodule, use =git submodule update --remote=.
+** Installation
+Run the =install.sh= script. That should install everything you need
+to run the whole Blocksworld application, short of a database. We've
+been using =postgres= for our testing and setting it up using the
+=server/create-baseline.sql= file.
+** Running
+Run the =./run.sh= file and navigate to
+http://localhost:8000/game.html. Note that this starts up all the
+processes in the background, so you'll have to manually track them
+down to kill them later if you need to.
+** Testing
+Run the =./test.sh= file. This one is nice enough to close the
+services it starts once it terminates, but it may get confused if some
+of them are running already when the script starts.

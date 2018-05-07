@@ -6,9 +6,15 @@
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="lib/jquery.modal.js"></script>
+    <link rel="stylesheet" href="lib/jquery.modal.css"></link>
+
+    <link rel="stylesheet" href="modals.css"></link>
+    <script type="text/javascript" src="modals.js"></script>
 
     <script type="text/javascript" src="clientConfig.js"></script>
     <script type="text/javascript" src="redirect.js"></script>
+    <script type="text/javascript" src="gesture.js"></script>
     <script type="text/javascript" src="blocks.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="movesTracker.js"></script>
@@ -19,181 +25,110 @@
     <meta http-equiv="pragma" content="no-cache" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" href="game.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="game.css">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <style>
-     body {
-         background: url(img/background.jpg)	no-repeat center center fixed;
-         -webkit-background-size: cover;
-         -moz-background-size: cover;
-         -o-background-size: cover;
-         background-size: cover;
-     }
-    </style>
 
   </head>
 
   <body oncontextmenu="return false;">
-    <div id="container" style="font-size: 4vmin;">
-      <!-- Holds the play field. Initialized in initBlocks(). -->
-    </div>
-    <div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
-      <div style="text-align:center">
-        <div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
-            <span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
-              Instructions:<br>
-              <ol>
-                <li>
-                  Click “start” button.
-                </li>
-                <li>
-                  Click the “show the construction” button to see what pattern needs to be made.
-                </li>
-                <li>
-                  Instruct the AI to make pattern by typing in the text box and making gestures by double-clicking.
-                </li>
-                <li>
-                  Press the "Incorrect Move" button if the AI does something you don't expect.
-                </li>
-                <li>
-                  Try to get the highest score you can!
-                </li>
-              </ol>
-            </span>
-            <p id="helper"
-               class="helper"
-               style="font-size:12px; font-family:verdana">
-              (click again to close it)
-            </p>
+    <p id="taskQ">
+      Blocksworld
+    </p>
+    
+    <div class="instruction"
+         id="instruction">
+      <label>
+        Instructions:
+        <input id="txt_instruction" type="text" />
+      </label>
+      
+      <button class="button"
+              id="buttonEnter"
+              onclick="send_user_message_to_server(currentConfig); inputlength()">
+        Enter
+      </button>
+      <div class="rightInstruction" style="float: right;">
+        <div class="showChosen"
+             id="showChosen"
+             style="float: left; position: static; margin-right: 5px;">
+          <button id="buttonConstruction"
+                  class="button"
+                  style="vertical-align: middle;"
+            onclick="showConstruction(finalBlocks)">
+            Show Construction
+          </button>
+        </div>
+        <div id="buttonIncorrectDiv" style="float: right;">
+          <button class="button buttonReject"
+                  id="buttonIncorrect"
+                  onclick="correctionUI.show_corrections_modal()"
+                  style="vertical-align: middle;">
+            Incorrect Move
+          </button>
         </div>
       </div>
     </div>
 
-    <div class = "gadgetWrapper">
-      <small>
-        <small>
-          <small>
-            <p class="taskQ"
-               id="taskQ"
-               style="font-size: 30px; position: absolute; top: 0px; left: 0%">
-              Blocksworld
-            </p>
-          </small>
-        </small>
-      </small>
-
-      <div class="instruction"
-           id="instruction"
-           style="font-family:verdana; position: absolute; top: 9%">
-        <label>
-          Enter instructions:
-          <input id="txt_instruction" type="text" />
-        </label>
-
-        <button class="buttonenter"
-                id="buttonEnter"
-                onclick="send_user_message_to_server(currentConfig); inputlength()">
-          Enter
-        </button>
-        <div class="rightInstruction" style="float: right;">
-          <div class="showChosen"
-               id="showChosen"
-               style="float: left; position: static; margin-right: 5px;">
-            <button class="buttonLike"
-                    style="vertical-align: middle;"
-                    onclick="showConstruction(finalBlocks)">
-              Show the Construction
-            </button>
-          </div>
-          <div id="buttonIncorrectDiv" style="float: right;">
-            <button id="buttonIncorrect"
-                    onclick="correctionUI.show_corrections_modal()"
-                    style="vertical-align: middle;">
-              Incorrect Move
-            </button>
-          </div>
+    <div id="main">      
+      <div id="startStopButtons">
+        <div id="buttonStartDiv">
+          <button class="button"
+                  id="buttonStart"
+                  onclick="startGame()">
+            Start
+          </button>
         </div>
-        <div class = "numofwords" id="numofwords"></div>
 
+        <div id="buttonEndDiv">
+          <button class="button buttonReject"
+                  id="buttonEnd"
+                  onclick="endGame();">
+            End
+          </button>
+        </div>
       </div>
 
-      <div class = "gestureToggle" id="gestureToggle"></div>
-      <button class = "buttonStart" id="buttonStart" onclick="startGame()" >Start</button>
-
-      <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
-      <p class = "gesture" id = "gesturecontext" style="font-size:20px; font-family:verdana">Gesture</p>
-      <p class = "movement" id = "movementcontext" style="font-size:20px; font-family:verdana">Movement</p>
-
-      <script type="text/javascript">
-       document.getElementById("gesturecontext").style.visibility = "hidden";
-       document.getElementById("movementcontext").style.visibility = "hidden";
-      </script>
-
-      <div id = "timer" style="font-size:24px; font-family:verdana; position: absolute; top: 10%; left: 30%"> Time: 3 minutes 0 seconds</div>
-      <div id = "score" style="font-size:24px; font-family:verdana; width: 20%; text-align: center; position: absolute; top: 15%; left: 80%">
-        Score
+      <div id="container">
+        <!-- Holds the play field. Initialized in initBlocks(). -->
       </div>
-      <div id = "scoreBox" style="text-align: center; border:#000 solid 5px; background-color: gray; width: 10%;height: 15%; position: absolute; top: 20%; left: 85%; font-size: 24px"></div>
+      
+      <div id="gestureToggle"></div>
+      
+      <div id="infoBoxes">
+        <div id="timerDiv">
+          Time:
+          <div id="timer">3:00</div>
+        </div>
 
+        <div id="scoreDiv">
+          Score
+          <div id="scoreBox">0</div>
+        </div>
+      </div>
     </div>
-
+    
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
     <script type="text/javascript">
      page_width = window.innerWidth;
      page_height = window.innerHeight;
-     $("#taskQ").css('font-size', page_height * 0.04 + "px");
-     $('#popup').css('font-size', page_height * 0.025 + "px");
-     $('#timer').css('font-size', page_height * 0.025 + "px");
-     $('#instruction').css('font-size', page_height * 0.025 + "px");
-     $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
-     $('#buttonEnter').css('font-size', page_height * 0.015 + "px");
-     // $('#showChosen').css('font-size', page_height * 0.015 + "px");
+     $('#popup').css('font-size', page_height * 0.025 + "px");     
      document.getElementById('popup').style.top = "1%";
      document.getElementById('popup').style.right = "0%";
      $('#helper').css('font-size', page_height * 0.02 + "px");
-     $('#buttonStart').css('font-size', page_height * 0.02 + "px");
-     document.getElementById("buttonStart").style.width = page_width * 0.05 + "px";
-     document.getElementById("buttonStart").style.height = page_height * 0.05 + "px";
-     $('#buttonEnd').css('font-size', page_height * 0.02 + "px");
-     document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
-     document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
-     $('#score').css('font-size', page_height * 0.02 + "px");
      $('#myPopup').css('font-size', page_height * 0.025 + "px");
      $('#myPopup').css('width', page_width * 0.3 + "px");
      $('#myPopup').css('height', page_height * 0.5 + "px");
     </script>
 
 
-    <script type="text/javascript">
-     function timecounter() {
-       var countDownDate = new Date().getTime() + 1000 * 3 * 60 * 1000 + 1000;
-       var x = setInterval(function() {
-         // Get todays date and time
-         var now = new Date().getTime();
-
-         // Find the distance between now an the count down date
-         var distance = countDownDate - now;
-
-         // Time calculations for days, hours, minutes and seconds
-         var minutes = Math.floor((distance % (1000 * 60 * 60)) / 60000);
-         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-         // Output the result in an element with id="demo"
-         if (minutes < 0) {
-           clearInterval(x);
-           endGame();
-         } else {
-           document.getElementById("timer").innerHTML = "Time: " + minutes + " minutes " + seconds + " seconds";
-         }
-
-       }, 1000);
-     }
-    </script>
+    <script type="text/javascript" src="timer.js"></script>
 
     <script type="text/javascript">
      page_width = window.innerWidth;
@@ -211,66 +146,11 @@
 
     <script type="text/javascript" src="loadFixedConfig.js"></script>
     <script type="text/javascript" src="initBlocks.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="modals.css">
-    <div id="correctionsModal" class="modal">
-      <div id="correctionsModalBackground" class="modal-background">
-        <div id="correctionsModalContent" class="modal-content">
-          Which type of move were you intending to make?
-          <br>
-          <br>
-          <div id="correctionsButtons">
-            <button id="flipCorrection"
-                    class="modalButton"
-                    onclick="movesCorrector.correct_flip()">
-              Flip
-            </button>
-            <button id="moveCorrection"
-                    class="modalButton"
-                    onclick="movesCorrector.correct_move()">
-              Move
-            </button>
-            <button class="modalButton"
-                    onclick="correctionUI.hide_corrections_modal()">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="flipModal" class="modal">
-      <div id="flipModalBackground" class="modal-background">
-        <div id="flipModalContent" class="modal-content">
-          Please enter the id number of the block you wanted to flip.
-          <br>
-          <br>
-          <button class="modalButton"
-                  onclick="correctionUI.hide_flip_modal()">
-            OK
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="moveModal" class="modal">
-      <div id="moveModalBackground" class="modal-background">
-        <div id="moveModalContent" class="modal-content">
-          Please double click on the point where you wanted the block
-          moved to, then enter the id number of the block.
-          <br>
-          <button class="modalButton"
-                  onclick="correctionUI.hide_move_modal()">
-            OK
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <script type="text/javascript" src="correctionUI.js"></script>
+    <script type="text/javascript" src="corrections/correctionUI.js"></script>
     <script type="text/javascript" src="movesCorrector.js"></script>
     <script type="text/javascript" src="scoring.js"></script>
     <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="invalidMove/invalidMove.js"></script>
 
     <script type="text/javascript">
      document.getElementById("buttonEnd").disabled = true;

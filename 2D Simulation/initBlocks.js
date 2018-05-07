@@ -14,8 +14,6 @@ function initAll() {
 
     initBlocks(currentConfig);
     writeBlockStyles(currentConfig);
-
-    popUpGameIntro();
 }
 
 function getInitialConfiguration(possibleColors, possibleLetters, numBlocks) {

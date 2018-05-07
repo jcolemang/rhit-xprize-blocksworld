@@ -5,8 +5,6 @@ To get started running the server locally, run the
 =create-baseline.sql=, start up a PostgreSQL server on your machine,
 then run =simulation.py= from this directory.
 
-Open a web browser to =file:///path/to/local/index.html= (don't
-connect to =localhost:8080=. You should now be ready to play!
 ** PostgreSQL Details
 There are three tables:
 *** IBMDB
@@ -36,9 +34,9 @@ This holds the responses of the Worker to various exit survey
 questions. Currently, few if any of these are used.
 ** Server Details
 *** Configuration Files
-The server loads it's configuration options from two of three places:
-=commonConfig.json=, =localConfig.json=, and
-=nonLocalConfig.json=. The non/local configuration files mostly hold
-information about how to connect to the database. The common
-configuration file holds things like what port the server is created
-on.
+The server loads it's configuration options from =commontConfig.json=
+and, depending on whether the server is set up for local testing or
+deployment, =localConfig.json= or =nonLocalConfig.json=. The non/local
+configuration files mostly hold information about how to connect to
+the database. The common configuration file that is always loaded
+holds things like what port the server is created on.

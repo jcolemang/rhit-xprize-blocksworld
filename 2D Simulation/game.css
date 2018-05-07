@@ -1,0 +1,173 @@
+body {
+    background: #F5F5DC;
+}
+
+#taskQ {
+    font-size: 6vh;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+
+    margin: 1vh 0 3vh 0;
+}
+
+#instruction {
+    font-family: verdana;
+    font-size: 2vw;
+}
+
+#txt_instruction {
+    width: 20vw;
+}
+
+#main {
+    position: relative;
+    height: 36vw; /* same as container height */
+}
+
+#startStopButtons {
+    position: absolute;
+    left: 2%;
+}
+
+#buttonStartDiv {
+    margin-top: 14vw;
+}
+
+#buttonEndDiv {
+    margin-top: 8vw;
+}
+
+#container {
+    width: 65vw;
+    height: 36vw; /* 16:9 aspect ratio 65:36 */
+
+    position: absolute;
+    top: 0%;
+    left: 10%;
+
+    font-size: 2vw;
+
+    background-image: url(img/parchment.jpg);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-size: 100% 100%;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    z-index: 1;
+
+    border: #5E5E5E solid 4px;
+    border-radius: 2px;
+}
+
+#gestureToggle {
+    width: 1vw;
+    height: 1vw;
+    background-color: black;
+    position: absolute;
+    visibility: hidden;
+    z-index: 5;
+    vertical-align: middle;
+    line-height: 2.12%;
+}
+
+#infoBoxes {
+    position: absolute;
+    right: 7%;
+}
+
+#scoreDiv {
+    font-size: 2vw;
+    font-family:verdana;
+
+    text-align: center;
+}
+
+#scoreBox {
+    font-size: 3vw;
+
+    border: #BEBEBE solid 4px;
+    border-radius: 2px;
+    background-color: #DEDEDE;
+
+    width: 7vw;
+    padding: 1.3vw 0px;
+}
+
+#timerDiv {
+    padding-top: 3vw;
+    padding-bottom: 5vw;
+
+    font-size: 2vw;
+    font-family:verdana;
+
+    text-align: center;
+}
+
+#timer {
+    font-size: 2vw;
+    font-family: verdana;
+
+    border: #BEBEBE solid 4px;
+    border-radius: 2px;
+    background-color: #DEDEDE;
+
+    width: 7vw;
+    padding: 2vw 0px;
+}
+
+.button {
+    background-color: rgb(76, 175, 80);
+    color: white;
+
+    border: 3px solid rgb(57, 131, 60);
+    border-radius: 6px;
+
+    font-size: 1.2vw;
+    text-align: center;
+
+    width: 6vw;
+    height: 3vw;
+
+    transition: background-color 0.4s;
+}
+
+.button:hover {
+    background-color: rgb(57, 131, 60);
+}
+
+.button:disabled {
+    background-color: rgba(76, 175, 80, 0.4);
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.buttonReject {
+    background-color: rgb(244, 67, 54);
+    border-color: rgb(183, 50, 41);
+}
+
+.buttonReject:hover {
+    background-color: rgb(183, 50, 41);
+}
+
+.buttonReject:disabled {
+    background-color: rgba(244, 67, 54, 0.4);
+}
+
+#buttonIncorrect {
+    width: 12vw;
+}
+
+#buttonConstruction {
+    width: 15vw;
+}
