@@ -127,29 +127,29 @@ socket.on('update_movement_data', function(data) {
 });
 
 function send_user_message_to_server(gameConfig) {
-    let message = document.getElementById("txt_instruction").value;
+    let message = $('#txt_instruction').val();
 
-    if (start_button_pressed) {
-        if (movesCorrector.handle_message(message)) {
-            return;
-        }
-
-        if (gesture_is_visible()) {
-            gestureCount++;
-            send_gesture_to_server();
-        }
-
-        try {
-            socket.emit('receive_user_message', {
-                text: message,
-                gameState: gameConfig
-            });
-        } catch (err) {
-            redirects.pageDown(err);
-        }
-
-        correctionUI.disable_incorrect_button();
+    if (!start_button_pressed
+        || message.trim() === ''
+        || movesCorrector.handle_message(message)) {
+        return;
     }
+
+    if (gesture_is_visible()) {
+        gestureCount++;
+        send_gesture_to_server();
+    }
+
+    try {
+        socket.emit('receive_user_message', {
+            text: message,
+            gameState: gameConfig
+        });
+    } catch (err) {
+        redirects.pageDown(err);
+    }
+
+    correctionUI.disable_incorrect_button();
 }
 
 function gesture_is_visible() {
