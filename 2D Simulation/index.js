@@ -84,12 +84,6 @@ function movement() {
     document.getElementById("showmovement").innerHTML = actualMove;
 }
 
-// When the user clicks on div, open the popup
-function popUpGameIntro() {
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-}
-
 function showConstruction(blocks) {
     let toSet = document.getElementById("container").cloneNode(true).innerHTML;
     localStorage.setItem("container", toSet);

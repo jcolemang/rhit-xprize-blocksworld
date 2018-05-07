@@ -46,7 +46,7 @@ socket.on('unfreeze_start', function() {
     var startButton = document.getElementById('buttonStart');
     startButton.disabled = false;
 
-    alert('You have successfully connected to the game server. You may now press the start button to begin.');
+    openModal('connectedModal.html');
 });
 
 socket.on('update_position', function (moveData) {
@@ -90,27 +90,6 @@ socket.on('update_flip_block', function (block_id) {
     correctionUI.enable_incorrect_button();
 });
 
-socket.on('indicate_impossible_move', function(move) {
-    let color = move['predicted_color'];
-    let letter = move['predicted_letter'];
-    let message = 'I think that this is an impossible move. '
-    + 'My prediction is that you are trying to move the '
-    + color + ' '
-    + letter + '. '
-    + 'Please check that this move is possible.';
-    alert(message);
-});
-
-socket.on('indicate_ambiguous_move', function(move) {
-    let color = move['predicted_color'] || 'Ambiguous';
-    let letter = move['predicted_letter'] || 'Ambiguous';
-    let message = 'I think that this is an ambiguous move. '
-    + 'Please try a more specific instruction.\n'
-    + 'Predicted color: ' + color + '\n'
-    + 'Predicted letter: ' + letter;
-    alert(message);
-});
-
 function send_flip_to_server(block_id) {
     try {
         socket.emit('receive_flip_block', block_id);
@@ -148,29 +127,29 @@ socket.on('update_movement_data', function(data) {
 });
 
 function send_user_message_to_server(gameConfig) {
-    let message = document.getElementById("txt_instruction").value;
+    let message = $('#txt_instruction').val();
 
-    if (start_button_pressed) {
-        if (movesCorrector.handle_message(message)) {
-            return;
-        }
-
-        if (gesture.is_visible()) {
-            gestureCount++;
-            send_gesture_to_server();
-        }
-
-        try {
-            socket.emit('receive_user_message', {
-                text: message,
-                gameState: gameConfig
-            });
-        } catch (err) {
-            redirects.pageDown(err);
-        }
-
-        correctionUI.disable_incorrect_button();
+    if (!start_button_pressed
+        || message.trim() === ''
+        || movesCorrector.handle_message(message)) {
+        return;
     }
+
+    if (gesture_is_visible()) {
+        gestureCount++;
+        send_gesture_to_server();
+    }
+
+    try {
+        socket.emit('receive_user_message', {
+            text: message,
+            gameState: gameConfig
+        });
+    } catch (err) {
+        redirects.pageDown(err);
+    }
+
+    correctionUI.disable_incorrect_button();
 }
 
 function submitRobot() {
@@ -211,5 +190,3 @@ function send_gesture_to_server() {
 socket.on('user_left_game', function() {
     window.location.href = "finalPage.html";
 });
-// Opens the popup window for communication between clients.
-// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
