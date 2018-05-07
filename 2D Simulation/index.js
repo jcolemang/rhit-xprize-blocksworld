@@ -80,12 +80,19 @@ function movement() {
     document.getElementById("showmovement").innerHTML = actualMove;
 }
 
-function showConstruction(blocks) {
-    let toSet = document.getElementById("container").cloneNode(true).innerHTML;
-    localStorage.setItem("container", toSet);
-    localStorage.setItem('finalBlocks', JSON.stringify(blocks));
-    window.open('solution_board.html', 'newwindow', 'width=400, height=175');
-    return false;
+function toggle_construction() {
+    if (this.is_visible === undefined)
+        this.is_visible = true;
+
+    if (this.is_visible) {
+        $('.ghost_block').css('visibility', 'hidden');
+        $('#constructionToggle').text('Show Construction');
+    } else {
+        $('.ghost_block').css('visibility', 'visible');
+        $('#constructionToggle').text('Hide Construction');
+    }
+
+    this.is_visible = !this.is_visible;
 }
 
 function getDateTime() {

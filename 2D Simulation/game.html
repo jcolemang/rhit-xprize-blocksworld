@@ -57,11 +57,11 @@
         <div class="showChosen"
              id="showChosen"
              style="float: left; position: static; margin-right: 5px;">
-          <button id="buttonConstruction"
-                  class="button"
+          <button class="button"
+                  id="constructionToggle"
                   style="vertical-align: middle;"
-            onclick="showConstruction(finalBlocks)">
-            Show Construction
+                  onclick="toggle_construction()">
+            Hide Construction
           </button>
         </div>
         <div id="buttonIncorrectDiv" style="float: right;">
@@ -115,26 +115,7 @@
     
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
-    <script type="text/javascript">
-     page_width = window.innerWidth;
-     page_height = window.innerHeight;
-     $('#popup').css('font-size', page_height * 0.025 + "px");     
-     document.getElementById('popup').style.top = "1%";
-     document.getElementById('popup').style.right = "0%";
-     $('#helper').css('font-size', page_height * 0.02 + "px");
-     $('#myPopup').css('font-size', page_height * 0.025 + "px");
-     $('#myPopup').css('width', page_width * 0.3 + "px");
-     $('#myPopup').css('height', page_height * 0.5 + "px");
-    </script>
-
-
     <script type="text/javascript" src="timer.js"></script>
-
-    <script type="text/javascript">
-     page_width = window.innerWidth;
-     page_height = window.innerHeight;
-     var line_height = Math.floor(page_height * 0.7) + 5;
-    </script>
 
     <script type="text/javascript">
      $("#txt_instruction").keyup(function(event){
