@@ -1,28 +1,30 @@
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 3;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-.modal-background {
-    background-color: rgb(64, 64, 180);
-    margin: 3% 25%;
-}
-
-.modal-content {
-    padding: 10px 30px;
-}
-
-#correctionsButtons {
-    display: flex;
-    justify-content: space-between;
+    color: white;
+    background-color: #555555;
 }
 
 .modalButton {
-    width: 100px;
+    background-color: #008CBA;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    padding: 5px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+    float: right;
+    margin: 5px; 15px;
+}
+
+.modalButton:hover {
+    background-color: #009ACD;
+}
+
+.modalCloseButton {
+    background-color: #F44336;
+}
+
+.modalCloseButton:hover {
+    background-color: #FF503B;
 }

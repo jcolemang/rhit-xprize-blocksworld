@@ -1,3 +1,6 @@
+CREATE DATABASE aixprize;
+
+\c aixprize;
 
 CREATE TABLE game (
   id uuid PRIMARY KEY,

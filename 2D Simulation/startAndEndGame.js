@@ -9,45 +9,52 @@ function startGame() {
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;
 
-    document.getElementById('container').ondblclick = function(e) {
-        var event = e || window.event;
-
-        setGestureWithPosition(event.clientX, event.clientY, event);
+    document.getElementById('container').ondblclick = function(event) {
+        gesture.set_position(event.pageX, event.pageY);
     };
 
     actualMove = 0;
-    hide_gesture();
+    gesture.hide();
 
     document.getElementById('buttonStart').disabled = true;
 }
 
 function setUpInitialPosition(currentConfig, finalBlocks) {
     for (let i = 0; i < currentConfig.length; i++) {
-        var tLeft = 0;
-        var tTop = 0;
+        // var tLeft = 0;
+        // var tTop = 0;
 
-        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+        // var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+        // var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
 
-        tLeft = Math.random() * Math.floor(horizontal_percent);
-        tTop = Math.random() * Math.floor(vertical_percent);
+        // tLeft = Math.random() * Math.floor(horizontal_percent);
+        // tTop = Math.random() * Math.floor(vertical_percent);
 
-        end_left.push(tLeft);
-        end_top.push(tTop);
+        // end_left.push(tLeft);
+        // end_top.push(tTop);
 
-        initialInfo.push({id: i,
-                          initial_x: tLeft,
-                          initial_y: tTop,
-                          color: currentConfig[i].topColor,
-                          letter: currentConfig[i].topLetter,
-                          flipLetter: currentConfig[i].bottomLetter,
-                          flipColor: currentConfig[i].bottomColor
-                         });
-        document.getElementById("block" + i).style.top = tTop+"%";
-        document.getElementById("block" + i).style.left = tLeft+"%";
-                        }
+        // initialInfo.push({id: i,
+        //                   initial_x: tLeft,
+        //                   initial_y: tTop,
+        //                   color: currentConfig[i].topColor,
+        //                   letter: currentConfig[i].topLetter,
+        //                   flipLetter: currentConfig[i].bottomLetter,
+        //                   flipColor: currentConfig[i].bottomColor
+        //                  });
+        // document.getElementById("block" + i).style.top = tTop+"%";
+        // document.getElementById("block" + i).style.left = tLeft+"%";
+        //                 }
+        initialInfo.push("block:" + i + " " +
+                         "initial position: (" + currentConfig[i].left + "%, "
+                         + currentConfig[i].top + "%) " +
+                         "color: " + currentConfig[i].topColor +
+                         " letters: " + currentConfig[i].topLetter +
+                         " flipletters: " + currentConfig[i].bottomLetter);
+    }
 
-    document.getElementById('scoreBox').innerText = Math.round(scoreCal(finalBlocks));
+    scoring.set_initial_score();
+    document.getElementById('scoreBox').innerText
+        = Math.round(scoring.calc_score());
 }
 
 function endGame() {
@@ -59,14 +66,6 @@ function endGame() {
 
         var minutes = Math.floor(time / 60);
         var seconds = time - (minutes * 60);
-
-        for (var i = 0; i < NumBlocks; i++) {
-            var blockid = document.getElementById('block'+i);
-            if(blockid) {
-                end_top.push($("#block" + i).data("vertical_percent"));
-                end_left.push($("#block" + i).data("horizontal_percent"));
-            }
-        }
 
         let actions = movesTracker.export_actions();
 
@@ -97,7 +96,7 @@ function endGame() {
                 standard_info: standard_info,
                 other: words,
                 minutes: minutes,
-                finalScore: Math.round(scoreCal(finalBlocks)),
+                finalScore: Math.round(scoring.calc_score()),
                 seconds: seconds
             });
         } catch (err) {

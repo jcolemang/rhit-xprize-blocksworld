@@ -1,33 +1,7 @@
-#container {
-    width: 70%;
-    height: 70%;
-    position: absolute;
-    background-image: url(img/parchment.jpg);
-    top:15%;
-    left:10%;
-    margin: auto;
-    z-index: 1;
-    border:#000 solid 8px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -ms-user-select: none;
-
-    -webkit-background-size: cover;
-     -moz-background-size: cover;
-     -o-background-size: cover;
-     background-size: cover;
-     background-size: 100% 100%;
-
-     background-repeat: no-repeat;
-     background-position: center center;
-}
-
 .block {
     width: 3.8%;
     height: 7.35%;
-    border: #000 solid 4px;
-    cursor: move;
+    border: #000 solid 2px;
     position: absolute;
     z-index: 1;
     text-align: center;
@@ -43,12 +17,6 @@
     transform: translateY(-50%);
 }
 
-#gadgetWrapper {
-    float: left;
-    width: 200px;
-    font-weight: bold;
-}
-
 #taskOverviewWrapper {
     position: relative;
     top: 0%;
@@ -56,31 +24,10 @@
     width: 200px;
 }
 
-#gestureToggle {
-    width: 1.08%;
-    height: 2.12%;
-    background-color: black;
-    cursor: move;
-    position: absolute;
-    visibility: hidden;
-    left: auto;
-    top: auto;
-    z-index: 5;
-    vertical-align: middle;
-    line-height: 2.12%;
-  }
-
 div.fixed {
     position: fixed;
     bottom: 0px;
     right: 100px;
-}
-
-p.taskQ {
-    position: relative;
-    top:0px;
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 div.instruction {
@@ -89,29 +36,6 @@ div.instruction {
     left: 0px;
     width: 80%;
 }
-
-div.numofwords {
-    display: inline;
-}
-
-button.buttonEnd {
-    background-image: url(img/startbutton.png);
-    position: absolute;
-    top: 70%;
-    left: 2%;
-    width: 5%;
-    height: 5%;
-}
-
-button.buttonStart {
-    background-image: url(img/startbutton.png);
-    position: absolute;
-    top: 50%;
-    left: 2%;
-    width: 5%;
-    height: 5%;
-}
-
 
 a.buttonLike {
   font: Arial;
@@ -123,18 +47,6 @@ a.buttonLike {
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
-}
-
-p.gesture {
-    position: absolute;
-    top: 130px;
-    left: 30px;
-}
-
-p.movement {
-    position: absolute;
-    top: 260px;
-    left: 25px;
 }
 
 div.referenceLink {

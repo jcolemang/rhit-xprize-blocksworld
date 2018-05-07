@@ -22,19 +22,26 @@ let blocks = new function () {
 
     this.get_block_left_pos = function (id) {
         try {
-            return get_block(id).prop("style")["left"].replace('%', '');
+            return Number(get_block(id).prop("style")["left"].replace('%', ''));
         } catch (exception) {
-            return "";
+            throw 'Invalid block id ' + id;
         }
     };
 
     this.get_block_top_pos = function (id) {
         try {
-            return get_block(id).prop("style")["top"].replace('%', '');
+            return Number(get_block(id).prop("style")["top"].replace('%', ''));
         } catch (exception) {
-            return "";
+            throw 'Invalid block id ' + id;
         }
     };
+
+    this.get_block_pos = function (id) {
+        return {
+            left: this.get_block_left_pos(id),
+            top: this.get_block_top_pos(id)
+        };
+    }
 
     this.set_block_color = function (id, color) {
         get_block(id).css("background-color", color);
