@@ -24,7 +24,7 @@ let blocks = new function () {
         try {
             return Number(get_block(id).prop("style")["left"].replace('%', ''));
         } catch (exception) {
-            return undefined;
+            throw 'Invalid block id ' + id;
         }
     };
 
@@ -32,7 +32,7 @@ let blocks = new function () {
         try {
             return Number(get_block(id).prop("style")["top"].replace('%', ''));
         } catch (exception) {
-            return undefined;
+            throw 'Invalid block id ' + id;
         }
     };
 

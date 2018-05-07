@@ -61,8 +61,8 @@ describe("blocks", () => {
         });
 
         describe("when using an invalid id", () => {
-            it("should return undefined", () => {
-                expect(blocks.get_block_left_pos(6)).toBeUndefined();
+            it("should throw an exception", () => {
+                expect(() => blocks.get_block_left_pos(6)).toThrow();
             });
         });
     });
@@ -82,7 +82,7 @@ describe("blocks", () => {
 
         describe("when using an invalid id", () => {
             it("should return undefined", () => {
-                expect(blocks.get_block_top_pos(6)).toBeUndefined();
+                expect(() => blocks.get_block_top_pos(6)).toThrow();
             });
         });
     });
