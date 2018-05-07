@@ -17,7 +17,8 @@ function client_tests {
 }
 
 function gui_tests {
-    node_modules/protractor/bin/webdriver-manager start &
+    node_modules/protractor/bin/webdriver-manager start \
+                                                  --versions.gecko v0.20.1 &
     WEBDRIVER_PID=$!
 
     cd ../server

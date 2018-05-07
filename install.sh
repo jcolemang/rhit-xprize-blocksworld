@@ -7,7 +7,10 @@ npm install protractor
 
 # See comment below
 touch node_modules/protractor/node_modules/webdriver-manager/selenium/update-config.json \
-    || node_modules/protractor/bin/webdriver-manager update --standalone
+    || node_modules/protractor/bin/webdriver-manager update \
+                                                     --chrome false \
+                                                     --standalone true \
+                                                     --versions.gecko v0.20.1
 
 cd 2D\ Simulation
 npm install

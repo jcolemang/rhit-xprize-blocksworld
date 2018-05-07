@@ -17,7 +17,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
   - createdb
-  - psql -f server/create-baseline.sql -U postgres  
+  - psql -f server/create-baseline.sql -U postgres
 
 script:
   - ./test.sh
