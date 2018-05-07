@@ -9,14 +9,12 @@ function startGame() {
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;
 
-    document.getElementById('container').ondblclick = function(e) {
-        var event = e || window.event;
-
-        setGestureWithPosition(event.clientX, event.clientY, event);
+    document.getElementById('container').ondblclick = function(event) {
+        gesture.set_position(event.pageX, event.pageY);
     };
 
     actualMove = 0;
-    hide_gesture();
+    gesture.hide();
 
     document.getElementById('buttonStart').disabled = true;
 }

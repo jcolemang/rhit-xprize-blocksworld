@@ -13,7 +13,7 @@ function openStickyModal(modalURL) {
 }
 
 function _openModal(modalURL, modalArgs) {
-    hide_gesture();
+    gesture.hide();
 
     $.ajax({
         url: modalURL,

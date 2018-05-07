@@ -105,7 +105,7 @@ function MovesCorrector() {
         let id = Number(message);
 
         if (message !== "" && this._is_valid_id(id)) {
-            let gesture_pos = get_gesture_position();
+            let gesture_pos = gesture.get_game_position();
             let move = {
                 left: gesture_pos.left,
                 top: gesture_pos.top,
@@ -113,7 +113,7 @@ function MovesCorrector() {
             };
 
             update_gui_block(move);
-            hide_gesture();
+            gesture.hide();
 
             this._awaiting_move_correction = false;
             blocks.display_block_letters();

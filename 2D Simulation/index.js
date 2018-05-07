@@ -29,7 +29,6 @@ function writeBlockStyles(config) {
             width: "3.8%",
             height: "7.35%",
             backgroundColor: config[i].topColor,
-            border: "#000 solid 4px",
             position: "absolute",
             zIndex: 1,
             textAlign: "center",
@@ -43,38 +42,14 @@ function writeBlockStyles(config) {
 
 function flipBlock(block_id, letter, color, config) {
     blocks.flip_block(block_id.substring(5));
-    document.getElementById("gestureToggle").style.visibility = "hidden";
     actualMove++;
-    hide_gesture();
+    gesture.hide();
 
     let rect = document.getElementById('container').getBoundingClientRect();
     let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
     let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
 
     movesTracker.add_flip(block_id, letter, color, horiz, vert);
-}
-
-function setGestureWithPosition(left, top, event) {
-    var gestureElement = document.getElementById('gestureToggle');
-
-    var rect = document.getElementById('container').getBoundingClientRect();
-
-    if (event == null) {
-        var px_left = rect.left + ((rect.right - rect.left - 16) * (left / 100));
-        var px_top = rect.top + ((rect.bottom - rect.top - 16) * (top / 100));
-
-        gestureElement.style.left = (px_left / $(window).width() * 100) + "%";
-        gestureElement.style.top = (px_top / $(window).height() * 100) + "%";
-    } else {
-        gestureElement.style.left = (left / $(window).width() * 100) + "%";
-        gestureElement.style.top = (top / $(window).height() * 100) + "%";
-    }
-    gestureElement.style.visibility = "visible";
-
-    if (event != null) {
-        movesTracker.add_gesture(gestureElement.style.left,
-                                 gestureElement.style.top);
-    }
 }
 
 function calculateBackEndData() {
