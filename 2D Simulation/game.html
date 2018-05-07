@@ -6,6 +6,11 @@
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="lib/jquery.modal.js"></script>
+    <link rel="stylesheet" href="lib/jquery.modal.css"></link>
+
+    <link rel="stylesheet" href="modals.css"></link>
+    <script type="text/javascript" src="modals.js"></script>
 
     <script type="text/javascript" src="clientConfig.js"></script>
     <script type="text/javascript" src="redirect.js"></script>
@@ -19,6 +24,7 @@
     <meta http-equiv="pragma" content="no-cache" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" href="game.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
@@ -40,38 +46,7 @@
   <body oncontextmenu="return false;">
     <div id="container" style="font-size: 4vmin;">
       <!-- Holds the play field. Initialized in initBlocks(). -->
-    </div>
-    <div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
-      <div style="text-align:center">
-        <div id = "popup" class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
-            <span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
-              Instructions:<br>
-              <ol>
-                <li>
-                  Click “start” button.
-                </li>
-                <li>
-                  Click the “show the construction” button to see what pattern needs to be made.
-                </li>
-                <li>
-                  Instruct the AI to make pattern by typing in the text box and making gestures by double-clicking.
-                </li>
-                <li>
-                  Press the "Incorrect Move" button if the AI does something you don't expect.
-                </li>
-                <li>
-                  Try to get the highest score you can!
-                </li>
-              </ol>
-            </span>
-            <p id="helper"
-               class="helper"
-               style="font-size:12px; font-family:verdana">
-              (click again to close it)
-            </p>
-        </div>
-      </div>
-    </div>
+    </div>    
 
     <div class = "gadgetWrapper">
       <small>
@@ -147,14 +122,11 @@
      page_width = window.innerWidth;
      page_height = window.innerHeight;
      $("#taskQ").css('font-size', page_height * 0.04 + "px");
-     $('#popup').css('font-size', page_height * 0.025 + "px");
      $('#timer').css('font-size', page_height * 0.025 + "px");
      $('#instruction').css('font-size', page_height * 0.025 + "px");
      $('#txt_instruction').css('font-size', page_height * 0.015 + "px");
      $('#buttonEnter').css('font-size', page_height * 0.015 + "px");
      // $('#showChosen').css('font-size', page_height * 0.015 + "px");
-     document.getElementById('popup').style.top = "1%";
-     document.getElementById('popup').style.right = "0%";
      $('#helper').css('font-size', page_height * 0.02 + "px");
      $('#buttonStart').css('font-size', page_height * 0.02 + "px");
      document.getElementById("buttonStart").style.width = page_width * 0.05 + "px";
@@ -163,9 +135,6 @@
      document.getElementById("buttonEnd").style.width = page_width * 0.05 + "px";
      document.getElementById("buttonEnd").style.height = page_height * 0.05 + "px";
      $('#score').css('font-size', page_height * 0.02 + "px");
-     $('#myPopup').css('font-size', page_height * 0.025 + "px");
-     $('#myPopup').css('width', page_width * 0.3 + "px");
-     $('#myPopup').css('height', page_height * 0.5 + "px");
     </script>
 
 
@@ -209,66 +178,12 @@
      });
     </script>
 
-    <script type="text/javascript" src="initBlocks.js"></script>
+    <script type="text/javascript" src="initBlocks.js"></script>    
 
-    <link rel="stylesheet" type="text/css" href="modals.css">
-    <div id="correctionsModal" class="modal">
-      <div id="correctionsModalBackground" class="modal-background">
-        <div id="correctionsModalContent" class="modal-content">
-          Which type of move were you intending to make?
-          <br>
-          <br>
-          <div id="correctionsButtons">
-            <button id="flipCorrection"
-                    class="modalButton"
-                    onclick="movesCorrector.correct_flip()">
-              Flip
-            </button>
-            <button id="moveCorrection"
-                    class="modalButton"
-                    onclick="movesCorrector.correct_move()">
-              Move
-            </button>
-            <button class="modalButton"
-                    onclick="correctionUI.hide_corrections_modal()">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="flipModal" class="modal">
-      <div id="flipModalBackground" class="modal-background">
-        <div id="flipModalContent" class="modal-content">
-          Please enter the id number of the block you wanted to flip.
-          <br>
-          <br>
-          <button class="modalButton"
-                  onclick="correctionUI.hide_flip_modal()">
-            OK
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="moveModal" class="modal">
-      <div id="moveModalBackground" class="modal-background">
-        <div id="moveModalContent" class="modal-content">
-          Please double click on the point where you wanted the block
-          moved to, then enter the id number of the block.
-          <br>
-          <button class="modalButton"
-                  onclick="correctionUI.hide_move_modal()">
-            OK
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <script type="text/javascript" src="correctionUI.js"></script>
+    <script type="text/javascript" src="corrections/correctionUI.js"></script>
     <script type="text/javascript" src="movesCorrector.js"></script>
     <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="invalidMove/invalidMove.js"></script>
 
     <script type="text/javascript">
      document.getElementById("buttonEnd").disabled = true;
