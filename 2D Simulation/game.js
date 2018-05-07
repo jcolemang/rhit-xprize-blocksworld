@@ -133,7 +133,7 @@ function send_user_message_to_server(gameConfig) {
         return;
     }
 
-    if (gesture_is_visible()) {
+    if (gesture.is_visible()) {
         gestureCount++;
         send_gesture_to_server();
     }
