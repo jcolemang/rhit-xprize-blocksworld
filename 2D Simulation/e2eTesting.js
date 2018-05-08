@@ -56,6 +56,10 @@ describe("Blocksworld", () => {
             it("should have a score of zero", () => {
                 expect(scoreBox.getText()).toEqual("0");
             });
+
+            it("should display the goal configuration", () => {
+                expect(element(by.id('ghost_block0')).isDisplayed()).toEqual(true);
+            });
         });
     });
 });
