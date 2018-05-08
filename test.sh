@@ -31,7 +31,6 @@ function gui_tests {
 
     sleep 5
 
-    cd 2D\ Simulation
     npx protractor conf.js
     PROTRACTOR_RESULT=$?
 
