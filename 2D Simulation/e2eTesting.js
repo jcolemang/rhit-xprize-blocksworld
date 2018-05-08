@@ -4,6 +4,8 @@ describe("Blocksworld", () => {
     let short_timeout = 500;
 
     let modal;
+    let container;
+    let gesture;
     let startButton;
     let endButton;
     let scoreBox;
@@ -13,8 +15,13 @@ describe("Blocksworld", () => {
         browser.get("http://localhost:8000/game.html?config=fixed");
 
         modal = element(by.className('modal'));
+
+        container = element(by.id('container'));
+        gesture = element(by.id('gestureToggle'));
+
         startButton = element(by.id('buttonStart'));
         endButton = element(by.id('buttonEnd'));
+
         scoreBox = element(by.id('scoreBox'));
     });
 
@@ -72,6 +79,16 @@ describe("Blocksworld", () => {
 
                 it("should hide the goal configuration", () => {
                     expect(element(by.id('ghost_block0')).isDisplayed()).toEqual(false);
+                });
+            });
+
+            describe("after double-clicking in the field", () => {
+                beforeEach((done) => {
+                    container.click().then(done);
+                });
+
+                it("should display the gesture marker", () => {
+                    expect(gesture.isDisplayed()).toEqual(true);
                 });
             });
         });

@@ -9,7 +9,7 @@ function startGame() {
     document.getElementById("buttonEnter").disabled = false;
     document.getElementById('txt_instruction').disabled = false;
 
-    document.getElementById('container').ondblclick = function(event) {
+    document.getElementById('container').onclick = function(event) {
         gesture.set_position(event.pageX, event.pageY);
     };
 

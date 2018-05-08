@@ -30,7 +30,7 @@ socket.on('freeze_start', function() {
     enterButton.disabled = true;
 
     document.getElementById('txt_instruction').disabled = true;
-    document.getElementById('container').ondblclick = function(e) {
+    document.getElementById('container').onclick = function(e) {
         // Do nothing;
     };
 });
