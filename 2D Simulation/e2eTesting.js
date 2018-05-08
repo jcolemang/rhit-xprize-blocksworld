@@ -60,6 +60,10 @@ describe("Blocksworld", () => {
             it("should display the goal configuration", () => {
                 expect(element(by.id('ghost_block0')).isDisplayed()).toEqual(true);
             });
+
+            it("should display the current configuration", () => {
+                expect(element(by.id('block0')).isDisplayed()).toEqual(true);
+            });
         });
     });
 });
