@@ -1,6 +1,6 @@
 describe("Blocksworld", () => {
     let EC = protractor.ExpectedConditions;
-    let long_timeout = 5000;
+    let long_timeout = 2000;
     let short_timeout = 500;
 
     let modal;
@@ -63,6 +63,16 @@ describe("Blocksworld", () => {
 
             it("should display the current configuration", () => {
                 expect(element(by.id('block0')).isDisplayed()).toEqual(true);
+            });
+
+            describe("after pressing the hide construction button", () => {
+                beforeEach((done) => {
+                    element(by.id('constructionToggle')).click().then(done);
+                });
+
+                it("should hide the goal configuration", () => {
+                    expect(element(by.id('ghost_block0')).isDisplayed()).toEqual(false);
+                });
             });
         });
     });
