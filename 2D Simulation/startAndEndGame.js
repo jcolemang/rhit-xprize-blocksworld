@@ -21,37 +21,15 @@ function startGame() {
 
 function setUpInitialPosition(currentConfig, finalBlocks) {
     for (let i = 0; i < currentConfig.length; i++) {
-        // var tLeft = 0;
-        // var tTop = 0;
-
-        // var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
-        // var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
-
-        // tLeft = Math.random() * Math.floor(horizontal_percent);
-        // tTop = Math.random() * Math.floor(vertical_percent);
-
-        // end_left.push(tLeft);
-        // end_top.push(tTop);
-
-        // initialInfo.push({id: i,
-        //                   initial_x: tLeft,
-        //                   initial_y: tTop,
-        //                   color: currentConfig[i].topColor,
-        //                   letter: currentConfig[i].topLetter,
-        //                   flipLetter: currentConfig[i].bottomLetter,
-        //                   flipColor: currentConfig[i].bottomColor
-        //                  });
-        // document.getElementById("block" + i).style.top = tTop+"%";
-        // document.getElementById("block" + i).style.left = tLeft+"%";
-        //                 }
-        initialInfo.push("block:" + i + " " +
-                         "initial position: (" + currentConfig[i].left + "%, "
-                         + currentConfig[i].top + "%) " +
-                         "color: " + currentConfig[i].topColor +
-                         " letters: " + currentConfig[i].topLetter +
-                         " flipletters: " + currentConfig[i].bottomLetter);
+        initialInfo.push({id: i,
+                          initial_x: currentConfig[i].left,
+                          initial_y: currentConfig[i].top,
+                          color: currentConfig[i].topColor,
+                          letter: currentConfig[i].topLetter,
+                          flipColor: currentConfig[i].bottomColor,
+                          flipLetter: currentConfig[i].bottomLetter
+                         });
     }
-
     scoring.set_initial_score();
     document.getElementById('scoreBox').innerText
         = Math.round(scoring.calc_score());
@@ -60,7 +38,6 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
 function endGame() {
     if (start_button_pressed) {
         let endTime = new Date().getTime();
-        // stopRecording();
         let time = endTime - _startTime;
         time = time / 1000; // Convert to seconds.
 
@@ -74,8 +51,6 @@ function endGame() {
         var words = "Construction: Rainbow0.png";
 
         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
-        console.log(initialInfo);
-
         try {
             socket.emit('end_button_pressed', {
                 startTime: _startTime,

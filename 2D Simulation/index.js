@@ -45,7 +45,7 @@ function flipBlock(block_id, letter, color, config) {
     let horiz = $("#" + block_id).position().left / (rect.right - rect.left - 16) * 100;
     let vert = $("#" + block_id).position().top / (rect.bottom - rect.top - 16) * 100;
 
-    movesTracker.add_flip(block_id, instructionstarttime, letter, color, horiz, vert);
+    movesTracker.add_flip(block_id, letter, color, horiz, vert);
 }
 
 function calculateBackEndData() {
