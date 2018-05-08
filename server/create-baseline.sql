@@ -52,7 +52,7 @@ CREATE TABLE command (
   id uuid PRIMARY KEY,
   game_id uuid REFERENCES game(id),
   game_time real,
-  text varchar(100)
+  text varchar(1000)
 );
 
 CREATE TABLE gesture (
