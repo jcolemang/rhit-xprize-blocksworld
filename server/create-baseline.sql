@@ -11,9 +11,7 @@ CREATE TABLE game (
 
 CREATE TABLE survey (
   game_id uuid REFERENCES game(id),
-  q1 varchar(10000),
-  q2 varchar(10000),
-  q3 varchar(10000)
+  q1 varchar(10000)
 );
 
 CREATE TABLE block (

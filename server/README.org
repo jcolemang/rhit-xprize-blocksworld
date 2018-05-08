@@ -6,32 +6,13 @@ To get started running the server locally, run the
 then run =simulation.py= from this directory.
 
 ** PostgreSQL Details
-There are three tables:
-*** IBMDB
-| IBMDB |      |   |   |   |    |    |    |    |    |    |   |
-|-------+------+---+---+---+----+----+----+----+----+----+---|
-| Time  | Task | b | W | G | bm | br | pn | pp | te | ie | p |
-
-| IBMDB (cont.)   |             |             |            |               |
-|-----------------+-------------+-------------+------------+---------------|
-| TimeAndLocation | InitialInfo | SearchWords | finalScore | standard_info |
-
-Records various details about the game, such as the final score and
-how long it took to finish the game.
-*** Human_Survey
-| Human_Survey |    |    |    |    |    |
-|--------------+----+----+----+----+----|
-| q1           | q2 | q3 | q4 | q5 | q6 |
-
-This holds the responses of the Commander to various exit survey
-questions. Currently, few if any of these are used.
-*** Robot_Survey
-| Robot_Survey |    |    |
-|--------------+----+----|
-| q1           | q2 | q3 |
-
-This holds the responses of the Worker to various exit survey
-questions. Currently, few if any of these are used.
+Database schema:
+[[./schema.png]]
+- =game= table holds game metadata
+- =block= table holds initial configuration of blocks
+- =move=, =flip=, =command=, =gesture= tables track events during a game
+- =move_data=, =flip_data= hold auxiliary information to aid in NN training
+- =survey= table holds survey responses
 ** Server Details
 *** Configuration Files
 The server loads it's configuration options from =commontConfig.json=
