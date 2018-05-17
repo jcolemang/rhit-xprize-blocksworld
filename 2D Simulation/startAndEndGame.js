@@ -21,14 +21,15 @@ function startGame() {
 
 function setUpInitialPosition(currentConfig, finalBlocks) {
     for (let i = 0; i < currentConfig.length; i++) {
-        initialInfo.push("block:" + i + " " +
-                         "initial position: (" + currentConfig[i].left + "%, "
-                         + currentConfig[i].top + "%) " +
-                         "color: " + currentConfig[i].topColor +
-                         " letters: " + currentConfig[i].topLetter +
-                         " flipletters: " + currentConfig[i].bottomLetter);
+        initialInfo.push({id: i,
+                          initial_x: currentConfig[i].left,
+                          initial_y: currentConfig[i].top,
+                          color: currentConfig[i].topColor,
+                          letter: currentConfig[i].topLetter,
+                          flipColor: currentConfig[i].bottomColor,
+                          flipLetter: currentConfig[i].bottomLetter
+                         });
     }
-
     scoring.set_initial_score();
     document.getElementById('scoreBox').innerText
         = Math.round(scoring.calc_score());
@@ -37,7 +38,6 @@ function setUpInitialPosition(currentConfig, finalBlocks) {
 function endGame() {
     if (start_button_pressed) {
         let endTime = new Date().getTime();
-        // stopRecording();
         let time = endTime - _startTime;
         time = time / 1000; // Convert to seconds.
 
@@ -51,9 +51,9 @@ function endGame() {
         var words = "Construction: Rainbow0.png";
 
         alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
-
         try {
             socket.emit('end_button_pressed', {
+                startTime: _startTime,
                 time: time,
                 task: "Construction",
                 W: NumWords,
@@ -66,7 +66,7 @@ function endGame() {
                 te: te,
                 ie: ie,
                 p: p,
-                Action: actions,
+                actions: actions,
                 initialInfo: initialInfo,
                 standard_info: standard_info,
                 other: words,

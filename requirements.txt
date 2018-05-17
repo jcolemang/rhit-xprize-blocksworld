@@ -3,6 +3,8 @@ python-socketio==1.9
 pylint==1.8
 psycopg2==2.7
 tornado==4.5
+uuid==1.30
+datetime==4.2
 eventlet==0.22
 keras==2.1
 numpy==1.14
